@@ -12,13 +12,15 @@ import arc.util.Log;
 import arc.graphics.*;
 
 public class AstraBlocks {
-	public static Block oreTestium, ironForge;
+	public static Block oreTestium, oreHematite, ironForge;
 
 	public static void load() {
 		Log.info("Loading blocks");
 
 		oreTestium = new OreBlock(AstraItems.testium);
 
+		oreHematite = new OreBlock(AstraItems.hematite);
+		
 		ironForge = new GenericCrafter("iron-forge") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 20));
 			craftEffect = Fx.formsmoke;
