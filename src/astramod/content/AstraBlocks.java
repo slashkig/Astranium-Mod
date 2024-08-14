@@ -1,8 +1,8 @@
 package astramod.content;
 
 import mindustry.world.Block;
-import mindustry.world.blocks.environment.OreBlock;
-import mindustry.world.blocks.production.GenericCrafter;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.production.*;
 import mindustry.world.draw.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -20,7 +20,7 @@ public class AstraBlocks {
 		oreTestium = new OreBlock(AstraItems.testium);
 
 		ironForge = new GenericCrafter("iron-forge") {{
-			requirements(Category.crafting, with(AstraItems.hematite, 20));aw
+			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 20));
 			craftEffect = Fx.formsmoke;
 			outputItem = new ItemStack(AstraItems.iron, 1);
 			craftTime = 60f;
@@ -28,7 +28,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
 
-			consumeItems(with(AstraItems.hematite, 2));
+			consumeItems(ItemStack.with(AstraItems.hematite, 2));
 			consumePower(0.60f);
 		}};
 	}
