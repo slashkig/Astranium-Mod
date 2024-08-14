@@ -8,7 +8,7 @@ public class AstraItems {
 	public static Item testium;
 
 	public static void load() {
-		Log.info("Loading testmod items");
+		Log.info("Loading items");
 
 		testium = new Item("testium", Color.valueOf("ff00ff")) {{
 			hardness = 1;
