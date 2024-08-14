@@ -14,14 +14,16 @@ public class AstraItems {
 			hardness = 1;
 			description = "Test item for Mindustry";
 		}};
-		hematite = new Item("hematite", Color.valueOf("ffffff")) {{
+		
+		hematite = new Item("hematite", Color.valueOf("802f0c")) {{
 			hardness = 1;
 			description = "Unrefined iron ore. Used in basic construction.";
 			cost = 0.7f;
 		}};
-		iron = new Item("iron", Color.valueOf("202020")) {{
+		
+		iron = new Item("iron", Color.valueOf("5f5f6f")) {{
 			description = "Smelted iron ore. Used in simple industrial buildings.";
-			cost = 1;
+			cost = 1f;
 		}};
 	}
 }
