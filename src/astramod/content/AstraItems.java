@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron;
+	public static Item testium, hematite, iron, steel;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -24,6 +24,11 @@ public class AstraItems {
 		iron = new Item("iron", Color.valueOf("5f5f6f")) {{
 			description = "Smelted iron ore. Used in simple industrial buildings.";
 			cost = 1f;
+		}};
+
+		steel = new Item("steel", Color.valueOf("cfcfcf")) {{
+			description = "Forged from coal and iron. Used in advanced construction.";
+			cost = 1.2f;
 		}};
 	}
 }
