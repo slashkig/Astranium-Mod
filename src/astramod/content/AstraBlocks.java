@@ -6,9 +6,10 @@ import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.draw.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.content.Fx;
+import mindustry.content.*;
 import astramod.content.AstraItems;
 import arc.util.Log;
+import arc.graphics.*;
 
 public class AstraBlocks {
 	public static Block oreTestium, ironForge;
@@ -19,9 +20,9 @@ public class AstraBlocks {
 		oreTestium = new OreBlock(AstraItems.testium);
 
 		ironForge = new GenericCrafter("iron-forge") {{
-			requirements(Catergory.crafting, with(AstraItems.hematite, 20));
+			requirements(Category.crafting, with(AstraItems.hematite, 20));aw
 			craftEffect = Fx.formsmoke;
-			outputItem = new ItemStack(AstraItem.iron, 1);
+			outputItem = new ItemStack(AstraItems.iron, 1);
 			craftTime = 60f;
 			size = 2;
 			hasPower = hasItems = true;
