@@ -3,7 +3,7 @@ displayName: "Astranium Mod"
 author: "Slashkig and IAmRustee"
 description: "Astranium mod for Mindustry"
 version: "1.0"
-main: "astramod.AstraMod"
+main: "astramod.AstraniumMod"
 minGameVersion: "146"
 dependencies: [ ]
 hidden: false
