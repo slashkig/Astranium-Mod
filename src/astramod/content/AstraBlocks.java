@@ -9,7 +9,7 @@ public class AstraBlocks {
 	public static Block oreTestium;
 
 	public static void load() {
-		Log.info("Loading ores");
+		Log.info("Loading blocks");
 
 		oreTestium = new OreBlock(AstraItems.testium);
 	}
