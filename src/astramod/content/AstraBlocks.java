@@ -1,16 +1,16 @@
-package testmod.content;
+package astramod.content;
 
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.OreBlock;
-import testmod.content.TestItems;
+import astramod.content.AstraItems;
 import arc.util.Log;
 
-public class TestOres {
+public class AstraBlocks {
 	public static Block oreTestium;
 
 	public static void load() {
-		Log.info("Loading testmod ores");
+		Log.info("Loading ores");
 
-		oreTestium = new OreBlock(TestItems.testium);
+		oreTestium = new OreBlock(AstraItems.testium);
 	}
 }

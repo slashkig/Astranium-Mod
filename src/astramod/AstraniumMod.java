@@ -1,6 +1,6 @@
-package astraniumMod;
+package astramod;
 
-import astraniumMod.content.*;
+import astramod.content.*;
 import mindustry.mod.Mod;
 import arc.util.Log;
 

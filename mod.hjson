@@ -1,9 +1,9 @@
-name: "testmod"
-displayName: "Test Mod"
-author: "Slashkig"
-description: "Test mod for Mindustry"
+name: "astramod"
+displayName: "Astranium Mod"
+author: "Slashkig and IAmRustee"
+description: "Astranium mod for Mindustry"
 version: "1.0"
-main: "testmod.TestMod"
+main: "astramod.AstraMod"
 minGameVersion: "146"
 dependencies: [ ]
 hidden: false

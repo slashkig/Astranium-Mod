@@ -1,10 +1,10 @@
-package testmod.content;
+package astramod.content;
 
 import mindustry.type.Item;
 import arc.graphics.Color;
 import arc.util.Log;
 
-public class TestItems {
+public class AstraItems {
 	public static Item testium;
 
 	public static void load() {

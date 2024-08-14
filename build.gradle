@@ -75,7 +75,7 @@ task jarAndroid {
 jar {
     manifest {
         attributes (
-            'Main-Class': 'testmod.TestMod'
+            'Main-Class': 'astramod.AstraniumMod'
         )
     }
 
