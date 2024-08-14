@@ -19,7 +19,7 @@ public class AstraBlocks {
 		oreTestium = new OreBlock(AstraItems.testium);
 
 		ironForge = new GenericCrafter("iron-forge") {{
-			requirements(Catergory.crafting with(AstraItems.hematite, 20));
+			requirements(Catergory.crafting, with(AstraItems.hematite, 20));
 			craftEffect = Fx.formsmoke;
 			outputItem = new ItemStack(AstraItem.iron, 1);
 			craftTime = 60f;
