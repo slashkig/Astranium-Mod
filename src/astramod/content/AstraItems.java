@@ -27,7 +27,12 @@ public class AstraItems {
 		}};
 
 		steel = new Item("steel", Color.valueOf("cfcfcf")) {{
-			description = "Forged from coal and iron. Used in advanced construction.";
+			description = "A carbon-iron alloy used to construct strong defenses and industries.";
+			cost = 1.2f;
+		}};
+
+		aerogel = new Item("aerogel", Color.valueOf("e8ffff")) {{
+			description = "A synthetic ultralight substance. Used in thermal insulation, advanced photocatalysis, and serves as a powerful catalyst in defensive structures.";
 			cost = 1.2f;
 		}};
 	}
