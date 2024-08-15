@@ -56,7 +56,7 @@ public class AstraBlocks {
 			drillTime = 320;
 			size = 3;
 			hasPower = true;
-			tier = 4;
+			tier = 3;
 			updateEffect = Fx.pulverizeMedium;
 			drillEffect = Fx.mineBig;
 			
