@@ -51,6 +51,19 @@ public class AstraBlocks {
 			consumePower(2.5f);
 		}};
 
+		ironDrill = new Drill("iron-drill") {{
+			requirements(Category.production, ItemStack.with(Items.copper, 25, Items.graphite, 20, AstraItems.iron, 25));
+			drillTime = 320;
+			size = 3;
+			hasPower = true;
+			tier = 4;
+			updateEffect = Fx.pulverizeMedium;
+			drillEffect = Fx.mineBig;
+			
+			consumePower(0.8f);
+			consumeLiquid(Liquids.water, 0.07f).boost();
+	        }};
+		
 		hematiteWall = new Wall("hematite-wall") {{
             		requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
             		health = 90 * 4;
