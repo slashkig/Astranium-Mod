@@ -14,7 +14,7 @@ import arc.util.Log;
 import arc.graphics.*;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, ironForge, blastFurnace, hematiteWall, hematiteWallLarge;
+	public static Block oreTestium, oreHematite, ironForge, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge;
 
 	public static void load() {
 		Log.info("Loading blocks");
