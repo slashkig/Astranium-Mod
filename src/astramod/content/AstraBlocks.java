@@ -3,7 +3,9 @@ package astramod.content;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.defense.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.content.*;
@@ -49,15 +51,15 @@ public class AstraBlocks {
 			consumePower(2.5f);
 		}};
 
-		hematiteWall = new Wall("hematite-wall"){{
+		hematiteWall = new Wall("hematite-wall") {{
             		requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
-            		health = 90 * wallHealthMultiplier;
+            		health = 90 * 4;
             		envDisabled |= Env.scorching;
         	}};
 		
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
             		requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
-            		health = 90 * 4 * wallHealthMultiplier;
+            		health = 90 * 16;
 			size = 2;
             		envDisabled |= Env.scorching;
         	}};

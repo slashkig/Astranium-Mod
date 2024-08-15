@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, steel;
+	public static Item testium, hematite, iron, steel, aerogel;
 
 	public static void load() {
 		Log.info("Loading items");
