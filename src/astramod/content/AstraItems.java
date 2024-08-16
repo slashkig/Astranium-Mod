@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, steel, aerogel;
+	public static Item testium, hematite, iron, magnetite, steel, aerogel;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -22,12 +22,17 @@ public class AstraItems {
 		}};
 		
 		iron = new Item("iron", Color.valueOf("5f5f6f")) {{
-			description = "Smelted iron ore. Used in simple industrial buildings.";
+			description = "Smelted iron ore. Used for construction of many types of buildings.";
+			cost = 1f;
+		}};
+
+		magnetite = new Item("magnetite", Color.valueOf("696969")) {{
+			description = "A ferromagnetic form of iron, used in energy generation and high-grade machinery.";
 			cost = 1f;
 		}};
 
 		steel = new Item("steel", Color.valueOf("cfcfcf")) {{
-			description = "A carbon-iron alloy used to construct strong defenses and industries.";
+			description = "A durable and versitile carbon-iron alloy used in advanced construction.";
 			cost = 1.2f;
 		}};
 
