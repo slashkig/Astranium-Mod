@@ -4,17 +4,22 @@ import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.entities.*;
+import mindustry.entities.bullet.*;
+import mindustry.entities.part.*;
 import mindustry.graphics.*;
+import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.content.*;
-import astramod.content.AstraItems;
 import arc.util.Log;
 import arc.graphics.*;
+import astramod.content.AstraItems;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, ironForge, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge;
+	public static Block oreTestium, oreHematite, ironForge, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge, testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -62,19 +67,55 @@ public class AstraBlocks {
 			
 			consumePower(0.8f);
 			consumeLiquid(Liquids.water, 0.07f).boost();
-	        }};
+		}};
 		
 		hematiteWall = new Wall("hematite-wall") {{
-            		requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
-            		health = 90 * 4;
-            		envDisabled |= Env.scorching;
-        	}};
+			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
+			health = 90 * 4;
+			envDisabled |= Env.scorching;
+		}};
 		
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
-            		requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
-            		health = 90 * 16;
+			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
+			health = 90 * 16;
 			size = 2;
-            		envDisabled |= Env.scorching;
-        	}};
+			envDisabled |= Env.scorching;
+		}};
+
+		testblaster = new ItemTurret("testblaster") {{
+			requirements(Category.turret, ItemStack.with(AstraItems.testium, 1000));
+			ammo(
+				AstraItems.testium, new BasicBulletType(10f, 100000) {{
+					lifetime = 100f;
+					width = 20f;
+					height = 25f;
+					pierceCap = 10;
+					ammoMultiplier = 10;
+					frontColor = Color.valueOf("ee00ee");
+					backColor = Color.valueOf("ff22ff");
+				}}
+			);
+
+			drawer = new DrawTurret() {{
+				parts.add(new RegionPart("-barrel") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -5f;
+				}});
+			}};
+
+			maxAmmo = 500;
+			recoil = 2.5f;
+			reload = 6f;
+			rotateSpeed = 5f;
+			range = 300f;
+			size = 2;
+			health = 1000000;
+			shootY = 7.5f;
+			ammoUseEffect = Fx.none;
+			shootSound = Sounds.missile;
+
+			limitRange();
+		}};
 	}
 }
