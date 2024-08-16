@@ -19,7 +19,7 @@ import arc.graphics.*;
 import astramod.content.AstraItems;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, ironForge, magnetiteSynthesizer, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge, ironWall, IronWallLarge, testblaster;
+	public static Block oreTestium, oreHematite, ironForge, magnetiteSynthesizer, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, steelWall, steelWallLarge, testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -95,14 +95,27 @@ public class AstraBlocks {
 		}};
 
 		ironWall = new Wall("iron-wall") {{
-			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
+			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
 			health = 120 * 4;
 			envDisabled |= Env.scorching;
 		}};
 		
 		ironWallLarge = new Wall("iron-wall-large") {{
-			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
+			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
 			health = 120 * 16;
+			size = 2;
+			envDisabled |= Env.scorching;
+		}};
+
+		steelWall = new Wall("steel-wall") {{
+			requirements(Category.defense, ItemStack.with(AstraItems.steel, 6));
+			health = 180 * 4;
+			envDisabled |= Env.scorching;
+		}};
+		
+		steelWallLarge = new Wall("steel-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(steelWall.requirements, 4));
+			health = 180 * 16;
 			size = 2;
 			envDisabled |= Env.scorching;
 		}};
