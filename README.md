@@ -1,4 +1,4 @@
 # Astranium Mod
 WIP Mindustry mod
 
-Made by Slashkig, Crux, and Void
+Made by Slashkig, IAmRustee, and VoidThreader
