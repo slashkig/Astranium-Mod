@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, magnetite, steel, aerogel;
+	public static Item testium, hematite, iron, magnetite, steel, neodymium, aerogel;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -36,6 +36,11 @@ public class AstraItems {
 			cost = 1.2f;
 		}};
 
+		neodymium = new Item("neodymium", Color.valueOf("c0954c")) {{
+			description = "A rare and powerful heavy element.  Crucial for high-performance magnets, advanced electronic components, and precision hardware.";
+			cost = 1.5f;
+		}};
+		
 		aerogel = new Item("aerogel", Color.valueOf("e8ffff")) {{
 			description = "A synthetic ultralight substance. Used in thermal insulation, advanced photocatalysis, and serves as a powerful catalyst in defensive structures.";
 			cost = 1.2f;
