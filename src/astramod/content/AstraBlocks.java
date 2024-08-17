@@ -19,7 +19,7 @@ import arc.graphics.*;
 import astramod.content.AstraItems;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, ironForge, magnetiteSynthesizer, blastFurnace, ironDrill, hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, steelWall, steelWallLarge, testblaster;
+	public static Block oreTestium, oreHematite, oreNeodymium, ironForge, magnetiteSynthesizer, blastFurnace, vacuumChamber, ironDrill, hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, steelWall, steelWallLarge, testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -27,6 +27,8 @@ public class AstraBlocks {
 		oreTestium = new OreBlock(AstraItems.testium);
 
 		oreHematite = new OreBlock(AstraItems.hematite);
+
+		oreNeodymium = new OreBlock(AstraItems.neodymium);
 		
 		ironForge = new GenericCrafter("iron-forge") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 20, Items.lead, 10));
@@ -68,6 +70,23 @@ public class AstraBlocks {
 			consumePower(2.5f);
 		}};
 
+		vacuumChamber = new GenericCrafter("vacuum-chamber") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.steel, 300, Items.silicon, 200, Items.metaglass, 250, Items.phase-fabric, 80));
+			health = 600;
+			armor = 5f;
+			craftEffect = Fx.formsmoke;
+			outputItem = new ItemStack(AstraItems.aerogel, 2);
+			craftTime = 360f;
+			size = 3;
+			hasPower = hasItems = hasLiquids = true;
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			liquidCapacity = 100f;
+
+			consumeItems(ItemStack.with(AstraItems.phase-fabric, 4, Items.silicon, 8));
+			consumeLiquid(Liquids.cryofluid, 0.4f);
+			consumePower(8f);
+		}};
+		
 		ironDrill = new Drill("iron-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
 			drillTime = 320;
@@ -84,40 +103,81 @@ public class AstraBlocks {
 		hematiteWall = new Wall("hematite-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
 			health = 90 * 4;
-			envDisabled |= Env.scorching;
 		}};
 		
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
 			health = 90 * 16;
 			size = 2;
-			envDisabled |= Env.scorching;
 		}};
 
 		ironWall = new Wall("iron-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
 			health = 120 * 4;
-			envDisabled |= Env.scorching;
+			armor = 2f;
 		}};
 		
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
 			health = 120 * 16;
+			armor = 2f;
 			size = 2;
-			envDisabled |= Env.scorching;
 		}};
 
+		platedTitaniumWall = new Wall("plated-titanium-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.copper, 6));
+			health = 160 * 4;
+			armor = 4f;
+		}};
+		
+		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(platedTitaniumWall.requirements, 4));
+			health = 160 * 16;
+			armor = 4f;
+			size = 2;
+		}};
+
+		platedPlastaniumWall = new Wall("plated-plastanium-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.lead, 8));
+			health = 175 * 4;
+			armor = 2f;
+			insulated = true;
+			absorbLasers = true;
+		}};
+		
+		platedPlastaniumWallLarge = new Wall("plated-plastanium-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(platedPlastaniumWall.requirements, 4));
+			health = 175 * 16;
+			armor = 2f;
+			size = 2;
+			insulated = true;
+			absorbLasers = true;
+		}};
+		
 		steelWall = new Wall("steel-wall") {{
-			requirements(Category.defense, ItemStack.with(AstraItems.steel, 6));
-			health = 180 * 4;
-			envDisabled |= Env.scorching;
+			requirements(Category.defense, ItemStack.with(AstraItems.steel, 8));
+			health = 220 * 4;
+			armor = 8f;
 		}};
 		
 		steelWallLarge = new Wall("steel-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(steelWall.requirements, 4));
-			health = 180 * 16;
+			health = 220 * 16;
+			armor = 8f;
 			size = 2;
-			envDisabled |= Env.scorching;
+		}};
+
+		platedThoriumWall = new Wall("plated-thorium-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.magnetite, 4));
+			health = 200 * 4;
+			armor = 6f;
+		}};
+		
+		platedThoriumWallLarge = new Wall("plated-thorium-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(platedThoriumWall.requirements, 4));
+			health = 200 * 16;
+			armor = 6f;
+			size = 2;
 		}};
 		
 		testblaster = new ItemTurret("testblaster") {{
@@ -127,7 +187,7 @@ public class AstraBlocks {
 					lifetime = 100f;
 					width = 20f;
 					height = 25f;
-					pierceCap = 10;
+					pierceCap = 100;
 					ammoMultiplier = 10;
 					frontColor = Color.valueOf("ee00ee");
 					backColor = Color.valueOf("ff22ff");
