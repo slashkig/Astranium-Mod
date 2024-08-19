@@ -1,14 +1,25 @@
+package astramod.classes.blocks.defense;
+
 import arc.graphics.*;
+import arc.graphics.g2d.*;
+import arc.util.Time;
+import mindustry.type.*;
 import mindustry.content.*;
 import mindustry.graphics.*;
-import Mindustry.world.meta.*;
+import mindustry.world.meta.*;
+import mindustry.logic.Ranged;
+import mindustry.world.blocks.defense.Wall;
+import mindustry.entities.Units;
 import mindustry.gen.Building;
 
+import static mindustry.Vars.*;
+
 public class AuraWall extends Wall {
-	public float auraDamage = 10f;
-	public float auraRadius = 10f;
-	public float auraEffect = StatusEffect.none;
+	public float auraDamage = 5f;
+	public float auraRadius = 20f;
+	public StatusEffect auraEffect = StatusEffects.none;
 	public Color baseColor;
+	public float auraStrength = 0.1f;
 
 	public AuraWall(String name, Color color) {
 		super(name);
@@ -19,24 +30,25 @@ public class AuraWall extends Wall {
 	@Override public void setStats() {
 		super.setStats();
 
-		stats.add(Stat.range, auraRadius, Stat.damage, auraDamage);
+		stats.add(Stat.range, auraRadius);
+		stats.add(Stat.damage, auraDamage);
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
 		super.drawPlace(x, y, rotation, valid);
 
-		Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, range, baseColor);
+		Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, auraRadius, baseColor);
 	}
 	
 	public class AuraWallBuild extends WallBuild implements Ranged {
 		
-		@Override public float range() {
+		public float range() {
 			return auraRadius;
 		}
 
 		@Override public void updateTile() {
 			Units.nearbyEnemies(team, x, y, auraRadius, unit -> {
-				unit.damage(auraDamage);
+				unit.damage(auraDamage * Time.delta);
 			});
 		}
 		
@@ -47,9 +59,12 @@ public class AuraWall extends Wall {
 		@Override public void draw() {
 			super.draw();
 
-			Draw.color(baseColor);
+			Draw.color(baseColor, auraStrength);
+			Draw.z(Layer.overlayUI);
+			Fill.circle(x, y, auraRadius);
 			Lines.circle(x, y, auraRadius);
-			draw.reset();
+
+			Draw.reset();
 		}
 
 		@Override public void drawLight() {
