@@ -22,7 +22,7 @@ import astramod.classes.blocks.defense.*;
 
 public class AstraBlocks {
 	public static Block oreTestium, oreHematite, oreNeodymium,
-		ironForge, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, plastaniumCompressor, blastFurnace, phaseLoom, vacuumChamber,
+		ironFurnace, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, plastaniumCompressor, steelForge, phaseLoom, vacuumChamber,
 		compactDrill, ironDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge,
 		testblaster;
@@ -36,7 +36,7 @@ public class AstraBlocks {
 
 		oreNeodymium = new OreBlock(AstraItems.neodymium);
 
-		ironForge = new GenericCrafter("iron-forge") {{
+		ironFurnace = new GenericCrafter("iron-furnace") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
 			size = 2;
 			hasPower = hasItems = true;
@@ -130,7 +130,7 @@ public class AstraBlocks {
 			updateEffect = Fx.plasticburn;
 		}};
 
-		blastFurnace = new GenericCrafter("blast-furnace") {{
+		steelForge = new GenericCrafter("steel-forge") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 120, Items.graphite, 80, Items.silicon, 60, Items.titanium, 60));
 			scaledHealth = 70;
 			size = 3;
@@ -193,7 +193,7 @@ public class AstraBlocks {
 
 			drawer = new DrawDefault();
 			ambientSound = Sounds.electricHum;
-			craftEffect = Fx.plasticburn;
+			craftEffect = Fx.plasticburn; // Not sure why it's called that
 		}};
 
 		compactDrill = new Drill("compact-drill") {{
@@ -322,21 +322,30 @@ public class AstraBlocks {
 			lightningDamage = 45f;
 		}};
 
-		platedPhaseWall = new Wall("plated-phase-wall") {{
-			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, Items.plastanium, 6));
+		platedPhaseWall = new ProjectorWall("plated-phase-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, Items.plastanium, 6, Items.silicon, 5));
 			health = 190 * 4;
 			armor = 10f;
+			hasPower = consumesPower = conductivePower = true;
+			consumePower(0.05f);
+			shieldHealth = 150f;
+			breakCooldown = 1500f;
+			regenSpeed = 0.5f;
 			chanceDeflect = 10f;
 			flashHit = true;
 			insulated = true;
 			absorbLasers = true;
 		}};
 
-		platedPhaseWallLarge = new Wall("plated-phase-wall-large") {{
+		platedPhaseWallLarge = new ProjectorWall("plated-phase-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
 			health = 190 * 16;
 			armor = 10f;
 			size = 2;
+			hasPower = consumesPower = conductivePower = true;
+			consumePower(0.2f);
+			shieldHealth = 600f;
+			breakCooldown = 1200f;
 			chanceDeflect = 10f;
 			flashHit = true;
 			insulated = true;
