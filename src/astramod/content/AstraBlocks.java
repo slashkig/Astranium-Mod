@@ -18,12 +18,13 @@ import arc.util.Log;
 import arc.graphics.*;
 import arc.audio.*;
 import astramod.content.AstraItems;
+import astramod.classes.blocks.defense.*;
 
 public class AstraBlocks {
 	public static Block oreTestium, oreHematite, oreNeodymium,
-		ironForge, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, blastFurnace, phaseLoom, vacuumChamber,
+		ironForge, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, plastaniumCompressor, blastFurnace, phaseLoom, vacuumChamber,
 		compactDrill, ironDrill,
-		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge,
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge,
 		testblaster;
 
 	public static void load() {
@@ -174,7 +175,7 @@ public class AstraBlocks {
 				AstraItems.steel, 300,
 				Items.silicon, 200,
 				Items.metaglass, 250,
-				Items.phaseFabric, 120
+				Items.phaseFabric, 120,
 				AstraItems.neodymium, 100
 			));
 			scaledHealth = 80;
@@ -192,11 +193,11 @@ public class AstraBlocks {
 
 			drawer = new DrawDefault();
 			ambientSound = Sounds.electricHum;
-			craftEffect = Fx.formsmoke;
+			craftEffect = Fx.plasticburn;
 		}};
 
 		compactDrill = new Drill("compact-drill") {{
-			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
+			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.copper, 6));
 			size = 2;
 
 			consumeLiquid(Liquids.water, 0.04f).boost();
@@ -210,7 +211,7 @@ public class AstraBlocks {
 			size = 3;
 			hasPower = true;
 
-			consumePower(0.8f);
+			consumePower(0.5f);
 			consumeLiquid(Liquids.water, 0.07f).boost();
 			consumeLiquid(AstraFluids.ferrofluid, 0.06f).boost();
 			drillTime = 360;
@@ -305,7 +306,7 @@ public class AstraBlocks {
 		}};
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{
-			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, Items.lithium, 6));
+			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, AstraItems.lithium, 6));
 			health = 280 * 4;
 			armor = 16f;
 			lightningChance = 0.075f;
@@ -316,6 +317,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.mult(platedSurgeWall.requirements, 4));
 			health = 280 * 16;
 			armor = 16f;
+			size = 2;
 			lightningChance = 0.075f;
 			lightningDamage = 45f;
 		}};
@@ -334,6 +336,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
 			health = 190 * 16;
 			armor = 10f;
+			size = 2;
 			chanceDeflect = 10f;
 			flashHit = true;
 			insulated = true;
