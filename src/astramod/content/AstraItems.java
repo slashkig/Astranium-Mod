@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, magnetite, steel, neodymium, aerogel, lithium;
+	public static Item testium, hematite, iron, lithium, magnetite, steel, neodymium, aerogel;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -18,12 +18,12 @@ public class AstraItems {
 		hematite = new Item("hematite", Color.valueOf("802f0c")) {{
 			hardness = 1;
 			description = "Unrefined iron ore. Used in basic construction.";
-			cost = 0.7f;
+			cost = 0.6f;
 		}};
 		
-		iron = new Item("iron", Color.valueOf("5f5f6f")) {{
+		iron = new Item("iron", Color.valueOf("404059")) {{
 			description = "Smelted iron ore. Used for construction of many types of buildings.";
-			cost = 1f;
+			cost = 0.9f;
 		}};
 
 		lithium = new Item("lithium", Color.valueOf("e40808")) {{
@@ -31,7 +31,7 @@ public class AstraItems {
 			description = "A lightweight but highly reactive metal used in advanced electrical equipment.";
 			cost = 1.2f;
 			flammability = 1.8f;
-			explosiveness = 0.5f;
+			explosiveness = 1f;
 		}};
 		
 		magnetite = new Item("magnetite", Color.valueOf("696969")) {{
