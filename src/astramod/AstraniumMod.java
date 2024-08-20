@@ -11,6 +11,7 @@ public class AstraniumMod extends Mod {
 
 	@Override public void loadContent() {
 		AstraItems.load();
+		AstraFluids.load();
 		AstraBlocks.load();
 	}
 }
