@@ -16,10 +16,15 @@ import mindustry.type.*;
 import mindustry.content.*;
 import arc.util.Log;
 import arc.graphics.*;
+import arc.audio.*;
 import astramod.content.AstraItems;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, oreNeodymium, ironForge, magnetiteSynthesizer, blastFurnace, vacuumChamber, ironDrill, hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, steelWall, steelWallLarge, testblaster;
+	public static Block oreTestium, oreHematite, oreNeodymium,
+		ironForge, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, blastFurnace, phaseLoom, vacuumChamber,
+		compactDrill, ironDrill,
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge,
+		testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -29,82 +34,197 @@ public class AstraBlocks {
 		oreHematite = new OreBlock(AstraItems.hematite);
 
 		oreNeodymium = new OreBlock(AstraItems.neodymium);
-		
+
 		ironForge = new GenericCrafter("iron-forge") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 20, Items.lead, 10));
-			craftEffect = Fx.formsmoke;
-			outputItem = new ItemStack(AstraItems.iron, 1);
-			craftTime = 40f;
+			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
 			size = 2;
 			hasPower = hasItems = true;
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
-			squareSprite = false;
 
-			consumeItems(ItemStack.with(AstraItems.hematite, 2));
-			consumePower(0.50f);
+			consumeItem(AstraItems.hematite, 2);
+			consumePower(0.40f);
+			craftTime = 40f;
+			outputItem = new ItemStack(AstraItems.iron, 1);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		castIronPress = new GenericCrafter("cast-iron-press") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 40, Items.lead, 25, Items.copper, 10));
+			scaledHealth = 50;
+			size = 2;
+			hasItems = true;
+
+			consumeItem(Items.coal, 4);
+			consumePower(0.25f);
+			craftTime = 140f;
+			outputItem = new ItemStack(Items.graphite, 2);
+
+			craftEffect = Fx.pulverizeMedium;
+		}};
+
+		castIronSmelter = new GenericCrafter("cast-iron-smelter") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 60, Items.copper, 30, Items.graphite, 20));
+			scaledHealth = 50;
+			size = 2;
+			hasPower = hasItems = true;
+
+			consumeItems(ItemStack.with(Items.coal, 2, Items.sand, 4));
+			consumePower(0.70f);
+			craftTime = 70f;
+			outputItem = new ItemStack(Items.silicon, 2);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		castIronKiln = new GenericCrafter("cast-iron-kiln") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 60, Items.lead, 40, Items.copper, 30));
+			scaledHealth = 50;
+			size = 2;
+			hasPower = hasItems = true;
+
+			consumeItems(ItemStack.with(Items.lead, 3, Items.sand, 3));
+			consumePower(0.60f);
+			craftTime = 80f;
+			outputItem = new ItemStack(Items.metaglass, 3);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
 		}};
 
 		magnetiteSynthesizer = new GenericCrafter("magnetite-synthesizer") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 50, Items.silicon, 30, Items.lead, 40));
-			craftEffect = Fx.pulverizeMedium;
-			outputItem = new ItemStack(AstraItems.magnetite, 1);
-			craftTime = 60f;
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.silicon, 40, Items.graphite, 50));
+			scaledHealth = 50;
 			size = 2;
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(AstraItems.hematite, 2, Items.graphite, 1));
 			consumePower(1.2f);
+			craftTime = 60f;
+			outputItem = new ItemStack(AstraItems.magnetite, 1);
+
+			ambientSound = Sounds.electricHum;
+			craftEffect = Fx.smeltsmoke;
 		}};
-		
-		blastFurnace = new GenericCrafter("blast-furnace") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.graphite, 40, Items.silicon, 60, Items.titanium, 30));
+
+		plastaniumCompressor = new GenericCrafter("plastanium-compressor") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 100, Items.silicon, 70, AstraItems.lithium, 60, AstraItems.magnetite, 50));
+			scaledHealth = 80;
+			size = 2;
+			hasPower = hasItems = hasLiquids = true;
+			liquidCapacity = 60f;
+
+			consumeItem(Items.titanium, 4);
+			consumeLiquid(Liquids.oil, 0.3f);
+			consumePower(3f);
+			craftTime = 100f;
+			outputItem = new ItemStack(Items.plastanium, 2);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFade());
 			craftEffect = Fx.formsmoke;
-			outputItem = new ItemStack(AstraItems.steel, 1);
-			craftTime = 70f;
+			updateEffect = Fx.plasticburn;
+		}};
+
+		blastFurnace = new GenericCrafter("blast-furnace") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 120, Items.graphite, 80, Items.silicon, 60, Items.titanium, 60));
+			scaledHealth = 70;
 			size = 3;
 			hasPower = hasItems = true;
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
-			squareSprite = false;
+			itemCapacity = 20;
 
 			consumeItems(ItemStack.with(AstraItems.iron, 3, Items.coal, 2));
-			consumePower(2.5f);
+			consumePower(4f);
+			craftTime = 70f;
+			outputItem = new ItemStack(AstraItems.steel, 1);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		phaseLoom = new GenericCrafter("phase-loom") {{
+			requirements(Category.crafting, ItemStack.with(
+				 AstraItems.steel, 180,
+				 Items.silicon, 120,
+				 AstraItems.lithium, 100,
+				 AstraItems.magnetite, 100,
+				 Items.thorium, 80
+			));
+			scaledHealth = 60;
+			size = 3;
+			hasPower = hasItems = true;
+			itemCapacity = 30;
+
+			consumeItems(ItemStack.with(Items.thorium, 8, Items.sand, 16));
+			consumePower(6f);
+			craftTime = 210f;
+			outputItem = new ItemStack(Items.phaseFabric, 2);
+
+			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawWeave(), new DrawDefault());
+			ambientSound = Sounds.techloop;
+			craftEffect = Fx.smeltsmoke;
 		}};
 
 		vacuumChamber = new GenericCrafter("vacuum-chamber") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.steel, 300, Items.silicon, 200, Items.metaglass, 250, Items.phase-fabric, 80));
-			health = 600;
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 300,
+				Items.silicon, 200,
+				Items.metaglass, 250,
+				Items.phaseFabric, 120
+				AstraItems.neodymium, 100
+			));
+			scaledHealth = 80;
 			armor = 5f;
-			craftEffect = Fx.formsmoke;
-			outputItem = new ItemStack(AstraItems.aerogel, 2);
-			craftTime = 360f;
 			size = 3;
 			hasPower = hasItems = hasLiquids = true;
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			itemCapacity = 30;
 			liquidCapacity = 100f;
 
-			consumeItems(ItemStack.with(AstraItems.phase-fabric, 4, Items.silicon, 8));
-			consumeLiquid(Liquids.cryofluid, 0.4f);
-			consumePower(8f);
+			consumeItems(ItemStack.with(Items.phaseFabric, 4, Items.silicon, 8));
+			consumeLiquid(Liquids.cryofluid, 0.5f);
+			consumePower(12f);
+			craftTime = 360f;
+			outputItem = new ItemStack(AstraItems.aerogel, 2);
+
+			drawer = new DrawDefault();
+			ambientSound = Sounds.electricHum;
+			craftEffect = Fx.formsmoke;
 		}};
-		
+
+		compactDrill = new Drill("compact-drill") {{
+			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
+			size = 2;
+
+			consumeLiquid(Liquids.water, 0.04f).boost();
+			consumeLiquid(AstraFluids.ferrofluid, 0.03f).boost();
+			drillTime = 500;
+			tier = 2;
+		}};
+
 		ironDrill = new Drill("iron-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
-			drillTime = 320;
 			size = 3;
 			hasPower = true;
-			tier = 3;
-			updateEffect = Fx.pulverizeMedium;
-			drillEffect = Fx.mineBig;
-			
+
 			consumePower(0.8f);
 			consumeLiquid(Liquids.water, 0.07f).boost();
+			consumeLiquid(AstraFluids.ferrofluid, 0.06f).boost();
+			drillTime = 360;
+			tier = 3;
+
+			updateEffect = Fx.pulverizeMedium;
+			drillEffect = Fx.mineBig;
 		}};
-		
+
 		hematiteWall = new Wall("hematite-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
 			health = 90 * 4;
 		}};
-		
+
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
 			health = 90 * 16;
@@ -116,7 +236,7 @@ public class AstraBlocks {
 			health = 120 * 4;
 			armor = 2f;
 		}};
-		
+
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
 			health = 120 * 16;
@@ -125,11 +245,11 @@ public class AstraBlocks {
 		}};
 
 		platedTitaniumWall = new Wall("plated-titanium-wall") {{
-			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.copper, 6));
+			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.graphite, 2));
 			health = 160 * 4;
 			armor = 4f;
 		}};
-		
+
 		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedTitaniumWall.requirements, 4));
 			health = 160 * 16;
@@ -138,13 +258,13 @@ public class AstraBlocks {
 		}};
 
 		platedPlastaniumWall = new Wall("plated-plastanium-wall") {{
-			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.lead, 8));
+			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.metaglass, 4));
 			health = 175 * 4;
 			armor = 2f;
 			insulated = true;
 			absorbLasers = true;
 		}};
-		
+
 		platedPlastaniumWallLarge = new Wall("plated-plastanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPlastaniumWall.requirements, 4));
 			health = 175 * 16;
@@ -153,13 +273,13 @@ public class AstraBlocks {
 			insulated = true;
 			absorbLasers = true;
 		}};
-		
+
 		steelWall = new Wall("steel-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.steel, 8));
 			health = 220 * 4;
 			armor = 8f;
 		}};
-		
+
 		steelWallLarge = new Wall("steel-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(steelWall.requirements, 4));
 			health = 220 * 16;
@@ -167,19 +287,59 @@ public class AstraBlocks {
 			size = 2;
 		}};
 
-		platedThoriumWall = new Wall("plated-thorium-wall") {{
+		platedThoriumWall = new AuraWall("plated-thorium-wall", Color.purple) {{
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.magnetite, 4));
 			health = 200 * 4;
 			armor = 6f;
+			auraDamage = 1.5f;
+			auraRadius = 15f;
 		}};
-		
-		platedThoriumWallLarge = new Wall("plated-thorium-wall-large") {{
+
+		platedThoriumWallLarge = new AuraWall("plated-thorium-wall-large", Color.purple) {{
 			requirements(Category.defense, ItemStack.mult(platedThoriumWall.requirements, 4));
 			health = 200 * 16;
 			armor = 6f;
 			size = 2;
+			auraDamage = 6f;
+			auraRadius = 25f;
 		}};
-		
+
+		platedSurgeWall = new Wall("plated-surge-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, Items.lithium, 6));
+			health = 280 * 4;
+			armor = 16f;
+			lightningChance = 0.075f;
+			lightningDamage = 45f;
+		}};
+
+		platedSurgeWallLarge = new Wall("plated-surge-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(platedSurgeWall.requirements, 4));
+			health = 280 * 16;
+			armor = 16f;
+			lightningChance = 0.075f;
+			lightningDamage = 45f;
+		}};
+
+		platedPhaseWall = new Wall("plated-phase-wall") {{
+			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, Items.plastanium, 6));
+			health = 190 * 4;
+			armor = 10f;
+			chanceDeflect = 10f;
+			flashHit = true;
+			insulated = true;
+			absorbLasers = true;
+		}};
+
+		platedPhaseWallLarge = new Wall("plated-phase-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
+			health = 190 * 16;
+			armor = 10f;
+			chanceDeflect = 10f;
+			flashHit = true;
+			insulated = true;
+			absorbLasers = true;
+		}};
+
 		testblaster = new ItemTurret("testblaster") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.testium, 1000));
 			ammo(
