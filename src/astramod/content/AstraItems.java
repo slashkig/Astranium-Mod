@@ -26,9 +26,17 @@ public class AstraItems {
 			cost = 1f;
 		}};
 
+		lithium = new Item("lithium", Color.valueOf("e40808")) {{
+			hardness = 3;
+			description = "A lightweight but highly reactive metal used in advanced electrical equipment.";
+			cost = 1.2f;
+			flammability = 1.8f;
+			explosiveness = 0.5f;
+		}};
+		
 		magnetite = new Item("magnetite", Color.valueOf("696969")) {{
 			description = "A ferromagnetic form of iron, used in energy generation and high-grade machinery.";
-			cost = 1f;
+			cost = 1.1f;
 		}};
 
 		steel = new Item("steel", Color.valueOf("cfcfcf")) {{
@@ -37,18 +45,15 @@ public class AstraItems {
 		}};
 
 		neodymium = new Item("neodymium", Color.valueOf("c0954c")) {{
-			description = "A rare and powerful heavy element.  Crucial for high-performance magnets, advanced electronic components, and precision hardware.";
+			hardness = 5;
+			description = "A rare and powerful heavy metal.  Crucial for high-performance magnets, advanced electronic components, and precision hardware.";
 			cost = 1.5f;
+			radioactivity = 0.05f;
 		}};
 		
 		aerogel = new Item("aerogel", Color.valueOf("e8ffff")) {{
 			description = "A synthetic ultralight substance. Used in thermal insulation, advanced photocatalysis, and serves as a powerful catalyst in defensive structures.";
 			cost = 1.2f;
-		}};
-
-		lithium = new Item("lithium", Color.valueOf("ff0000")) {{
-			description = "A soft material used in advanced electrical structures in place of Lead. Reacts violently with water.";
-			cost = 1f;
 		}};
 	}
 }
