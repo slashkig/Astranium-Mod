@@ -347,11 +347,10 @@ public class AstraBlocks {
 			lightningDamage = 45f;
 		}};
 
-		platedPhaseWall = new ProjectorWall("plated-phase-wall") {{
+		platedPhaseWall = new ProjectorWall("plated-phase-wall", 1.6f) {{
 			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, Items.plastanium, 6, Items.silicon, 5));
 			health = 190 * 4;
 			armor = 10f;
-			hasPower = consumesPower = conductivePower = true;
 			consumePower(0.05f);
 			shieldHealth = 150f;
 			breakCooldown = 1500f;
@@ -359,22 +358,21 @@ public class AstraBlocks {
 			chanceDeflect = 10f;
 			flashHit = true;
 			insulated = true;
-			absorbLasers = true;
+			absorbLasers = absorbLightning = true;
 		}};
 
-		platedPhaseWallLarge = new ProjectorWall("plated-phase-wall-large") {{
+		platedPhaseWallLarge = new ProjectorWall("plated-phase-wall-large", 3.2f) {{
 			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
 			health = 190 * 16;
 			armor = 10f;
 			size = 2;
-			hasPower = consumesPower = conductivePower = true;
 			consumePower(0.2f);
 			shieldHealth = 600f;
 			breakCooldown = 1200f;
 			chanceDeflect = 10f;
 			flashHit = true;
 			insulated = true;
-			absorbLasers = true;
+			absorbLasers = absorbLightning = true;
 		}};
 
 		ironConveyor = new Conveyor("iron-conveyor"){{
