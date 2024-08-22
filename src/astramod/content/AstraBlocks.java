@@ -160,7 +160,7 @@ public class AstraBlocks {
 				 Items.thorium, 80
 			));
 			scaledHealth = 60;
-			size = 3;
+			size = 2;
 			hasPower = hasItems = true;
 			itemCapacity = 30;
 
