@@ -48,7 +48,7 @@ public class AuraWall extends Wall {
 
 		@Override public void updateTile() {
 			Units.nearbyEnemies(team, x, y, auraRadius, unit -> {
-				unit.damage(auraDamage * Time.delta);
+				unit.damage(auraDamage * Time.delta / 60f);
 			});
 		}
 		

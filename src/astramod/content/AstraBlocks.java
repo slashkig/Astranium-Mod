@@ -3,6 +3,7 @@ package astramod.content;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.draw.*;
@@ -21,10 +22,11 @@ import astramod.content.AstraItems;
 import astramod.classes.blocks.defense.*;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, oreNeodymium,
-		ironFurnace, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, plastaniumCompressor, steelForge, phaseLoom, vacuumChamber,
+	public static Block oreTestium, oreHematite, oreLithium, oreNeodymium,
+		ironFurnace, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, plastaniumCompressor, steelForge, phaseWeaver, surgeArcFurnace, vacuumChamber,
 		compactDrill, ironDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge,
+		ironConveyor,
 		testblaster;
 
 	public static void load() {
@@ -33,6 +35,8 @@ public class AstraBlocks {
 		oreTestium = new OreBlock(AstraItems.testium);
 
 		oreHematite = new OreBlock(AstraItems.hematite);
+
+		oreLithium = new OreBlock(AstraItems.lithium);
 
 		oreNeodymium = new OreBlock(AstraItems.neodymium);
 
@@ -184,7 +188,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 			itemCapacity = 30;
 
-			consumeItems(with(Items.copper, 4, Items.lithium, 2, Items.titanium, 2, Items.silicon, 3));
+			consumeItems(ItemStack.with(Items.copper, 4, AstraItems.lithium, 2, Items.titanium, 2, Items.silicon, 3));
 			consumePower(5f);
 			craftTime = 70f;
 			outputItem = new ItemStack(Items.surgeAlloy, 1);
@@ -317,7 +321,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.magnetite, 4));
 			health = 200 * 4;
 			armor = 6f;
-			auraDamage = 1.5f;
+			auraDamage = 2f;
 			auraRadius = 15f;
 		}};
 
@@ -326,7 +330,7 @@ public class AstraBlocks {
 			health = 200 * 16;
 			armor = 6f;
 			size = 2;
-			auraDamage = 6f;
+			auraDamage = 8f;
 			auraRadius = 25f;
 		}};
 
@@ -357,7 +361,6 @@ public class AstraBlocks {
 			regenSpeed = 0.5f;
 			chanceDeflect = 10f;
 			flashHit = true;
-			insulated = true;
 			absorbLasers = absorbLightning = true;
 		}};
 
@@ -371,12 +374,11 @@ public class AstraBlocks {
 			breakCooldown = 1200f;
 			chanceDeflect = 10f;
 			flashHit = true;
-			insulated = true;
 			absorbLasers = absorbLightning = true;
 		}};
 
 		ironConveyor = new Conveyor("iron-conveyor"){{
-			requirements(Category.distribution, with(AstraItems.iron, 1, Items.copper, 1));
+			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 1, Items.copper, 1));
 			health = 60;
 			speed = 0.05f;
 			displayedSpeed = 7f;
