@@ -31,7 +31,7 @@ public class AstraItems {
 			description = "A lightweight but highly reactive metal used in advanced electrical equipment.";
 			cost = 1.2f;
 			flammability = 1.8f;
-			explosiveness = 1f;
+			explosiveness = 0.65f;
 		}};
 		
 		magnetite = new Item("magnetite", Color.valueOf("696969")) {{

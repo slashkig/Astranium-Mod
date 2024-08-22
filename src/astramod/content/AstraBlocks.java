@@ -358,7 +358,7 @@ public class AstraBlocks {
 			consumePower(0.05f);
 			shieldHealth = 150f;
 			breakCooldown = 1500f;
-			regenSpeed = 0.5f;
+			regenSpeed = 0.25f;
 			chanceDeflect = 10f;
 			flashHit = true;
 			absorbLasers = absorbLightning = true;
@@ -372,6 +372,7 @@ public class AstraBlocks {
 			consumePower(0.2f);
 			shieldHealth = 600f;
 			breakCooldown = 1200f;
+			regenSpeed = 1f;
 			chanceDeflect = 10f;
 			flashHit = true;
 			absorbLasers = absorbLightning = true;
