@@ -61,6 +61,6 @@ public class AstraItems {
 			cost = 1.5f;
 			charge = 0.3f;
 			radioactivity = 0.05f;
-		}}
+		}};
 	}
 }
