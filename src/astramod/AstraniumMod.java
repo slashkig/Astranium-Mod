@@ -13,5 +13,7 @@ public class AstraniumMod extends Mod {
 		AstraItems.load();
 		AstraFluids.load();
 		AstraBlocks.load();
+		AstraPlanets.load();
+		AzirisTechTree.load();
 	}
 }

@@ -6,6 +6,7 @@ import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.entities.*;
@@ -520,7 +521,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
 			health = 100;
 			buildCostMultiplier = 2f;
-		}}
+		}};
 
 		ironOverflowGate = new OverflowGate("iron-overflow-gate"){{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 1, Items.lead, 2));

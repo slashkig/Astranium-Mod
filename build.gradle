@@ -3,7 +3,7 @@ plugins {
 }
 
 // group ''
-version '1.0'
+version '0.2.1'
 
 sourceCompatibility = '1.8'
 
