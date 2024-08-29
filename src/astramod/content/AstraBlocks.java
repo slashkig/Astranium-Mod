@@ -21,14 +21,15 @@ import arc.graphics.*;
 import arc.audio.*;
 import astramod.content.AstraItems;
 import astramod.classes.blocks.defense.*;
+import astramod.classes.blocks.production.*;
 import astramod.classes.draw.*;
 
 public class AstraBlocks {
 	public static Block oreTestium, oreHematite, oreLithium, oreNeodymium, wallOreLithium,
-		ironFurnace, castIronPress, castIronSmelter, castIronKiln, magnetiteSynthesizer, cryofluidBlender, plastaniumCompressor, plastaniumFabricator, steelForge, phaseWeaver, phaseLoom, surgeArcFurnace, vacuumChamber,
+		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, magnetiteSynthesizer, cryofluidBlender, plastaniumCompressor, plastaniumFabricator, steelForge, ferrofluidMixer, phaseWeaver, phaseLoom, surgeArcFurnace, vacuumChamber,
 		compactDrill, ironDrill, augerDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge,
-		hematiteConveyor, ironConveyor, bulkConveyor, ironJunction, ironRouter, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
+		hematiteConveyor, ironConveyor, bulkConveyor, surgeBulkConveyor, ironJunction, ironRouter, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
 		coreNode,
 		testblaster;
 
@@ -52,8 +53,30 @@ public class AstraBlocks {
 
 			consumeItem(AstraItems.hematite, 2);
 			consumePower(0.40f);
-			craftTime = 40f;
+			craftTime = 50f;
 			outputItem = new ItemStack(AstraItems.iron, 1);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		blastFurnace = new GenericCrafter("blast-furnace") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 100,
+				Items.lithium, 50,
+				Items.titanium, 80,
+				Items.graphite, 70
+			));
+			scaledHealth = 55;
+			size = 3;
+			hasPower = hasItems = true;
+			itemCapacity = 20;
+
+			consumeItems(ItemStack.with(AstraItems.hematite, 8, Items.coal, 3));
+			consumePower(2.8f);
+			craftTime = 60f;
+			outputItem = new ItemStack(AstraItems.iron, 5);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
 			ambientSound = Sounds.smelter;
@@ -74,6 +97,30 @@ public class AstraBlocks {
 			craftEffect = Fx.pulverizeMedium;
 		}};
 
+		hydraulicPress = new GenericCrafter("hydraulic-press") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 120,
+				Items.graphite, 100,
+				Items.metaglass, 90,
+				Items.plastanium, 75,
+				Items.silicon, 50
+			));
+			scaledHealth = 60;
+			size = 3;
+			hasPower = hasLiquids = hasItems = true;
+			itemCapacity = 20;
+			liquidCapacity = 20f;
+
+			consumeItem(Items.coal, 7);
+			consumeLiquid(Liquids.oil, 0.15f);
+			consumePower(1.6f);
+			craftTime = 75f;
+			outputItem = new ItemStack(Items.graphite, 4);
+
+			drawer = new DrawMulti(new DrawPistons(), new DrawDefault());
+			craftEffect = Fx.pulverizeMedium;
+		}};
+
 		castIronSmelter = new GenericCrafter("cast-iron-smelter") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 60, Items.copper, 30, Items.graphite, 20));
 			scaledHealth = 45;
@@ -82,8 +129,30 @@ public class AstraBlocks {
 
 			consumeItems(ItemStack.with(Items.coal, 2, Items.sand, 4));
 			consumePower(0.60f);
-			craftTime = 70f;
+			craftTime = 200f / 3;
 			outputItem = new ItemStack(Items.silicon, 2);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		purificationSmelter = new GenericCrafter("purification-smelter") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 125,
+				Items.silicon, 60,
+				Items.graphite, 85,
+				Items.titanium, 100,
+				AstraItems.lithium, 70
+			));
+			scaledHealth = 60;
+			size = 3;
+			hasPower = hasItems = true;
+
+			consumeItems(ItemStack.with(Items.sand, 6, Items.graphite, 2));
+			consumePower(3.6f);
+			craftTime = 48f;
+			outputItem = new ItemStack(Items.silicon, 4);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
 			ambientSound = Sounds.smelter;
@@ -136,7 +205,12 @@ public class AstraBlocks {
 			craftTime = 160f;
 			outputLiquid = new LiquidStack(Liquids.cryofluid, 0.3f);
 
-			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawLiquidTile(Liquids.water), new DrawLiquidTile(Liquids.cryofluid){{drawLiquidLight = true;}}, new DrawDefault());
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(Liquids.water),
+				new DrawLiquidTile(Liquids.cryofluid) {{ drawLiquidLight = true; }},
+				new DrawDefault()
+			);
 			lightLiquid = Liquids.cryofluid;
 		}};
 
@@ -144,8 +218,8 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.iron, 100,
 				Items.lead, 100,
-				Items.silicon, 70,
-				AstraItems.magnetite, 50
+				Items.silicon, 50,
+				AstraItems.magnetite, 70
 			));
 			scaledHealth = 60;
 			size = 2;
@@ -202,7 +276,7 @@ public class AstraBlocks {
 
 			consumeItems(ItemStack.with(AstraItems.iron, 3, Items.coal, 4));
 			consumePower(4f);
-			craftTime = 70f;
+			craftTime = 67f;
 			outputItem = new ItemStack(AstraItems.steel, 1);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat());
@@ -210,13 +284,42 @@ public class AstraBlocks {
 			craftEffect = Fx.smeltsmoke;
 		}};
 
+		ferrofluidMixer = new GenericCrafter("ferrofluid-mixer") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 150,
+				Items.metaglass, 140,
+				Items.plastanium, 80,
+				AstraItems.magnetite, 125,
+				Items.graphite, 100
+			));
+			scaledHealth = 65;
+			size = 3;
+			hasPower = hasItems = true;
+			hasLiquids = outputsLiquid = true;
+			liquidCapacity = 40f;
+
+			consumeItem(AstraItems.magnetite, 1);
+			consumeLiquid(Liquids.oil, 0.25f);
+			consumePower(4.5f);
+			craftTime = 60f;
+			outputLiquid = new LiquidStack(AstraFluids.ferrofluid, 0.25f);
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(Liquids.oil),
+				new DrawLiquidTile(AstraFluids.ferrofluid),
+				new DrawRegion("-spinner", 1, true),
+				new DrawDefault()
+			);
+		}};
+
 		phaseWeaver = new GenericCrafter("phase-weaver") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 180,
-				Items.silicon, 120,
-				AstraItems.lithium, 100,
+				Items.silicon, 160,
+				AstraItems.lithium, 150,
 				AstraItems.magnetite, 100,
-				Items.thorium, 80
+				Items.thorium, 120
 			));
 			scaledHealth = 60;
 			size = 2;
@@ -235,12 +338,12 @@ public class AstraBlocks {
 
 		phaseLoom = new GenericCrafter("phase-loom") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 240,
+				Items.surgeAlloy, 260,
 				Items.silicon, 280,
 				AstraItems.lithium, 200,
-				Items.thorium, 160,
-				AstraItems.neodymium, 120,
-				Items.phaseFabric, 90
+				Items.thorium, 180,
+				AstraItems.neodymium, 140,
+				Items.phaseFabric, 120
 			));
 			scaledHealth = 70;
 			size = 3;
@@ -263,9 +366,9 @@ public class AstraBlocks {
 
 		surgeArcFurnace = new GenericCrafter("surge-arc-furnace") {{
 			requirements(Category.crafting, ItemStack.with(
-				AstraItems.steel, 200,
-				Items.silicon, 180,
-				Items.graphite, 150,
+				AstraItems.steel, 220,
+				Items.silicon, 160,
+				Items.graphite, 180,
 				AstraItems.lithium, 120,
 				Items.thorium, 100
 			));
@@ -287,14 +390,14 @@ public class AstraBlocks {
 
 		vacuumChamber = new GenericCrafter("vacuum-chamber") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 300,
+				Items.surgeAlloy, 320,
 				AstraItems.steel, 280,
 				Items.silicon, 200,
-				Items.metaglass, 250,
-				Items.phaseFabric, 150,
-				AstraItems.neodymium, 120
+				Items.metaglass, 260,
+				Items.phaseFabric, 190,
+				AstraItems.neodymium, 175
 			));
-			scaledHealth = 70;
+			scaledHealth = 75;
 			armor = 5f;
 			size = 3;
 			hasPower = hasItems = hasLiquids = true;
@@ -318,11 +421,11 @@ public class AstraBlocks {
 		}};
 
 		compactDrill = new Drill("compact-drill") {{
-			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.copper, 6));
+			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.lead, 6));
 			size = 2;
 
+			liquidBoostIntensity = 1.4f;
 			consumeLiquid(Liquids.water, 0.04f).boost();
-			consumeLiquid(AstraFluids.ferrofluid, 0.03f).boost();
 			drillTime = 500;
 			tier = 2;
 			hardnessDrillMultiplier = 75f;
@@ -332,10 +435,11 @@ public class AstraBlocks {
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
 			size = 3;
 			hasPower = true;
+			liquidCapacity = 7.5f;
 
+			liquidBoostIntensity = 1.5f;
 			consumePower(0.5f);
-			consumeLiquid(Liquids.water, 0.07f).boost();
-			consumeLiquid(AstraFluids.ferrofluid, 0.05f).boost();
+			consumeLiquidBoosts(0.07f, Liquids.water, 1.5f, AstraFluids.ferrofluid, 1.8f);
 			drillTime = 360;
 			tier = 3;
 			hardnessDrillMultiplier = 65f;
@@ -355,10 +459,11 @@ public class AstraBlocks {
 			scaledHealth = 55;
 			size = 3;
 			hasPower = true;
+			liquidCapacity = 10f;
 
+			liquidBoostIntensity = 1.6f;
 			consumePower(1.2f);
-			consumeLiquid(Liquids.water, 0.09f).boost();
-			consumeLiquid(AstraFluids.ferrofluid, 0.07f).boost();
+			consumeLiquidBoosts(0.1f, Liquids.water, 1.6f, AstraFluids.ferrofluid, 1.95f);
 			drillTime = 260;
 			tier = 4;
 			hardnessDrillMultiplier = 55f;
@@ -492,6 +597,8 @@ public class AstraBlocks {
 			health = 40;
 			speed = 0.05f;
 			displayedSpeed = 7f;
+
+			junctionReplacement = ironJunction;
 		}};
 
 		ironConveyor = new Conveyor("iron-conveyor") {{
@@ -500,13 +607,22 @@ public class AstraBlocks {
 			speed = 0.1f;
 			displayedSpeed = 14f;
 			buildCostMultiplier = 1.5f;
+
+			junctionReplacement = ironJunction;
 		}};
 
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
-			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, AstraItems.iron, 1, Items.silicon, 1));
+			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.titanium, 1, Items.silicon, 1));
 			health = 90;
 			speed = 0.07f;
 			itemCapacity = 10;
+		}};
+
+		surgeBulkConveyor = new StackConveyor("surge-bulk-conveyor") {{
+			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 1, Items.thorium, 1));
+			health = 140;
+			speed = 0.06f;
+			itemCapacity = 20;
 		}};
 
 		ironJunction = new Junction("iron-junction") {{
@@ -557,7 +673,7 @@ public class AstraBlocks {
 			alwaysUnlocked = true;
 			isFirstTier = true;
 
-			unitType = UnitTypes.alpha;
+			unitType = Units.alpha;
 			unitCapModifier = 10;
 		}};
 
