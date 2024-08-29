@@ -1,14 +1,13 @@
 package astramod.content;
 
-import mindustry.annotations.*;
 import mindustry.type.*;
 import mindustry.gen.*;
 
 public class AstraUnits {
-    public static @EntityDef({Unitc.class}) UnitType manager;
+    /*public static @EntityDef({Unitc.class}) UnitType manager;
 
     public static void load() {
-        /*manager = new UnitType("manager"){{
+        manager = new UnitType("manager"){{
             aiController = BuilderAI::new;
             isEnemy = false;
 
@@ -44,6 +43,6 @@ public class AstraUnits {
                     buildingDamageMultiplier = 0.01f;
                 }};
             }});
-        }};*/
-    }
+        }};
+    }*/
 }
