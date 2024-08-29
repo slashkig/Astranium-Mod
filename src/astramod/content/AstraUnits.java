@@ -1,6 +1,6 @@
 package astramod.content;
 
-import mindustry.annotations.Annotations.*;
+import mindustry.annotations.*;
 import mindustry.type.*;
 import mindustry.gen.*;
 

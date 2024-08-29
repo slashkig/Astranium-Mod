@@ -36,7 +36,7 @@ public class AstraBlocks {
 	public static void load() {
 		Log.info("Loading blocks");
 
-		oreTestium = new OreBlock(AstraItems.testium);
+		oreTestium = new OreBlock(AstraItems.testium) {{ variants = 1 }};
 
 		oreHematite = new OreBlock(AstraItems.hematite);
 
@@ -64,7 +64,7 @@ public class AstraBlocks {
 		blastFurnace = new GenericCrafter("blast-furnace") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 100,
-				Items.lithium, 50,
+				AstraItems.lithium, 50,
 				Items.titanium, 80,
 				Items.graphite, 70
 			));
@@ -431,7 +431,7 @@ public class AstraBlocks {
 			hardnessDrillMultiplier = 75f;
 		}};
 
-		ironDrill = new Drill("iron-drill") {{
+		ironDrill = new MultiCoolantDrill("iron-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 25, Items.graphite, 20));
 			size = 3;
 			hasPower = true;
@@ -449,7 +449,7 @@ public class AstraBlocks {
 			drillEffect = Fx.mineBig;
 		}};
 
-		augerDrill = new Drill("auger-drill") {{
+		augerDrill = new MultiCoolantDrill("auger-drill") {{
 			requirements(Category.production, ItemStack.with(
 				AstraItems.steel, 35,
 				AstraItems.magnetite, 25,
@@ -673,7 +673,7 @@ public class AstraBlocks {
 			alwaysUnlocked = true;
 			isFirstTier = true;
 
-			unitType = Units.alpha;
+			unitType = UnitTypes.alpha;
 			unitCapModifier = 10;
 		}};
 
