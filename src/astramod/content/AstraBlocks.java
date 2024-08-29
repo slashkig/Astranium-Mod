@@ -36,7 +36,7 @@ public class AstraBlocks {
 	public static void load() {
 		Log.info("Loading blocks");
 
-		oreTestium = new OreBlock(AstraItems.testium) {{ variants = 1 }};
+		oreTestium = new OreBlock(AstraItems.testium) {{ variants = 1; }};
 
 		oreHematite = new OreBlock(AstraItems.hematite);
 
