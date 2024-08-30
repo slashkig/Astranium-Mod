@@ -73,7 +73,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
-			consumeItems(ItemStack.with(AstraItems.hematite, 8, Items.coal, 3));
+			consumeItems(ItemStack.with(AstraItems.hematite, 8, Items.pyratite, 2));
 			consumePower(2.8f);
 			craftTime = 60f;
 			outputItem = new ItemStack(AstraItems.iron, 5);
@@ -117,7 +117,7 @@ public class AstraBlocks {
 			craftTime = 75f;
 			outputItem = new ItemStack(Items.graphite, 4);
 
-			drawer = new DrawMulti(new DrawPistons(), new DrawDefault());
+			drawer = new DrawMulti(new DrawPistons() {{ sinMag = 1f; lenOffset = -1f; }}, new DrawDefault());
 			craftEffect = Fx.pulverizeMedium;
 		}};
 
@@ -128,7 +128,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(Items.coal, 2, Items.sand, 4));
-			consumePower(0.60f);
+			consumePower(0.70f);
 			craftTime = 200f / 3;
 			outputItem = new ItemStack(Items.silicon, 2);
 
@@ -148,11 +148,13 @@ public class AstraBlocks {
 			scaledHealth = 60;
 			size = 3;
 			hasPower = hasItems = true;
+			itemCapacity = 20;
 
-			consumeItems(ItemStack.with(Items.sand, 6, Items.graphite, 2));
-			consumePower(3.6f);
-			craftTime = 48f;
-			outputItem = new ItemStack(Items.silicon, 4);
+			consumeItems(ItemStack.with(Items.sand, 5, Items.graphite, 2));
+			consumeItem(Items.pyratite, 2).boost();
+			consumePower(4.6f);
+			craftTime = 50f;
+			outputItem = new ItemStack(Items.silicon, 5);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
 			ambientSound = Sounds.smelter;
@@ -166,7 +168,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(Items.lead, 3, Items.sand, 3));
-			consumePower(0.65f);
+			consumePower(0.60f);
 			craftTime = 80f;
 			outputItem = new ItemStack(Items.metaglass, 3);
 
@@ -276,7 +278,7 @@ public class AstraBlocks {
 
 			consumeItems(ItemStack.with(AstraItems.iron, 3, Items.coal, 4));
 			consumePower(4f);
-			craftTime = 67f;
+			craftTime = 200f / 3;
 			outputItem = new ItemStack(AstraItems.steel, 1);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat());
@@ -597,8 +599,6 @@ public class AstraBlocks {
 			health = 40;
 			speed = 0.05f;
 			displayedSpeed = 7f;
-
-			junctionReplacement = ironJunction;
 		}};
 
 		ironConveyor = new Conveyor("iron-conveyor") {{
@@ -607,8 +607,6 @@ public class AstraBlocks {
 			speed = 0.1f;
 			displayedSpeed = 14f;
 			buildCostMultiplier = 1.5f;
-
-			junctionReplacement = ironJunction;
 		}};
 
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
@@ -632,6 +630,9 @@ public class AstraBlocks {
 			speed = 15;
 			capacity = 4;
 		}};
+
+		((Conveyor)hematiteConveyor).junctionReplacement = ironJunction;
+		((Conveyor)ironConveyor).junctionReplacement = ironJunction;
 
 		ironRouter = new Router("iron-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
