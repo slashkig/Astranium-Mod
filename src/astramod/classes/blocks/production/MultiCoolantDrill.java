@@ -55,7 +55,7 @@ public class MultiCoolantDrill extends Drill {
 		@Override public void updateEfficiencyMultiplier() {
 			float scale = efficiencyScale();
 			efficiency *= scale;
-			optionalEfficiency *= scale * boostMultMap.get(liquids.current());
+			optionalEfficiency *= scale * boostMultMap.get(liquids.current(), 1f);
 		}
 	}
 }

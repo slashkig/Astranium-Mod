@@ -94,14 +94,15 @@ public class AstraBlocks {
 			craftTime = 120f;
 			outputItem = new ItemStack(Items.graphite, 2);
 
+			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons() {{ sinMag = 2f; sinScl = 12f; lenOffset = -2f; }}, new DrawDefault());
 			craftEffect = Fx.pulverizeMedium;
 		}};
 
-		hydraulicPress = new GenericCrafter("hydraulic-press") {{
+		hydraulicPress = new MultiLiquidCrafter("hydraulic-press") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 120,
 				Items.graphite, 100,
-				Items.metaglass, 90,
+				AstraItems.magnetite, 60,
 				Items.plastanium, 75,
 				Items.silicon, 50
 			));
@@ -112,12 +113,12 @@ public class AstraBlocks {
 			liquidCapacity = 20f;
 
 			consumeItem(Items.coal, 8);
-			consumeLiquid(Liquids.oil, 0.15f);
+			consumeLiquidsMulti(0.15f, Liquids.water, 0.75f, Liquids.oil, 1.5f);
 			consumePower(1.6f);
-			craftTime = 62.5f;
+			craftTime = 75f;
 			outputItem = new ItemStack(Items.graphite, 5);
 
-			drawer = new DrawMulti(new DrawPistons() {{ sinMag = 1f; lenOffset = -1f; }}, new DrawDefault());
+			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPistons() {{ sinMag = 2.5f; lenOffset = -2.5f; }}, new DrawDefault());
 			craftEffect = Fx.pulverizeMedium;
 		}};
 
@@ -204,7 +205,7 @@ public class AstraBlocks {
 			consumeItem(Items.titanium, 2);
 			consumeLiquid(Liquids.water, 0.25f);
 			consumePower(1.1f);
-			craftTime = 192f;
+			craftTime = 200f;
 			outputLiquid = new LiquidStack(Liquids.cryofluid, 0.25f);
 
 			drawer = new DrawMulti(
@@ -216,7 +217,7 @@ public class AstraBlocks {
 			lightLiquid = Liquids.cryofluid;
 		}};
 
-		cryofluidProcessor = new GenericCrafter("cryofluid-blender") {{
+		cryofluidProcessor = new GenericCrafter("cryofluid-processor") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 140,
 				Items.metaglass, 125,
@@ -632,7 +633,7 @@ public class AstraBlocks {
 			consumePower(0.05f);
 			shieldHealth = 150f;
 			breakCooldown = 1500f;
-			regenSpeed = 0.25f
+			regenSpeed = 0.25f;
 			flashHit = true;
 			absorbLightning = absorbLasers = true;
 		}};
@@ -641,6 +642,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.mult(aerotechWall.requirements, 4));
 			health = 210 * 16;
 			armor = 12f;
+			size = 2;
 			consumePower(0.2f);
 			shieldHealth = 600f;
 			breakCooldown = 1200f;
