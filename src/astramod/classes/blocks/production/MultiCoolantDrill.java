@@ -1,15 +1,15 @@
 package astramod.classes.blocks.production;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import arc.struct.*;
 import arc.math.Mathf;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 import mindustry.world.blocks.production.Drill;
 import mindustry.world.consumers.ConsumeLiquidFilter;
 
+// Can be boosted by different amounts by different liquids.
 public class MultiCoolantDrill extends Drill {
-	Map<Liquid, Float> boostMultMap = new HashMap<>();
+	ObjectFloatMap<Liquid> boostMultMap = new ObjectFloatMap<Liquid>();
 
 	public MultiCoolantDrill(String name) {
 		super(name);
@@ -18,23 +18,22 @@ public class MultiCoolantDrill extends Drill {
 	@Override public void setStats() {
 		super.setStats();
 
-		if (boostMultMap.size() > 0) {
+		if (boostMultMap.size > 0) {
 			stats.remove(Stat.booster);
 
-			List<Map.Entry<Liquid, Float>> boosters = boostMultMap.entrySet()
-				.stream()
-				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-				.collect(Collectors.toList());
+			Seq<LiquidStack> boosters = new Seq<LiquidStack>(boostMultMap.size);
+			for (ObjectFloatMap.Entry<Liquid> entry : boostMultMap) { boosters.add(new LiquidStack(entry.key, entry.value)); }
+			boosters.sort(e -> e.amount);
 
-			for (Map.Entry<Liquid, Float> booster : boosters) {
-				float boostMult = Mathf.lerp(1, liquidBoostIntensity, booster.getValue());
-				stats.add(Stat.booster,
-					StatValues.speedBoosters("{0}" + StatUnit.timesSpeed.localized(),
+			for (LiquidStack booster : boosters) {
+				float boostMult = Mathf.lerp(1, liquidBoostIntensity, booster.amount);
+				stats.add(Stat.booster, StatValues.speedBoosters(
+					"{0}" + StatUnit.timesSpeed.localized(),
 					((ConsumeLiquidFilter) findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount,
 					boostMult * boostMult,
 					false,
-					l -> l == booster.getKey())
-				);
+					l -> l == booster.liquid
+				));
 			}
 		}
 	}

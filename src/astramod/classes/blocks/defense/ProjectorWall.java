@@ -21,7 +21,7 @@ import mindustry.logic.Ranged;
 
 import static mindustry.Vars.*;
 
-// Hybrid between force projector and shield wall (this was a nightmare to make)
+// Hybrid between force projector and shield wall.
 public class ProjectorWall extends Wall {
     public float shieldHealth = 900f;
     public float breakCooldown = 60f * 10f;

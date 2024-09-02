@@ -14,6 +14,7 @@ import mindustry.gen.Building;
 
 import static mindustry.Vars.*;
 
+// Emits a damaging aura.
 public class AuraWall extends Wall {
 	public float auraDamage = 5f;
 	public float auraRadius = 20f;
