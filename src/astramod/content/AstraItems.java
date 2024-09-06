@@ -5,7 +5,7 @@ import arc.graphics.Color;
 import arc.util.Log;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, lithium, magnetite, steel, neodymium, aerogel, astranium;
+	public static Item testium, hematite, iron, lithium, magnetite, steel, crystals, neodymium, aerogel, astranium;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -44,6 +44,12 @@ public class AstraItems {
 			cost = 1.2f;
 		}};
 
+		crystals = new Item("crystals", Color.valueOf("bf2851")) {{
+			description = "A strong crystal filled with energy.";
+			cost = 1.5f;
+			charge = 0.5f;
+		}};
+
 		neodymium = new Item("neodymium", Color.valueOf("c0954c")) {{
 			hardness = 5;
 			description = "A rare and powerful heavy metal.  Crucial for high-performance magnets, advanced electronic components, and precision hardware.";
@@ -53,12 +59,12 @@ public class AstraItems {
 		
 		aerogel = new Item("aerogel", Color.valueOf("4da6ff")) {{
 			description = "A synthetic ultralight substance. Used in thermal insulation, advanced photocatalysis, and serves as a powerful catalyst in defensive structures.";
-			cost = 1.2f;
+			cost = 1.4f;
 		}};
 
 		astranium = new Item("astranium", Color.valueOf("8142ff")) {{
 			description = "An extremely powerful alloy with outstanding magnetic properties. Used in Siege Weapons and high-power magnetic ammunition.";
-			cost = 1.5f;
+			cost = 1.6f;
 			charge = 0.3f;
 			radioactivity = 0.05f;
 		}};

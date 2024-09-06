@@ -1,4 +1,4 @@
-package astramod.classes.blocks.defense;
+package astramod.world.blocks.defense;
 
 import arc.Events;
 import arc.func.Cons;

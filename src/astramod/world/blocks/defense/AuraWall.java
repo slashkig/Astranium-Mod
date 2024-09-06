@@ -1,4 +1,4 @@
-package astramod.classes.blocks.defense;
+package astramod.world.blocks.defense;
 
 import arc.graphics.*;
 import arc.graphics.g2d.*;

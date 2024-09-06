@@ -2,7 +2,7 @@ name: "astramod"
 displayName: "Planet Aziris"
 author: "Slashkig, IAmRustee, VoidThreader"
 description: "WIP - Adds a new planet, Aziris"
-version: "0.2.3"
+version: "0.2.4"
 main: "astramod.AstraniumMod"
 minGameVersion: "146"
 dependencies: [ ]
