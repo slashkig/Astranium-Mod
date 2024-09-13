@@ -1,11 +1,19 @@
 package astramod.world.blocks.production;
 
+import arc.Core;
 import arc.struct.*;
+import arc.util.*;
 import arc.math.Mathf;
+import mindustry.ui.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.game.*;
+import mindustry.gen.*;
+import mindustry.world.*;
 import mindustry.world.meta.*;
+import mindustry.world.consumers.*;
 import mindustry.world.blocks.production.Drill;
-import mindustry.world.consumers.ConsumeLiquidFilter;
+import astramod.world.modules.*;
 
 // Can be boosted by different amounts by different liquids.
 public class MultiCoolantDrill extends Drill {
@@ -29,12 +37,25 @@ public class MultiCoolantDrill extends Drill {
 				float boostMult = Mathf.lerp(1, liquidBoostIntensity, booster.amount);
 				stats.add(Stat.booster, StatValues.speedBoosters(
 					"{0}" + StatUnit.timesSpeed.localized(),
-					((ConsumeLiquidFilter) findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount,
+					((ConsumeLiquidFilter)findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount,
 					boostMult * boostMult,
 					false,
 					l -> l == booster.liquid
 				));
 			}
+		}
+	}
+
+	@Override public void setBars() {
+		super.setBars();
+
+		if (findConsumer(f -> (f instanceof ConsumeLiquid && !f.booster)) != null) {
+			removeBar("drillspeed");
+
+			addLiquidBar(build -> build.liquids.current());
+
+			addBar("drillspeed", (DrillBuild e) -> new Bar(() -> Core.bundle.format("bar.drillspeed",
+				Strings.fixed(e.lastDrillSpeed * 60 * e.timeScale(), 2)), () -> Pal.ammo, () -> e.warmup));
 		}
 	}
 
@@ -48,10 +69,16 @@ public class MultiCoolantDrill extends Drill {
 			boostMultMap.put((Liquid)liquidBoosts[i], mult);
 		}
 	
-		return (ConsumeLiquidFilter)(consume(new ConsumeLiquidFilter(liquid -> boostMultMap.containsKey(liquid), boostCost)).boost());
+		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> boostMultMap.containsKey(liquid), boostCost)).boost());
 	}
 
 	public class MultiCoolantDrillBuild extends DrillBuild {
+		@Override public Building create(Block block, Team team) {
+			Building build = super.create(block, team);
+			liquids = new LiquidBoostModule(boostMultMap);
+			return build;
+		}
+
 		@Override public void updateEfficiencyMultiplier() {
 			float scale = efficiencyScale();
 			efficiency *= scale;

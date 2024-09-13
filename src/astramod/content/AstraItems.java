@@ -32,6 +32,7 @@ public class AstraItems {
 			cost = 1.2f;
 			flammability = 1.8f;
 			explosiveness = 0.65f;
+			charge = 0.15f;
 		}};
 		
 		magnetite = new Item("magnetite", Color.valueOf("696969")) {{
