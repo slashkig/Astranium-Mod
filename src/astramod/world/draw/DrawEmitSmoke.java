@@ -28,10 +28,9 @@ public class DrawEmitSmoke extends DrawBlock {
 			Draw.color(color);
 			Draw.z(layer);
 
-			float base = (Time.time / particleLife);
 			rand.setSeed(build.id);
 			for (int i = 0; i < particles; i++) {
-				float fin = 1f - ((rand.random(2f) + base) % 1f);
+				float fin = 1f - ((rand.random(2f) + (Time.time / particleLife)) % 1f);
 				float fout = 1f - fin;
 				float angle = rand.random(360f) + (Time.time / rotateScl) % 360f;
 				float len = particleRad * particleInterp.apply(fout);

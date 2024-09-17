@@ -10,6 +10,7 @@ public class AstraFluids {
 	public static void load() {
 		ferrofluid = new Liquid("ferrofluid", Color.valueOf("220000")) {{
 			effect = StatusEffects.none; // Need to add status effect
+			barColor = Color.valueOf("440202");
 			viscosity = 0.25f;
 			heatCapacity = 0.65f;
 			flammability = 0.6f;
@@ -19,7 +20,7 @@ public class AstraFluids {
 			gasColor = Color.grays(0.1f);
 		}};
 
-		plasma = new Liquid("plasma", Color.valueOf("8a2bed")) {{
+		plasma = new Liquid("plasma", Color.valueOf("7722ed")) {{
 			gas = true;
 			temperature = 2f;
 			explosiveness = 0.5f;

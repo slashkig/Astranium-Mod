@@ -17,7 +17,7 @@ import astramod.world.modules.*;
 
 // Can be boosted by different amounts by different liquids.
 public class MultiCoolantDrill extends Drill {
-	ObjectFloatMap<Liquid> boostMultMap = new ObjectFloatMap<Liquid>();
+	public ObjectFloatMap<Liquid> boostMultMap = new ObjectFloatMap<>();
 
 	public MultiCoolantDrill(String name) {
 		super(name);
@@ -29,7 +29,7 @@ public class MultiCoolantDrill extends Drill {
 		if (boostMultMap.size > 0) {
 			stats.remove(Stat.booster);
 
-			Seq<LiquidStack> boosters = new Seq<LiquidStack>(boostMultMap.size);
+			Seq<LiquidStack> boosters = new Seq<>(boostMultMap.size);
 			for (ObjectFloatMap.Entry<Liquid> entry : boostMultMap) { boosters.add(new LiquidStack(entry.key, entry.value)); }
 			boosters.sort(e -> e.amount);
 
