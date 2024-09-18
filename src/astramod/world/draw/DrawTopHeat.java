@@ -1,7 +1,6 @@
 package astramod.world.draw;
 
 import arc.*;
-import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import arc.math.Mathf;

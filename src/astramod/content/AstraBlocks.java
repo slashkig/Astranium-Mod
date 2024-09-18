@@ -2,7 +2,6 @@ package astramod.content;
 
 import arc.util.Log;
 import arc.graphics.*;
-import arc.audio.*;
 import arc.math.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
@@ -13,16 +12,13 @@ import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
-import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
-import mindustry.entities.effect.*;
 import mindustry.entities.pattern.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.content.*;
-import astramod.content.*;
 import astramod.world.draw.*;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.production.*;
@@ -32,7 +28,7 @@ public class AstraBlocks {
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, frackingDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge,
-		hematiteConveyor, ironConveyor, bulkConveyor, surgeBulkConveyor, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
+		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
 		coreNode,
 		dart, viper, testblaster;
 
@@ -632,9 +628,9 @@ public class AstraBlocks {
 				Items.surgeAlloy, 320,
 				Items.plastanium, 280,
 				AstraItems.crystals, 250,
-				Items.silicon, 200,
+				Items.silicon, 220,
 				Items.metaglass, 260,
-				AstraItems.neodymium, 175
+				AstraItems.neodymium, 180
 			));
 			scaledHealth = 70;
 			armor = 5f;
@@ -932,10 +928,10 @@ public class AstraBlocks {
 		}};
 
 		platedThoriumWall = new AuraWall("plated-thorium-wall", Color.purple) {{
-			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.iron, 4));
+			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.crystals, 2));
 			health = 205 * 4;
 			armor = 6f;
-			auraDamage = 2f;
+			auraDamage = 4f;
 			auraRadius = 15f;
 		}};
 
@@ -1022,18 +1018,35 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.5f;
 		}};
 
+		durasteelConveyor = new Conveyor("durasteel-conveyor") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.titanium, 2));
+			health = 180;
+			speed = 0.15f;
+			displayedSpeed = 21f;
+			buildCostMultiplier = 1.5f;
+		}};
+
+		platedSteelConveyor = new ArmoredConveyor("plated-conveyor") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.thorium, 1, Items.graphite, 2));
+			health = 300;
+			speed = 0.15f;
+			displayedSpeed = 21f;
+			buildCostMultiplier = 1.5f;
+		}};
+
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.metaglass, 1, Items.silicon, 1));
-			health = 90;
+			health = 100;
 			speed = 0.07f;
 			itemCapacity = 10;
 		}};
 
 		surgeBulkConveyor = new StackConveyor("surge-bulk-conveyor") {{
-			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 1, Items.thorium, 1));
-			health = 140;
+			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
+			health = 220;
 			speed = 0.08f;
 			itemCapacity = 20;
+			buildCostMultiplier = 1.5f;
 		}};
 
 		ironJunction = new Junction("iron-junction") {{
@@ -1190,7 +1203,7 @@ public class AstraBlocks {
 					width = 6f;
 					height = 7f;
 					ammoMultiplier = 3;
-					homingPower = 0f;
+					homingPower = 0.15f;
 					collidesGround = false;
 				}},
 				Items.silicon, new MissileBulletType(4f, 22) {{
@@ -1199,7 +1212,7 @@ public class AstraBlocks {
 					height = 7f;
 					ammoMultiplier = 4;
 					reloadMultiplier = 1.25f;
-					homingPower = 0.14f;
+					homingPower = 0.6f;
 					collidesGround = false;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 30) {{
@@ -1207,6 +1220,7 @@ public class AstraBlocks {
 					width = 6f;
 					height = 7f;
 					ammoMultiplier = 5;
+					homingPower = 0.35f;
 					status = StatusEffects.burning;
 					makeFire = true;
 					collidesGround = false;
@@ -1220,6 +1234,7 @@ public class AstraBlocks {
 					height = 8f;
 					ammoMultiplier = 4;
 					reloadMultiplier = 0.9f;
+					homingPower = 0.4f;
 					status = StatusEffects.burning;
 					statusDuration = 4f * 60;
 					makeFire = true;
@@ -1233,20 +1248,20 @@ public class AstraBlocks {
 			drawer = new DrawTurret("astranium-") {{
 				parts.add(new RegionPart("-barrel") {{
 					progress = PartProgress.recoil;
-					moveY = -0.5f;
+					moveY = -1f;
 				}});
 			}};
 
-			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 7.5f; }};
+			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 2.5f; }};
 
 			scaledHealth = 150;
 			size = 2;
 			shootY = 4.5f;
-			reload = 30f;
-			rotateSpeed = 12f;
-			shootCone = 25f;
-			inaccuracy = 8f;
-			range = 200f;
+			reload = 40f;
+			rotateSpeed = 8f;
+			shootCone = 30f;
+			inaccuracy = 10f;
+			range = 224f;
 			consumeAmmoOnce = false;
 			coolant = consumeCoolant(0.2f);
 

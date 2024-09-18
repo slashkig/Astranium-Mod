@@ -3,7 +3,6 @@ package astramod.world.meta;
 import arc.util.*;
 import arc.struct.*;
 import arc.graphics.*;
-import arc.scene.ui.layout.*;
 import mindustry.ui.*;
 import mindustry.type.*;
 import mindustry.world.meta.*;

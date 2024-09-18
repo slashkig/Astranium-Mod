@@ -2,10 +2,8 @@ package astramod.world.blocks.production;
 
 import arc.Core;
 import arc.graphics.g2d.*;
-import arc.util.Log;
 import mindustry.graphics.*;
 import astramod.content.AstraFluids;
-import astramod.world.blocks.production.MultiCoolantDrill;
 
 // Draws liquid tanks for plasma drills
 public class PlasmaDrill extends MultiCoolantDrill {

@@ -10,7 +10,6 @@ import mindustry.world.meta.*;
 import mindustry.logic.Ranged;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.entities.Units;
-import mindustry.gen.Building;
 
 import static mindustry.Vars.*;
 
