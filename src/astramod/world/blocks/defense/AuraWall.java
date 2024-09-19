@@ -30,7 +30,7 @@ public class AuraWall extends Wall {
 	@Override public void setStats() {
 		super.setStats();
 
-		stats.add(Stat.range, auraRadius);
+		stats.add(Stat.range, auraRadius / tilesize, StatUnit.blocks);
 		stats.add(Stat.damage, auraDamage);
 	}
 

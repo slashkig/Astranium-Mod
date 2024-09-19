@@ -23,7 +23,7 @@ import astramod.world.modules.*;
 
 import static mindustry.Vars.*;
 
-// Direct wall drill, can be multiboosted
+// Physical wall drill, can be multiboosted
 public class WallDrill extends Block {
 	// for countOre
 	protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();

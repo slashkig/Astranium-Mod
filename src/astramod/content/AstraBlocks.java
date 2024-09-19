@@ -230,7 +230,7 @@ public class AstraBlocks {
 			craftTime = 120f;
 			outputItem = new ItemStack(Items.pyratite, 5);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
+			//drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -329,7 +329,7 @@ public class AstraBlocks {
 			craftTime = 96f;
 			outputItem = new ItemStack(Items.plastanium, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+			//drawer = new DrawMulti(new DrawDefault(), new DrawFade());
 			craftEffect = Fx.formsmoke;
 			updateEffect = Fx.plasticburn;
 		}};
@@ -355,7 +355,7 @@ public class AstraBlocks {
 			craftTime = 90f;
 			outputItem = new ItemStack(Items.plastanium, 6);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+			//drawer = new DrawMulti(new DrawDefault(), new DrawFade());
 			craftEffect = Fx.formsmoke;
 			updateEffect = Fx.plasticburn;
 		}};
@@ -717,6 +717,7 @@ public class AstraBlocks {
 			drillTime = 360;
 			tier = 3;
 			hardnessDrillMultiplier = 65f;
+			drillMultipliers.put(AstraItems.lithium, 0.6f);
 
 			rotateSpeed = 3f;
 			updateEffect = Fx.pulverizeMedium;
@@ -742,6 +743,7 @@ public class AstraBlocks {
 			drillTime = 240;
 			tier = 4;
 			hardnessDrillMultiplier = 55f;
+			drillMultipliers.put(AstraItems.lithium, 0.7f);
 
 			rotateSpeed = 4.5f;
 			drawRim = true;
@@ -772,7 +774,8 @@ public class AstraBlocks {
 			drillTime = 200;
 			tier = 5;
 			hardnessDrillMultiplier = 45f;
-			drillMultipliers.put(AstraItems.neodymium, 0.6f);
+			drillMultipliers.put(AstraItems.lithium, 0.8f);
+			drillMultipliers.put(AstraItems.neodymium, 0.75f);
 
 			rotateSpeed = 5.5f;
 			drawRim = true;
@@ -805,6 +808,7 @@ public class AstraBlocks {
 			drillTime = 180;
 			tier = 5;
 			hardnessDrillMultiplier = 35f;
+			drillMultipliers.put(AstraItems.lithium, 0.9f);
 
 			rotateSpeed = 6.5f;
 			drawRim = true;
@@ -822,11 +826,12 @@ public class AstraBlocks {
 			liquidCapacity = 7.5f;
 
 			liquidBoostIntensity = 1.8f;
-			consumePower(0.7f);
+			consumePower(0.4f);
 			consumeLiquidBoosts(0.07f, Liquids.water, 1.8f, AstraFluids.ferrofluid, 3f);
 			drillTime = 200f;
 			tier = 3;
-			hardnessDrillMultiplier = 60f;
+			hardnessDrillMultiplier = 40f;
+			drillMultipliers.put(AstraItems.lithium, 1.2f);
 
 			rotateSpeed = 3f;
 			ambientSound = Sounds.drill;
@@ -932,7 +937,7 @@ public class AstraBlocks {
 			health = 205 * 4;
 			armor = 6f;
 			auraDamage = 4f;
-			auraRadius = 15f;
+			auraRadius = 12f;
 		}};
 
 		platedThoriumWallLarge = new AuraWall("plated-thorium-wall-large", Color.purple) {{
@@ -940,8 +945,8 @@ public class AstraBlocks {
 			health = 205 * 16;
 			armor = 6f;
 			size = 2;
-			auraDamage = 8f;
-			auraRadius = 25f;
+			auraDamage = 16f;
+			auraRadius = 24f;
 		}};
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{
@@ -1062,7 +1067,7 @@ public class AstraBlocks {
 			health = 70;
 			fadeIn = moveArrows = false;
 			range = 4;
-			speed = 30f;
+			speed = 50f;
 			arrowSpacing = 6f;
 			bufferCapacity = 14;
 		}};

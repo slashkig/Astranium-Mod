@@ -1,8 +1,8 @@
 package astramod.content;
 
-import mindustry.type.Item;
-import arc.graphics.Color;
 import arc.util.Log;
+import arc.graphics.Color;
+import mindustry.type.*;
 
 public class AstraItems {
 	public static Item testium, hematite, iron, lithium, magnetite, steel, crystals, neodymium, aerogel, astranium;
@@ -11,7 +11,6 @@ public class AstraItems {
 		Log.info("Loading items");
 
 		testium = new Item("testium", Color.valueOf("ff00ff")) {{
-			hardness = 1;
 			description = "Test item for Mindustry";
 		}};
 		

@@ -65,6 +65,7 @@ public class ProjectorWall extends Wall {
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(Stat.shieldHealth, shieldHealth);
+		stats.add(Stat.range, shieldSize, StatUnit.blocks);
 		stats.add(Stat.cooldownTime, (int)(breakCooldown / 60f), StatUnit.seconds);
 	}
 
