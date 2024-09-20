@@ -247,6 +247,12 @@ public class WallDrill extends Block {
 		@Override public void updateTile() {
 			super.updateTile();
 
+			if (dominantItem == null) {
+				countOre(tile.x, tile.y, rotation);
+				if (dominantItem == null) { return; }
+				dominantItem = returnItem;
+				itemsCount = returnCount;
+			}
 			warmup = Mathf.approachDelta(warmup, Mathf.num(efficiency > 0), 1f / 60f);
 			float multiplier = Mathf.lerp(1f, liquidBoostIntensity, optionalEfficiency);
 			float drillTime = getDrillTime(dominantItem);

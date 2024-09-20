@@ -45,6 +45,7 @@ public class AstraItems {
 		}};
 
 		crystals = new Item("crystals", Color.valueOf("bf2851")) {{
+			hardness = 4;
 			description = "A strong crystal filled with energy.";
 			cost = 1.5f;
 			charge = 0.5f;
