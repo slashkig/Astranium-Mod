@@ -5,7 +5,7 @@ import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 import astramod.content.AstraFluids;
 
-// Draws liquid tanks for plasma drills
+/** Draws liquid tanks for plasma drills. */
 public class PlasmaDrill extends MultiCoolantDrill {
 	public TextureRegion liquidRegion;
 

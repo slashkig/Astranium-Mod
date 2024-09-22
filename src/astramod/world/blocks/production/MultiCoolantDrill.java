@@ -15,7 +15,7 @@ import mindustry.world.consumers.*;
 import mindustry.world.blocks.production.Drill;
 import astramod.world.modules.*;
 
-// Can be boosted by different amounts by different liquids.
+/** Can be boosted by different amounts of different liquids. */
 public class MultiCoolantDrill extends Drill {
 	public ObjectFloatMap<Liquid> boostMultMap = new ObjectFloatMap<>();
 
@@ -68,7 +68,7 @@ public class MultiCoolantDrill extends Drill {
 			float mult = ((float)liquidBoosts[i + 1] - 1) / (liquidBoostIntensity - 1);
 			boostMultMap.put((Liquid)liquidBoosts[i], mult);
 		}
-	
+
 		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> boostMultMap.containsKey(liquid), boostCost)).boost());
 	}
 

@@ -7,7 +7,7 @@ import mindustry.world.consumers.*;
 import mindustry.world.blocks.production.GenericCrafter;
 import astramod.world.meta.*;
 
-// Can intake different liquids that provide different efficiency multipliers.
+/** Can intake different liquids that provide different efficiency multipliers. */
 public class MultiLiquidCrafter extends GenericCrafter {
 	ObjectFloatMap<Liquid> liquidStrengthMap = new ObjectFloatMap<Liquid>();
 
@@ -43,7 +43,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 		for (int i = 0; i < liquidInputs.length; i += 2) {
 			liquidStrengthMap.put((Liquid)liquidInputs[i], (float)liquidInputs[i + 1]);
 		}
-	
+
 		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> liquidStrengthMap.containsKey(liquid), amount));
 	}
 

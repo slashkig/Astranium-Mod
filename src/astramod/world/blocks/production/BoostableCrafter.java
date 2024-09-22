@@ -6,7 +6,7 @@ import mindustry.world.consumers.ConsumeItems;
 import mindustry.world.blocks.production.GenericCrafter;
 import astramod.world.meta.*;
 
-// Can be boosted by items.
+/** Can be boosted by items. */
 public class BoostableCrafter extends GenericCrafter {
 	public float boostStrength = 0f;
 	public ItemStack itemBooster;

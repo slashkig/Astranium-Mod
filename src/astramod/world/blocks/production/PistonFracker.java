@@ -7,7 +7,7 @@ import mindustry.graphics.*;
 import mindustry.world.draw.*;
 import mindustry.world.blocks.production.Fracker;
 
-// Fracker with pistons instead of a rotator
+/** Fracker with pistons instead of a rotator. */
 public class PistonFracker extends Fracker {
 	public DrawPistons pistons = new DrawPistons();
 	public TextureRegion bottomRegion;

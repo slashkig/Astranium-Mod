@@ -7,9 +7,10 @@ import arc.math.*;
 import arc.math.geom.Vec2;
 import mindustry.gen.*;
 import mindustry.world.draw.*;
+import astramod.graphics.*;
 
 public class DrawPlasmaBall extends DrawBlock {
-	public Color color = Color.valueOf("c080ff");
+	public Color color = AstraPal.plasmaGlowPurple;
 	public float lifetime = 10f;
 
 	public int particles = 15;

@@ -23,7 +23,7 @@ import astramod.world.modules.*;
 
 import static mindustry.Vars.*;
 
-// Physical wall drill, can be multiboosted
+/** Physical wall drill, can be multiboosted. */
 public class WallDrill extends Block {
 	// for countOre
 	protected final ObjectIntMap<Item> oreCount = new ObjectIntMap<>();
@@ -37,7 +37,7 @@ public class WallDrill extends Block {
 	public int tier = 1;
 	public float hardnessDrillMultiplier = 50f;
 	public ObjectFloatMap<Item> drillMultipliers = new ObjectFloatMap<>();
-	
+
 	public float liquidBoostIntensity = 2.5f;
 	public ObjectFloatMap<Liquid> boostMultMap = new ObjectFloatMap<>();
 
@@ -46,8 +46,8 @@ public class WallDrill extends Block {
 	public float rotateSpeed = 2f;
 
 	public TextureRegion topRegion;
-    public TextureRegion rotatorRegion;
-    public TextureRegion rotatorBottomRegion;
+	public TextureRegion rotatorRegion;
+	public TextureRegion rotatorBottomRegion;
 
 	public WallDrill(String name) {
 		super(name);
@@ -72,6 +72,7 @@ public class WallDrill extends Block {
 	@Override public void setStats() {
 		super.setStats();
 
+		// TODO uncomment when version is updated
 		/* stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
 			(b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier) ||
 			(b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier))); */
@@ -104,7 +105,7 @@ public class WallDrill extends Block {
 					l -> l == booster.liquid
 				));
 			}
-		} else if (liquidBoostIntensity != 1 /*&& findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase*/) {
+		} else if (liquidBoostIntensity != 1 /*&& findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase*/) { // TODO uncomment when version is updated
 			stats.remove(Stat.booster);
 			stats.add(Stat.booster, StatValues.speedBoosters(
 				"{0}" + StatUnit.timesSpeed.localized(),
@@ -226,14 +227,14 @@ public class WallDrill extends Block {
 	}
 
 	public class WallDrillBuild extends Building {
-        public int itemsCount;
-        public Item dominantItem;
+		public int itemsCount;
+		public Item dominantItem;
 		public float timeDrilled, timeRotate;
 		public float lastDrillSpeed;
 		public float warmup;
 
 		protected float prevTime = 0f;
-		
+
 		@Override public Building create(Block block, Team team) {
 			Building build = super.create(block, team);
 			if (boostMultMap.size > 0) { liquids = new LiquidBoostModule(boostMultMap); }
@@ -279,7 +280,7 @@ public class WallDrill extends Block {
 			dominantItem = returnItem;
 			itemsCount = returnCount;
 		}
-		
+
 		@Override public void updateEfficiencyMultiplier() {
 			float scale = efficiencyScale();
 			efficiency *= scale;
@@ -296,6 +297,7 @@ public class WallDrill extends Block {
 			for (int i = 0; i < size; i++) {
 				int rx = 0, ry = 0;
 
+				// TODO uncomment when version is updated
 				/*
 				switch(rotation) {
 					case 0 -> {
@@ -335,7 +337,7 @@ public class WallDrill extends Block {
 				Draw.z(Layer.blockOver);
 				Draw.rect(rotatorBottomRegion, vx, vy, timeRotate * rotateSpeed * sign * bs);
 				Draw.rect(rotatorRegion, vx, vy);
-				
+
 				if (prevTime != Time.time) {
 					Tile other = world.tile(rx, ry);
 					Item drop = other == null ? null : other.wallDrop();

@@ -1,8 +1,9 @@
 package astramod.content;
 
-import mindustry.type.*;
-import mindustry.gen.*;
+/*import mindustry.type.*;
+import mindustry.gen.*;*/
 
+// TODO need to fix this
 public class AstraUnits {
     /*public static @EntityDef({Unitc.class}) UnitType manager;
 

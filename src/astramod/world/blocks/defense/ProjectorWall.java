@@ -21,11 +21,11 @@ import mindustry.logic.Ranged;
 
 import static mindustry.Vars.*;
 
-// Hybrid between force projector and shield wall.
+/** Hybrid between force projector and shield wall. */
 public class ProjectorWall extends Wall {
-    public float shieldHealth = 900f;
-    public float breakCooldown = 60f * 10f;
-    public float regenSpeed = 2f;
+	public float shieldHealth = 900f;
+	public float breakCooldown = 60f * 10f;
+	public float regenSpeed = 2f;
 
 	public float shieldSize;
 	public int sides = 8;
@@ -56,7 +56,7 @@ public class ProjectorWall extends Wall {
 		fullRadius = tilesize * (size / 2f + shieldSize);
 		hasPower = consumesPower = conductivePower = true;
 	}
-	
+
 	@Override public void init() {
 		updateClipRadius(fullRadius + 3f);
 		super.init();
@@ -73,8 +73,8 @@ public class ProjectorWall extends Wall {
 		super.setBars();
 		addBar("shield", (ProjectorWallBuild entity) -> new Bar("stat.shieldhealth", Pal.accent, () -> entity.broken() ? 0f : entity.shield / (shieldHealth)).blink(Color.white));
 	}
-	
-    @Override public void drawPlace(int x, int y, int rotation, boolean valid) {
+
+	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
 		super.drawPlace(x, y, rotation, valid);
 
 		Draw.color(Pal.gray);
@@ -84,7 +84,7 @@ public class ProjectorWall extends Wall {
 		Lines.stroke(1f);
 		Lines.poly(x * tilesize + offset, y * tilesize + offset, sides, fullRadius, shieldRotation);
 		Draw.color();
-    }
+	}
 
 	public class ProjectorWallBuild extends WallBuild implements Ranged {
 		public float shield = shieldHealth;
@@ -109,7 +109,7 @@ public class ProjectorWall extends Wall {
 		@Override public boolean inFogTo(Team viewer) {
 			return false;
 		}
-		
+
 		@Override public void updateTile() {
 			radscl = Mathf.lerpDelta(radscl, broken() ? 0f : warmup, 0.05f);
 			warmup = Mathf.lerpDelta(warmup, efficiency, 0.1f);
@@ -151,7 +151,7 @@ public class ProjectorWall extends Wall {
 		public float realRadius() {
 			return fullRadius * radscl;
 		}
-		
+
 		public boolean broken() {
 			return breakTimer > 0 || !canConsume();
 		}
@@ -159,7 +159,7 @@ public class ProjectorWall extends Wall {
 		@Override public boolean isInsulated() {
 			return absorbLightning;
 		}
-		
+
 		@Override public void draw() {
 			super.draw();
 

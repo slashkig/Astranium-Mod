@@ -21,7 +21,7 @@ public class DrawTopHeat extends DrawBlock {
 		if (build.warmup() > 0f) {
 			Draw.z(Layer.blockAfterCracks);
 
-            if(fluctuate) {
+			if(fluctuate) {
 				float s = 0.3f;
 				float ts = 0.6f;
 				Draw.alpha(build.warmup() * ts * (1f - s + Mathf.absin(Time.time, 3f, s)));

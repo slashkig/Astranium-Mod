@@ -1,8 +1,9 @@
 package astramod.content;
 
-import arc.util.Log;
+import arc.util.*;
 import arc.graphics.*;
 import arc.math.*;
+import arc.struct.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.*;
@@ -12,6 +13,7 @@ import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
@@ -19,24 +21,27 @@ import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.content.*;
+import astramod.graphics.*;
 import astramod.world.draw.*;
+import astramod.world.meta.*;
 import astramod.world.blocks.defense.*;
+import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.production.*;
 
 public class AstraBlocks {
 	public static Block oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreLithium,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
-		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, frackingDrill,
-		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge,
+		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
 		coreNode,
 		dart, viper,
-		omegafactory, uberwall, testblaster;
+		omegafactory, uberwall, superRouter, testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
 
-		// === ORES ===
+		// region ORES
 
 		oreTestium = new OreBlock(AstraItems.testium) {{ variants = 1; }};
 
@@ -50,7 +55,7 @@ public class AstraBlocks {
 
 		wallOreLithium = new OreBlock("ore-wall-lithium", AstraItems.lithium) {{ wallOre = true; }};
 
-		// === CRAFTERS ===
+		// region CRAFTERS
 
 		ironFurnace = new GenericCrafter("iron-furnace") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
@@ -62,7 +67,7 @@ public class AstraBlocks {
 			craftTime = 50f;
 			outputItem = new ItemStack(AstraItems.iron, 1);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.ironSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -85,7 +90,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.iron, 6);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
-				color = Color.valueOf("ffc099"); // 9d7561
+				color = AstraPal.ironSmoke;
 				particles = 20;
 				particleLife = 90f;
 				particleRad = 6f;
@@ -154,7 +159,7 @@ public class AstraBlocks {
 			craftTime = 200f / 3;
 			outputItem = new ItemStack(Items.silicon, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffef99")));
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.siliconSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -179,7 +184,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(Items.silicon, 5);
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
-				color = Color.valueOf("ffef99"); // 9d8c61
+				color = AstraPal.siliconSmoke;
 				particles = 20;
 				particleLife = 90f;
 				particleRad = 6f;
@@ -199,7 +204,7 @@ public class AstraBlocks {
 			craftTime = 80f;
 			outputItem = new ItemStack(Items.metaglass, 3);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(Color.valueOf("ffc099")));
+			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.glassSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -448,7 +453,7 @@ public class AstraBlocks {
 			craftTime = 75f;
 			outputItem = new ItemStack(Items.blastCompound, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
+			//drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -487,7 +492,7 @@ public class AstraBlocks {
 				AstraItems.steel, 160,
 				Items.metaglass, 125,
 				Items.plastanium, 110,
-				AstraItems.neodymium, 120,
+				AstraItems.magnetite, 140,
 				Items.thorium, 90,
 				AstraItems.crystals, 100
 			));
@@ -637,7 +642,7 @@ public class AstraBlocks {
 				AstraItems.crystals, 250,
 				Items.silicon, 220,
 				Items.metaglass, 260,
-				AstraItems.neodymium, 180
+				AstraItems.neodymium, 200
 			));
 			scaledHealth = 70;
 			armor = 5f;
@@ -701,7 +706,7 @@ public class AstraBlocks {
 			craftEffect = Fx.smeltsmoke;
 		}};
 
-		// === DRILLS ===
+		// region DRILLS
 
 		compactDrill = new Drill("compact-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.lead, 6));
@@ -788,7 +793,7 @@ public class AstraBlocks {
 
 			rotateSpeed = 5.5f;
 			drawRim = true;
-			heatColor = Color.valueOf("9292ff");
+			heatColor = AstraPal.plasmaGlowBlue;
 			updateEffect = AstraFx.pulverizePurple;
 			updateEffectChance = 0.03f;
 			drillEffect = Fx.mineHuge;
@@ -821,7 +826,7 @@ public class AstraBlocks {
 
 			rotateSpeed = 6.5f;
 			drawRim = true;
-			heatColor = Color.valueOf("9292ff");
+			heatColor = AstraPal.plasmaGlowBlue;
 			updateEffect = AstraFx.pulverizePurple;
 			updateEffectChance = 0.05f;
 			drillEffect = Fx.mineHuge;
@@ -859,7 +864,7 @@ public class AstraBlocks {
 			size = 3;
 			itemCapacity = 20;
 
-			optionalBoostIntensity = 2.8f;
+			optionalBoostIntensity = 2.65f;
 			consumePower(1.8f);
 			consumeLiquid(AstraFluids.plasma, 0.08f).boost();
 			drillTime = 120f;
@@ -870,6 +875,34 @@ public class AstraBlocks {
 			drillMultipliers.put(AstraItems.crystals, 0.6f);
 
 			boostHeatColor = AstraFluids.plasma.color;
+		}};
+
+		pulseBore = new BeamDrill("pulse-bore") {{
+			requirements(Category.production, ItemStack.with(
+				AstraItems.astranium, 75,
+				AstraItems.lithium, 80,
+				AstraItems.crystals, 70,
+				Items.silicon, 90,
+				AstraItems.neodymium, 60
+			));
+			scaledHealth = 60;
+			size = 4;
+			itemCapacity = 30;
+			liquidCapacity = 15f;
+
+			optionalBoostIntensity = 2.6f;
+			consumePower(5.6f);
+			consumeLiquid(AstraFluids.plasma, 0.12f);
+			consumeLiquid(Liquids.cryofluid, 0.22f).boost();
+			drillTime = 60f;
+			tier = 5;
+			range = 6;
+			drillMultipliers.put(AstraItems.lithium, 0.9f);
+			drillMultipliers.put(Items.thorium, 0.8f);
+			drillMultipliers.put(AstraItems.crystals, 0.8f);
+
+			heatColor = AstraFluids.plasma.color;
+			boostHeatColor = Liquids.cryofluid.color;
 		}};
 
 		frackingDrill = new PistonFracker("fracker-drill") {{
@@ -898,6 +931,8 @@ public class AstraBlocks {
 			updateEffectChance = 0.03f;
 		}};
 
+		// region WALLS
+
 		hematiteWall = new Wall("hematite-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
 			health = 90 * 4;
@@ -918,6 +953,13 @@ public class AstraBlocks {
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
 			health = 120 * 16;
+			armor = 2f;
+			size = 2;
+		}};
+
+		ironDoor = new AutoDoor("iron-door") {{
+			requirements(Category.defense, ItemStack.with(AstraItems.iron, 20, Items.silicon, 10));
+			health = 115 * 16;
 			armor = 2f;
 			size = 2;
 		}};
@@ -965,21 +1007,41 @@ public class AstraBlocks {
 			size = 2;
 		}};
 
-		platedThoriumWall = new AuraWall("plated-thorium-wall", Color.purple) {{
+		platedThoriumWall = new EffectWall("plated-thorium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.crystals, 2));
 			health = 205 * 4;
 			armor = 6f;
-			auraDamage = 4f;
-			auraRadius = 12f;
+			effectRange = 12f;
+			effectStrength = 4f;
+			effect = build -> {
+				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
+					unit.damage(effectStrength * Time.delta / 60f);
+				});
+			};
+
+			effectColor = Color.purple;
+			effectAlpha = 0.1f;
+			lightAlpha = 0.75f;
+			effectStat = Stat.damage;
 		}};
 
-		platedThoriumWallLarge = new AuraWall("plated-thorium-wall-large", Color.purple) {{
+		platedThoriumWallLarge = new EffectWall("plated-thorium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedThoriumWall.requirements, 4));
 			health = 205 * 16;
 			armor = 6f;
 			size = 2;
-			auraDamage = 16f;
-			auraRadius = 24f;
+			effectRange = 24f;
+			effectStrength = 16f;
+			effect = build -> {
+				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
+					unit.damage(effectStrength * Time.delta / 60f);
+				});
+			};
+
+			effectColor = Color.purple;
+			effectAlpha = 0.1f;
+			lightAlpha = 0.75f;
+			effectStat = Stat.damage;
 		}};
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{
@@ -1041,6 +1103,51 @@ public class AstraBlocks {
 			absorbLightning = absorbLasers = true;
 		}};
 
+		astraniumWall = new EffectWall("astranium-wall") {{
+			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.neodymium, 6));
+			health = 360 * 4;
+			armor = 25f;
+			effectRange = 16f;
+			effectStrength = 50f;
+			effect = build -> {
+				Seq<Bullet> bullets = Groups.bullet.intersect(build.x - effectRange, build.y - effectRange, effectRange * 2, effectRange * 2);
+				for (Bullet bullet : bullets) {
+					if (bullet.team != build.team && bullet.type.hittable) {
+						bullet.vel.setAngle(Angles.moveToward(bullet.rotation(), bullet.angleTo(build), effectStrength * Time.delta / 60f));
+					}
+				}
+			};
+
+			effectColor = AstraItems.astranium.color;
+			lightAlpha = 0.6f;
+			effectStat = AstraStat.magneticStrength;
+			effectUnit = StatUnit.percent;
+		}};
+
+		astraniumWallLarge = new EffectWall("astranium-wall-large") {{
+			requirements(Category.defense, ItemStack.mult(astraniumWall.requirements, 4));
+			health = 360 * 16;
+			armor = 25f;
+			size = 2;
+			effectRange = 32f;
+			effectStrength = 150f;
+			effect = build -> {
+				Seq<Bullet> bullets = Groups.bullet.intersect(build.x - effectRange, build.y - effectRange, effectRange * 2, effectRange * 2);
+				for (Bullet bullet : bullets) {
+					if (bullet.team != build.team && bullet.type.hittable) {
+						bullet.vel.setAngle(Angles.moveToward(bullet.rotation(), bullet.angleTo(build), effectStrength * Time.delta / 60f));
+					}
+				}
+			};
+
+			effectColor = AstraItems.astranium.color;
+			lightAlpha = 0.6f;
+			effectStat = AstraStat.magneticStrength;
+			effectUnit = StatUnit.percent;
+		}};
+
+		// region DISTRIBUTION
+
 		hematiteConveyor = new Conveyor("hematite-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 1));
 			health = 40;
@@ -1057,7 +1164,7 @@ public class AstraBlocks {
 		}};
 
 		durasteelConveyor = new Conveyor("durasteel-conveyor") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.titanium, 2));
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, AstraItems.magnetite, 1, Items.titanium, 1));
 			health = 180;
 			speed = 0.15f;
 			displayedSpeed = 21f;
@@ -1079,7 +1186,7 @@ public class AstraBlocks {
 			itemCapacity = 10;
 		}};
 
-		surgeBulkConveyor = new StackConveyor("surge-bulk-conveyor") {{
+		surgeBulkConveyor = new RailConveyor("surge-bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
 			health = 220;
 			speed = 0.08f;
@@ -1154,6 +1261,8 @@ public class AstraBlocks {
 			invert = true;
 		}};
 
+		// region CORES
+
 		coreNode = new CoreBlock("core-node") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 1000, Items.graphite, 500, Items.lead, 500));
 			health = 2000;
@@ -1166,10 +1275,12 @@ public class AstraBlocks {
 			unitCapModifier = 10;
 		}};
 
+		// region TURRETS
+
 		dart = new ItemTurret("dart") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			ammo(
-				AstraItems.hematite, new BasicBulletType(3f, 9) {{
+				AstraItems.hematite, new BasicBulletType(3f, 10) {{
 					lifetime = 60f;
 					width = 8f;
 					height = 10f;
@@ -1177,8 +1288,8 @@ public class AstraBlocks {
 					reloadMultiplier = 0.8f;
 					collidesAir = false;
 					fragBullets = 3;
-					fragRandomSpread = 90f;
-					fragBullet = new BasicBulletType(3f, 3) {{
+					fragRandomSpread = 120f;
+					fragBullet = new BasicBulletType(3f, 4) {{
 						lifetime = 20f;
 						width = 6f;
 						height = 8f;
@@ -1186,24 +1297,24 @@ public class AstraBlocks {
 						despawnEffect = Fx.none;
 						collidesAir = false;
 
-						frontColor = Color.valueOf("d89a7d");
-						backColor = Color.valueOf("bf7656");
+						frontColor = AstraPal.hemaFront;
+						backColor = AstraPal.hemaBack;
 					}};
 
-					frontColor = Color.valueOf("d89a7d");
-					backColor = Color.valueOf("bf7656");
+					frontColor = AstraPal.hemaFront;
+					backColor = AstraPal.hemaBack;
 				}},
-				Items.lead, new BasicBulletType(3f, 16) {{
+				Items.lead, new BasicBulletType(3f, 18) {{
 					lifetime = 60f;
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 3;
 					collidesAir = false;
 
-					frontColor = Color.valueOf("c0b9cd");
-					backColor = Color.valueOf("a096b5");
+					frontColor = AstraPal.leadFront;
+					backColor = AstraPal.leadBack;
 				}},
-				AstraItems.iron, new BasicBulletType(3f, 20) {{
+				AstraItems.iron, new BasicBulletType(3f, 22) {{
 					lifetime = 60f;
 					width = 9f;
 					height = 11f;
@@ -1211,10 +1322,10 @@ public class AstraBlocks {
 					pierceCap = 2;
 					collidesAir = false;
 
-					frontColor = Color.valueOf("a09597");
-					backColor = Color.valueOf("786f71");
+					frontColor = AstraPal.ironFront;
+					backColor = AstraPal.ironBack;
 				}},
-				Items.graphite, new BasicBulletType(4f, 26) {{
+				Items.graphite, new BasicBulletType(4f, 32) {{
 					lifetime = 60f;
 					width = 10f;
 					height = 12f;
@@ -1222,20 +1333,20 @@ public class AstraBlocks {
 					reloadMultiplier = 0.75f;
 					collidesAir = false;
 
-					frontColor = Color.valueOf("c3cce3");
-					backColor = Color.valueOf("a6b2ca");
+					frontColor = AstraPal.graphiteFront;
+					backColor = AstraPal.graphiteBack;
 				}},
-				Items.silicon, new BasicBulletType(3.5f, 22) {{
+				Items.silicon, new BasicBulletType(3.5f, 24) {{
 					lifetime = 60f;
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 5;
 					reloadMultiplier = 1.4f;
-					homingPower = 0.1f;
+					homingPower = 0.15f;
 					collidesAir = false;
 
-					frontColor = Color.valueOf("c2c0b9");
-					backColor = Color.valueOf("96948d");
+					frontColor = AstraPal.siliconFront;
+					backColor = AstraPal.siliconBack;
 				}}
 			);
 
@@ -1255,7 +1366,7 @@ public class AstraBlocks {
 			rotateSpeed = 8f;
 			shootCone = 12f;
 			inaccuracy = 3f;
-			range = 125f;
+			range = 140f;
 			coolant = consumeCoolant(0.15f);
 
 			ammoUseEffect = Fx.casing1;
@@ -1284,8 +1395,8 @@ public class AstraBlocks {
 					homingPower = 0.6f;
 					collidesGround = false;
 
-					frontColor = Color.valueOf("c2c0b9");
-					backColor = Color.valueOf("96948d");
+					frontColor = AstraPal.siliconFront;
+					backColor = AstraPal.siliconBack;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 30) {{
 					lifetime = 60f;
@@ -1312,8 +1423,8 @@ public class AstraBlocks {
 					makeFire = true;
 					collidesGround = false;
 
-					frontColor = Color.valueOf("f87d42");
-					backColor = Color.valueOf("f65021");
+					frontColor = AstraPal.lithiumFront;
+					backColor = AstraPal.lithiumBack;
 				}}
 			);
 
@@ -1343,7 +1454,9 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		/*omegafactory = new GenericCrafter("omegafactory") {{
+		// region EXTRAS
+
+		omegafactory = new GenericCrafter("omegafactory") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.testium, 1500));
 			health = 10000000;
 			armor = 100f;
@@ -1372,14 +1485,14 @@ public class AstraBlocks {
 			);
 
 			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawPlasmaBall() {{
-				color = Color.valueOf("ff22ff");
+				color = AstraPal.testPink;
 				lifetime = 20f;
 				particles = 20;
 				ballRad = 2.5f;
 			}}, new DrawDefault());
 		}};
 
-		uberwall = new AuraWall("uberwall", Color.valueOf("ff22ff")) {{
+		uberwall = new EffectWall("uberwall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.testium, 500));
 			health = 1000000000;
 			armor = 10000f;
@@ -1387,11 +1500,51 @@ public class AstraBlocks {
 			lightningChance = 1f;
 			lightningDamage = 100000f;
 			lightningLength = 100;
-			lightningColor = Color.valueOf("ff22ff");
+			lightningColor = AstraPal.testPink;
 			chanceDeflect = 100f;
-			auraDamage = 100000f;
-			auraRadius = 80f;
-		}};*/
+			effectRange = 80f;
+			effectStrength = 100000f;
+			effect = build -> {
+				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
+					build.heal(unit.health);
+					unit.damage(effectStrength * Time.delta / 60f);
+				});
+				Seq<Bullet> bullets = Groups.bullet.intersect(build.x - effectRange, build.y - effectRange, effectRange * 2, effectRange * 2);
+				for (Bullet bullet : bullets) {
+					if (bullet.team != build.team && bullet.type.hittable) {
+						bullet.vel.setAngle(Angles.moveToward(bullet.rotation(), bullet.angleTo(build), 100f * Time.delta));
+					}
+				}
+			};
+
+			effectColor = AstraPal.testPink;
+			effectAlpha = 0.1f;
+			lightAlpha = 0.2f;
+			effectStat = Stat.damage;
+		}};
+		
+		superRouter = new SuperRouter("super-router") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.testium, 200));
+			health = 1;
+			speed = 1000f;
+			routateSpeed = 4f;
+			range = 160f;
+			bullet = new LaserBoltBulletType(8f, 10000f) {{
+				lifetime = 60f;
+				backColor = AstraPal.testPink;
+				frontColor = Color.white;
+				smokeEffect = AstraFx.superLaser;
+				hitEffect = AstraFx.superLaser;
+				despawnEffect = AstraFx.superLaser;
+			}};
+			circles = new DrawCircles() {{
+				color = AstraPal.testPink.cpy().a(0.3f);
+				strokeMax = 2.5f;
+				radius = 6f;
+				amount = 1;
+				timeScl = 100f;
+			}};
+		}};
 
 		testblaster = new ItemTurret("testblaster") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.testium, 1000));
@@ -1402,8 +1555,8 @@ public class AstraBlocks {
 					height = 25f;
 					pierceCap = 100;
 					ammoMultiplier = 10;
-					frontColor = Color.valueOf("ee00ee");
-					backColor = Color.valueOf("ff22ff");
+					frontColor = AstraPal.testPinkDark;
+					backColor = AstraPal.testPink;
 				}}
 			);
 
