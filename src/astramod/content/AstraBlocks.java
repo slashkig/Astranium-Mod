@@ -26,20 +26,33 @@ import astramod.world.draw.*;
 import astramod.world.meta.*;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.distribution.*;
+import astramod.world.blocks.environment.*;
 import astramod.world.blocks.production.*;
 
 public class AstraBlocks {
-	public static Block oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreLithium,
+	public static Block
+		hardstone, hardstoneWall,
+		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
-		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
+		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
+		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		coreNode,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
 	public static void load() {
 		Log.info("Loading blocks");
+
+		// region ENVIRONMENT
+
+		hardstone = new Floor("hardstone") {{ variants = 4; }};
+
+		hardstoneWall = new AstraStaticWall("hardstone-wall") {{
+			variants = 3; largeVariants = 2;
+			hardstone.asFloor().wall = this;
+		}};
 
 		// region ORES
 
@@ -49,11 +62,18 @@ public class AstraBlocks {
 
 		oreLithium = new OreBlock(AstraItems.lithium);
 
-		oreErythronite = new OreBlock(AstraItems.crystals) {{ variants = 1; }};
-
 		oreNeodymium = new OreBlock(AstraItems.neodymium);
 
+		wallOreCopper = new OreBlock("ore-wall-copper", Items.copper) {{ wallOre = true; variants = 4; }};
+
+		wallOreLead = new OreBlock("ore-wall-lead", Items.lead) {{ wallOre = true; variants = 4; }};
+
 		wallOreLithium = new OreBlock("ore-wall-lithium", AstraItems.lithium) {{ wallOre = true; }};
+
+		erythronicHardstoneWall = new AstraStaticWall("erythronite-hardstone-wall") {{
+			itemDrop = AstraItems.crystals;
+			variants = 3; largeVariants = 2;
+		}};
 
 		// region CRAFTERS
 
@@ -1107,7 +1127,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.neodymium, 6));
 			health = 360 * 4;
 			armor = 25f;
-			effectRange = 16f;
+			effectRange = 24f;
 			effectStrength = 50f;
 			effect = build -> {
 				Seq<Bullet> bullets = Groups.bullet.intersect(build.x - effectRange, build.y - effectRange, effectRange * 2, effectRange * 2);
@@ -1129,7 +1149,7 @@ public class AstraBlocks {
 			health = 360 * 16;
 			armor = 25f;
 			size = 2;
-			effectRange = 32f;
+			effectRange = 40f;
 			effectStrength = 150f;
 			effect = build -> {
 				Seq<Bullet> bullets = Groups.bullet.intersect(build.x - effectRange, build.y - effectRange, effectRange * 2, effectRange * 2);
@@ -1181,14 +1201,14 @@ public class AstraBlocks {
 
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.metaglass, 1, Items.silicon, 1));
-			health = 100;
+			health = 140;
 			speed = 0.07f;
 			itemCapacity = 10;
 		}};
 
 		surgeBulkConveyor = new RailConveyor("surge-bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
-			health = 220;
+			health = 340;
 			speed = 0.08f;
 			itemCapacity = 20;
 			buildCostMultiplier = 1.5f;
@@ -1197,8 +1217,8 @@ public class AstraBlocks {
 		ironJunction = new Junction("iron-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
-			buildCostMultiplier = 5f;
-			speed = 15;
+			buildCostMultiplier = 3f;
+			speed = 12;
 			capacity = 4;
 		}};
 
@@ -1207,58 +1227,146 @@ public class AstraBlocks {
 			health = 70;
 			fadeIn = moveArrows = false;
 			range = 4;
-			speed = 50f;
-			arrowSpacing = 6f;
+			speed = 40f;
 			bufferCapacity = 14;
+
+			arrowSpacing = 6f;
+			bridgeWidth = 8f;
 		}};
 
 		((Conveyor)hematiteConveyor).junctionReplacement = ironJunction;
 		((Conveyor)ironConveyor).junctionReplacement = ironJunction;
 		((Conveyor)hematiteConveyor).bridgeReplacement = ironBridge;
 		((Conveyor)ironConveyor).bridgeReplacement = ironBridge;
-		((Conveyor)durasteelConveyor).junctionReplacement = ironJunction;
-		((Conveyor)platedSteelConveyor).junctionReplacement = ironJunction;
-		((Conveyor)durasteelConveyor).bridgeReplacement = ironBridge;
-		((Conveyor)platedSteelConveyor).bridgeReplacement = ironBridge;
 
 		ironRouter = new Router("iron-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
 			health = 100;
-			buildCostMultiplier = 2f;
+			buildCostMultiplier = 3f;
 		}};
 
 		ironDistributor = new Router("iron-distributor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 10));
 			health = 300;
 			size = 2;
-			buildCostMultiplier = 3f;
+			buildCostMultiplier = 2f;
 			itemCapacity = 4;
 		}};
 
-		ironOverflowGate = new OverflowGate("iron-overflow-gate"){{
+		ironOverflowGate = new OverflowGate("iron-overflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
 			buildCostMultiplier = 2f;
 		}};
 
-		ironUnderflowGate = new OverflowGate("iron-underflow-gate"){{
+		ironUnderflowGate = new OverflowGate("iron-underflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
 			buildCostMultiplier = 2f;
 			invert = true;
 		}};
 
-		ironSorter = new Sorter("iron-sorter"){{
+		ironSorter = new Sorter("iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
 			health = 70;
 			buildCostMultiplier = 3f;
 		}};
 
-		invertedIronSorter = new Sorter("inverted-iron-sorter"){{
+		invertedIronSorter = new Sorter("inverted-iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
 			health = 70;
 			buildCostMultiplier = 3f;
 			invert = true;
+		}};
+
+		platedJunction = new Junction("plated-junction") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.graphite, 4));
+			health = 320;
+			buildCostMultiplier = 1.5f;
+			speed = 20;
+			capacity = 8;
+		}};
+
+		platedBridge = new BufferedItemBridge("plated-bridge") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 6, Items.thorium, 4, Items.plastanium, 4));
+			health = 320;
+			fadeIn = moveArrows = false;
+			range = 7;
+			speed = 60f;
+			itemCapacity = 15;
+			bufferCapacity = 21;
+
+			arrowSpacing = 6f;
+			bridgeWidth = 8f;
+		}};
+
+		((Conveyor)durasteelConveyor).junctionReplacement = platedJunction;
+		((Conveyor)platedSteelConveyor).junctionReplacement = platedJunction;
+		((Conveyor)durasteelConveyor).bridgeReplacement = platedBridge;
+		((Conveyor)platedSteelConveyor).bridgeReplacement = platedBridge;
+
+		platedRouter = new Router("plated-router") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 3, Items.thorium, 2, AstraItems.magnetite, 2));
+			health = 350;
+			buildCostMultiplier = 1.8f;
+			itemCapacity = 2;
+		}};
+
+		platedDistributor = new Router("plated-distributor") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 10, Items.thorium, 8, AstraItems.magnetite, 6));
+			health = 900;
+			size = 2;
+			itemCapacity = 8;
+		}};
+
+		platedOverflowGate = new OverflowGate("plated-overflow-gate") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
+			health = 320;
+			buildCostMultiplier = 2.2f;
+		}};
+
+		platedUnderflowGate = new OverflowGate("plated-underflow-gate") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
+			health = 320;
+			buildCostMultiplier = 2.2f;
+			invert = true;
+		}};
+
+		platedSorter = new Sorter("plated-sorter") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
+			health = 320;
+			buildCostMultiplier = 2f;
+		}};
+
+		invertedPlatedSorter = new Sorter("inverted-plated-sorter") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
+			health = 320;
+			buildCostMultiplier = 2f;
+			invert = true;
+		}};
+
+		surgeBulkJunction = new Junction("surge-bulk-junction") {{
+			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 3, Items.phaseFabric, 2));
+			health = 360;
+			buildCostMultiplier = 3f;
+			speed = 40;
+			capacity = 20;
+		}};
+
+		surgeBulkRouter = new StackRouter("surge-bulk-router") {{
+			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 10, AstraItems.neodymium, 8, Items.silicon, 16));
+			health = 680;
+			itemCapacity = 20;
+			speed = 12.5f;
+			buildCostMultiplier = 2f;
+
+			hasPower = true;
+			consumesPower = true;
+			conductivePower = true;
+			baseEfficiency = 0f;
+			underBullets = true;
+			solid = false;
+			consumePower(1f / 3f);
 		}};
 
 		// region CORES
