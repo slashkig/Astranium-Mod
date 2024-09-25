@@ -21,9 +21,10 @@ public class AstraStaticWall extends StaticWall {
 	@Override public void drawBase(Tile tile) {
 		int rx = tile.x / 2 * 2;
 		int ry = tile.y / 2 * 2;
+		int seed = Point2.pack(rx, ry);
 
-		if (largeVariants > 0 && eqcpy(rx, ry) && Mathf.randomSeed(Point2.pack(rx, ry)) < 0.5) {
-			Draw.rect(splitRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, splitRegions.length - 1))][tile.x % 2][1 - tile.y % 2],
+		if (largeVariants > 0 && eqcpy(rx, ry) && Mathf.randomSeed(seed) < 0.5) {
+			Draw.rect(splitRegions[Mathf.randomSeed(seed, 0, Math.max(0, splitRegions.length - 1))][tile.x % 2][1 - tile.y % 2],
 				tile.worldx(), tile.worldy());
 		} else if (variants > 0) {
 			Draw.rect(variantRegions[Mathf.randomSeed(tile.pos(), 0, Math.max(0, variantRegions.length - 1))],

@@ -1194,6 +1194,7 @@ public class AstraBlocks {
 		platedSteelConveyor = new ArmoredConveyor("plated-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.thorium, 1, Items.graphite, 2));
 			health = 300;
+			armor = 2f;
 			speed = 0.15f;
 			displayedSpeed = 21f;
 			buildCostMultiplier = 1.5f;
@@ -1202,6 +1203,7 @@ public class AstraBlocks {
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.metaglass, 1, Items.silicon, 1));
 			health = 140;
+			armor = 1f;
 			speed = 0.07f;
 			itemCapacity = 10;
 		}};
@@ -1209,6 +1211,7 @@ public class AstraBlocks {
 		surgeBulkConveyor = new RailConveyor("surge-bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
 			health = 340;
+			armor = 3f;
 			speed = 0.08f;
 			itemCapacity = 20;
 			buildCostMultiplier = 1.5f;
@@ -1218,7 +1221,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
 			buildCostMultiplier = 3f;
-			speed = 12;
+			speed = 12f;
 			capacity = 4;
 		}};
 
@@ -1282,19 +1285,22 @@ public class AstraBlocks {
 		platedJunction = new Junction("plated-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.graphite, 4));
 			health = 320;
+			armor = 2f;
 			buildCostMultiplier = 1.5f;
-			speed = 20;
+			speed = 8f;
 			capacity = 8;
 		}};
 
-		platedBridge = new BufferedItemBridge("plated-bridge") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 6, Items.thorium, 4, Items.plastanium, 4));
-			health = 320;
+		platedBridge = new AstraBufferedItemBridge("plated-bridge") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 8, Items.thorium, 6, Items.plastanium, 4));
+			health = 335;
+			armor = 2f;
 			fadeIn = moveArrows = false;
 			range = 7;
-			speed = 60f;
-			itemCapacity = 15;
-			bufferCapacity = 21;
+			speed = 25f;
+			bufferSpeed = 2f;
+			itemCapacity = 20;
+			bufferCapacity = 22;
 
 			arrowSpacing = 6f;
 			bridgeWidth = 8f;
@@ -1308,6 +1314,7 @@ public class AstraBlocks {
 		platedRouter = new Router("plated-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 3, Items.thorium, 2, AstraItems.magnetite, 2));
 			health = 350;
+			armor = 3f;
 			buildCostMultiplier = 1.8f;
 			itemCapacity = 2;
 		}};
@@ -1315,6 +1322,7 @@ public class AstraBlocks {
 		platedDistributor = new Router("plated-distributor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 10, Items.thorium, 8, AstraItems.magnetite, 6));
 			health = 900;
+			armor = 4f;
 			size = 2;
 			itemCapacity = 8;
 		}};
@@ -1322,12 +1330,14 @@ public class AstraBlocks {
 		platedOverflowGate = new OverflowGate("plated-overflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
 			health = 320;
+			armor = 2f;
 			buildCostMultiplier = 2.2f;
 		}};
 
 		platedUnderflowGate = new OverflowGate("plated-underflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
 			health = 320;
+			armor = 2f;
 			buildCostMultiplier = 2.2f;
 			invert = true;
 		}};
@@ -1335,12 +1345,14 @@ public class AstraBlocks {
 		platedSorter = new Sorter("plated-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
 			health = 320;
+			armor = 2f;
 			buildCostMultiplier = 2f;
 		}};
 
 		invertedPlatedSorter = new Sorter("inverted-plated-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
 			health = 320;
+			armor = 2f;
 			buildCostMultiplier = 2f;
 			invert = true;
 		}};
@@ -1348,14 +1360,16 @@ public class AstraBlocks {
 		surgeBulkJunction = new Junction("surge-bulk-junction") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 3, Items.phaseFabric, 2));
 			health = 360;
+			armor = 3f;
 			buildCostMultiplier = 3f;
-			speed = 40;
+			speed = 0f;
 			capacity = 20;
 		}};
 
 		surgeBulkRouter = new StackRouter("surge-bulk-router") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 10, AstraItems.neodymium, 8, Items.silicon, 16));
 			health = 680;
+			armor = 4f;
 			itemCapacity = 20;
 			speed = 12.5f;
 			buildCostMultiplier = 2f;
@@ -1564,7 +1578,7 @@ public class AstraBlocks {
 
 		// region EXTRAS
 
-		omegafactory = new GenericCrafter("omegafactory") {{
+		/*omegafactory = new GenericCrafter("omegafactory") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.testium, 1500));
 			health = 10000000;
 			armor = 100f;
@@ -1630,7 +1644,7 @@ public class AstraBlocks {
 			lightAlpha = 0.2f;
 			effectStat = Stat.damage;
 		}};
-		
+
 		superRouter = new SuperRouter("super-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.testium, 200));
 			health = 1;
@@ -1652,7 +1666,7 @@ public class AstraBlocks {
 				amount = 1;
 				timeScl = 100f;
 			}};
-		}};
+		}};*/
 
 		testblaster = new ItemTurret("testblaster") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.testium, 1000));
