@@ -1,0 +1,11 @@
+{
+"name": "astramod",
+"displayName": "Aziris Project",
+"author": "Slashkig, IAmRustee, VoidThreader",
+"description": "WIP - Adds a new planet, Aziris",
+"version": "0.3.0",
+"main": "astramod.AstraniumMod",
+"minGameVersion": "146",
+"hidden": false,
+"java": true
+}
