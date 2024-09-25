@@ -6,6 +6,8 @@ import arc.math.*;
 import arc.struct.*;
 import mindustry.world.Block;
 import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.liquid.*;
+import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.defense.*;
@@ -27,6 +29,7 @@ import astramod.world.meta.*;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
+import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 
 public class AstraBlocks {
@@ -34,10 +37,12 @@ public class AstraBlocks {
 		hardstone, hardstoneWall,
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
+		windmill,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
+		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter,
 		coreNode,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -726,6 +731,17 @@ public class AstraBlocks {
 			craftEffect = Fx.smeltsmoke;
 		}};
 
+		// region POWER
+
+		windmill = new WindGenerator("wind-turbine") {{
+			requirements(Category.power, ItemStack.with(AstraItems.testium, 1));
+			size = 3;
+
+			powerProduction = 0.3f;
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
+		}};
+
 		// region DRILLS
 
 		compactDrill = new Drill("compact-drill") {{
@@ -1166,7 +1182,7 @@ public class AstraBlocks {
 			effectUnit = StatUnit.percent;
 		}};
 
-		// region DISTRIBUTION
+		// region TRANSPORT
 
 		hematiteConveyor = new Conveyor("hematite-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 1));
@@ -1217,12 +1233,17 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.5f;
 		}};
 
+		// region DISTRIBUTION
+
 		ironJunction = new Junction("iron-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
 			buildCostMultiplier = 3f;
 			speed = 12f;
 			capacity = 4;
+
+			((Conveyor)hematiteConveyor).junctionReplacement = this;
+			((Conveyor)ironConveyor).junctionReplacement = this;	
 		}};
 
 		ironBridge = new BufferedItemBridge("iron-bridge") {{
@@ -1235,12 +1256,9 @@ public class AstraBlocks {
 
 			arrowSpacing = 6f;
 			bridgeWidth = 8f;
+			((Conveyor)hematiteConveyor).bridgeReplacement = this;
+			((Conveyor)ironConveyor).bridgeReplacement = this;
 		}};
-
-		((Conveyor)hematiteConveyor).junctionReplacement = ironJunction;
-		((Conveyor)ironConveyor).junctionReplacement = ironJunction;
-		((Conveyor)hematiteConveyor).bridgeReplacement = ironBridge;
-		((Conveyor)ironConveyor).bridgeReplacement = ironBridge;
 
 		ironRouter = new Router("iron-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
@@ -1289,6 +1307,9 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.5f;
 			speed = 8f;
 			capacity = 8;
+
+			((Conveyor)durasteelConveyor).junctionReplacement = this;
+			((Conveyor)platedSteelConveyor).junctionReplacement = this;
 		}};
 
 		platedBridge = new AstraBufferedItemBridge("plated-bridge") {{
@@ -1304,12 +1325,10 @@ public class AstraBlocks {
 
 			arrowSpacing = 6f;
 			bridgeWidth = 8f;
-		}};
 
-		((Conveyor)durasteelConveyor).junctionReplacement = platedJunction;
-		((Conveyor)platedSteelConveyor).junctionReplacement = platedJunction;
-		((Conveyor)durasteelConveyor).bridgeReplacement = platedBridge;
-		((Conveyor)platedSteelConveyor).bridgeReplacement = platedBridge;
+			((Conveyor)durasteelConveyor).bridgeReplacement = this;
+			((Conveyor)platedSteelConveyor).bridgeReplacement = this;
+		}};
 
 		platedRouter = new Router("plated-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 3, Items.thorium, 2, AstraItems.magnetite, 2));
@@ -1381,6 +1400,112 @@ public class AstraBlocks {
 			underBullets = true;
 			solid = false;
 			consumePower(1f / 3f);
+		}};
+
+		// region FLUIDS
+
+		crudePipeline = new Conduit("ripple-pipeline") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 1, Items.lead, 1));
+			health = 50;
+		}};
+
+		wavePipeline = new Conduit("wave-pipeline") {{
+			requirements(Category.liquid, ItemStack.with(Items.metaglass, 1, Items.copper, 2, Items.graphite, 1));
+			health = 120;
+			liquidCapacity = 14f;
+			liquidPressure = 1.02f;
+		}};
+
+		jetPipeline = new Conduit("jet-pipeline") {{
+			requirements(Category.liquid, ItemStack.with(Items.metaglass, 2, Items.titanium, 1, AstraItems.magnetite, 1));
+			health = 200;
+			liquidCapacity = 18f;
+			liquidPressure = 1.05f;
+		}};
+
+		crystalPipeline = new ArmoredConduit("crystal-pipeline") {{
+			requirements(Category.liquid, ItemStack.with(AstraItems.crystals, 2, Items.thorium, 1, Items.plastanium, 1));
+			health = 310;
+			armor = 2;
+			liquidCapacity = 24f;
+			liquidPressure = 1.1f;
+		}};
+
+		waveJunction = new LiquidJunction("wave-junction") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 6, Items.metaglass, 4, Items.graphite, 2));
+			health = 140;
+			liquidCapacity = 14f;
+			liquidPressure = 1.02f;
+
+			((Conduit)crudePipeline).junctionReplacement = this;
+			((Conduit)wavePipeline).junctionReplacement = this;
+			((Conduit)jetPipeline).junctionReplacement = this;
+		}};
+
+		waveBridge = new LiquidBridge("wave-bridge") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 10, Items.metaglass, 6, Items.graphite, 4));
+			health = 140;
+			liquidCapacity = 16f;
+			liquidPressure = 1.02f;
+			range = 4;
+			hasPower = false;
+
+			fadeIn = moveArrows = false;
+			arrowSpacing = 6f;
+
+			((Conduit)crudePipeline).bridgeReplacement = this;
+			((Conduit)wavePipeline).bridgeReplacement = this;
+			((Conduit)jetPipeline).bridgeReplacement = this;
+		}};
+
+		waveRouter = new LiquidRouter("wave-router") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 4, Items.metaglass, 4, Items.graphite, 4));
+			health = 140;
+			liquidCapacity = 16f;
+			liquidPressure = 1.02f;
+		}};
+
+		crystalJunction = new LiquidJunction("crystal-junction") {{
+			requirements(Category.liquid, ItemStack.with(AstraItems.crystals, 6, Items.thorium, 2, Items.plastanium, 4));
+			health = 340;
+			armor = 2;
+			liquidCapacity = 24f;
+			liquidPressure = 1.1f;
+
+			((Conduit)crystalPipeline).junctionReplacement = this;
+		}};
+
+		crystalBridge = new LiquidBridge("crystal-bridge") {{
+			requirements(Category.liquid, ItemStack.with(
+				AstraItems.crystals, 10,
+				Items.thorium, 6,
+				Items.plastanium, 8,
+				AstraItems.magnetite, 4
+			));
+			health = 350;
+			armor = 3;
+			liquidCapacity = 26f;
+			liquidPressure = 1.1f;
+			range = 7;
+			hasPower = false;
+
+			fadeIn = moveArrows = false;
+			arrowSpacing = 6f;
+
+			((Conduit)crystalPipeline).bridgeReplacement = this;
+		}};
+
+		crystalRouter = new LiquidRouter("crystal-router") {{
+			requirements(Category.liquid, ItemStack.with(
+				AstraItems.crystals, 4,
+				Items.thorium, 2,
+				Items.plastanium, 4,
+				AstraItems.magnetite, 2
+			));
+			health = 350;
+			armor = 3;
+			liquidCapacity = 26f;
+			liquidPressure = 1.1f;
 		}};
 
 		// region CORES
@@ -1578,8 +1703,8 @@ public class AstraBlocks {
 
 		// region EXTRAS
 
-		/*omegafactory = new GenericCrafter("omegafactory") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.testium, 1500));
+		omegafactory = new GenericCrafter("omegafactory") {{
+			requirements(Category.crafting, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1500));
 			health = 10000000;
 			armor = 100f;
 			size = 3;
@@ -1615,7 +1740,7 @@ public class AstraBlocks {
 		}};
 
 		uberwall = new EffectWall("uberwall") {{
-			requirements(Category.defense, ItemStack.with(AstraItems.testium, 500));
+			requirements(Category.defense, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 500));
 			health = 1000000000;
 			armor = 10000f;
 			size = 2;
@@ -1646,7 +1771,7 @@ public class AstraBlocks {
 		}};
 
 		superRouter = new SuperRouter("super-router") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.testium, 200));
+			requirements(Category.distribution, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 200));
 			health = 1;
 			speed = 1000f;
 			routateSpeed = 4f;
@@ -1666,10 +1791,10 @@ public class AstraBlocks {
 				amount = 1;
 				timeScl = 100f;
 			}};
-		}};*/
+		}};
 
 		testblaster = new ItemTurret("testblaster") {{
-			requirements(Category.turret, ItemStack.with(AstraItems.testium, 1000));
+			requirements(Category.turret, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1000));
 			ammo(
 				AstraItems.testium, new BasicBulletType(10f, 10000000) {{
 					lifetime = 100f;
