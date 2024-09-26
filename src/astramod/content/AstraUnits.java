@@ -18,12 +18,12 @@ public class AstraUnits {
             mineTier = 1;
             buildSpeed = 0.5f;
             drag = 0.05f;
-            speed = 3f;
+            speed = 3.4f;
             rotateSpeed = 15f;
             accel = 0.1f;
             fogRadius = 0f;
             itemCapacity = 30;
-            health = 150f;
+            health = 180f;
             engineOffset = 6f;
             hitSize = 8f;
             alwaysUnlocked = true;
@@ -35,7 +35,7 @@ public class AstraUnits {
                 top = false;
                 ejectEffect = Fx.casing1;
 
-                bullet = new BasicBulletType(2.5f, 11){{
+                bullet = new BasicBulletType(2.5f, 15){{
                     width = 7f;
                     height = 9f;
                     lifetime = 60f;
