@@ -3,6 +3,7 @@
 !src/**/build/
 /bin/
 /.vscode/
+revisions/
 
 # Ignore Gradle GUI config
 gradle-app.setting

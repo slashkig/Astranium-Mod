@@ -1,76 +1,132 @@
 package astramod.content;
 
+import arc.struct.*;
+import arc.util.Log;
 import mindustry.content.*;
+import mindustry.game.Objectives.*;
 
 import static mindustry.content.TechTree.*;
 import static astramod.content.AstraBlocks.*;
 
 public class AzirisTechTree {
 	public static void load() {
+		Log.info("Loading tech trees");
+
 		AstraPlanets.aziris.techTree = nodeRoot("aziris", coreNode, () -> {
+			node(coreHub, Seq.with(new Research(ironWallLarge)), () -> {
+
+			});
+
 			node(hematiteConveyor, () -> {
 				node(ironConveyor, () -> {
-					node(durasteelConveyor, () -> {
-						node(platedSteelConveyor);
+					node(ironJunction, () -> {
+						node(ironBridge);
 					});
 					node(ironRouter, () -> {
-						node(ironJunction, () -> {
-							node(ironBridge);
-						});
+						node(ironDistributor);
 						node(ironOverflowGate, () -> {
-							node(ironSorter);
+							node(ironUnderflowGate);
 						});
-						node(ironUnderflowGate, () -> {
+						node(ironSorter, () -> {
 							node(invertedIronSorter);
 						});
-						node(ironDistributor);
+					});
+					node(durasteelConveyor, () -> {
+						node(platedSteelConveyor, () -> {
+							node(platedJunction, Seq.with(new Research(ironJunction)), () -> {
+								node(platedBridge, Seq.with(new Research(ironBridge)), () -> { });
+							});
+							node(platedRouter, Seq.with(new Research(ironRouter)), () -> {
+								node(platedDistributor, Seq.with(new Research(ironDistributor)), () -> { });
+								node(platedOverflowGate, Seq.with(new Research(ironOverflowGate)), () -> {
+									node(platedUnderflowGate, Seq.with(new Research(ironUnderflowGate)), () -> { });
+								});
+								node(platedSorter, Seq.with(new Research(ironSorter)), () -> {
+									node(invertedPlatedSorter, Seq.with(new Research(invertedIronSorter)), () -> { });
+								});
+							});
+						});
 					});
 					node(bulkConveyor, () -> {
-						node(surgeBulkConveyor);
+						node(surgeBulkConveyor, () -> {
+							node(surgeBulkJunction, Seq.with(new Research(platedJunction)), () -> { });
+							node(surgeBulkRouter, Seq.with(new Research(platedRouter)), () -> { });
+						});
 					});
 				});
 			});
 
 			node(compactDrill, () -> {
-				node(ironDrill, () -> {
+				node(ironDrill, Seq.with(new Research(windTurbine)), () -> {
 					node(augerDrill, () -> {
-						node(plasmaDrill, () -> {
+						node(plasmaDrill, Seq.with(new Research(AstraFluids.plasma)), () -> {
 							node(excavationDrill);
 						});
 						node(frackingDrill);
 					});
 				});
 				node(compactBore, () -> {
-
+					node(laserBore, () -> {
+						node(pulseBore, Seq.with(new Research(plasmaDrill)), () -> { });
+					});
 				});
 			});
 
-			node(ironFurnace, () -> {
+			node(compactPump, Seq.with(new Research(compactDrill)), () -> {
+				node(turbinePump, Seq.with(new Research(wavePipeline)), () -> {
+
+				});
+				node(crudePipeline, () -> {
+					node(wavePipeline, () -> {
+						node(jetPipeline, () -> {
+							node(crystalPipeline, () -> {
+								node(crystalJunction, Seq.with(new Research(waveJunction)), () -> {
+									node(crystalBridge, Seq.with(new Research(waveBridge)), () -> { });
+								});
+								node(crystalRouter, Seq.with(new Research(waveRouter)), () -> { });
+							});
+						});
+						node(waveJunction, () -> {
+							node(waveBridge);
+						});
+						node(waveRouter);
+					});
+				});
+				node(ironTank, Seq.with(new Research(wavePipeline)), () -> {
+					node(steelTank, Seq.with(new Research(jetPipeline)), () -> { });
+				});
+			});
+
+			node(windTurbine, () -> {
+				node(windTurbineLarge);
+			});
+
+			node(ironFurnace, Seq.with(new Research(compactDrill)), () -> {
 				node(castIronPress, () -> {
 					node(AstraBlocks.plastaniumCompressor, () -> {
 						node(AstraBlocks.phaseWeaver, () -> {
-							node(phaseLoom);
+							node(phaseLoom, Seq.with(new Research(magnetiteSynthesizer)), () -> { });
 						});
-						node(plastaniumFabricator, () -> {
-							node(vacuumChamber);
+						node(plastaniumFabricator, Seq.with(new Research(hydraulicPress)), () -> {
+							node(vacuumChamber, Seq.with(new Research(plasmaEnergizer), new Research(cryofluidProcessor)), () -> { });
 						});
 					});
-					node(hydraulicPress);
+					node(hydraulicPress, Seq.with(new Research(AstraBlocks.plastaniumCompressor)), () -> { });
 				});
 				node(castIronSmelter, () -> {
 					node(steelForge, () -> {
 						node(surgeArcFurnace, () -> {
-							node(astraniumForge);
-							node(surgeArcCrucible);
+							node(surgeArcCrucible, Seq.with(new Research(purificationSmelter)), () -> { });
+							node(astraniumForge, Seq.with(new Research(steelFoundry), new Research(phaseLoom)), () -> { });
 						});
-						node(steelFoundry);
+						node(steelFoundry, Seq.with(new Research(surgeArcFurnace)), () -> { });
 					});
-					node(purificationSmelter);
+					node(purificationSmelter, Seq.with(new Research(blastFurnace)), () -> { });
 				});
 				node(castIronKiln, () -> {
-					node(cryofluidBlender, () -> {
-						node(cryofluidProcessor);
+					node(cryofluidBlender, Seq.with(new Research(turbinePump)), () -> {
 						node(ferrofluidMixer);
+						node(cryofluidProcessor, Seq.with(new Research(hydraulicPress)), () -> { });
 					});
 				});
 				node(castIronMixer, () -> {
@@ -78,9 +134,9 @@ public class AzirisTechTree {
 						node(plasmaEnergizer);
 					});
 					node(explosivesRefinery);
-					node(formulationMixer);
+					node(formulationMixer, Seq.with(new Research(magnetiteSynthesizer)), () -> { });
 				});
-				node(blastFurnace);
+				node(blastFurnace, Seq.with(new Research(steelForge)), () -> { });
 			});
 
 			node(dart, () -> {
@@ -92,13 +148,18 @@ public class AzirisTechTree {
 			node(hematiteWall, () -> {
 				node(hematiteWallLarge);
 				node(ironWall, () -> {
-					node(ironWallLarge);
+					node(ironWallLarge, () -> {
+						node(ironDoor);
+					});
 					node(platedTitaniumWall, () -> {
 						node(platedTitaniumWallLarge);
 						node(steelWall, () -> {
 							node(steelWallLarge);
 							node(platedSurgeWall, () -> {
 								node(platedSurgeWallLarge);
+								node(astraniumWall, () -> {
+									node(astraniumWallLarge);
+								});
 							});
 						});
 						node(platedPlastaniumWall, () -> {

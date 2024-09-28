@@ -72,21 +72,10 @@ public class WallDrill extends Block {
 	@Override public void setStats() {
 		super.setStats();
 
-		// TODO uncomment when version is updated
-		/* stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
+		stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
 			(b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier) ||
-			(b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier))); */
-
-		stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size, drillMultipliers, b -> {
-			if (b instanceof Floor) {
-				Floor f = (Floor) b;
-				if (f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier) return true;
-			} else if (b instanceof StaticWall) {
-				StaticWall w = (StaticWall) b;
-				if (w.itemDrop != null && w.itemDrop.hardness <= tier) return true;
-			}
-			return false;
-		}));
+			(b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier)
+		));
 
 		stats.add(Stat.drillSpeed, 60f / drillTime * size, StatUnit.itemsSecond);
 
@@ -105,11 +94,11 @@ public class WallDrill extends Block {
 					l -> l == booster.liquid
 				));
 			}
-		} else if (liquidBoostIntensity != 1 /*&& findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase*/) { // TODO uncomment when version is updated
+		} else if (liquidBoostIntensity != 1 && findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster) instanceof ConsumeLiquidBase consBase) {
 			stats.remove(Stat.booster);
 			stats.add(Stat.booster, StatValues.speedBoosters(
 				"{0}" + StatUnit.timesSpeed.localized(),
-				/*consBase.amount*/ ((ConsumeLiquidBase)findConsumer(f -> f instanceof ConsumeLiquidBase && f.booster)).amount, liquidBoostIntensity, false,
+				consBase.amount, liquidBoostIntensity, false,
 				l -> (consumesLiquid(l) && (findConsumer(f -> f instanceof ConsumeLiquid).booster || ((ConsumeLiquid)findConsumer(f -> f instanceof ConsumeLiquid)).liquid != l))
 			));
 		}
@@ -297,9 +286,7 @@ public class WallDrill extends Block {
 			for (int i = 0; i < size; i++) {
 				int rx = 0, ry = 0;
 
-				// TODO uncomment when version is updated
-				/*
-				switch(rotation) {
+				switch (rotation) {
 					case 0 -> {
 						rx = cornerX + size;
 						ry = cornerY + i;
@@ -316,20 +303,6 @@ public class WallDrill extends Block {
 						rx = cornerX + i;
 						ry = cornerY - 1;
 					}
-				} */
-
-				if (rotation == 0) {
-					rx = cornerX + size;
-					ry = cornerY + i;
-				} else if (rotation == 1) {
-					rx = cornerX + i;
-					ry = cornerY + size;
-				} else if (rotation == 2) {
-					rx = cornerX - 1;
-					ry = cornerY + i;
-				} else if (rotation == 3) {
-					rx = cornerX + i;
-					ry = cornerY - 1;
 				}
 
 				int sign = i >= size / 2 && size % 2 == 0 ? -1 : 1;

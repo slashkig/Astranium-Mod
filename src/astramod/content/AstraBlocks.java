@@ -18,6 +18,7 @@ import mindustry.world.meta.*;
 import mindustry.entities.Units;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
+import mindustry.entities.part.DrawPart.*;
 import mindustry.entities.pattern.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
@@ -29,21 +30,25 @@ import astramod.world.meta.*;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
+import astramod.world.blocks.liquid.AstraLiquidBridge;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 
+@SuppressWarnings("unused")
 public class AstraBlocks {
 	public static Block
 		hardstone, hardstoneWall,
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
-		windmill,
+		windTurbine, windTurbineLarge,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
+		compactPump, turbinePump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter,
-		coreNode,
+		ironTank, steelTank, tidalTank,
+		coreNode, coreHub,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
@@ -85,6 +90,7 @@ public class AstraBlocks {
 		ironFurnace = new GenericCrafter("iron-furnace") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 
 			consumeItem(AstraItems.hematite, 2);
@@ -106,6 +112,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 55;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -128,6 +135,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 40, Items.lead, 25, Items.copper, 10));
 			scaledHealth = 45;
 			size = 2;
+			fogRadius = 2;
 			hasItems = true;
 
 			consumeItem(Items.coal, 4);
@@ -154,6 +162,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasLiquids = hasItems = true;
 			itemCapacity = 20;
 			liquidCapacity = 20f;
@@ -177,6 +186,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 60, Items.copper, 30, Items.graphite, 20));
 			scaledHealth = 45;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(Items.coal, 2, Items.sand, 4));
@@ -199,6 +209,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -222,6 +233,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 60, Items.lead, 40, Items.copper, 30));
 			scaledHealth = 45;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(Items.lead, 3, Items.sand, 3));
@@ -238,6 +250,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 50, Items.lead, 30, Items.graphite, 25));
 			scaledHealth = 45;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(AstraItems.hematite, 2, Items.coal, 4, Items.sand, 3));
@@ -259,6 +272,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 55;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -275,6 +289,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.silicon, 40, Items.graphite, 50));
 			scaledHealth = 50;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(AstraItems.hematite, 2, Items.graphite, 1));
@@ -291,6 +306,7 @@ public class AstraBlocks {
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 90, Items.metaglass, 60, Items.titanium, 40));
 			scaledHealth = 50;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
 			liquidCapacity = 30f;
@@ -320,6 +336,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 65;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
 			itemCapacity = 20;
@@ -357,6 +374,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = hasLiquids = true;
 			liquidCapacity = 60f;
 
@@ -382,6 +400,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 70;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = hasLiquids = true;
 			itemCapacity = 20;
 			liquidCapacity = 100f;
@@ -406,6 +425,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 55;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -432,6 +452,7 @@ public class AstraBlocks {
 			scaledHealth = 60;
 			armor = 5f;
 			size = 4;
+			fogRadius = 4;
 			hasPower = hasItems = true;
 			itemCapacity = 40;
 
@@ -470,6 +491,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -492,6 +514,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 65;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
 			liquidCapacity = 40f;
@@ -523,6 +546,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 65;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
 			liquidCapacity = 80f;
@@ -556,6 +580,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 2;
+			fogRadius = 2;
 			hasPower = hasItems = true;
 			itemCapacity = 30;
 
@@ -581,6 +606,7 @@ public class AstraBlocks {
 			scaledHealth = 70;
 			armor = 2f;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 40;
 
@@ -611,6 +637,7 @@ public class AstraBlocks {
 			scaledHealth = 65;
 			armor = 2f;
 			size = 3;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 30;
 
@@ -637,6 +664,7 @@ public class AstraBlocks {
 			scaledHealth = 70;
 			armor = 6f;
 			size = 4;
+			fogRadius = 4;
 			hasPower = hasItems = hasLiquids = true;
 			itemCapacity = 50;
 			liquidCapacity = 75f;
@@ -672,6 +700,7 @@ public class AstraBlocks {
 			scaledHealth = 70;
 			armor = 5f;
 			size = 4;
+			fogRadius = 4;
 			hasPower = hasItems = hasLiquids = true;
 			itemCapacity = 40;
 			liquidCapacity = 200f;
@@ -706,6 +735,7 @@ public class AstraBlocks {
 			scaledHealth = 75;
 			armor = 8f;
 			size = 4;
+			fogRadius = 4;
 			hasPower = hasItems = hasLiquids = true;
 			itemCapacity = 50;
 			liquidCapacity = 100f;
@@ -733,23 +763,36 @@ public class AstraBlocks {
 
 		// region POWER
 
-		windmill = new WindGenerator("wind-turbine") {{
-			requirements(Category.power, ItemStack.with(AstraItems.testium, 1));
-			size = 3;
+		windTurbine = new WindGenerator("wind-turbine") {{
+			requirements(Category.power, ItemStack.with(AstraItems.hematite, 30, Items.copper, 40));
+			size = 2;
+			fogRadius = 2;
 
-			powerProduction = 0.3f;
+			powerProduction = 0.25f;
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true));
+		}};
+
+		windTurbineLarge = new WindGenerator("wind-turbine-large") {{
+			requirements(Category.power, ItemStack.with(AstraItems.testium, 1));
+			scaledHealth = 45f;
+			size = 3;
+			fogRadius = 3;
+
+			powerProduction = 0.9f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
 		}};
 
 		// region DRILLS
 
-		compactDrill = new Drill("compact-drill") {{
+		compactDrill = new MultiCoolantDrill("compact-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.lead, 6));
 			size = 2;
+			fogRadius = 2;
 
 			liquidBoostIntensity = 1.4f;
-			consumeLiquid(Liquids.water, 0.04f).boost();
+			consumeLiquidBoosts(0.04f, Liquids.water, 1.4f, AstraFluids.ferrofluid, 1.6f);
 			drillTime = 500;
 			tier = 2;
 			hardnessDrillMultiplier = 75f;
@@ -758,6 +801,7 @@ public class AstraBlocks {
 		ironDrill = new MultiCoolantDrill("iron-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 25, Items.copper, 30, Items.graphite, 20));
 			size = 3;
+			fogRadius = 3;
 			hasPower = true;
 			liquidCapacity = 7.5f;
 
@@ -783,6 +827,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 55;
 			size = 3;
+			fogRadius = 3;
 			hasPower = true;
 			itemCapacity = 20;
 			liquidCapacity = 10f;
@@ -812,6 +857,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 4;
+			fogRadius = 4;
 			hasPower = true;
 			itemCapacity = 30;
 			liquidCapacity = 15f;
@@ -846,6 +892,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 65;
 			size = 5;
+			fogRadius = 5;
 			hasPower = true;
 			itemCapacity = 40;
 			liquidCapacity = 20f;
@@ -871,6 +918,7 @@ public class AstraBlocks {
 		compactBore = new WallDrill("compact-bore") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 35, Items.lead, 40, Items.graphite, 25));
 			size = 2;
+			fogRadius = 2;
 			scaledHealth = 50;
 			hasPower = true;
 			liquidCapacity = 7.5f;
@@ -898,6 +946,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 55;
 			size = 3;
+			fogRadius = 4;
 			itemCapacity = 20;
 
 			optionalBoostIntensity = 2.65f;
@@ -923,6 +972,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 60;
 			size = 4;
+			fogRadius = 5;
 			itemCapacity = 30;
 			liquidCapacity = 15f;
 
@@ -972,18 +1022,21 @@ public class AstraBlocks {
 		hematiteWall = new Wall("hematite-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
 			health = 90 * 4;
+			fogRadius = 2;
 		}};
 
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
 			health = 90 * 16;
 			size = 2;
+			fogRadius = 2;
 		}};
 
 		ironWall = new Wall("iron-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
 			health = 120 * 4;
 			armor = 2f;
+			fogRadius = 2;
 		}};
 
 		ironWallLarge = new Wall("iron-wall-large") {{
@@ -991,6 +1044,7 @@ public class AstraBlocks {
 			health = 120 * 16;
 			armor = 2f;
 			size = 2;
+			fogRadius = 2;
 		}};
 
 		ironDoor = new AutoDoor("iron-door") {{
@@ -998,12 +1052,14 @@ public class AstraBlocks {
 			health = 115 * 16;
 			armor = 2f;
 			size = 2;
+			fogRadius = 2;
 		}};
 
 		platedTitaniumWall = new Wall("plated-titanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.graphite, 2));
 			health = 160 * 4;
 			armor = 4f;
+			fogRadius = 2;
 		}};
 
 		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
@@ -1011,12 +1067,15 @@ public class AstraBlocks {
 			health = 160 * 16;
 			armor = 4f;
 			size = 2;
+			fogRadius = 2;
 		}};
 
 		platedPlastaniumWall = new Wall("plated-plastanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.metaglass, 4));
 			health = 175 * 4;
 			armor = 2f;
+			fogRadius = 2;
+
 			insulated = true;
 			absorbLasers = true;
 		}};
@@ -1026,6 +1085,8 @@ public class AstraBlocks {
 			health = 175 * 16;
 			armor = 2f;
 			size = 2;
+			fogRadius = 2;
+
 			insulated = true;
 			absorbLasers = true;
 		}};
@@ -1034,6 +1095,7 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(AstraItems.steel, 8));
 			health = 220 * 4;
 			armor = 8f;
+			fogRadius = 2;
 		}};
 
 		steelWallLarge = new Wall("steel-wall-large") {{
@@ -1041,12 +1103,15 @@ public class AstraBlocks {
 			health = 220 * 16;
 			armor = 8f;
 			size = 2;
+			fogRadius = 2;
 		}};
 
 		platedThoriumWall = new EffectWall("plated-thorium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.crystals, 2));
 			health = 205 * 4;
 			armor = 6f;
+			fogRadius = 2;
+
 			effectRange = 12f;
 			effectStrength = 4f;
 			effect = build -> {
@@ -1066,6 +1131,8 @@ public class AstraBlocks {
 			health = 205 * 16;
 			armor = 6f;
 			size = 2;
+			fogRadius = 2;
+
 			effectRange = 24f;
 			effectStrength = 16f;
 			effect = build -> {
@@ -1084,6 +1151,8 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, AstraItems.lithium, 6));
 			health = 280 * 4;
 			armor = 16f;
+			fogRadius = 2;
+
 			lightningChance = 0.075f;
 			lightningDamage = 45f;
 		}};
@@ -1093,6 +1162,8 @@ public class AstraBlocks {
 			health = 280 * 16;
 			armor = 16f;
 			size = 2;
+			fogRadius = 2;
+
 			lightningChance = 0.075f;
 			lightningDamage = 45f;
 		}};
@@ -1101,6 +1172,8 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, AstraItems.magnetite, 6));
 			health = 190 * 4;
 			armor = 10f;
+			fogRadius = 2;
+
 			chanceDeflect = 16f;
 			flashHit = true;
 		}};
@@ -1110,6 +1183,8 @@ public class AstraBlocks {
 			health = 190 * 16;
 			armor = 10f;
 			size = 2;
+			fogRadius = 2;
+
 			chanceDeflect = 16f;
 			flashHit = true;
 		}};
@@ -1118,6 +1193,8 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystals, 5));
 			health = 210 * 4;
 			armor = 12f;
+			fogRadius = 3;
+
 			consumePower(0.05f);
 			shieldHealth = 150f;
 			breakCooldown = 1500f;
@@ -1131,6 +1208,8 @@ public class AstraBlocks {
 			health = 210 * 16;
 			armor = 12f;
 			size = 2;
+			fogRadius = 4;
+
 			consumePower(0.2f);
 			shieldHealth = 600f;
 			breakCooldown = 1200f;
@@ -1143,6 +1222,8 @@ public class AstraBlocks {
 			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.neodymium, 6));
 			health = 360 * 4;
 			armor = 25f;
+			fogRadius = 2;
+
 			effectRange = 24f;
 			effectStrength = 50f;
 			effect = build -> {
@@ -1165,6 +1246,8 @@ public class AstraBlocks {
 			health = 360 * 16;
 			armor = 25f;
 			size = 2;
+			fogRadius = 2;
+
 			effectRange = 40f;
 			effectStrength = 150f;
 			effect = build -> {
@@ -1187,6 +1270,7 @@ public class AstraBlocks {
 		hematiteConveyor = new Conveyor("hematite-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 1));
 			health = 40;
+			fogRadius = 1;
 			speed = 0.05f;
 			displayedSpeed = 7f;
 		}};
@@ -1194,6 +1278,7 @@ public class AstraBlocks {
 		ironConveyor = new Conveyor("iron-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 1, Items.lead, 1));
 			health = 60;
+			fogRadius = 1;
 			speed = 0.1f;
 			displayedSpeed = 14f;
 			buildCostMultiplier = 1.5f;
@@ -1202,6 +1287,7 @@ public class AstraBlocks {
 		durasteelConveyor = new Conveyor("durasteel-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, AstraItems.magnetite, 1, Items.titanium, 1));
 			health = 180;
+			fogRadius = 1;
 			speed = 0.15f;
 			displayedSpeed = 21f;
 			buildCostMultiplier = 1.5f;
@@ -1211,6 +1297,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.thorium, 1, Items.graphite, 2));
 			health = 300;
 			armor = 2f;
+			fogRadius = 1;
 			speed = 0.15f;
 			displayedSpeed = 21f;
 			buildCostMultiplier = 1.5f;
@@ -1220,6 +1307,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.metaglass, 1, Items.silicon, 1));
 			health = 140;
 			armor = 1f;
+			fogRadius = 1;
 			speed = 0.07f;
 			itemCapacity = 10;
 		}};
@@ -1228,6 +1316,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
 			health = 340;
 			armor = 3f;
+			fogRadius = 1;
 			speed = 0.08f;
 			itemCapacity = 20;
 			buildCostMultiplier = 1.5f;
@@ -1238,17 +1327,19 @@ public class AstraBlocks {
 		ironJunction = new Junction("iron-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
+			fogRadius = 1;
 			buildCostMultiplier = 3f;
 			speed = 12f;
 			capacity = 4;
 
 			((Conveyor)hematiteConveyor).junctionReplacement = this;
-			((Conveyor)ironConveyor).junctionReplacement = this;	
+			((Conveyor)ironConveyor).junctionReplacement = this;
 		}};
 
 		ironBridge = new BufferedItemBridge("iron-bridge") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 6, Items.lead, 6));
 			health = 70;
+			fogRadius = 2;
 			fadeIn = moveArrows = false;
 			range = 4;
 			speed = 40f;
@@ -1263,6 +1354,7 @@ public class AstraBlocks {
 		ironRouter = new Router("iron-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
 			health = 100;
+			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
 
@@ -1270,6 +1362,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 10));
 			health = 300;
 			size = 2;
+			fogRadius = 2;
 			buildCostMultiplier = 2f;
 			itemCapacity = 4;
 		}};
@@ -1277,12 +1370,14 @@ public class AstraBlocks {
 		ironOverflowGate = new OverflowGate("iron-overflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
+			fogRadius = 2;
 			buildCostMultiplier = 2f;
 		}};
 
 		ironUnderflowGate = new OverflowGate("iron-underflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
+			fogRadius = 2;
 			buildCostMultiplier = 2f;
 			invert = true;
 		}};
@@ -1290,12 +1385,14 @@ public class AstraBlocks {
 		ironSorter = new Sorter("iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
 			health = 70;
+			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
 
 		invertedIronSorter = new Sorter("inverted-iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
 			health = 70;
+			fogRadius = 2;
 			buildCostMultiplier = 3f;
 			invert = true;
 		}};
@@ -1304,6 +1401,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.graphite, 4));
 			health = 320;
 			armor = 2f;
+			fogRadius = 1;
 			buildCostMultiplier = 1.5f;
 			speed = 8f;
 			capacity = 8;
@@ -1316,6 +1414,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 8, Items.thorium, 6, Items.plastanium, 4));
 			health = 335;
 			armor = 2f;
+			fogRadius = 2;
 			fadeIn = moveArrows = false;
 			range = 7;
 			speed = 25f;
@@ -1334,6 +1433,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 3, Items.thorium, 2, AstraItems.magnetite, 2));
 			health = 350;
 			armor = 3f;
+			fogRadius = 2;
 			buildCostMultiplier = 1.8f;
 			itemCapacity = 2;
 		}};
@@ -1343,6 +1443,7 @@ public class AstraBlocks {
 			health = 900;
 			armor = 4f;
 			size = 2;
+			fogRadius = 2;
 			itemCapacity = 8;
 		}};
 
@@ -1350,6 +1451,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
 			health = 320;
 			armor = 2f;
+			fogRadius = 2;
 			buildCostMultiplier = 2.2f;
 		}};
 
@@ -1357,29 +1459,43 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
 			health = 320;
 			armor = 2f;
+			fogRadius = 2;
 			buildCostMultiplier = 2.2f;
 			invert = true;
 		}};
 
 		platedSorter = new Sorter("plated-sorter") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
+			requirements(Category.distribution, ItemStack.with(
+				AstraItems.steel, 2,
+				Items.thorium, 2,
+				Items.silicon, 4,
+				AstraItems.magnetite, 2
+			));
 			health = 320;
 			armor = 2f;
+			fogRadius = 2;
 			buildCostMultiplier = 2f;
 		}};
 
 		invertedPlatedSorter = new Sorter("inverted-plated-sorter") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.silicon, 4));
+			requirements(Category.distribution, ItemStack.with(
+				AstraItems.steel, 2,
+				Items.thorium, 2,
+				Items.silicon, 4,
+				AstraItems.magnetite, 2
+			));
 			health = 320;
 			armor = 2f;
+			fogRadius = 2;
 			buildCostMultiplier = 2f;
 			invert = true;
 		}};
 
 		surgeBulkJunction = new Junction("surge-bulk-junction") {{
-			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 3, Items.phaseFabric, 2));
+			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 4, Items.phaseFabric, 2));
 			health = 360;
 			armor = 3f;
+			fogRadius = 2;
 			buildCostMultiplier = 3f;
 			speed = 0f;
 			capacity = 20;
@@ -1389,6 +1505,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 10, AstraItems.neodymium, 8, Items.silicon, 16));
 			health = 680;
 			armor = 4f;
+			fogRadius = 3;
 			itemCapacity = 20;
 			speed = 12.5f;
 			buildCostMultiplier = 2f;
@@ -1404,14 +1521,43 @@ public class AstraBlocks {
 
 		// region FLUIDS
 
+		compactPump = new Pump("compact-pump") {{
+			requirements(Category.liquid, ItemStack.with(AstraItems.hematite, 25, Items.copper, 30, Items.graphite, 20));
+			size = 2;
+			hasPower = true;
+			liquidCapacity = 20f;
+
+			consumePower(0.15f);
+			pumpAmount = 0.08f;
+		}};
+
+		turbinePump = new Pump("turbine-pump") {{
+			requirements(Category.liquid, ItemStack.with(
+				AstraItems.iron, 50,
+				Items.copper, 60,
+				Items.metaglass, 40,
+				Items.graphite, 35
+			));
+			scaledHealth = 50f;
+			size = 2;
+			hasPower = true;
+			liquidCapacity = 40f;
+
+			consumePower(0.5f);
+			pumpAmount = 0.21f;
+			liquidPressure = 1.02f;
+		}};
+
 		crudePipeline = new Conduit("ripple-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 1, Items.lead, 1));
 			health = 50;
+			fogRadius = 1;
 		}};
 
 		wavePipeline = new Conduit("wave-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.metaglass, 1, Items.copper, 2, Items.graphite, 1));
 			health = 120;
+			fogRadius = 1;
 			liquidCapacity = 14f;
 			liquidPressure = 1.02f;
 		}};
@@ -1419,6 +1565,7 @@ public class AstraBlocks {
 		jetPipeline = new Conduit("jet-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.metaglass, 2, Items.titanium, 1, AstraItems.magnetite, 1));
 			health = 200;
+			fogRadius = 1;
 			liquidCapacity = 18f;
 			liquidPressure = 1.05f;
 		}};
@@ -1427,6 +1574,7 @@ public class AstraBlocks {
 			requirements(Category.liquid, ItemStack.with(AstraItems.crystals, 2, Items.thorium, 1, Items.plastanium, 1));
 			health = 310;
 			armor = 2;
+			fogRadius = 1;
 			liquidCapacity = 24f;
 			liquidPressure = 1.1f;
 		}};
@@ -1434,6 +1582,7 @@ public class AstraBlocks {
 		waveJunction = new LiquidJunction("wave-junction") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 6, Items.metaglass, 4, Items.graphite, 2));
 			health = 140;
+			fogRadius = 1;
 			liquidCapacity = 14f;
 			liquidPressure = 1.02f;
 
@@ -1442,16 +1591,14 @@ public class AstraBlocks {
 			((Conduit)jetPipeline).junctionReplacement = this;
 		}};
 
-		waveBridge = new LiquidBridge("wave-bridge") {{
+		waveBridge = new AstraLiquidBridge("wave-bridge") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 10, Items.metaglass, 6, Items.graphite, 4));
 			health = 140;
+			fogRadius = 2;
 			liquidCapacity = 16f;
 			liquidPressure = 1.02f;
 			range = 4;
 			hasPower = false;
-
-			fadeIn = moveArrows = false;
-			arrowSpacing = 6f;
 
 			((Conduit)crudePipeline).bridgeReplacement = this;
 			((Conduit)wavePipeline).bridgeReplacement = this;
@@ -1461,6 +1608,7 @@ public class AstraBlocks {
 		waveRouter = new LiquidRouter("wave-router") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 4, Items.metaglass, 4, Items.graphite, 4));
 			health = 140;
+			fogRadius = 2;
 			liquidCapacity = 16f;
 			liquidPressure = 1.02f;
 		}};
@@ -1469,13 +1617,14 @@ public class AstraBlocks {
 			requirements(Category.liquid, ItemStack.with(AstraItems.crystals, 6, Items.thorium, 2, Items.plastanium, 4));
 			health = 340;
 			armor = 2;
+			fogRadius = 1;
 			liquidCapacity = 24f;
 			liquidPressure = 1.1f;
 
 			((Conduit)crystalPipeline).junctionReplacement = this;
 		}};
 
-		crystalBridge = new LiquidBridge("crystal-bridge") {{
+		crystalBridge = new AstraLiquidBridge("crystal-bridge") {{
 			requirements(Category.liquid, ItemStack.with(
 				AstraItems.crystals, 10,
 				Items.thorium, 6,
@@ -1484,13 +1633,11 @@ public class AstraBlocks {
 			));
 			health = 350;
 			armor = 3;
+			fogRadius = 2;
 			liquidCapacity = 26f;
 			liquidPressure = 1.1f;
 			range = 7;
 			hasPower = false;
-
-			fadeIn = moveArrows = false;
-			arrowSpacing = 6f;
 
 			((Conduit)crystalPipeline).bridgeReplacement = this;
 		}};
@@ -1504,22 +1651,66 @@ public class AstraBlocks {
 			));
 			health = 350;
 			armor = 3;
+			fogRadius = 2;
 			liquidCapacity = 26f;
 			liquidPressure = 1.1f;
+		}};
+
+		ironTank = new LiquidRouter("iron-tank") {{
+			requirements(Category.liquid, ItemStack.with(AstraItems.iron, 60, Items.copper, 90, Items.metaglass, 50));
+			scaledHealth = 50f;
+			armor = 1f;
+			size = 2;
+			solid = true;
+			liquidCapacity = 800f;
+		}};
+
+		steelTank = new LiquidRouter("steel-tank") {{
+			requirements(Category.liquid, ItemStack.with(
+				AstraItems.steel, 80,
+				Items.metaglass, 100,
+				Items.titanium, 40,
+				AstraItems.magnetite, 25
+			));
+			scaledHealth = 60f;
+			armor = 3f;
+			size = 3;
+			solid = true;
+			liquidCapacity = 2000f;
 		}};
 
 		// region CORES
 
 		coreNode = new CoreBlock("core-node") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 1000, Items.graphite, 500, Items.lead, 500));
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 1000, Items.graphite, 500, Items.lead, 1000));
 			health = 2000;
 			size = 4;
 			itemCapacity = 5000;
 			alwaysUnlocked = true;
 			isFirstTier = true;
 
-			unitType = UnitTypes.beta;
+			unitType = AstraUnitTypes.manager;
 			unitCapModifier = 10;
+
+			thrusterLength = 8f;
+		}};
+
+		coreHub = new CoreBlock("core-hub") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 4000,
+				Items.graphite, 3000,
+				Items.titanium, 2000,
+				Items.silicon, 2500
+			));
+			health = 4500;
+			armor = 4f;
+			size = 5;
+			itemCapacity = 7500;
+
+			unitType = AstraUnitTypes.manager;
+			unitCapModifier = 15;
+
+			thrusterLength = 8f;
 		}};
 
 		// region TURRETS
@@ -1708,6 +1899,7 @@ public class AstraBlocks {
 			health = 10000000;
 			armor = 100f;
 			size = 3;
+			fogRadius = 10;
 			hasItems = true;
 			itemCapacity = 100;
 
@@ -1744,6 +1936,8 @@ public class AstraBlocks {
 			health = 1000000000;
 			armor = 10000f;
 			size = 2;
+			fogRadius = 10;
+
 			lightningChance = 1f;
 			lightningDamage = 100000f;
 			lightningLength = 100;
@@ -1773,6 +1967,7 @@ public class AstraBlocks {
 		superRouter = new SuperRouter("super-router") {{
 			requirements(Category.distribution, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 200));
 			health = 1;
+			fogRadius = 10;
 			speed = 1000f;
 			routateSpeed = 4f;
 			range = 160f;

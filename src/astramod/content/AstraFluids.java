@@ -1,15 +1,18 @@
 package astramod.content;
 
-import mindustry.type.Liquid;
-import mindustry.content.StatusEffects;
-import arc.graphics.Color;
+import arc.graphics.*;
+import arc.util.Log;
+import mindustry.type.*;
+import mindustry.content.*;
 
 public class AstraFluids {
 	public static Liquid ferrofluid, plasma;
 	
 	public static void load() {
+		Log.info("Loading fluids");
+
 		ferrofluid = new Liquid("ferrofluid", Color.valueOf("220000")) {{
-			effect = StatusEffects.none; // Need to add status effect
+			effect = StatusEffects.none; // TODO need to add status effect
 			barColor = Color.valueOf("440202");
 			viscosity = 0.25f;
 			heatCapacity = 0.65f;

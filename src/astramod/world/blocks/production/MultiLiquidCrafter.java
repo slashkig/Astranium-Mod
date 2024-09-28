@@ -18,7 +18,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 	@Override public void setStats() {
 		super.setStats();
 
-		if (liquidStrengthMap.size > 0) {
+		if (liquidStrengthMap.size > 0 && findConsumer(f -> f instanceof ConsumeLiquidFilter) instanceof ConsumeLiquidFilter filter) {
 			stats.remove(Stat.input);
 
 			Seq<LiquidStack> liquidInputs = new Seq<LiquidStack>(liquidStrengthMap.size);
@@ -30,7 +30,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 				((ConsumeItems)findConsumer(f -> f instanceof ConsumeItems)).items,
 				liquidInputs,
 				stats.timePeriod,
-				((ConsumeLiquidFilter)findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount
+				filter.amount
 			));
 		}
 	}

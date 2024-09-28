@@ -26,7 +26,7 @@ public class MultiCoolantDrill extends Drill {
 	@Override public void setStats() {
 		super.setStats();
 
-		if (boostMultMap.size > 0) {
+		if (boostMultMap.size > 0 && findConsumer(f -> f instanceof ConsumeLiquidFilter) instanceof ConsumeLiquidFilter filter) {
 			stats.remove(Stat.booster);
 
 			Seq<LiquidStack> boosters = new Seq<>(boostMultMap.size);
@@ -37,7 +37,7 @@ public class MultiCoolantDrill extends Drill {
 				float boostMult = Mathf.lerp(1, liquidBoostIntensity, booster.amount);
 				stats.add(Stat.booster, StatValues.speedBoosters(
 					"{0}" + StatUnit.timesSpeed.localized(),
-					((ConsumeLiquidFilter)findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount,
+					filter.amount,
 					boostMult * boostMult,
 					false,
 					l -> l == booster.liquid
