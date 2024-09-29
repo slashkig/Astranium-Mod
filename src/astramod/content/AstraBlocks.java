@@ -33,6 +33,7 @@ import astramod.world.blocks.environment.*;
 import astramod.world.blocks.liquid.AstraLiquidBridge;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
+import astramod.world.blocks.storage.*;
 
 @SuppressWarnings("unused")
 public class AstraBlocks {
@@ -1529,6 +1530,13 @@ public class AstraBlocks {
 
 			consumePower(0.15f);
 			pumpAmount = 0.08f;
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(),
+				new DrawDefault(),
+				new DrawRegion("-top")
+			);
 		}};
 
 		turbinePump = new Pump("turbine-pump") {{
@@ -1546,6 +1554,13 @@ public class AstraBlocks {
 			consumePower(0.5f);
 			pumpAmount = 0.21f;
 			liquidPressure = 1.02f;
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(),
+				new DrawDefault(),
+				new DrawRegion("-top")
+			);
 		}};
 
 		crudePipeline = new Conduit("ripple-pipeline") {{
@@ -1656,7 +1671,7 @@ public class AstraBlocks {
 			liquidPressure = 1.1f;
 		}};
 
-		ironTank = new LiquidRouter("iron-tank") {{
+		ironTank = new LiquidRouter("iron-container") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.iron, 60, Items.copper, 90, Items.metaglass, 50));
 			scaledHealth = 50f;
 			armor = 1f;
@@ -1681,7 +1696,7 @@ public class AstraBlocks {
 
 		// region CORES
 
-		coreNode = new CoreBlock("core-node") {{
+		coreNode = new AstraCoreBlock("core-node") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 1000, Items.graphite, 500, Items.lead, 1000));
 			health = 2000;
 			size = 4;
@@ -1695,7 +1710,7 @@ public class AstraBlocks {
 			thrusterLength = 8f;
 		}};
 
-		coreHub = new CoreBlock("core-hub") {{
+		coreHub = new AstraCoreBlock("core-hub") {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 4000,
 				Items.graphite, 3000,
@@ -1707,7 +1722,7 @@ public class AstraBlocks {
 			size = 5;
 			itemCapacity = 7500;
 
-			unitType = AstraUnitTypes.manager;
+			unitType = AstraUnitTypes.director;
 			unitCapModifier = 15;
 
 			thrusterLength = 8f;
