@@ -105,7 +105,7 @@ configure(rootProject) {
 	}
 
 	jar {
-		archiveFileName = "${modArtifact}Desktop-${modVersion + (alpha ? '-alpha' : '')}.jar"
+		archiveFileName = "${modArtifact}Desktop-${modVersion + (Boolean.valueOf(alpha) ? '-alpha' : '')}.jar"
 
 		from files(sourceSets.main.output.classesDirs)
 		from files(sourceSets.main.output.resourcesDir)
@@ -138,11 +138,15 @@ configure(rootProject) {
 			map.put('name', modName)
 			meta.withWriter { map.writeTo(it, Jval.Jformat.formatted) }
 		}
+
+		doLast {
+			logger.log(LogLevel.LIFECYCLE, 'JAR file built.')
+		}
 	}
 
 	tasks.register('dex', Jar) {
 		inputs.files tasks.jar
-		archiveFileName = "${modArtifact}-${modVersion + (alpha ? '-alpha' : '')}.jar"
+		archiveFileName = "${modArtifact}-${modVersion + (Boolean.valueOf(alpha) ? '-alpha' : '')}.jar"
 
 		final def desktopJar = tasks.jar.archiveFile
 		final def dexJar = file("$temporaryDir/Dexed.jar")
@@ -163,7 +167,7 @@ configure(rootProject) {
 
 			// Initialize a release build.
 			def input = desktopJar.get().asFile
-			def command = "$d8 --release --min-api $androidMinVersion --output $dexJar $input"
+			def command = "$d8 --release --min-api $androidMinVersion --output ${OS.isWindows ? "\"$dexJar\" \"$input\"" : "$dexJar $input"}"
 
 			// Include all compile and runtime classpath.
 			(configurations.compileClasspath.asList() + configurations.runtimeClasspath.asList()).forEach {
@@ -182,6 +186,10 @@ configure(rootProject) {
 			// Run `d8`.
 			logger.log(LogLevel.LIFECYCLE, 'Running `d8`.')
 			command.execute(null, layout.projectDirectory.asFile).waitForProcessOutput(System.out, System.err)
+		}
+
+		doLast {
+			logger.log(LogLevel.LIFECYCLE, 'Dexed file built.')
 		}
 	}
 }
@@ -204,4 +212,10 @@ for (def i = 0; i < 2; i++) {
 			logger.log(LogLevel.LIFECYCLE, "Copied :${isDex ? 'dex' : 'jar'} output to $folder.")
 		}
 	}
+}
+
+tasks.register('printModName') {
+    doLast {
+        println "MOD_NAME=${modArtifact}-${modVersion + (Boolean.valueOf(alpha) ? '-alpha' : '')}"
+    }
 }
