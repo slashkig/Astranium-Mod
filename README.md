@@ -1,4 +1,4 @@
-![Banner](assets/bundles/ui/banner.png)
+![Banner](assets/sprites/ui/banner.png)
 
 # Astranium Mod
 WIP Mindustry mod
