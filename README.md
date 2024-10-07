@@ -14,8 +14,10 @@ Only the strongest will prevail. The fate of Aziris hangs in the balance.
 ---
 
 This is a WIP mod that will add Aziris, a new planet with plenty of new content to explore. There is no campaign yet but all mod content can be checked out in the sandbox. Join our discord server for custom maps and more!
-[![Discord](https://img.shields.io/discord/391020510269669376.svg?logo=discord&logoColor=white&logoWidth=20&labelColor=7289da&label=Aziris_Discord&color=17cf48&style=flat-square)](https://discord.gg/2qc4WaCreP)
+
+[![Discord](https://img.shields.io/discord/1273251033362989089.svg?logo=discord&logoColor=white&logoWidth=20&labelColor=7289da&label=Aziris_Discord&color=17cf48&style=flat-square)](https://discord.gg/2qc4WaCreP)
 
 ## Authors:
-Mod Programmer: Slashkig
+Programming: Slashkig
+
 Sprite Artists: IAmRustee and VoidThreader
