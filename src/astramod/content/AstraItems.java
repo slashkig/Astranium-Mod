@@ -63,5 +63,7 @@ public class AstraItems {
 			charge = 0.3f;
 			radioactivity = 0.05f;
 		}};
+
+		Items.graphite.hardness = 2;
 	}
 }

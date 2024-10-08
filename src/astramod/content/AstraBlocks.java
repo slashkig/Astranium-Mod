@@ -35,6 +35,8 @@ import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
 
+import static mindustry.Vars.*;
+
 @SuppressWarnings("unused")
 public class AstraBlocks {
 	public static Block
@@ -956,9 +958,14 @@ public class AstraBlocks {
 			drillTime = 120f;
 			tier = 4;
 			range = 4;
-			drillMultipliers.put(AstraItems.lithium, 0.8f);
-			drillMultipliers.put(Items.thorium, 0.6f);
-			drillMultipliers.put(AstraItems.crystals, 0.6f);
+			int baseSpeedTier = 2;
+			float hardnessMult = 0.2f;
+
+			for (Item item : content.items()) {
+				if (item.hardness <= tier && item.hardness != baseSpeedTier) {
+					drillMultipliers.put(item, 1f - hardnessMult * (item.hardness - baseSpeedTier));
+				}
+			}
 
 			boostHeatColor = AstraFluids.plasma.color;
 		}};
@@ -984,9 +991,14 @@ public class AstraBlocks {
 			drillTime = 60f;
 			tier = 5;
 			range = 6;
-			drillMultipliers.put(AstraItems.lithium, 0.9f);
-			drillMultipliers.put(Items.thorium, 0.8f);
-			drillMultipliers.put(AstraItems.crystals, 0.8f);
+			int baseSpeedTier = 2;
+			float hardnessMult = 0.1f;
+
+			for (Item item : content.items()) {
+				if (item.hardness <= tier && item.hardness != baseSpeedTier) {
+					drillMultipliers.put(item, 1f - hardnessMult * (item.hardness - baseSpeedTier));
+				}
+			}
 
 			heatColor = AstraFluids.plasma.color;
 			boostHeatColor = Liquids.cryofluid.color;
@@ -1574,10 +1586,10 @@ public class AstraBlocks {
 				Items.metaglass, 75,
 				Items.graphite, 60,
 				AstraItems.magnetite, 40,
-				Items.plastanium, 50
+				Items.thorium, 50
 			));
 			scaledHealth = 55f;
-			armor = 1f;
+			armor = 2f;
 			size = 3;
 			fogRadius = 3;
 			hasPower = true;
@@ -1873,7 +1885,7 @@ public class AstraBlocks {
 			range = 140f;
 			coolant = consumeCoolant(0.15f);
 
-			ammoUseEffect = Fx.casing1;
+			ammoUseEffect = Fx.casing2;
 
 			targetAir = false;
 			limitRange();

@@ -45,7 +45,7 @@ public class RailConveyor extends StackConveyor {
 		}
 		return otherblock.outputsItems() && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) && otherblock instanceof StackConveyor
 			&& ((facing(otherx, othery, otherrot, tile.x, tile.y) && otherblock.itemCapacity <= itemCapacity)
-			|| (facing(tile.x, tile.y, tile.build.rotation, otherx, othery) && otherblock.itemCapacity >= itemCapacity));
+			|| (facing(tile.x, tile.y, rotation, otherx, othery) && otherblock.itemCapacity >= itemCapacity));
 	}
 
 	@Override public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans){

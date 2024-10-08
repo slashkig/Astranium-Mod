@@ -72,7 +72,7 @@ public class WallDrill extends Block {
 	@Override public void setStats() {
 		super.setStats();
 
-		stats.add(Stat.drillTier, StatValues.drillables(drillTime, 0f, size, drillMultipliers, b ->
+		stats.add(Stat.drillTier, StatValues.drillables(drillTime, hardnessDrillMultiplier, size, drillMultipliers, b ->
 			(b instanceof Floor f && f.wallOre && f.itemDrop != null && f.itemDrop.hardness <= tier) ||
 			(b instanceof StaticWall w && w.itemDrop != null && w.itemDrop.hardness <= tier)
 		));
