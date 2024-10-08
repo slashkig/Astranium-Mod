@@ -43,12 +43,12 @@ public class AstraBlocks {
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		windTurbine, windTurbineLarge,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
-		compactPump, turbinePump,
+		compactPump, turbinePump, jetstreamPump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter,
-		ironTank, steelTank, tidalTank,
+		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -709,7 +709,7 @@ public class AstraBlocks {
 			consumeItems(ItemStack.with(Items.phaseFabric, 4, Items.silicon, 8, AstraItems.crystals, 5));
 			consumeLiquid(Liquids.cryofluid, 1.2f);
 			consumePower(20f);
-			craftTime = 300f;
+			craftTime = 200f;
 			outputItem = new ItemStack(AstraItems.aerogel, 2);
 
 			drawer = new DrawMulti(
@@ -769,18 +769,18 @@ public class AstraBlocks {
 			size = 2;
 			fogRadius = 2;
 
-			powerProduction = 0.25f;
+			powerProduction = 1f / 6f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true));
 		}};
 
 		windTurbineLarge = new WindGenerator("wind-turbine-large") {{
-			requirements(Category.power, ItemStack.with(AstraItems.testium, 1));
+			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.copper, 90, Items.silicon, 40));
 			scaledHealth = 45f;
 			size = 3;
 			fogRadius = 3;
 
-			powerProduction = 0.9f;
+			powerProduction = 0.5f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
 		}};
@@ -1000,8 +1000,9 @@ public class AstraBlocks {
 				Items.metaglass, 150,
 				Items.titanium, 140
 			));
-			size = 3;
 			scaledHealth = 60;
+			size = 3;
+			fogRadius = 3;
 			liquidCapacity = 50f;
 
 			attribute = Attribute.oil;
@@ -1499,7 +1500,9 @@ public class AstraBlocks {
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 			speed = 0f;
-			capacity = 20;
+			capacity = 25;
+
+			((RailConveyor)surgeBulkConveyor).junctionReplacement = this;
 		}};
 
 		surgeBulkRouter = new StackRouter("surge-bulk-router") {{
@@ -1525,6 +1528,7 @@ public class AstraBlocks {
 		compactPump = new Pump("compact-pump") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.hematite, 25, Items.copper, 30, Items.graphite, 20));
 			size = 2;
+			fogRadius = 2;
 			hasPower = true;
 			liquidCapacity = 20f;
 
@@ -1532,11 +1536,11 @@ public class AstraBlocks {
 			pumpAmount = 0.08f;
 
 			drawer = new DrawMulti(
-				new DrawRegion("-bottom"),
-				new DrawLiquidTile(),
 				new DrawDefault(),
-				new DrawRegion("-top")
+				new DrawPumpLiquid(),
+				new DrawVerticalPump() {{ cycleTime = 120f; maxScale = 1.2f; }}
 			);
+			squareSprite = false;
 		}};
 
 		turbinePump = new Pump("turbine-pump") {{
@@ -1548,6 +1552,7 @@ public class AstraBlocks {
 			));
 			scaledHealth = 50f;
 			size = 2;
+			fogRadius = 2;
 			hasPower = true;
 			liquidCapacity = 40f;
 
@@ -1556,11 +1561,38 @@ public class AstraBlocks {
 			liquidPressure = 1.02f;
 
 			drawer = new DrawMulti(
-				new DrawRegion("-bottom"),
-				new DrawLiquidTile(),
 				new DrawDefault(),
-				new DrawRegion("-top")
+				new DrawPumpLiquid(),
+				new DrawVerticalPump() {{ cycleTime = 90f; maxScale = 1.2f; }}
 			);
+			squareSprite = false;
+		}};
+
+		jetstreamPump = new Pump("jetstream-pump") {{
+			requirements(Category.liquid, ItemStack.with(
+				AstraItems.steel, 70,
+				Items.metaglass, 75,
+				Items.graphite, 60,
+				AstraItems.magnetite, 40,
+				Items.plastanium, 50
+			));
+			scaledHealth = 55f;
+			armor = 1f;
+			size = 3;
+			fogRadius = 3;
+			hasPower = true;
+			liquidCapacity = 60f;
+
+			consumePower(1.4f);
+			pumpAmount = 0.23f;
+			liquidPressure = 1.05f;
+
+			drawer = new DrawMulti(
+				new DrawDefault(),
+				new DrawPumpLiquid(),
+				new DrawVerticalPump() {{ cycleTime = 75f; maxScale = 1.2f; }}
+			);
+			squareSprite = false;
 		}};
 
 		crudePipeline = new Conduit("ripple-pipeline") {{
@@ -1674,8 +1706,8 @@ public class AstraBlocks {
 		ironTank = new LiquidRouter("iron-container") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.iron, 60, Items.copper, 90, Items.metaglass, 50));
 			scaledHealth = 50f;
-			armor = 1f;
 			size = 2;
+			fogRadius = 2;
 			solid = true;
 			liquidCapacity = 800f;
 		}};
@@ -1690,8 +1722,27 @@ public class AstraBlocks {
 			scaledHealth = 60f;
 			armor = 3f;
 			size = 3;
+			fogRadius = 3;
 			solid = true;
 			liquidCapacity = 2000f;
+			liquidPressure = 1.04f;
+		}};
+
+		crystalTank = new LiquidRouter("crystal-tank") {{
+			requirements(Category.liquid, ItemStack.with(
+				Items.surgeAlloy, 100,
+				Items.metaglass, 140,
+				Items.thorium, 50,
+				AstraItems.neodymium, 40,
+				AstraItems.crystals, 65
+			));
+			scaledHealth = 65f;
+			armor = 6f;
+			size = 4;
+			fogRadius = 4;
+			solid = true;
+			liquidCapacity = 6000f;
+			liquidPressure = 1.1f;
 		}};
 
 		// region CORES
@@ -1725,7 +1776,7 @@ public class AstraBlocks {
 			unitType = AstraUnitTypes.director;
 			unitCapModifier = 15;
 
-			thrusterLength = 8f;
+			thrusterLength = 10f;
 		}};
 
 		// region TURRETS
@@ -1831,7 +1882,7 @@ public class AstraBlocks {
 		viper = new ItemTurret("aa-rocket") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 60, Items.lead, 35));
 			ammo(
-				Items.copper, new MissileBulletType(3.5f, 15) {{
+				Items.copper, new MissileBulletType(3.5f, 10) {{
 					lifetime = 60f;
 					width = 6f;
 					height = 7f;
@@ -1839,7 +1890,7 @@ public class AstraBlocks {
 					homingPower = 0.15f;
 					collidesGround = false;
 				}},
-				Items.silicon, new MissileBulletType(4f, 22) {{
+				Items.silicon, new MissileBulletType(4f, 15) {{
 					lifetime = 60f;
 					width = 7f;
 					height = 7f;
@@ -1851,7 +1902,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.siliconFront;
 					backColor = AstraPal.siliconBack;
 				}},
-				Items.pyratite, new MissileBulletType(3.5f, 30) {{
+				Items.pyratite, new MissileBulletType(3.5f, 20) {{
 					lifetime = 60f;
 					width = 6f;
 					height = 7f;
@@ -1864,7 +1915,7 @@ public class AstraBlocks {
 					frontColor = Pal.lightishOrange;
 					backColor = Pal.lightOrange;
 				}},
-				AstraItems.lithium, new MissileBulletType(4f, 45) {{
+				AstraItems.lithium, new MissileBulletType(4f, 30) {{
 					lifetime = 70f;
 					width = 7f;
 					height = 8f;
@@ -1888,12 +1939,12 @@ public class AstraBlocks {
 				}});
 			}};
 
-			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 2.5f; }};
+			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 4f; }};
 
 			scaledHealth = 150;
 			size = 2;
 			shootY = 4.5f;
-			reload = 40f;
+			reload = 30f;
 			rotateSpeed = 8f;
 			shootCone = 30f;
 			inaccuracy = 10f;
@@ -1994,6 +2045,8 @@ public class AstraBlocks {
 				hitEffect = AstraFx.superLaser;
 				despawnEffect = AstraFx.superLaser;
 			}};
+
+			color = AstraPal.testPink;
 			circles = new DrawCircles() {{
 				color = AstraPal.testPink.cpy().a(0.3f);
 				strokeMax = 2.5f;

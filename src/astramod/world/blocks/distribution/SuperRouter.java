@@ -1,11 +1,13 @@
 package astramod.world.blocks.distribution;
 
 import arc.audio.Sound;
+import arc.graphics.Color;
 import arc.util.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.LaserBoltBulletType;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.world.*;
 import mindustry.world.blocks.distribution.Router;
 import mindustry.world.draw.DrawCircles;
 
@@ -14,13 +16,19 @@ public class SuperRouter extends Router {
 	public float damage = 10f;
 	public float routateSpeed = 10f;
 	public LaserBoltBulletType bullet;
+
 	public DrawCircles circles;
+	public Color color;
 	public Sound shootSound = Sounds.missile;
 
 	public SuperRouter(String name) {
 		super(name);
 	}
-	
+
+	@Override public int minimapColor(Tile tile) {
+		return color.rgba();
+	}
+
 	public class SuperRouterBuild extends RouterBuild {
 
 		@Override public void damage(float damage) {

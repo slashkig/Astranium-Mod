@@ -33,7 +33,7 @@ public class AstraUnitTypes {
 			speed = 4f;
 			rotateSpeed = 15f;
 			accel = 0.1f;
-			fogRadius = 1;
+			fogRadius = 0;
 			itemCapacity = 25;
 			health = 120f;
 			engineOffset = 7f;
@@ -42,9 +42,10 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-manager-weapon") {{
 				reload = 20f;
-				x = 3f;
-				y = 6f;
+				x = 3.5f;
+				y = 6.5f;
 				top = false;
+				layerOffset = -0.1f;
 				shootSound = Sounds.lasershoot;
 
 				bullet = new LaserBoltBulletType(5f, 15) {{
@@ -77,10 +78,11 @@ public class AstraUnitTypes {
 			speed = 4.5f;
 			rotateSpeed = 17.5f;
 			accel = 0.1f;
-			fogRadius = 1;
+			fogRadius = 0;
 			itemCapacity = 40;
 			health = 150f;
 			engineOffset = 10f;
+			engineSize = 3.5f;
 			hitSize = 9f;
 
 			weapons.add(new Weapon("astramod-director-weapon") {{
@@ -88,13 +90,14 @@ public class AstraUnitTypes {
 				shoot.shots = 3;
 				shoot.shotDelay = 5f;
 				inaccuracy = 6f;
-				x = 4.5f;
-				y = 7f;
+				x = 5.5f;
+				y = 2.5f;
 				top = false;
+				layerOffset = -0.1f;
 				shootSound = Sounds.lasershoot;
 
-				bullet = new LaserBoltBulletType(5f, 15) {{
-					lifetime = 40f;
+				bullet = new LaserBoltBulletType(5.5f, 15) {{
+					lifetime = 37.5f;
 					keepVelocity = false;
 					buildingDamageMultiplier = 0.01f;
 

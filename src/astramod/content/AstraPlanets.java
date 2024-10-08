@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.graphics.Color;
 import arc.util.Log;
 import mindustry.game.*;
 import mindustry.type.*;
@@ -25,6 +26,8 @@ public class AstraPlanets {
 				r.fog = true;
 				r.staticFog = true;
 			};
+
+			iconColor = Color.valueOf("bf2851");
 
 			defaultCore = AstraBlocks.coreNode;
 			unlockedOnLand.add(AstraBlocks.coreNode);
