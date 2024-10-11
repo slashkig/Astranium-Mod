@@ -39,11 +39,12 @@ public class AstraUnitTypes {
 			engineOffset = 7f;
 			hitSize = 8f;
 			alwaysUnlocked = true;
+			outlineColor = Pal.darkOutline;
 
 			weapons.add(new Weapon("astramod-manager-weapon") {{
 				reload = 20f;
-				x = 3.5f;
-				y = 6.5f;
+				x = 5f;
+				y = 3.75f;
 				top = false;
 				layerOffset = -0.1f;
 				shootSound = Sounds.lasershoot;
@@ -84,6 +85,7 @@ public class AstraUnitTypes {
 			engineOffset = 10f;
 			engineSize = 3.5f;
 			hitSize = 9f;
+			outlineColor = Pal.darkOutline;
 
 			weapons.add(new Weapon("astramod-director-weapon") {{
 				reload = 30f;
