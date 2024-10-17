@@ -6,22 +6,26 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.Geometry;
 import arc.util.*;
+import astramod.world.meta.AstraStat;
+import mindustry.content.Fx;
 import mindustry.core.Renderer;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.liquid.*;
+import mindustry.world.meta.StatUnit;
 
 import static mindustry.Vars.*;
 
-/** Liquid bridge that shows the liquid in the bridge. */
-public class AstraLiquidBridge extends LiquidBridge {
+public class PipelineBridge extends LiquidBridge {
+	public float heatCapacity = 0.5f;
+
 	public float liquidPadding = 1f;
 
 	public TextureRegion bottomRegion;
 	public TextureRegion bridgeBotRegion;
 	public TextureRegion bridgeLiquidRegion;
 
-	public AstraLiquidBridge(String name) {
+	public PipelineBridge(String name) {
 		super(name);
 	}
 
@@ -32,18 +36,38 @@ public class AstraLiquidBridge extends LiquidBridge {
 		bridgeLiquidRegion = Core.atlas.find(name + "-bridge-liquid");
 	}
 
-    public class AstraLiquidBridgeBuild extends LiquidBridgeBuild {
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.bridgeRange, range, StatUnit.blocks);
+		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+	}
+
+	@Override protected TextureRegion[] icons() {
+		return new TextureRegion[] {bottomRegion, region};
+	}
+
+    public class PipelineBridgeBuild extends LiquidBridgeBuild {
+		@Override public void update() {
+			super.update();
+
+			if (liquids.currentAmount() > 0.1f && liquids.current().temperature > heatCapacity) {
+				float strength = liquids.currentAmount() * liquids.current().temperature / heatCapacity;
+				damageContinuous(strength / 60f);
+				if (Mathf.chanceDelta(strength / 100f)) Fx.fire.at(x, y);
+			}
+		}
+
 		@Override public void draw() {
 			Draw.rect(bottomRegion, x, y);
 
-			if(liquids.currentAmount() > 0.001f){
+			if (liquids.currentAmount() > 0.001f) {
 				LiquidBlock.drawTiledFrames(size, x, y, liquidPadding, liquids.current(), liquids.currentAmount() / liquidCapacity);
 			}
 
 			Draw.rect(block.region, x, y);
 
 			Tile other = world.tile(link);
-			if (other != null) {
+			if (other != null && other.build != null && other.build.block == this.block) {
 				Color liquidColor = Tmp.c1.set(liquids.current().color).a(liquids.currentAmount() / liquidCapacity * liquids.current().color.a);
 				float angle = Angles.angle(x, y, other.drawx(), other.drawy()),
 					cx = (x + other.drawx()) / 2f,

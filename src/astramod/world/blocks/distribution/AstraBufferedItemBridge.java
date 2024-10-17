@@ -1,17 +1,24 @@
 package astramod.world.blocks.distribution;
 
 import arc.util.io.*;
+import astramod.world.meta.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.blocks.distribution.BufferedItemBridge;
+import mindustry.world.blocks.distribution.*;
+import mindustry.world.meta.*;
 
-/** Made solely to override a single hardcoded 4 :( */
 public class AstraBufferedItemBridge extends BufferedItemBridge {
 	public float bufferSpeed = 4f;
 
 	public AstraBufferedItemBridge(String name) {
 		super(name);
+	}
+
+	@Override public void setStats() {
+		super.setStats();
+
+		stats.add(AstraStat.bridgeRange, range, StatUnit.blocks);
 	}
 
 	public class AstraBufferedItemBridgeBuild extends BufferedItemBridgeBuild {

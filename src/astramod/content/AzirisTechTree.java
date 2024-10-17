@@ -74,13 +74,18 @@ public class AzirisTechTree {
 
 			node(compactPump, Seq.with(new Research(compactDrill)), () -> {
 				node(turbinePump, Seq.with(new Research(wavePipeline)), () -> {
-					node(jetstreamPump, Seq.with(new Research(steelTank)), () -> { });
+					node(jetstreamPump, Seq.with(new Research(steelTank)), () -> {
+						node(tidalPump, Seq.with(new Research(tidalPipeline)), () -> { });
+					});
 				});
 				node(crudePipeline, () -> {
 					node(wavePipeline, () -> {
 						node(jetPipeline, () -> {
 							node(crystalPipeline, Seq.with(new Research(platedSteelConveyor)), () -> {
-								node(tidalPipeline);
+								node(tidalPipeline, Seq.with(new Research(crystalTank)), () -> {
+									node(tidalJunction, Seq.with(new Research(crystalJunction)), () -> { });
+									node(tidalRouter, Seq.with(new Research(crystalRouter)), () -> { });
+								});
 								node(crystalJunction, Seq.with(new Research(waveJunction)), () -> {
 									node(crystalBridge, Seq.with(new Research(waveBridge)), () -> { });
 								});

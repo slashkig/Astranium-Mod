@@ -1,5 +1,6 @@
 package astramod.world.blocks.liquid;
 
+import java.util.Arrays;
 import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
@@ -8,14 +9,12 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.*;
-import mindustry.graphics.Drawf;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.liquid.*;
 
 import static mindustry.Vars.*;
-
-import java.util.Arrays;
 
 public class LargePipeline extends ArmoredPipeline {
 	static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
@@ -23,6 +22,8 @@ public class LargePipeline extends ArmoredPipeline {
 
 	public LargePipeline(String name) {
 		super(name);
+		solid = true;
+		placeableLiquid = true;
 	}
 
 	@Override public Block getReplacement(BuildPlan req, Seq<BuildPlan> plans) {
@@ -63,27 +64,65 @@ public class LargePipeline extends ArmoredPipeline {
 	}
 
 	@Override public boolean blends(Tile tile, int rotation, int direction) {
-		Point2 dir = Geometry.d4(Mathf.mod(rotation - direction, 4));
-        Building other = tile.nearby(dir.x * size, dir.y * size).build;
-        return other != null && other.team == tile.team() && blends(tile, rotation, other.tileX(), other.tileY(), other.rotation, other.block);
+		int dir = Mathf.mod(rotation - direction, 4);
+        Tile other = tile.nearby(Geometry.d4x(dir) * size, Geometry.d4y(dir) * size);
+        return other != null && other.build != null && other.team() == tile.team() &&
+			blends(tile, rotation, other.x, other.y, other.build.rotation, other.build.block);
     }
 
 	@Override public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock) {
-		return (otherblock.size == size && (otherblock instanceof LiquidJunction ||
-			(otherblock instanceof LargePipeline && blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock)))) ||
-			(otherblock instanceof LiquidRouter && otherblock.size >= size &&
-			(lookingAt(tile, rotation, otherx, othery, otherblock) || blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock)));
+		if (tile.build instanceof LargePipelineBuild p) return p.checkSide(world.build(otherx, othery)) && super.blends(tile, rotation, otherx, othery, otherrot, otherblock);
+		else if (otherblock instanceof LargePipeline || otherblock instanceof LiquidJunction) return otherblock.size == size && (blendsArmored(tile, rotation, otherx, othery, otherrot, otherblock) || lookingAt(tile, rotation, otherx, othery, otherblock));
+		else return otherblock.size >= size && super.blends(tile, rotation, otherx, othery, otherrot, otherblock);
 	}
 
 	@Override public boolean blendsArmored(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock) {
-		return Point2.equals(tile.x + Geometry.d4(rotation).x * size, tile.y + Geometry.d4(rotation).y * size, otherx, othery) ||
+		return Point2.equals(tile.x + Geometry.d4x(rotation) * size, tile.y + Geometry.d4y(rotation) * size, otherx, othery) ||
 			((!otherblock.rotatedOutput(otherx, othery) && Edges.getFacingEdge(otherblock, otherx, othery, tile) != null &&
 			Edges.getFacingEdge(otherblock, otherx, othery, tile).relativeTo(tile) == rotation) ||
 			(otherblock.rotatedOutput(otherx, othery) &&
-			Point2.equals(otherx + Geometry.d4(otherrot).x * size, othery + Geometry.d4(otherrot).y * size, tile.x, tile.y)));
+			Point2.equals(otherx + Geometry.d4x(otherrot) * size, othery + Geometry.d4y(otherrot) * size, tile.x, tile.y)));
+	}
+
+	@Override public int[] buildBlending(Tile tile, int rotation, BuildPlan[] directional, boolean world) {
+		int[] blendresult = super.buildBlending(tile, rotation, directional, world);
+		blendresult[4] = 0;
+		for (int i = 0; i < 4; i++) {
+			if (tile != null && tile.build != null && blends(tile, rotation, directional, i, world)) {
+				int realDir = Mathf.mod(rotation - i, 4);
+				int tileOffset = realDir <= 1 ? size : 1;
+				Building build = tile.build.nearby(Geometry.d4x(realDir) * tileOffset, Geometry.d4y(realDir) * tileOffset);
+				if (build != null && !build.block.squareSprite) {
+					blendresult[4] |= (1 << i);
+				}
+			}
+		}
+		return blendresult;
 	}
 
 	public class LargePipelineBuild extends ArmoredConduitBuild {
+		@Override public void draw() {
+			int r = this.rotation;
+
+			//draw extra conduits facing this one for tiling purposes
+			Draw.z(Layer.blockUnder);
+			for (int i = 0; i < 4; i++) {
+				if ((blending & (1 << i)) != 0) {
+					int dir = r - i;
+					float offsetMult = size * tilesize * 0.75f;
+					drawAt(x + Geometry.d4x(dir) * offsetMult, y + Geometry.d4y(dir) * offsetMult, 0, i == 0 ? r : dir, i != 0 ? SliceMode.bottom : SliceMode.top);
+				}
+			}
+
+			Draw.z(Layer.block);
+
+			Draw.scl(xscl, yscl);
+			drawAt(x, y, blendbits, r, SliceMode.none);
+			Draw.reset();
+
+			if (capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
+			if (backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
+		}
 
 		@Override protected void drawAt(float x, float y, int bits, int rotation, SliceMode slice) {
 			float angle = rotation * 90f;
@@ -113,31 +152,28 @@ public class LargePipeline extends ArmoredPipeline {
 
 		@Override public float moveLiquidForward(boolean leaks, Liquid liquid) {
 			Building next = front();
-			if (next != null && ((next instanceof LargePipelineBuild || next.block instanceof LiquidJunction) &&
-			next.block.size == size || next.block instanceof LiquidRouter && next.block.size >= size)) {
+			if (next != null && checkSide(next)) {
 				return moveLiquid(next, liquid);
 			}
 			else return 0.0f;
 		}
 
 		@Nullable @Override public Building next() {
-			Tile next = tile.nearby(Geometry.d4x(rotation) * size, Geometry.d4y(rotation) * size);
-			if (next != null && next.build instanceof LargePipelineBuild) {
-				return next.build;
+			int tileOffset = rotation <= 1 ? size : 1;
+			Building next = nearby(Geometry.d4x(rotation) * tileOffset, Geometry.d4y(rotation) * tileOffset);
+			if (next != null && next instanceof LargePipelineBuild && next.block.size == size) {
+				return next;
 			}
 			else return null;
 		}
 
 		@Override public boolean acceptLiquid(Building source, Liquid liquid) {
-			noSleep();
-			if (liquids.current() == liquid || liquids.currentAmount() < 0.2f && source instanceof LargePipelineBuild ||
-			source.block instanceof LiquidJunction || source.block instanceof LiquidRouter) {
-				return checkSide(source, (rotation + 2) % 4);
-			}
-			else return false;
+			return super.acceptLiquid(source, liquid) && checkSide(source);
 		}
 
-		public boolean checkSide(Building other, int direction) {
+		public boolean checkSide(Building other) {
+			if (other == null || other.block.size < size || other.block instanceof Conduit && other.block.size != size) return false;
+			int direction = relativeTo(other);
 			for (int i = 0; i < size; i++) {
 				nearbySide(tile.x, tile.y, direction, i, Tmp.p1);
 				Tile near = world.tile(Tmp.p1.x, Tmp.p1.y);
