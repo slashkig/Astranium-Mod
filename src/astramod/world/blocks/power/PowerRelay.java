@@ -3,26 +3,32 @@ package astramod.world.blocks.power;
 import arc.Core;
 import arc.func.*;
 import arc.graphics.g2d.*;
+import arc.math.*;
 import arc.util.*;
 import mindustry.game.*;
 import mindustry.gen.Building;
+import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
 
 import static mindustry.Vars.*;
 
 public class PowerRelay extends PowerNode {
-	TextureRegion glowRegion;
+	public float warmupSpeed = 0.02f;
+	public TextureRegion glowRegion;
 
 	public PowerRelay(String name) {
 		super(name);
 		conductivePower = false;
+		laserScale = 0.75f;
 	}
 
 	@Override public void load() {
 		super.load();
 
 		glowRegion = Core.atlas.find(name + "-glow");
+		laser = Core.atlas.find("astramod-power-relay-laser");
+		laserEnd = Core.atlas.find("astramod-power-relay-laser-end");
 	}
 
 	@Override public boolean linkValid(Building tile, Building link, boolean checkMaxNodes) {
@@ -84,12 +90,17 @@ public class PowerRelay extends PowerNode {
 	}
 
 	public class PowerRelayBuild extends PowerNodeBuild {
+		public float warmup = 0f;
+
 		@Override public void draw() {
 			super.draw();
 
-			if (power.graph.getPowerProduced() > 0f) {
-				Draw.rect(glowRegion, x, y);
-			}
+			Draw.z(Layer.blockOver);
+			float powerIn = power.graph.getPowerProduced(), powerOut = power.graph.getPowerNeeded();
+			warmup = Mathf.approachDelta(warmup, powerIn > powerOut ? 1f : (powerOut > 0f ? (powerIn / powerOut) : 0f), warmupSpeed);
+			Draw.color(laserColor2);
+			Draw.alpha(warmup);
+			Draw.rect(glowRegion, x, y);
 		}
 	}
 }

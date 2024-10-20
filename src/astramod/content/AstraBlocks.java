@@ -43,7 +43,7 @@ public class AstraBlocks {
 		hardstone, hardstoneWall, bedrock, bedrockWall,
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
-		powerRelay,
+		powerRelay, largePowerRelay,
 		windTurbine, windTurbineLarge,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
@@ -780,7 +780,18 @@ public class AstraBlocks {
 			size = 2;
 			fogRadius = 2;
 			maxNodes = 3;
-			laserRange = 10f;
+			laserRange = 14f;
+
+			squareSprite = false;
+		}};
+
+		largePowerRelay = new PowerRelay("large-power-relay") {{
+			requirements(Category.power, ItemStack.with(Items.copper, 60, Items.silicon, 25, AstraItems.steel, 20));
+			scaledHealth = 50f;
+			size = 3;
+			fogRadius = 3;
+			maxNodes = 5;
+			laserRange = 26f;
 
 			squareSprite = false;
 		}};

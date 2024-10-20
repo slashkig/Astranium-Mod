@@ -90,22 +90,13 @@ public class PipelineJunction extends LiquidJunction {
 		}
 
 		@Override public void updateTile() {
-			boolean movedLiquids = false;
-
 			for (int i = 0; i < 2; i++) {
 				setJunctionDirection(i);
 				if (liquids.currentAmount() > 0.0001f && timer(i == 0 ? timerHflow : timerVflow, 1)) {
 					moveLiquidForward(leaks, liquids.current(), i);
-					movedLiquids = true;
 				}
 			}
 			resetJunction();
-
-			if (movedLiquids) {
-				noSleep();
-			} else {
-				sleep();
-			}
 		}
 
 		/** Should use {@code resetJunction()} afterwards. */
