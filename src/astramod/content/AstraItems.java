@@ -6,7 +6,7 @@ import mindustry.content.*;
 import mindustry.type.*;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, lithium, magnetite, steel, crystals, neodymium, aerogel, astranium;
+	public static Item testium, hematite, iron, lithium, magnetite, steel, crystals, neodymium, crystaglass, aerogel, astranium;
 
 	public static void load() {
 		Log.info("Loading items");
@@ -44,7 +44,7 @@ public class AstraItems {
 
 		crystals = new Item("crystals", Color.valueOf("bf2851")) {{
 			hardness = 4;
-			cost = 1.5f;
+			cost = 1.4f;
 			charge = 0.5f;
 		}};
 
@@ -54,12 +54,16 @@ public class AstraItems {
 			radioactivity = 0.1f;
 		}};
 
+		crystaglass = new Item("crystaglass") {{
+			cost = 1.5f;
+		}};
+
 		aerogel = new Item("aerogel", Color.valueOf("4da6ff")) {{
-			cost = 1.4f;
+			cost = 1.6f;
 		}};
 
 		astranium = new Item("astranium", Color.valueOf("8142ff")) {{
-			cost = 1.6f;
+			cost = 1.7f;
 			charge = 0.3f;
 			radioactivity = 0.05f;
 		}};

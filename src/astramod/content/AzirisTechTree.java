@@ -57,7 +57,7 @@ public class AzirisTechTree {
 			});
 
 			node(compactDrill, () -> {
-				node(ironDrill, Seq.with(new Research(windTurbine)), () -> {
+				node(ironDrill, () -> {
 					node(augerDrill, () -> {
 						node(plasmaDrill, Seq.with(new Research(AstraFluids.plasma)), () -> {
 							node(excavationDrill);
@@ -66,8 +66,10 @@ public class AzirisTechTree {
 					});
 				});
 				node(compactBore, () -> {
-					node(laserBore, () -> {
-						node(pulseBore, Seq.with(new Research(plasmaDrill)), () -> { });
+					node(ironBore, () -> {
+						node(laserBore, () -> {
+							node(pulseBore, Seq.with(new Research(plasmaDrill)), () -> { });
+						});
 					});
 				});
 			});
@@ -106,6 +108,21 @@ public class AzirisTechTree {
 			});
 
 			node(windTurbine, () -> {
+				node(wireRelay, () -> {
+					node(powerRelay, () -> {
+						node(largePowerRelay, () -> {
+							node(relayTower);
+						});
+					});
+					node(powerCell, () -> {
+						node(largePowerCell, () -> {
+							node(erythronitePowerCell);
+						});
+					});
+				});
+				node(steamTurbine, Seq.with(new Research(coalPlant)), () -> {
+					// future turbines
+				});
 				node(windTurbineLarge);
 			});
 
@@ -137,6 +154,7 @@ public class AzirisTechTree {
 						node(cryofluidProcessor, Seq.with(new Research(hydraulicPress)), () -> { });
 					});
 				});
+				node(coalPlant);
 				node(castIronMixer, () -> {
 					node(magnetiteSynthesizer, () -> {
 						node(plasmaEnergizer);

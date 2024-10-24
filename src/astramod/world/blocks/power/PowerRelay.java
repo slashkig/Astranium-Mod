@@ -2,9 +2,11 @@ package astramod.world.blocks.power;
 
 import arc.Core;
 import arc.func.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.gen.Building;
 import mindustry.graphics.*;
@@ -15,24 +17,52 @@ import static mindustry.Vars.*;
 
 public class PowerRelay extends PowerNode {
 	public float warmupSpeed = 0.02f;
-	public TextureRegion glowRegion;
+	public float glowAlpha = 0.5f;
+	public float glowMag = 0.2f;
+	public float glowScl = 60f;
+	public TextureRegion glowRegion, laserGlow, laserGlowEnd;
 
 	public PowerRelay(String name) {
 		super(name);
-		conductivePower = false;
-		laserScale = 0.75f;
+
+		laserScale = 0.5f;
+		laserColor1 = Color.white;
+		laserColor2 = Color.valueOf("ffe08f");
 	}
 
 	@Override public void load() {
 		super.load();
 
 		glowRegion = Core.atlas.find(name + "-glow");
-		laser = Core.atlas.find("astramod-power-relay-laser");
-		laserEnd = Core.atlas.find("astramod-power-relay-laser-end");
+		laser = Core.atlas.find("astramod-power-relay-cable");
+		laserEnd = Core.atlas.find("astramod-power-relay-cable-end");
+		laserGlow = Core.atlas.find("astramod-power-relay-cable-glow");
+		laserGlowEnd = Core.atlas.find("astramod-power-relay-cable-glow-end");
 	}
 
 	@Override public boolean linkValid(Building tile, Building link, boolean checkMaxNodes) {
-		return link instanceof PowerNodeBuild && super.linkValid(tile, link, checkMaxNodes);
+		if (tile != link && link != null && link.block.connectedPower && tile.team == link.team && link.block instanceof PowerNode node) {
+			return (overlaps(tile, link, laserRange * tilesize) || overlaps(link, tile, node.laserRange * tilesize)) &&
+				(!checkMaxNodes || link.power.links.size < node.maxNodes || link.power.links.contains(tile.pos()));
+		}
+		else return false;
+	}
+
+	public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2, float warmup) {
+		float angle1 = Angles.angle(x1, y1, x2, y2),
+			vx = Mathf.cosDeg(angle1), vy = Mathf.sinDeg(angle1),
+			len1 = size1 * tilesize / 2f - 1.5f, len2 = size2 * tilesize / 2f - 1.5f;
+
+		Draw.alpha(Renderer.laserOpacity);
+		Drawf.laser(laser, laserEnd, x1 + vx * len1, y1 + vy * len1, x2 - vx * len2, y2 - vy * len2, laserScale);
+		if (warmup > 0.01f) {
+			Draw.alpha(Renderer.laserOpacity * (glowAlpha + Mathf.sin(glowScl, glowMag)) * warmup);
+			Drawf.laser(laserGlow, laserGlowEnd, x1 + vx * len1, y1 + vy * len1, x2 - vx * len2, y2 - vy * len2, laserScale);
+		}
+	}
+
+	@Override protected boolean overlaps(float srcx, float srcy, Tile other, Block otherBlock, float range) {
+		return otherBlock instanceof PowerNode && super.overlaps(srcx, srcy, other, otherBlock, range);
 	}
 
 	@Override protected void getPotentialLinks(Tile tile, Team team, Cons<Building> others) {
@@ -51,7 +81,7 @@ public class PowerRelay extends PowerNode {
 		tempBuilds.clear();
 		graphs.clear();
 
-		//add conducting graphs to prevent double link
+		// Add conducting graphs to prevent double link
 		for (var p : Edges.getEdges(size)) {
 			Tile other = tile.nearby(p);
 			if (other != null && other.team() == team && other.build != null && other.build.power != null) {
@@ -93,14 +123,26 @@ public class PowerRelay extends PowerNode {
 		public float warmup = 0f;
 
 		@Override public void draw() {
-			super.draw();
+			Draw.rect(region, x, y);
+			if (Mathf.zero(Renderer.laserOpacity) || isPayload()) return;
 
 			Draw.z(Layer.blockOver);
-			float powerIn = power.graph.getPowerProduced(), powerOut = power.graph.getPowerNeeded();
-			warmup = Mathf.approachDelta(warmup, powerIn > powerOut ? 1f : (powerOut > 0f ? (powerIn / powerOut) : 0f), warmupSpeed);
+			warmup = Mathf.approachDelta(warmup, power.graph.getSatisfaction(), warmupSpeed);
 			Draw.color(laserColor2);
 			Draw.alpha(warmup);
 			Draw.rect(glowRegion, x, y);
+
+			Draw.z(Layer.power);
+			Draw.color(Color.white);
+			for (int i = 0; i < power.links.size; i++) {
+				Building link = world.build(power.links.get(i));
+
+				if (!linkValid(this, link) || link.block instanceof PowerNode && link.id >= id) continue;
+
+				drawLaser(x, y, link.x, link.y, size, link.block.size, warmup);
+			}
+
+			Draw.reset();
 		}
 	}
 }

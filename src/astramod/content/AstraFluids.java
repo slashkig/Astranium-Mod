@@ -6,18 +6,23 @@ import mindustry.type.*;
 import mindustry.content.*;
 
 public class AstraFluids {
-	public static Liquid ferrofluid, plasma;
+	public static Liquid steam, ferrofluid, plasma;
 	
 	public static void load() {
 		Log.info("Loading fluids");
 
+		steam = new Liquid("steam", Color.grays(0.9f)) {{
+			gas = true;
+			temperature = 0.7f;
+		}};
+
 		ferrofluid = new Liquid("ferrofluid", Color.valueOf("220000")) {{
 			effect = StatusEffects.none; // TODO need to add status effect
+			coolant = true;
 			barColor = Color.valueOf("440202");
 			viscosity = 0.25f;
-			heatCapacity = 0.65f;
-			flammability = 0.6f;
-			explosiveness = 0.2f;
+			heatCapacity = 0.7f;
+			flammability = 0.05f;
 			temperature = 0.4f;
 			boilPoint = 0.7f;
 			gasColor = Color.grays(0.1f);

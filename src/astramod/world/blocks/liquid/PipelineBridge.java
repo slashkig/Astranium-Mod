@@ -76,6 +76,9 @@ public class PipelineBridge extends LiquidBridge {
 
 				Draw.z(Layer.power - 1);
 				Draw.alpha(Renderer.bridgeOpacity);
+				float dir = relativeTo(other.x, other.y) * 90f;
+				Draw.rect(endRegion, x, y, dir + 90f);
+				Draw.rect(endRegion, other.drawx(), other.drawy(), dir + 270f);
 				Draw.rect(bridgeRegion, cx, cy, len, bridgeRegion.height * bridgeRegion.scl(), angle);
 				if (liquidColor != null) {
 					Draw.color(liquidColor, liquidColor.a * Renderer.bridgeOpacity);

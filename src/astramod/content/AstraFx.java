@@ -4,6 +4,7 @@ import arc.math.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.graphics.*;
+import mindustry.content.*;
 import mindustry.entities.*;
 import astramod.graphics.*;
 
@@ -15,6 +16,38 @@ public class AstraFx {
 			Draw.color(AstraPal.plasmaGlowPurple, Pal.stoneGray, e.fin());
 			Fill.square(e.x + x, e.y + y, e.fout() * 2f + 0.5f, 45);
 		});
+	}),
+
+	steamGenerate = new Effect(100, e -> {
+		Draw.color(AstraFluids.steam.color);
+		Draw.alpha(e.fslope() * 0.8f);
+
+		Fx.rand.setSeed(e.id);
+		for(int i = 0; i < 6; i++){
+			Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(e.finpow() * 14f)).add(e.x, e.y);
+			Fill.circle(Fx.v.x, Fx.v.y, Fx.rand.random(1.4f, 3.4f));
+		}
+	}).layer(Layer.bullet - 1f),
+	
+	oilSmoke = new Effect(180, e -> {
+		float length = 3f + e.finpow() * 20f;
+		Fx.rand.setSeed(e.id);
+		for(int i = 0; i < 13; i++){
+			Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(length));
+			float sizer = Fx.rand.random(1.3f, 3.7f);
+
+			e.scaled(e.lifetime * Fx.rand.random(0.5f, 1f), b -> {
+				Draw.color(Color.grays(0.3f), b.fslope());
+
+				Fill.circle(e.x + Fx.v.x, e.y + Fx.v.y, sizer + b.fslope() * 1.2f);
+			});
+		}
+	}).startDelay(30f),
+
+	octShieldBreak = new Effect(40, e -> {
+		Draw.color(e.color);
+		Lines.stroke(3f * e.fout());
+		Lines.poly(e.x, e.y, 8, e.rotation + e.fin(), 22.5f);
 	}),
 
 	coreLaser = new Effect(8, e -> {

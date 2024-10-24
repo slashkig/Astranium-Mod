@@ -1,23 +1,23 @@
 package astramod.world.blocks.defense;
 
-import arc.Events;
-import arc.func.Cons;
-import arc.util.Time;
+import arc.*;
+import arc.func.*;
+import arc.util.*;
 import arc.util.io.*;
-import arc.math.Mathf;
-import arc.math.geom.Intersector;
+import arc.math.*;
+import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.graphics.*;
-import mindustry.ui.Bar;
+import mindustry.ui.*;
 import mindustry.entities.*;
 import mindustry.content.*;
 import mindustry.gen.*;
-import mindustry.game.Team;
-import mindustry.game.EventType.Trigger;
+import mindustry.game.*;
 import mindustry.world.meta.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.logic.Ranged;
+import astramod.content.*;
 
 import static mindustry.Vars.*;
 
@@ -35,7 +35,8 @@ public class ProjectorWall extends Wall {
 	public boolean absorbLightning = false;
 
 	public Effect absorbEffect = Fx.absorb;
-	public Effect shieldBreakEffect = Fx.shieldBreak;
+	public Effect shieldBreakEffect = AstraFx.octShieldBreak;
+	public TextureRegion glowRegion;
 
 	protected static ProjectorWallBuild paramEntity;
 	protected static Effect paramEffect;
@@ -60,6 +61,11 @@ public class ProjectorWall extends Wall {
 	@Override public void init() {
 		updateClipRadius(fullRadius + 3f);
 		super.init();
+	}
+
+	@Override public void load() {
+		super.load();
+		glowRegion = Core.atlas.find(name + "-glow");
 	}
 
 	@Override public void setStats() {
@@ -127,7 +133,7 @@ public class ProjectorWall extends Wall {
 				breakTimer = breakCooldown;
 				shieldBreakEffect.at(x, y, realRadius(), team.color);
 				if (team != state.rules.defaultTeam) {
-					Events.fire(Trigger.forceProjectorBreak);
+					Events.fire(EventType.Trigger.forceProjectorBreak);
 				}
 			}
 
@@ -152,6 +158,10 @@ public class ProjectorWall extends Wall {
 			return fullRadius * radscl;
 		}
 
+		@Override public float warmup() {
+			return warmup;
+		}
+
 		public boolean broken() {
 			return breakTimer > 0 || !canConsume();
 		}
@@ -163,6 +173,13 @@ public class ProjectorWall extends Wall {
 		@Override public void draw() {
 			super.draw();
 
+			if (warmup > 0.001f && glowRegion.found()) {
+				Draw.color(team.color);
+				Draw.alpha(warmup);
+				Draw.z(Layer.blockOver);
+				Draw.rect(glowRegion, x, y);
+			}
+			
 			if (!broken()) {
 				float radius = realRadius();
 
@@ -171,6 +188,7 @@ public class ProjectorWall extends Wall {
 
 					if (renderer.animateShields) {
 						Draw.z(Layer.shields + 0.001f * hit);
+						Draw.alpha(1f);
 						Fill.poly(x, y, sides, radius, shieldRotation);
 					} else {
 						Draw.z(Layer.shields);
@@ -179,7 +197,6 @@ public class ProjectorWall extends Wall {
 						Fill.poly(x, y, sides, radius, shieldRotation);
 						Draw.alpha(1f);
 						Lines.poly(x, y, sides, radius, shieldRotation);
-						Draw.reset();
 					}
 				}
 			}

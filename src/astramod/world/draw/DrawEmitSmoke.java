@@ -16,7 +16,6 @@ public class DrawEmitSmoke extends DrawBlock {
 	public int particles = 30;
 	public float particleLife = 70f, particleRad = 7f, addSizeMult = 0.2f, particleSize = 3f, fadeMargin = 0.4f, rotateScl = 3f;
 	public Interp particleInterp = new PowIn(1.5f);
-	public Interp particleSizeInterp = Interp.slope;
 	public Blending blending = Blending.normal;
 	public float layer = Layer.blockAdditive;
 
@@ -26,7 +25,7 @@ public class DrawEmitSmoke extends DrawBlock {
 			float z = Draw.z();
 			Draw.blend(blending);
 			Draw.color(color);
-			Draw.z(layer);
+			if (layer > 0) Draw.z(layer);
 
 			rand.setSeed(build.id);
 			for (int i = 0; i < particles; i++) {
