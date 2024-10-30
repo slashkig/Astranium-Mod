@@ -12,14 +12,14 @@ import mindustry.world.draw.*;
 public class DrawEnergyBars extends DrawBlock {
 	public int barsPerRow;
 	public int rows = 1;
-	public float barOffset = 0.5f;
+	public float xOffset = 0.5f, yOffset = 0.5f;
 
 	public TextureRegion barRegion;
 	public TextureRegion iconRegion;
 	public Color emptyColor = Color.gray;
 	public Color fullColor = Color.valueOf("fb9567");
 
-	private float dx, dy, xOffset, yOffset;
+	private float dx, dy;
 
 	public DrawEnergyBars(int bars) {
 		barsPerRow = bars;
@@ -28,10 +28,10 @@ public class DrawEnergyBars extends DrawBlock {
 	@Override public void load(Block block) {
 		barRegion = Core.atlas.find(block.name + "-bar");
 		iconRegion = Core.atlas.find(block.name + "-bar-icon");
-		dx = barRegion.width / 4f + barOffset;
-		dy = barRegion.height / 4f + barOffset;
-		xOffset = dx * (barsPerRow - 1) / 2f;
-		yOffset = dy * (rows - 1) / 2f;
+		xOffset += barRegion.width / 8f;
+		yOffset += barRegion.height / 8f;
+		dx = xOffset * (barsPerRow - 1) / 2f;
+		dy = yOffset * (rows - 1) / 2f;
 	}
 
 	@Override public TextureRegion[] icons(Block block) {
@@ -44,10 +44,10 @@ public class DrawEnergyBars extends DrawBlock {
 
 	@Override public void draw(Building build) {
 		float drawX;
-		float drawY = build.y - yOffset;
+		float drawY = build.y - dy;
 		float barPower = build.power.status * rows * barsPerRow;
 		for (int row = 1; row <= rows; row++) {
-			drawX = build.x - xOffset;
+			drawX = build.x - dx;
 			for (int bar = 1; bar <= barsPerRow; bar++) {
 				if (barPower > 1f) {
 					Draw.color(fullColor);
@@ -59,9 +59,9 @@ public class DrawEnergyBars extends DrawBlock {
 					Draw.color(emptyColor);
 				}
 				Draw.rect(barRegion, drawX, drawY);
-				drawX += dx;
+				drawX += xOffset;
 			}
-			drawY += dy;
+			drawY += yOffset;
 		}
 
 		Draw.reset();

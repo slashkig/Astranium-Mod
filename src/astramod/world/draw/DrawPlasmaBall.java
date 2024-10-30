@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.Vec2;
 import mindustry.gen.*;
+import mindustry.world.Block;
 import mindustry.world.draw.*;
 import astramod.graphics.*;
 
@@ -69,5 +70,9 @@ public class DrawPlasmaBall extends DrawBlock {
 
 			Draw.reset();
 		}
+	}
+	
+	@Override public TextureRegion[] icons(Block block) {
+		return new TextureRegion[0];
 	}
 }

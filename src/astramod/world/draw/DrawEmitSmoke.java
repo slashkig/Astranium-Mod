@@ -5,6 +5,7 @@ import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.Interp.*;
 import arc.util.*;
+import mindustry.world.Block;
 import mindustry.world.draw.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
@@ -45,5 +46,9 @@ public class DrawEmitSmoke extends DrawBlock {
 			Draw.reset();
 			Draw.z(z);
 		}
+	}
+
+	@Override public TextureRegion[] icons(Block block) {
+		return new TextureRegion[0];
 	}
 }
