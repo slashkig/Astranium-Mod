@@ -17,8 +17,8 @@ import static mindustry.Vars.*;
 
 public class PowerRelay extends PowerNode {
 	public float warmupSpeed = 0.02f;
-	public float glowAlpha = 0.5f;
-	public float glowMag = 0.2f;
+	public float glowAlpha = 0.75f;
+	public float glowMag = 0.25f;
 	public float glowScl = 60f;
 	public TextureRegion glowRegion, laserGlow, laserGlowEnd;
 

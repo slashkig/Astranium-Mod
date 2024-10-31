@@ -1173,7 +1173,7 @@ public class AstraBlocks {
 		}};
 
 		compactBore = new WallDrill("compact-bore") {{
-			requirements(Category.production, ItemStack.with(AstraItems.hematite, 20, Items.graphite, 8));
+			requirements(Category.production, ItemStack.with(AstraItems.hematite, 20, Items.copper, 8));
 			size = 2;
 			fogRadius = 2;
 			hasPower = true;
@@ -1487,7 +1487,7 @@ public class AstraBlocks {
 		}};
 
 		aerotechWall = new ProjectorWall("aerotech-wall", 1.6f) {{
-			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystals, 5));
+			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystaglass, 5));
 			health = 210 * 4;
 			armor = 12f;
 			fogRadius = 3;
@@ -1516,7 +1516,7 @@ public class AstraBlocks {
 		}};
 
 		astraniumWall = new EffectWall("astranium-wall") {{
-			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.neodymium, 6, AstraItems.crystaglass, 5));
+			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.crystals, 6, AstraItems.neodymium, 5));
 			health = 360 * 4;
 			armor = 25f;
 			fogRadius = 2;
