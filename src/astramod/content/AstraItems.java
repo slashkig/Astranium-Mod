@@ -54,7 +54,7 @@ public class AstraItems {
 			radioactivity = 0.1f;
 		}};
 
-		crystaglass = new Item("crystaglass") {{
+		crystaglass = new Item("crystaglass", Color.valueOf("ffeef1")) {{
 			cost = 1.5f;
 		}};
 

@@ -121,7 +121,8 @@ public class AzirisTechTree {
 					});
 				});
 				node(steamTurbine, Seq.with(new Research(coalPlant)), () -> {
-					// future turbines
+					node(exothermicReactor);
+					node(repulsionGenerator);
 				});
 				node(windTurbineLarge);
 			});
@@ -149,6 +150,7 @@ public class AzirisTechTree {
 					node(purificationSmelter, Seq.with(new Research(blastFurnace)), () -> { });
 				});
 				node(castIronKiln, () -> {
+					node(crystaglassKiln);
 					node(cryofluidBlender, Seq.with(new Research(turbinePump)), () -> {
 						node(ferrofluidMixer);
 						node(cryofluidProcessor, Seq.with(new Research(hydraulicPress)), () -> { });
