@@ -3,9 +3,7 @@ package astramod.world.draw;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import mindustry.content.Fx;
-import mindustry.entities.Effect;
-import mindustry.gen.Building;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
@@ -18,7 +16,6 @@ public class DrawVerticalPump extends DrawBlock {
 	/** Speed of the down phase in proportion to the other phases. */
 	public float downTime = 1f;
 
-	public Effect downEffect = Fx.none;
 	public String suffix = "-top";
 	public TextureRegion topRegion;
 
@@ -48,9 +45,6 @@ public class DrawVerticalPump extends DrawBlock {
 		} else {
 			// Down phase
 			float scl = Mathf.lerp(maxScale, 1f, (progress - 3f) / downTime);
-			if (downEffect != Fx.none && Mathf.equal(scl, 1f, 0.025f)) {
-				downEffect.at(build.x, build.y);
-			}
 			Draw.scl(scl, scl);
 			Draw.rect(topRegion, build.x, build.y);
 		}

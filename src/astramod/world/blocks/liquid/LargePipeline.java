@@ -17,8 +17,8 @@ import mindustry.world.blocks.liquid.*;
 import static mindustry.Vars.*;
 
 public class LargePipeline extends ArmoredPipeline {
-	static final float rotatePad = 6, hpad = rotatePad / 2f / 4f;
-	static final float[][] rotateOffsets = {{hpad, hpad}, {-hpad, hpad}, {-hpad, -hpad}, {hpad, -hpad}};
+	protected static final float pipeRotatePad = 6, pipeHpad = pipeRotatePad / 2f / 4f;
+	protected static final float[][] pipeRotateOffsets = {{pipeHpad, pipeHpad}, {-pipeHpad, pipeHpad}, {-pipeHpad, -pipeHpad}, {pipeHpad, -pipeHpad}};
 
 	public LargePipeline(String name) {
 		super(name);
@@ -138,8 +138,8 @@ public class LargePipeline extends ArmoredPipeline {
 			TextureRegion liquidr = bits == 1 && padCorners ? rotateRegions[wrapRot][gas][frame] : renderer.fluidFrames[gas][frame];
 
 			if (bits == 1 && padCorners) {
-				ox = rotateOffsets[wrapRot][0] * size;
-				oy = rotateOffsets[wrapRot][1] * size;
+				ox = pipeRotateOffsets[wrapRot][0] * size;
+				oy = pipeRotateOffsets[wrapRot][1] * size;
 			}
 
 			float xscl = Draw.xscl, yscl = Draw.yscl;

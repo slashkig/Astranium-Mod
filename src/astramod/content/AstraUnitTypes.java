@@ -1,18 +1,17 @@
 package astramod.content;
 
-import arc.graphics.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.type.*;
-import mindustry.type.ammo.*;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import astramod.graphics.*;
+import astramod.gen.*;
+import astramod.gen.UnitEntity;
 
 public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
@@ -131,7 +130,7 @@ public class AstraUnitTypes {
 		// region MODULES
 
 		gatherer = new UnitType("gatherer") {{
-			constructor = UnitEntity::create;
+			constructor = BuildingTetherUnit::create;
 			controller = u -> new MinerAI();
 			flying = true;
 
