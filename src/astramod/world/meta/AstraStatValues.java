@@ -4,18 +4,19 @@ import arc.util.*;
 import arc.struct.*;
 import arc.graphics.*;
 import mindustry.ui.*;
+import mindustry.ctype.UnlockableContent;
 import mindustry.type.*;
 import mindustry.world.meta.*;
 
 public class AstraStatValues {
-	public static StatValue craftBooster(String unit, float amount, float boost, Item item) {
+	public static StatValue craftBooster(String unit, float amount, float boost, UnlockableContent booster) {
 		return table -> {
 			table.row();
 			table.table(c -> {
 				c.table(Styles.grayPanel, b -> {
-					b.image(item.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
+					b.image(booster.uiIcon).size(40).pad(10f).left().scaling(Scaling.fit);
 					b.table(info -> {
-						info.add(item.localizedName).left().row();
+						info.add(booster.localizedName).left().row();
 						info.add(Strings.autoFixed(amount * 60f, 2) + StatUnit.perSecond.localized()).left().color(Color.lightGray);
 					});
 

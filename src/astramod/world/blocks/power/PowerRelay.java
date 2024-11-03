@@ -6,6 +6,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import astramod.world.blocks.power.SwitchRelay.SwitchRelayBuild;
 import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.gen.Building;
@@ -55,7 +56,7 @@ public class PowerRelay extends PowerNode {
 
 		Draw.alpha(Renderer.laserOpacity);
 		Drawf.laser(laser, laserEnd, x1 + vx * len1, y1 + vy * len1, x2 - vx * len2, y2 - vy * len2, laserScale);
-		if (warmup > 0.01f) {
+		if (warmup > 0.001f) {
 			Draw.alpha(Renderer.laserOpacity * (glowAlpha + Mathf.sin(glowScl, glowMag)) * warmup);
 			Drawf.laser(laserGlow, laserGlowEnd, x1 + vx * len1, y1 + vy * len1, x2 - vx * len2, y2 - vy * len2, laserScale);
 		}
@@ -127,7 +128,7 @@ public class PowerRelay extends PowerNode {
 			if (Mathf.zero(Renderer.laserOpacity) || isPayload()) return;
 
 			Draw.z(Layer.blockOver);
-			warmup = Mathf.approachDelta(warmup, power.graph.getSatisfaction(), warmupSpeed);
+			warmup = Mathf.approachDelta(warmup, warmupTarget(), warmupSpeed);
 			Draw.color(laserColor2);
 			Draw.alpha(warmup);
 			Draw.rect(glowRegion, x, y);
@@ -139,10 +140,30 @@ public class PowerRelay extends PowerNode {
 
 				if (!linkValid(this, link) || link.block instanceof PowerNode && link.id >= id) continue;
 
-				drawLaser(x, y, link.x, link.y, size, link.block.size, warmup);
+				drawLaser(x, y, link.x, link.y, size, link.block.size, isInactiveSwitch(link) ? link.warmup() : warmup);
 			}
 
 			Draw.reset();
+		}
+
+		@Override public void updatePowerGraph() {
+			for (Building other : getPowerConnections(tempBuilds)) {
+				if(other.power != null && !isInactiveSwitch(other)) {
+					other.power.graph.addGraph(power.graph);
+				}
+			}
+		}
+
+		@Override public float warmup() {
+			return warmup;
+		}
+
+		public float warmupTarget() {
+			return power.graph.getSatisfaction();
+		}
+
+		protected boolean isInactiveSwitch(Building build) {
+			return build instanceof SwitchRelayBuild && !build.enabled;
 		}
 	}
 }

@@ -53,7 +53,7 @@ public class DrawEnergyBars extends DrawBlock {
 					Draw.color(fullColor);
 					barPower--;
 				} else if (barPower > 0f) {
-					Draw.color(emptyColor.cpy().lerp(fullColor, barPower));
+					Draw.color(emptyColor, fullColor, barPower);
 					barPower = 0f;
 				} else {
 					Draw.color(emptyColor);

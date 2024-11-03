@@ -10,5 +10,6 @@ public class AstraStat {
 	liquidPressure = new Stat("liquidPressure", StatCat.liquids),
 	heatCapacity = new Stat("heatCapacity", StatCat.liquids),
 	hLiquidCapacity = new Stat("hLiquidCapacity", StatCat.liquids),
-	vLiquidCapacity = new Stat("vLiquidCapacity", StatCat.liquids);
+	vLiquidCapacity = new Stat("vLiquidCapacity", StatCat.liquids),
+	powerPerItem = new Stat("powerPerItem", StatCat.power);
 }

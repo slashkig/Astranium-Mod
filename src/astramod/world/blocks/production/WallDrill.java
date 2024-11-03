@@ -60,6 +60,7 @@ public class WallDrill extends Block {
 
 		envEnabled |= Env.space;
 		flags = EnumSet.of(BlockFlag.drill);
+		group = BlockGroup.drills;
 	}
 
 	@Override public void load() {

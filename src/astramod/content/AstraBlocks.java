@@ -17,7 +17,7 @@ import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.entities.part.DrawPart.*;
 import mindustry.entities.pattern.*;
@@ -35,7 +35,7 @@ import astramod.world.blocks.liquid.*;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
-import astramod.world.blocks.units.UnitCoreModule;
+import astramod.world.blocks.units.*;
 
 import static mindustry.Vars.*;
 
@@ -46,9 +46,9 @@ public class AstraBlocks {
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		wireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
-		powerCell, largePowerCell, erythronitePowerCell,
+		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill,
-		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, crystalReactor,
+		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, crystalReactor,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
@@ -58,7 +58,7 @@ public class AstraBlocks {
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
-		gathererModule,
+		gathererModule, initiateModule, seekerModule,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
@@ -104,13 +104,14 @@ public class AstraBlocks {
 
 		// region CRAFTERS
 
-		ironFurnace = new GenericCrafter("iron-furnace") {{
+		ironFurnace = new BoostableCrafter("iron-furnace") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
 			size = 2;
 			fogRadius = 2;
-			hasPower = hasItems = true;
+			hasPower = hasItems = hasLiquids = true;
 
 			consumeItem(AstraItems.hematite, 2);
+			consumeLiquidBoost(Liquids.hydrogen, 0.04f, 0.5f);
 			consumePower(0.40f);
 			craftTime = 50f;
 			outputItem = new ItemStack(AstraItems.iron, 1);
@@ -120,7 +121,7 @@ public class AstraBlocks {
 			craftEffect = Fx.smeltsmoke;
 		}};
 
-		blastFurnace = new GenericCrafter("blast-furnace") {{
+		blastFurnace = new BoostableCrafter("blast-furnace") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 100,
 				AstraItems.lithium, 60,
@@ -130,10 +131,12 @@ public class AstraBlocks {
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 3;
-			hasPower = hasItems = true;
+			hasPower = hasItems = hasLiquids = true;
 			itemCapacity = 20;
+			liquidCapacity = 30f;
 
 			consumeItems(ItemStack.with(AstraItems.hematite, 8, Items.pyratite, 2));
+			consumeLiquidBoost(Liquids.hydrogen, 0.15f, 0.5f);
 			consumePower(2.8f);
 			craftTime = 60f;
 			outputItem = new ItemStack(AstraItems.iron, 6);
@@ -182,7 +185,7 @@ public class AstraBlocks {
 			fogRadius = 3;
 			hasPower = hasLiquids = hasItems = true;
 			itemCapacity = 20;
-			liquidCapacity = 20f;
+			liquidCapacity = 25f;
 
 			consumeItem(Items.coal, 8);
 			consumeLiquidsMulti(0.15f, Liquids.water, 0.75f, Liquids.oil, 1.5f);
@@ -326,7 +329,7 @@ public class AstraBlocks {
 			fogRadius = 2;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
-			liquidCapacity = 30f;
+			liquidCapacity = 50f;
 
 			consumeItem(Items.titanium, 2);
 			consumeLiquid(Liquids.water, 0.25f);
@@ -357,7 +360,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
 			itemCapacity = 20;
-			liquidCapacity = 100f;
+			liquidCapacity = 120f;
 
 			consumeItem(Items.titanium, 5);
 			consumeLiquid(Liquids.water, 0.8f);
@@ -534,7 +537,7 @@ public class AstraBlocks {
 			fogRadius = 3;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
-			liquidCapacity = 40f;
+			liquidCapacity = 80f;
 
 			consumeItem(AstraItems.magnetite, 1);
 			consumeItemBoost(AstraItems.crystals, 1, 1.2f);
@@ -602,7 +605,7 @@ public class AstraBlocks {
 			fogRadius = 3;
 			hasPower = hasItems = true;
 			hasLiquids = outputsLiquid = true;
-			liquidCapacity = 80f;
+			liquidCapacity = 100f;
 
 			warmupSpeed = 0.008f;
 			consumeItem(AstraItems.crystals, 2);
@@ -767,7 +770,7 @@ public class AstraBlocks {
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
 				new DrawLiquidTile(Liquids.cryofluid) {{ drawLiquidLight = true; }},
-				new DrawCrucibleFlame() {{ flameColor = AstraItems.aerogel.color.cpy(); }},
+				new DrawCrucibleFlame() {{ flameColor = AstraItems.aerogel.color; }},
 				new DrawDefault()
 			);
 			ambientSound = Sounds.electricHum;
@@ -803,11 +806,11 @@ public class AstraBlocks {
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
 				new DrawRegion("-spinner", 5, true),
-				new DrawGlowRegion("-spinner-glow") {{ color = Color.purple.cpy(); glowIntensity = 0.3f; rotateSpeed = 5f; rotate = true; layer = Layer.block; }},
-				new DrawArcSmelt() {{ flameColor = AstraItems.astranium.color.cpy(); }},
+				new DrawGlowRegion("-spinner-glow") {{ color = Color.purple; glowIntensity = 0.3f; rotateSpeed = 5f; rotate = true; layer = Layer.block; }},
+				new DrawArcSmelt() {{ flameColor = AstraItems.astranium.color; }},
 				new DrawDefault(),
 				new DrawTopHeat() {{ alphaMag = 0.3f; maxAlpha = 0.6f; }},
-				new DrawGlowRegion() {{ color = Color.purple.cpy(); glowIntensity = 0.8f; }}
+				new DrawGlowRegion() {{ color = Color.purple; glowIntensity = 0.8f; }}
 			);
 			ambientSound = Sounds.pulse;
 			ambientSoundVolume = 0.15f;
@@ -855,7 +858,7 @@ public class AstraBlocks {
 			squareSprite = false;
 		}};
 
-		switchRelay = new PowerRelay("switch-relay") {{
+		switchRelay = new SwitchRelay("switch-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 15, Items.silicon, 5, AstraItems.iron, 10));
 			size = 2;
 			fogRadius = 2;
@@ -894,21 +897,50 @@ public class AstraBlocks {
 			drawer = new DrawMulti(new DrawEnergyBars(4), new DrawDefault());
 		}};
 
-		erythronitePowerCell = new Battery("power-bank") {{
+		highCapacityPowerCell = new Battery("power-bank") {{
 			requirements(Category.power, ItemStack.with(
 				Items.plastanium, 50,
 				Items.metaglass, 65,
 				Items.copper, 80,
-				AstraItems.crystals, 90
+				AstraItems.crystals, 90,
+				Items.thorium, 30
 			));
 			scaledHealth = 55f;
 			size = 4;
 			fogRadius = 4;
 
 			consumePowerBuffered(400000f);
-			baseExplosiveness = 12f;
+			baseExplosiveness = 6f;
 
 			drawer = new DrawMulti(new DrawEnergyBars(4) {{ rows = 2; xOffset = 1f; }}, new DrawDefault());
+		}};
+
+		erythronitePowerCell = new CooledBattery("crystal-battery") {{
+			requirements(Category.power, ItemStack.with(
+				Items.surgeAlloy, 60,
+				AstraItems.neodymium, 50,
+				Items.metaglass, 120,
+				Items.thorium, 75,
+				Items.copper, 200,
+				AstraItems.crystals, 175
+			));
+			scaledHealth = 65f;
+			size = 4;
+			fogRadius = 4;
+			liquidCapacity = 30f;
+
+			consumePowerBuffered(1500000f);
+			baseExplosiveness = 20f;
+			coolant = Liquids.water;
+			coolantAmount = 0.2f;
+
+			drawer = new DrawMulti(new DrawEnergyBars(4) {{
+				xOffset = 0f;
+				emptyColor = Color.valueOf("84626c");
+				fullColor = AstraPal.crystalRed;
+			}}, new DrawDefault());
+			lightningColor = AstraPal.crystalRed;
+			unstableGlowColor = Color.purple;
 		}};
 
 		windTurbine = new WindGenerator("wind-turbine") {{
@@ -938,7 +970,7 @@ public class AstraBlocks {
 			size = 2;
 			fogRadius = 2;
 			hasLiquids = outputsLiquid = true;
-			liquidCapacity = 40f;
+			liquidCapacity = 50f;
 
 			consumeItem(Items.coal, 1);
 			consumeLiquid(Liquids.water, 0.3f);
@@ -948,7 +980,7 @@ public class AstraBlocks {
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
 				new DrawLiquidTile(Liquids.water),
-				new DrawBubbles(Color.valueOf("7693e3")) {{
+				new DrawBubbles(AstraPal.waterBubble) {{
 					sides = 10;
 					radius = 1f;
 					amount = 10;
@@ -1007,6 +1039,8 @@ public class AstraBlocks {
 			consumeLiquid(Liquids.water, 0.6f);
 			itemDuration = 80f;
 			powerProduction = 11f;
+			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
+			explodeOnFull = true;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -1032,12 +1066,101 @@ public class AstraBlocks {
 			baseExplosiveness = 1f;
 
 			consumePower(3f);
+			consumeLiquid(Liquids.hydrogen, 1f / 12f);
 			powerProduction = 16f;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
 				new DrawPistons() {{ lenOffset = 0f; sideOffset = Mathf.PI / 2f; sinOffset = -6f * Mathf.PI; sinScl = 4f; sinMag = 2.25f; }},
 				new DrawDefault()
+			);
+		}};
+
+		geothermalPlant = new AttributeCrafter("geothermal-plant") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 125,
+				Items.metaglass, 100,
+				Items.graphite, 140,
+				Items.silicon, 100,
+				AstraItems.lithium, 60
+			));
+			scaledHealth = 55f;
+			size = 3;
+			fogRadius = 3;
+			floating = true;
+			liquidCapacity = 100f;
+
+			consumeLiquid(Liquids.water, 35f / 60f);
+			baseEfficiency = 0f;
+			minEfficiency = 0.1f;
+			boostScale = 0.225f;
+			maxBoost = 2f;
+			scaleLiquidConsumption = true;
+			outputLiquid = new LiquidStack(AstraFluids.steam, 35f / 60f);
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }});
+			updateEffect = Fx.redgeneratespark;
+            updateEffectChance = 0.015f;
+		}};
+
+		oilPlant = new GenericCrafter("oil-plant") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 150,
+				Items.metaglass, 125,
+				Items.graphite, 120,
+				Items.plastanium, 100,
+				AstraItems.lithium, 75
+			));
+			scaledHealth = 60f;
+			size = 3;
+			fogRadius = 3;
+			hasLiquids = outputsLiquid = true;
+			liquidCapacity = 120f;
+
+			consumePower(2.8f);
+			consumeLiquids(LiquidStack.with(Liquids.water, 5f / 6f, Liquids.oil, 0.45f));
+			outputLiquid = new LiquidStack(AstraFluids.steam, 5f / 6f);
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(Liquids.water),
+				new DrawBubbles(AstraPal.waterBubble) {{
+					amount = 25;
+					sides = 10;
+					radius = 2f;
+					spread = 5f;
+				}},
+				new DrawLiquidTile(AstraFluids.steam),
+				new DrawDefault(),
+				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }},
+				new DrawGlowRegion()
+			);
+		}};
+
+		crystalReactor = new ScaledConsumeGenerator("crystal-generator") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 175,
+				Items.copper, 210,
+				Items.thorium, 120,
+				Items.phaseFabric, 50,
+				Items.plastanium, 150,
+				Items.silicon, 190
+			));
+			scaledHealth = 65f;
+			size = 3;
+			fogRadius = 3;
+			itemCapacity = 30;
+			flags = EnumSet.of(BlockFlag.reactor, BlockFlag.generator);
+
+			consumeItem(targetItem = AstraItems.crystals);
+			itemDuration = 90f;
+			powerProduction = 1f;
+
+			drawer = new DrawMulti(
+				new DrawDefault(),
+				new DrawStoredItem(AstraItems.crystals, "crystal"),
+				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 9f; maxAlpha = 0.4f; }},
+				new DrawGlowRegion() {{ alpha = 0.5f; }}
 			);
 		}};
 
@@ -1225,6 +1348,7 @@ public class AstraBlocks {
 			fogRadius = 4;
 			itemCapacity = 20;
 			liquidCapacity = 15f;
+			group = BlockGroup.drills;
 
 			optionalBoostIntensity = 2.65f;
 			consumePower(2.1f);
@@ -1257,6 +1381,7 @@ public class AstraBlocks {
 			fogRadius = 5;
 			itemCapacity = 30;
 			liquidCapacity = 20f;
+			group = BlockGroup.drills;
 
 			optionalBoostIntensity = 2.6f;
 			consumePower(6.2f);
@@ -2169,7 +2294,7 @@ public class AstraBlocks {
 			thrusterLength = 10f;
 		}};
 
-		gathererModule = new UnitCoreModule("gatherer-module", AstraUnitTypes.gatherer) {{
+		gathererModule = new UnitCoreModule("module-gatherer", AstraUnitTypes.gatherer) {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 60,
 				Items.graphite, 30,

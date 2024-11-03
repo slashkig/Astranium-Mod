@@ -4,11 +4,13 @@ import arc.graphics.*;
 
 public class AstraPal {
 	public static Color
+		waterBubble = Color.valueOf("7693e3"),
 		ironSmoke = Color.valueOf("ffc099"),
 		siliconSmoke = Color.valueOf("ffef99"),
 		glassSmoke = Color.valueOf("efc9b9"),
 		plasmaGlowBlue = Color.valueOf("9292ff"),
 		plasmaGlowPurple = Color.valueOf("c080ff"),
+		crystalRed = Color.valueOf("ff0044"),
 
 		hemaFront = Color.valueOf("d89a7d"),
 		hemaBack = Color.valueOf("bf7656"),
