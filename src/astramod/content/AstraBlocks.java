@@ -2305,6 +2305,37 @@ public class AstraBlocks {
 			size = 2;
 			itemCapacity = 50;
 			numUnits = 2;
+			unitRange = 400f;
+		}};
+
+		initiateModule = new UnitCoreModule("module-initiate", AstraUnitTypes.initiate) {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 80,
+				Items.graphite, 40,
+				Items.silicon, 100,
+				Items.lead, 60
+			));
+			scaledHealth = 45f;
+			size = 3;
+			itemCapacity = 60;
+			numUnits = 1;
+			buildTime = 16f * 60f;
+			unitRange = 300f;
+		}};
+
+		seekerModule = new UnitCoreModule("module-seeker", AstraUnitTypes.seeker) {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 90,
+				Items.graphite, 50,
+				Items.silicon, 75,
+				Items.metaglass, 40
+			));
+			scaledHealth = 55f;
+			size = 3;
+			itemCapacity = 40;
+			numUnits = 1;
+			buildTime = 10f * 60f;
+			unitRange = 400f;
 		}};
 
 		// region TURRETS

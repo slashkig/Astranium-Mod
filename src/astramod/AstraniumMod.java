@@ -2,6 +2,7 @@ package astramod;
 
 import mindustry.mod.Mod;
 import arc.util.Log;
+import astramod.ai.AstraUnitCommand;
 import astramod.content.*;
 import astramod.gen.EntityRegistry;
 
@@ -18,5 +19,8 @@ public class AstraniumMod extends Mod {
 		AstraBlocks.load();
 		AstraPlanets.load();
 		AzirisTechTree.load();
+		AstraUnitCommand.load();
+
+		Log.info("Astranium Mod loaded");
 	}
 }

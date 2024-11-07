@@ -20,6 +20,7 @@ import mindustry.world.blocks.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 import mindustry.world.meta.*;
 import astramod.world.blocks.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -27,6 +28,7 @@ public class UnitCoreModule extends Block {
 	public UnitType spawnedUnit;
 	public int numUnits = 1;
 	public float buildTime = 8f * 60f;
+	public float unitRange = 100f;
 
 	public float polyStroke = 1.8f, polyRadius = 8f;
 	public int polySides = 6;
@@ -50,7 +52,9 @@ public class UnitCoreModule extends Block {
 	@Override public void setStats() {
 		super.setStats();
 
-		stats.remove(Stat.buildTime);
+		stats.add(AstraStat.numDrones, numUnits);
+		stats.add(AstraStat.droneBuildTime, buildTime / 60f, StatUnit.seconds);
+		stats.add(Stat.range, unitRange / tilesize, StatUnit.blocks);
 		stats.add(Stat.unitType, table -> {
 			table.row();
 			table.table(Styles.grayPanel, b -> {
@@ -71,13 +75,13 @@ public class UnitCoreModule extends Block {
 		super.setBars();
 
 		addBar("units", (UnitCoreModuleBuild e) -> {
-			int count = e.unitCount();
 			return new Bar(
-				() -> Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(spawnedUnit.name), count, numUnits),
+				() -> Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(spawnedUnit.name), e.unitCount(), numUnits),
 				() -> Pal.power,
-				() -> (float)count / numUnits
+				() -> (float)e.unitCount() / numUnits
 			);
 		});
+		addBar("progress", (UnitCoreModuleBuild b) -> new Bar("bar.progress", Pal.ammo, () -> b.buildProgress));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -88,6 +92,10 @@ public class UnitCoreModule extends Block {
 		for (Point2 edge : Edges.getEdges(size)) {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
 		}
+		return false;
+	}
+
+	@Override public boolean outputsItems() {
 		return false;
 	}
 
@@ -162,6 +170,7 @@ public class UnitCoreModule extends Block {
 
 		@Override public void draw() {
 			Draw.rect(block.region, x, y);
+			drawTeamTop();
 			if (targetIndex != -1) {
 				Draw.draw(Layer.blockOver, () -> {
 					Drawf.construct(this, spawnedUnit.fullIcon, 0f, buildProgress, warmup, totalProgress);
@@ -174,13 +183,13 @@ public class UnitCoreModule extends Block {
 				Draw.reset();
 				Draw.z(Layer.block);
 			}
-			drawTeamTop();
 		}
 
 		@Override public void drawSelect() {
 			if (linkedCore != null) {
 				linkedCore.drawSelect();
 			}
+			Drawf.dashCircle(x, y, unitRange, team.color);
 		}
 
 		@Override public float totalProgress() {
@@ -203,6 +212,10 @@ public class UnitCoreModule extends Block {
 				if (unit != null) count++;
 			}
 			return count;
+		}
+
+		@Override public void handleStack(Item item, int amount, Teamc source) {
+			linkedCore.handleStack(item, amount, source);
 		}
 
 		public void setLinkedCore(Building core) {

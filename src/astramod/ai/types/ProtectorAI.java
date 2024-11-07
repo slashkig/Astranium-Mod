@@ -1,0 +1,29 @@
+package astramod.ai.types;
+
+import mindustry.entities.*;
+import mindustry.gen.*;
+
+public class ProtectorAI extends AnchoredAI {
+	public Unit closestUnit;
+
+	public ProtectorAI(float bound) {
+		super(bound);
+	}
+
+	@Override public void updateMovement() {
+		Building anchor = anchor();
+		if (closestUnit != null && !closestUnit.dead()) {
+			moveTo(closestUnit, unit.type.range * 0.8f, 25f);
+			unit.controlWeapons(true);
+			unit.aimLook(closestUnit);
+		} else {
+			closestUnit = Units.closestEnemy(unit.team, anchor.x, anchor.y, boundRadius, u -> u.checkTarget(unit.type.targetAir, unit.type.targetGround));
+			super.updateMovement();
+		}
+	}
+
+	@Override
+	public boolean shouldShoot() {
+		return closestUnit != null && unit.dst(closestUnit) < unit.type.range;
+	}
+}
