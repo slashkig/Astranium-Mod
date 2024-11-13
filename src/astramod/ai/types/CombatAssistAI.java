@@ -12,7 +12,7 @@ public class CombatAssistAI extends FollowAI {
 	@Override public void updateMovement() {
 		if (following != null && !following.dead() && following.isShooting() && unit.hasWeapons()) {
 			targeter.set(following.aimX(), following.aimY());
-			if (unit.dst(targeter) > unit.type.range) moveTo(targeter, unit.type.range * 0.9f, 25f);
+			if (unit.dst(targeter) > unit.type.range || unit.dst(targeter) < unit.type.range / 2f) moveTo(targeter, unit.type.range * 0.9f, 25f);
 			unit.controlWeapons(true);
 			unit.aimLook(targeter);
 		} else {

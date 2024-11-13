@@ -5,6 +5,7 @@ import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.struct.Seq;
 import arc.util.*;
 import astramod.world.blocks.power.SwitchRelay.SwitchRelayBuild;
 import mindustry.core.*;
@@ -146,12 +147,12 @@ public class PowerRelay extends PowerNode {
 			Draw.reset();
 		}
 
-		@Override public void updatePowerGraph() {
-			for (Building other : getPowerConnections(tempBuilds)) {
-				if(other.power != null && !isInactiveSwitch(other)) {
-					other.power.graph.addGraph(power.graph);
-				}
+		@Override public Seq<Building> getPowerConnections(Seq<Building> out) {
+			super.getPowerConnections(out);
+			for (Building build : out) {
+				if (isInactiveSwitch(build)) out.remove(build);
 			}
+			return out;
 		}
 
 		@Override public float warmup() {

@@ -2,7 +2,6 @@ package astramod.ai.types;
 
 import arc.struct.*;
 import arc.util.*;
-import mindustry.ai.types.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.Teams.BlockPlan;
@@ -199,14 +198,6 @@ public class AnchoredSupportAI extends AnchoredAI {
 
 	protected boolean nearEnemy(int x, int y) {
 		return Units.nearEnemy(unit.team, x * tilesize - fleeRange / 2f, y * tilesize - fleeRange / 2f, fleeRange, fleeRange);
-	}
-
-	@Override public AIController fallback() {
-		return unit.type.flying ? new FlyingAI() : new GroundAI();
-	}
-
-	@Override public boolean useFallback() {
-		return state.rules.waves && unit.team == state.rules.waveTeam && !unit.team.rules().rtsAi;
 	}
 
 	@Override public boolean shouldShoot() {

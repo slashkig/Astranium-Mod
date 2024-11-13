@@ -133,7 +133,7 @@ public class AstraUnitTypes {
 
 		gatherer = new AstraUnitType("gatherer") {{
 			constructor = BuildingTetherUnit::create;
-			controller = u -> new AnchoredMinerAI(400f);
+			aiController = () -> new AnchoredMinerAI(400f);
 			flying = true;
 
 			playerControllable = false;
@@ -163,7 +163,7 @@ public class AstraUnitTypes {
 
 		initiate = new AstraUnitType("initiate") {{
 			constructor = BuildingTetherUnit::create;
-			controller = u -> new AnchoredSupportAI(300f);
+			aiController = () -> new AnchoredSupportAI(300f);
 			flying = true;
 
 			playerControllable = false;
@@ -213,7 +213,8 @@ public class AstraUnitTypes {
 
 		seeker =  new AstraUnitType("seeker") {{
 			constructor = BuildingTetherUnit::create;
-			controller = u -> new CommandAI();
+			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
+			aiController = () -> new ProtectorAI(400f);
 			commands = new UnitCommand[] {AstraUnitCommand.protect, AstraUnitCommand.combatFollow};
 			defaultCommand = AstraUnitCommand.protect;
 			flying = true;

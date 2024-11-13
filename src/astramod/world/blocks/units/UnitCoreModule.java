@@ -27,7 +27,7 @@ import static mindustry.Vars.*;
 public class UnitCoreModule extends Block {
 	public UnitType spawnedUnit;
 	public int numUnits = 1;
-	public float buildTime = 8f * 60f;
+	public float unitBuildTime = 8f * 60f;
 	public float unitRange = 100f;
 
 	public float polyStroke = 1.8f, polyRadius = 8f;
@@ -43,7 +43,8 @@ public class UnitCoreModule extends Block {
         separateItemCapacity = true;
         solid = true;
         destructible = true;
-		ambientSound = Sounds.respawning;
+		loopSound = Sounds.respawning;
+		loopSoundVolume = 0.4f;
         group = BlockGroup.transportation;
         flags = EnumSet.of(BlockFlag.storage);
         envEnabled = Env.any;
@@ -53,7 +54,7 @@ public class UnitCoreModule extends Block {
 		super.setStats();
 
 		stats.add(AstraStat.numDrones, numUnits);
-		stats.add(AstraStat.droneBuildTime, buildTime / 60f, StatUnit.seconds);
+		stats.add(AstraStat.droneBuildTime, unitBuildTime / 60f, StatUnit.seconds);
 		stats.add(Stat.range, unitRange / tilesize, StatUnit.blocks);
 		stats.add(Stat.unitType, table -> {
 			table.row();
@@ -136,21 +137,19 @@ public class UnitCoreModule extends Block {
 			readyness = Mathf.approachDelta(readyness, targetIndex != -1 ? 1f : 0f, 1f / 60f);
 
 			if (targetIndex != -1) {
-				buildProgress += edelta() / buildTime;
+				buildProgress += edelta() / unitBuildTime;
 				totalProgress += edelta();
 
-				if (buildProgress >= 1f) {
-					if (!net.client()) {
-						Unit unit = spawnedUnit.create(team);
-						units[targetIndex] = unit;
-						if(unit instanceof BuildingTetherc bt) {
-							bt.building(this);
-;						}
-						unit.set(x, y);
-						unit.rotation = 90f;
-						unit.add();
-						Call.unitTetherBlockSpawned(tile, unit.id);
+				if (buildProgress >= 1f && !net.client()) {
+					Unit unit = spawnedUnit.create(team);
+					units[targetIndex] = unit;
+					if(unit instanceof BuildingTetherc bt) {
+						bt.building(this);
 					}
+					unit.set(x, y);
+					unit.rotation = 90f;
+					unit.add();
+					Call.unitTetherBlockSpawned(tile, unit.id);
 				}
 			}
 		}
@@ -165,7 +164,7 @@ public class UnitCoreModule extends Block {
 		}
 
 		@Override public boolean shouldActiveSound() {
-			return shouldConsume() && warmup > 0.01f;
+			return targetIndex != -1 && warmup > 0.01f;
 		}
 
 		@Override public void draw() {

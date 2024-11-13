@@ -1,8 +1,10 @@
 package astramod.world.blocks.power;
 
 import arc.scene.ui.layout.*;
+import arc.struct.Seq;
 import mindustry.gen.*;
 import mindustry.ui.*;
+import mindustry.world.blocks.power.*;
 
 public class SwitchRelay extends PowerRelay {
 	public SwitchRelay(String name) {
@@ -13,11 +15,14 @@ public class SwitchRelay extends PowerRelay {
 
 	public class SwitchRelayBuild extends PowerRelayBuild {
 		public void setActive(boolean active) {
-			enabled = active;
 			if (active) {
+				enabled = true;
 				updatePowerGraph();
 			} else {
 				power.graph.remove(this);
+				enabled = false;
+				PowerGraph newGraph = new PowerGraph();
+				newGraph.reflow(this);
 			}
 		}
 
@@ -29,9 +34,11 @@ public class SwitchRelay extends PowerRelay {
 		}
 
 		@Override public void updatePowerGraph() {
-			if (enabled) {
-				super.updatePowerGraph();
-			}
+			if (enabled) super.updatePowerGraph();
+		}
+
+		@Override public Seq<Building> getPowerConnections(Seq<Building> out) {
+			return enabled ? super.getPowerConnections(out) : new Seq<Building>();
 		}
 
 		@Override public boolean conductsTo(Building other) {
