@@ -44,11 +44,11 @@ public class AstraBlocks {
 	public static Block
 		hardstone, hardstoneWall, bedrock, bedrockWall,
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
-		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
+		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		wireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill,
-		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, crystalReactor,
+		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
@@ -59,6 +59,7 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule,
+		incendiaryMine, blastMine, fragMine, cloakedMine, navalMine,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
@@ -303,6 +304,29 @@ public class AstraBlocks {
 
 			//drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
 			craftEffect = Fx.smeltsmoke;
+		}};
+
+		hydrogenPlant = new GenericCrafter("hydrogen-plant") {{
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 75, Items.metaglass, 50, Items.silicon, 60));
+			scaledHealth = 45f;
+			size = 2;
+			fogRadius = 2;
+			hasPower = hasItems = true;
+			hasLiquids = outputsLiquid = true;
+			liquidCapacity = 60f;
+
+			consumeItem(Items.coal, 2);
+			consumeLiquid(AstraFluids.steam, 0.25f);
+			consumePower(0.9f);
+			craftTime = 90f;
+			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.35f);
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(AstraFluids.steam),
+				new DrawLiquidTile(Liquids.hydrogen),
+				new DrawDefault()
+			);
 		}};
 
 		magnetiteSynthesizer = new GenericCrafter("magnetite-synthesizer") {{
@@ -609,7 +633,7 @@ public class AstraBlocks {
 
 			warmupSpeed = 0.008f;
 			consumeItem(AstraItems.crystals, 2);
-			consumeLiquid(Liquids.water, 2f / 3f);
+			consumeLiquid(Liquids.hydrogen, 2f / 3f);
 			consumePower(7.2f);
 			craftTime = 40f;
 			outputLiquid = new LiquidStack(AstraFluids.plasma, 1f / 3f);
@@ -714,7 +738,7 @@ public class AstraBlocks {
 				Items.silicon, 200,
 				Items.plastanium, 250,
 				AstraItems.lithium, 180,
-				Items.thorium, 175,
+				AstraItems.neodymium, 175,
 				AstraItems.crystals, 160
 			));
 			scaledHealth = 70f;
@@ -919,7 +943,7 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(
 				Items.surgeAlloy, 60,
 				AstraItems.neodymium, 50,
-				Items.metaglass, 120,
+				AstraItems.crystaglass, 100,
 				Items.thorium, 75,
 				Items.copper, 200,
 				AstraItems.crystals, 175
@@ -942,6 +966,8 @@ public class AstraBlocks {
 			lightningColor = AstraPal.crystalRed;
 			unstableGlowColor = Color.purple;
 		}};
+
+		// region GENERATORS
 
 		windTurbine = new WindGenerator("wind-turbine") {{
 			requirements(Category.power, ItemStack.with(AstraItems.hematite, 30, Items.copper, 40));
@@ -1153,7 +1179,7 @@ public class AstraBlocks {
 			flags = EnumSet.of(BlockFlag.reactor, BlockFlag.generator);
 
 			consumeItem(targetItem = AstraItems.crystals);
-			itemDuration = 90f;
+			itemDuration = 1200f;
 			powerProduction = 1f;
 
 			drawer = new DrawMulti(
@@ -1162,6 +1188,25 @@ public class AstraBlocks {
 				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 9f; maxAlpha = 0.4f; }},
 				new DrawGlowRegion() {{ alpha = 0.5f; }}
 			);
+		}};
+
+		fissionReactor = new NuclearReactor("fission-reactor") {{
+			requirements(Category.power, BuildVisibility.hidden, ItemStack.with(
+				AstraItems.steel, 250,
+				Items.copper, 275,
+				Items.titanium, 240,
+				AstraItems.crystaglass, 180,
+				Items.lead, 300,
+				Items.silicon, 200
+			));
+			scaledHealth = 60f;
+			size = 4;
+			fogRadius = 4;
+			itemCapacity = 20;
+			flags = EnumSet.of(BlockFlag.reactor, BlockFlag.generator);
+
+			consumeItem(AstraItems.crystals);
+			itemDuration = 300f;
 		}};
 
 		// region DRILLS
@@ -2299,7 +2344,7 @@ public class AstraBlocks {
 				AstraItems.iron, 60,
 				Items.graphite, 30,
 				Items.silicon, 80,
-				Items.copper, 50
+				Items.lead, 50
 			));
 			scaledHealth = 50f;
 			size = 2;
@@ -2311,31 +2356,40 @@ public class AstraBlocks {
 		initiateModule = new UnitCoreModule("module-initiate", AstraUnitTypes.initiate) {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 80,
-				Items.graphite, 40,
+				Items.copper, 90,
 				Items.silicon, 100,
-				Items.lead, 60
+				Items.titanium, 40
 			));
 			scaledHealth = 45f;
 			size = 3;
 			itemCapacity = 60;
 			numUnits = 1;
-			buildTime = 16f * 60f;
+			unitBuildTime = 16f * 60f;
 			unitRange = 300f;
 		}};
 
 		seekerModule = new UnitCoreModule("module-seeker", AstraUnitTypes.seeker) {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 90,
-				Items.graphite, 50,
+				Items.graphite, 60,
 				Items.silicon, 75,
-				Items.metaglass, 40
+				AstraItems.lithium, 50
 			));
 			scaledHealth = 55f;
 			size = 3;
 			itemCapacity = 40;
 			numUnits = 1;
-			buildTime = 10f * 60f;
+			unitBuildTime = 10f * 60f;
 			unitRange = 400f;
+		}};
+
+		// region UTILITY
+
+		blastMine = new LandMine("blast-mine") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 18));
+
+			explodePower = 70f;
+			explodeFire = 5f;
 		}};
 
 		// region TURRETS

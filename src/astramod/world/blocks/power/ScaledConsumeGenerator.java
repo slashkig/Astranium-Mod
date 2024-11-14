@@ -7,6 +7,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.consumers.*;
+import mindustry.world.meta.*;
 import astramod.world.meta.*;
 
 public class ScaledConsumeGenerator extends ConsumeGenerator {
@@ -24,6 +25,8 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 
 	@Override public void setStats() {
 		super.setStats();
+		stats.remove(Stat.productionTime);
+		stats.add(AstraStat.itemLifetime, itemDuration / 60f, StatUnit.seconds);
 	}
 
 	@Override public void setBars() {
@@ -38,6 +41,11 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 	}
 
 	public class ScaledConsumeGeneratorBuild extends ConsumeGeneratorBuild {
+		@Override public void updateTile() {
+			super.updateTile();
+			generateTime -= (items.get(targetItem) - 1) * delta() / itemDuration;
+		}
+
 		@Override public void updateEfficiencyMultiplier() {
 			float mult = items.get(targetItem);
 			if (mult > 0) efficiencyMultiplier = mult;

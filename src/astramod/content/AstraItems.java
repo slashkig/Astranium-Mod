@@ -69,5 +69,7 @@ public class AstraItems {
 		}};
 
 		Items.graphite.hardness = 2;
+		Items.pyratite.buildable = true;
+		Items.blastCompound.buildable = true;
 	}
 }
