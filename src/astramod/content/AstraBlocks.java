@@ -323,7 +323,16 @@ public class AstraBlocks {
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
-				new DrawLiquidTile(AstraFluids.steam),
+				new DrawParticles() {{
+					color = Liquids.hydrogen.color;
+					particles = 10;
+					alpha = 0.4f;
+					particleSize = 1.8f;
+					particleRad = 6f;
+					particleLife = 180f;
+					reverse = true;
+					particleSizeInterp = Interp.one;
+				}},
 				new DrawLiquidTile(Liquids.hydrogen),
 				new DrawDefault()
 			);
@@ -1290,7 +1299,7 @@ public class AstraBlocks {
 			warmupSpeed = 0.008f;
 			liquidBoostIntensity = 1.65f;
 			consumePower(4f);
-			consumeLiquid(AstraFluids.plasma, 0.05f);
+			consumeLiquid(AstraFluids.plasma, 0.06f);
 			consumeLiquidBoosts(0.14f, Liquids.water, 1.65f, AstraFluids.ferrofluid, 2.05f);
 			drillTime = 200;
 			tier = 5;
@@ -1327,7 +1336,7 @@ public class AstraBlocks {
 			consumePower(9f);
 			consumeLiquid(AstraFluids.plasma, 0.15f);
 			consumeLiquidBoosts(0.18f, Liquids.water, 1.7f, AstraFluids.ferrofluid, 2.2f);
-			drillTime = 180;
+			drillTime = 175;
 			tier = 5;
 			hardnessDrillMultiplier = 35f;
 			drillMultipliers.put(AstraItems.lithium, 0.9f);
@@ -2077,6 +2086,7 @@ public class AstraBlocks {
 			liquidCapacity = 120f;
 
 			consumePower(3.4f);
+			consumeLiquid(Liquids.hydrogen, 0.1f);
 			pumpAmount = 0.34f;
 			liquidPressure = 1.15f;
 
