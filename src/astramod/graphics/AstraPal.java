@@ -1,6 +1,8 @@
 package astramod.graphics;
 
 import arc.graphics.*;
+import arc.util.Log;
+import mindustry.game.*;
 
 public class AstraPal {
 	public static Color
@@ -11,6 +13,7 @@ public class AstraPal {
 		plasmaGlowBlue = Color.valueOf("9292ff"),
 		plasmaGlowPurple = Color.valueOf("c080ff"),
 		crystalRed = Color.valueOf("ff0044"),
+		powerGlow = Color.valueOf("ffe08f"),
 
 		hemaFront = Color.valueOf("d89a7d"),
 		hemaBack = Color.valueOf("bf7656"),
@@ -27,4 +30,15 @@ public class AstraPal {
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");
+
+	public static Color[] teamFaded;
+
+	public static void load() {
+		Log.info("Loading palette");
+
+		teamFaded = new Color[Team.all.length];
+		for (Team team : Team.all) {
+			teamFaded[team.id] = team.color.cpy().a(0.5f);
+		}
+	}
 }

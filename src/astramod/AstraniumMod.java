@@ -1,10 +1,11 @@
 package astramod;
 
-import mindustry.mod.Mod;
+import mindustry.mod.*;
 import arc.util.Log;
-import astramod.ai.AstraUnitCommand;
+import astramod.ai.*;
 import astramod.content.*;
-import astramod.gen.EntityRegistry;
+import astramod.gen.*;
+import astramod.graphics.*;
 
 public class AstraniumMod extends Mod {
 	public AstraniumMod() {
@@ -13,6 +14,7 @@ public class AstraniumMod extends Mod {
 
 	@Override public void loadContent() {
 		EntityRegistry.register();
+		AstraPal.load();
 		AstraItems.load();
 		AstraFluids.load();
 		AstraUnitTypes.load();
