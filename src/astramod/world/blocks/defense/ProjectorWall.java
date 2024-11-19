@@ -180,7 +180,7 @@ public class ProjectorWall extends Wall {
 				Draw.rect(glowRegion, x, y);
 			}
 			
-			if (!broken()) {
+			if (breakTimer <= 0) {
 				float radius = realRadius();
 
 				if (radius > 0.001f) {

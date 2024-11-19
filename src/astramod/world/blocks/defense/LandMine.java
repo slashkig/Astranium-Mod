@@ -1,5 +1,7 @@
 package astramod.world.blocks.defense;
 
+import arc.graphics.*;
+import arc.graphics.g2d.TextureRegion;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -8,9 +10,11 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.logic.LAccess;
+import mindustry.graphics.*;
+import mindustry.logic.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
+import astramod.graphics.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
@@ -19,6 +23,12 @@ public class LandMine extends Block {
 	public float explodePower = 50f;
 	public float explodeRadius = 2.5f;
 	public float explodeFire = 0f;
+	public float knockback = 0f;
+
+	public int numLightning = 0;
+	public float lightningDamage = 20f;
+	public int lightningLength = 10;
+	public Color lightningColor = Pal.surge;
 
 	public @Nullable BulletType bullet;
 	public int shots = 0;
@@ -40,12 +50,27 @@ public class LandMine extends Block {
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(Stat.damage, Mathf.floor(explodePower / 11f) * explodePower / 2f);
-		stats.add(AstraStat.incendivity, explodeFire);
 		stats.add(Stat.range, explodeRadius, StatUnit.blocks);
+		if (knockback != 0) {
+			stats.add(knockback > 0 ? AstraStat.knockback : AstraStat.magneticStrength, Math.abs(knockback));
+		}
 
+		if (explodeFire > 0) {
+			stats.add(AstraStat.incendivity, explodeFire);
+		}
+		if (numLightning > 0) {
+			stats.add(AstraStat.lightningCount, numLightning);
+			stats.add(AstraStat.lightningDamage, lightningDamage);
+		}
 		if (bullet != null) {
+			bullet.displayAmmoMultiplier = false;
+			stats.add(Stat.shots, shots);
 			stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, bullet)));
 		}
+	}
+
+	@Override public TextureRegion[] icons() {
+		return teamRegion.found() ? new TextureRegion[] { region, teamRegions[Team.sharded.id] } : new TextureRegion[] { region };
 	}
 
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -57,8 +82,26 @@ public class LandMine extends Block {
 		return true;
 	}
 
+	@Override public boolean canReplace(Block other) {
+		return other.alwaysReplace || !other.privileged && other != this && other instanceof LandMine;
+	}
+
+	@Override public void changePlacementPath(Seq<Point2> points, int rotation) {
+		if (points.size > 1) {
+			Point2 origin = points.first(), point;
+			float maxDist = points.peek().dst(origin);
+			for (int i = 1; i < points.size; i++) {
+				point = points.get(i).add(Geometry.d4x(rotation) * i * size, Geometry.d4y(rotation) * i * size);
+				if (point.dst(origin) > maxDist) {
+					points.removeRange(i, points.size - 1);
+					return;
+				}
+			}
+		}
+	}
+
 	@Override public int minimapColor(Tile tile) {
-		return tile.team().color.cpy().a(0.5f).rgba();
+		return AstraPal.teamFaded[tile.team().id].rgba();
 	}
 
 	public class LandMineBuild extends Building {
@@ -83,6 +126,10 @@ public class LandMine extends Block {
 		}
 
 		public void triggered() {
+			for (int i = 0; i < numLightning; i++) {
+				Lightning.create(team, lightningColor, lightningDamage, x, y, Mathf.random(360f), lightningLength);
+			}
+
 			if (bullet != null) {
 				for(int i = 0; i < shots; i++){
 					bullet.create(this, x, y, (360f / shots) * i + Mathf.random(shotInaccuracy));
@@ -90,6 +137,16 @@ public class LandMine extends Block {
 			}
 
 			Damage.dynamicExplosion(x, y, explodeFire, explodePower, 0f, explodeRadius, true, true, team);
+
+			if (knockback != 0) {
+				float radius = explodeRadius * tilesize;
+				Units.nearbyEnemies(team, x, y, radius, unit -> {
+					float dist = unit.dst(this) / radius;
+					Tmp.v3.set(unit).sub(this).nor().scl(knockback * 80f * (1f - (knockback > 0 ? dist : Mathf.pow(dist * 2f - 1f, 2))));
+					unit.impulse(Tmp.v3);
+				});
+			}
+
 			kill();
 		}
 

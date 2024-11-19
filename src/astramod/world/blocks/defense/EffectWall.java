@@ -1,14 +1,12 @@
 package astramod.world.blocks.defense;
 
 import arc.graphics.*;
-import arc.graphics.g2d.Draw;
-import arc.graphics.g2d.Fill;
-import arc.graphics.g2d.Lines;
+import arc.graphics.g2d.*;
 import arc.func.*;
 import mindustry.graphics.*;
-import mindustry.logic.Ranged;
+import mindustry.logic.*;
 import mindustry.world.meta.*;
-import mindustry.world.blocks.defense.Wall;
+import mindustry.world.blocks.defense.*;
 
 import static mindustry.Vars.*;
 
@@ -28,6 +26,11 @@ public class EffectWall extends Wall {
 	public EffectWall(String name) {
 		super(name);
 		update = true;
+	}
+
+	@Override public void init() {
+		super.init();
+		clipSize = Math.max(clipSize, effectRange);
 	}
 
 	@Override public void setStats() {

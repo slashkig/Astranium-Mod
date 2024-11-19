@@ -5,15 +5,15 @@ import arc.func.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.struct.Seq;
+import arc.struct.*;
 import arc.util.*;
-import astramod.world.blocks.power.SwitchRelay.SwitchRelayBuild;
 import mindustry.core.*;
 import mindustry.game.*;
-import mindustry.gen.Building;
+import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import astramod.graphics.*;
 
 import static mindustry.Vars.*;
 
@@ -29,7 +29,7 @@ public class PowerRelay extends PowerNode {
 
 		laserScale = 0.5f;
 		laserColor1 = Color.white;
-		laserColor2 = Color.valueOf("ffe08f");
+		laserColor2 = AstraPal.powerGlow;
 	}
 
 	@Override public void load() {
@@ -43,11 +43,15 @@ public class PowerRelay extends PowerNode {
 	}
 
 	@Override public boolean linkValid(Building tile, Building link, boolean checkMaxNodes) {
-		if (tile != link && link != null && link.block.connectedPower && tile.team == link.team && link.block instanceof PowerNode node) {
-			return (overlaps(tile, link, laserRange * tilesize) || overlaps(link, tile, node.laserRange * tilesize)) &&
-				(!checkMaxNodes || link.power.links.size < node.maxNodes || link.power.links.contains(tile.pos()));
+		if (tile != link && link != null && link.block.connectedPower && tile.team == link.team) {
+			if (link.block instanceof PowerNode node) {
+				return (overlaps(tile, link, laserRange * tilesize) || overlaps(link, tile, node.laserRange * tilesize)) &&
+					(!checkMaxNodes || link.power.links.size < node.maxNodes || link.power.links.contains(tile.pos()));
+			} else if (link.block instanceof WireRelay) {
+				return overlaps(tile, link, laserRange * tilesize);
+			}
 		}
-		else return false;
+		return false;
 	}
 
 	public void drawLaser(float x1, float y1, float x2, float y2, int size1, int size2, float warmup) {
@@ -64,21 +68,20 @@ public class PowerRelay extends PowerNode {
 	}
 
 	@Override protected boolean overlaps(float srcx, float srcy, Tile other, Block otherBlock, float range) {
-		return otherBlock instanceof PowerNode && super.overlaps(srcx, srcy, other, otherBlock, range);
+		return (otherBlock instanceof PowerNode || otherBlock instanceof WireRelay) && super.overlaps(srcx, srcy, other, otherBlock, range);
 	}
 
 	@Override protected void getPotentialLinks(Tile tile, Team team, Cons<Building> others) {
 		if (!autolink) return;
 
-		Boolf<Building> valid = other -> {
-			return other != null && other.tile() != tile && other.block.connectedPower && other instanceof PowerNodeBuild oNode &&
-			overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile(), laserRange * tilesize) && other.team == team &&
-			!graphs.contains(other.power.graph) && !insulated(tile, other.tile) && oNode.power.links.size < ((PowerNode)oNode.block).maxNodes &&
-			!Structs.contains(Edges.getEdges(size), p -> {
+		Boolf<Building> valid = other -> (other != null && other.tile() != tile && other.block.connectedPower && other.team == team &&
+			(other instanceof PowerNodeBuild oNode && oNode.power.links.size < ((PowerNode)oNode.block).maxNodes || other.block instanceof WireRelay) &&
+			overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile(), laserRange * tilesize) &&
+			!graphs.contains(other.power.graph) && !insulated(tile, other.tile) && !Structs.contains(Edges.getEdges(size), p -> {
 				var t = world.tile(tile.x + p.x, tile.y + p.y);
 				return t != null && t.build == other;
-			});
-		};
+			})
+		);
 
 		tempBuilds.clear();
 		graphs.clear();
@@ -141,7 +144,7 @@ public class PowerRelay extends PowerNode {
 
 				if (!linkValid(this, link) || link.block instanceof PowerNode && link.id >= id) continue;
 
-				drawLaser(x, y, link.x, link.y, size, link.block.size, isInactiveSwitch(link) ? link.warmup() : warmup);
+				drawLaser(x, y, link.x, link.y, size, link.block.size, SwitchRelay.isInactiveSwitch(link) ? link.warmup() : warmup);
 			}
 
 			Draw.reset();
@@ -149,9 +152,7 @@ public class PowerRelay extends PowerNode {
 
 		@Override public Seq<Building> getPowerConnections(Seq<Building> out) {
 			super.getPowerConnections(out);
-			for (Building build : out) {
-				if (isInactiveSwitch(build)) out.remove(build);
-			}
+			out.removeAll(SwitchRelay::isInactiveSwitch);
 			return out;
 		}
 
@@ -161,10 +162,6 @@ public class PowerRelay extends PowerNode {
 
 		public float warmupTarget() {
 			return power.graph.getSatisfaction();
-		}
-
-		protected boolean isInactiveSwitch(Building build) {
-			return build instanceof SwitchRelayBuild && !build.enabled;
 		}
 	}
 }

@@ -59,7 +59,7 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule,
-		incendiaryMine, blastMine, fragMine, cloakedMine, navalMine,
+		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
@@ -852,7 +852,11 @@ public class AstraBlocks {
 
 		// region POWER
 
-		wireRelay = new WireRelay("wire-relay");
+		wireRelay = new WireRelay("cable-relay") {{
+			requirements(Category.power, ItemStack.with(Items.copper, 24, AstraItems.hematite, 16));
+			size = 2;
+			fogRadius = 3;
+		}};
 
 		powerRelay = new PowerRelay("power-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 20, AstraItems.iron, 10));
@@ -2395,11 +2399,58 @@ public class AstraBlocks {
 
 		// region UTILITY
 
+		incendiaryMine = new LandMine("incendiary-mine") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 18));
+
+			explodeRadius = 2f;
+			explodePower = 40f;
+			knockback = 1.5f;
+			explodeFire = 30f;
+		}};
+
 		blastMine = new LandMine("blast-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 18));
 
+			explodeRadius = 3f;
 			explodePower = 70f;
+			knockback = 8f;
 			explodeFire = 5f;
+		}};
+
+		fragMine = new LandMine("frag-mine") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 8, Items.blastCompound, 10, Items.plastanium, 8));
+
+			explodeRadius = 1.5f;
+			explodePower = 50f;
+			knockback = 5f;
+			shots = 8;
+			shotInaccuracy = 10f;
+			bullet = new BasicBulletType(4f, 20) {{
+				lifetime = 10f;
+				width = 5f;
+				height = 6f;
+				backColor = Pal.plastaniumBack;
+				frontColor = Pal.plastaniumFront;
+			}};
+		}};
+
+		surgeMine = new LandMine("surge-mine") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 18));
+
+			explodeRadius = 1f;
+			explodePower = 25f;
+			numLightning = 10;
+			lightningDamage = 40f;
+		}};
+
+		magneticMine = new LandMine("magnetic-mine") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 18));
+			size = 2;
+			health = 100;
+
+			explodeRadius = 6f;
+			explodePower = 30f;
+			knockback = -20f;
 		}};
 
 		// region TURRETS
@@ -2408,7 +2459,6 @@ public class AstraBlocks {
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			ammo(
 				AstraItems.hematite, new BasicBulletType(3f, 10) {{
-					lifetime = 60f;
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 2;
@@ -2432,7 +2482,6 @@ public class AstraBlocks {
 					backColor = AstraPal.hemaBack;
 				}},
 				Items.lead, new BasicBulletType(3f, 18) {{
-					lifetime = 60f;
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 3;
@@ -2442,7 +2491,6 @@ public class AstraBlocks {
 					backColor = AstraPal.leadBack;
 				}},
 				AstraItems.iron, new BasicBulletType(3f, 22) {{
-					lifetime = 60f;
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 4;
@@ -2453,7 +2501,6 @@ public class AstraBlocks {
 					backColor = AstraPal.ironBack;
 				}},
 				Items.graphite, new BasicBulletType(4f, 32) {{
-					lifetime = 60f;
 					width = 10f;
 					height = 12f;
 					ammoMultiplier = 4;
@@ -2464,7 +2511,6 @@ public class AstraBlocks {
 					backColor = AstraPal.graphiteBack;
 				}},
 				Items.silicon, new BasicBulletType(3.5f, 24) {{
-					lifetime = 60f;
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 5;
@@ -2506,7 +2552,6 @@ public class AstraBlocks {
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 60, Items.lead, 35));
 			ammo(
 				Items.copper, new MissileBulletType(3.5f, 10) {{
-					lifetime = 60f;
 					width = 6f;
 					height = 7f;
 					ammoMultiplier = 3;
@@ -2514,7 +2559,6 @@ public class AstraBlocks {
 					collidesGround = false;
 				}},
 				Items.silicon, new MissileBulletType(4f, 15) {{
-					lifetime = 60f;
 					width = 7f;
 					height = 7f;
 					ammoMultiplier = 4;
@@ -2526,7 +2570,6 @@ public class AstraBlocks {
 					backColor = AstraPal.siliconBack;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 20) {{
-					lifetime = 60f;
 					width = 6f;
 					height = 7f;
 					ammoMultiplier = 5;
@@ -2539,7 +2582,6 @@ public class AstraBlocks {
 					backColor = Pal.lightOrange;
 				}},
 				AstraItems.lithium, new MissileBulletType(4f, 30) {{
-					lifetime = 70f;
 					width = 7f;
 					height = 8f;
 					ammoMultiplier = 4;

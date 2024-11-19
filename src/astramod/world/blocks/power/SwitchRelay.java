@@ -13,6 +13,10 @@ public class SwitchRelay extends PowerRelay {
 		config(Boolean.class, (SwitchRelayBuild relay, Boolean state) -> relay.setActive(state));
 	}
 
+	public static boolean isInactiveSwitch(Building build) {
+		return build instanceof SwitchRelayBuild && !build.enabled;
+	}
+
 	public class SwitchRelayBuild extends PowerRelayBuild {
 		public void setActive(boolean active) {
 			if (active) {
