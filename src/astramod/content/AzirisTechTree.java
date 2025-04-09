@@ -116,7 +116,9 @@ public class AzirisTechTree {
 					});
 					node(powerCell, () -> {
 						node(largePowerCell, () -> {
-							node(erythronitePowerCell);
+							node(highCapacityPowerCell, () -> {
+								node(erythronitePowerCell);
+							});
 						});
 					});
 				});

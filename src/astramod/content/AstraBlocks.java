@@ -43,11 +43,11 @@ import static mindustry.Vars.*;
 public class AstraBlocks {
 	public static Block
 		hardstone, hardstoneWall, bedrock, bedrockWall,
-		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, erythronicHardstoneWall,
+		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
 		wireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
-		windTurbine, windTurbineLarge, waterMill,
+		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
 		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
@@ -59,6 +59,8 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule,
+		platedContainer, platedVault, platedCrypt,
+		sensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -97,6 +99,8 @@ public class AstraBlocks {
 		wallOreLead = new OreBlock("ore-wall-lead", Items.lead) {{ wallOre = true; variants = 4; }};
 
 		wallOreLithium = new OreBlock("ore-wall-lithium", AstraItems.lithium) {{ wallOre = true; variants = 4; }};
+
+		wallOreVanadium = new OreBlock("ore-wall-vanadinite", AstraItems.vanadium) {{ wallOre = true; variants = 4; }};
 
 		erythronicHardstoneWall = new AstraStaticWall("erythronite-hardstone-wall") {{
 			itemDrop = AstraItems.crystals;
@@ -509,7 +513,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 			itemCapacity = 40;
 
-			consumeItems(ItemStack.with(AstraItems.iron, 4, Items.coal, 6, Items.titanium, 2));
+			consumeItems(ItemStack.with(AstraItems.iron, 4, Items.coal, 6, AstraItems.vanadium, 1));
 			consumePower(12f);
 			craftTime = 48f;
 			outputItem = new ItemStack(AstraItems.steel, 4);
@@ -630,7 +634,7 @@ public class AstraBlocks {
 				AstraItems.crystaglass, 125,
 				Items.plastanium, 110,
 				AstraItems.magnetite, 140,
-				Items.thorium, 90,
+				AstraItems.vanadium, 90,
 				Items.silicon, 175
 			));
 			scaledHealth = 65f;
@@ -685,9 +689,9 @@ public class AstraBlocks {
 
 		phaseLoom = new GenericCrafter("phase-loom") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 260,
+				Items.tungsten, 260,
 				Items.silicon, 280,
-				AstraItems.lithium, 200,
+				AstraItems.vanadium, 200,
 				Items.thorium, 180,
 				AstraItems.neodymium, 140,
 				Items.phaseFabric, 100
@@ -743,10 +747,10 @@ public class AstraBlocks {
 
 		surgeArcCrucible = new GenericCrafter("surge-arc-crucible") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 300,
+				Items.tungsten, 300,
 				Items.silicon, 200,
 				Items.plastanium, 250,
-				AstraItems.lithium, 180,
+				Items.surgeAlloy, 180,
 				AstraItems.neodymium, 175,
 				AstraItems.crystals, 160
 			));
@@ -779,7 +783,7 @@ public class AstraBlocks {
 
 		vacuumChamber = new GenericCrafter("vacuum-chamber") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 320,
+				Items.tungsten, 320,
 				Items.plastanium, 280,
 				AstraItems.crystaglass, 250,
 				Items.silicon, 220,
@@ -814,10 +818,10 @@ public class AstraBlocks {
 
 		astraniumForge = new GenericCrafter("astranium-forge") {{
 			requirements(Category.crafting, ItemStack.with(
-				Items.surgeAlloy, 325,
+				Items.tungsten, 325,
 				Items.silicon, 280,
-				Items.thorium, 220,
-				AstraItems.lithium, 250,
+				AstraItems.vanadium, 220,
+				Items.surgeAlloy, 250,
 				AstraItems.neodymium, 180,
 				AstraItems.crystals, 300
 			));
@@ -939,8 +943,8 @@ public class AstraBlocks {
 				Items.plastanium, 50,
 				Items.metaglass, 65,
 				Items.copper, 80,
-				AstraItems.crystals, 90,
-				Items.thorium, 30
+				AstraItems.vanadium, 90,
+				Items.silicon, 60
 			));
 			scaledHealth = 55f;
 			size = 4;
@@ -1001,6 +1005,30 @@ public class AstraBlocks {
 			powerProduction = 0.5f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
+		}};
+
+		solarCell = new SolarGenerator("solar-cell") {{
+			requirements(Category.power, ItemStack.with(Items.copper, 40, Items.silicon, 40, Items.metaglass, 20));
+			scaledHealth = 30f;
+			size = 2;
+			fogRadius = 2;
+			powerProduction = 0.4f;
+		}};
+
+		solarCellLarge = new SolarGenerator("solar-cell-large") {{
+			requirements(Category.power, ItemStack.with(Items.copper, 75, Items.silicon, 100, Items.phaseFabric, 25, AstraItems.lithium, 40));
+			scaledHealth = 25f;
+			size = 4;
+			fogRadius = 4;
+			powerProduction = 2.2f;
+		}};
+
+		solarArray = new SolarGenerator("solar-array") {{
+			requirements(Category.power, ItemStack.with(Items.surgeAlloy, 60, Items.silicon, 160, AstraItems.aerogel, 40, AstraItems.crystaglass, 30));
+			scaledHealth = 20f;
+			size = 6;
+			fogRadius = 6;
+			powerProduction = 7.5f;
 		}};
 
 		coalPlant = new GenericCrafter("boiler") {{
@@ -1110,7 +1138,10 @@ public class AstraBlocks {
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
-				new DrawPistons() {{ lenOffset = 0f; sideOffset = Mathf.PI / 2f; sinOffset = -6f * Mathf.PI; sinScl = 4f; sinMag = 2.25f; }},
+				new DrawLiquidTile(Liquids.hydrogen),
+				new DrawRegion("-mid"),
+				new DrawPistons() {{ lenOffset = 0f; sideOffset = Mathf.PI * 2f; sinOffset = 0f; sinScl = 4f; sinMag = 2.25f; }},
+				new DrawRegion("-rotator") {{ rotateSpeed = -45f / (4 * Mathf.PI); rotation = -45f; }},
 				new DrawDefault()
 			);
 		}};
@@ -1171,7 +1202,7 @@ public class AstraBlocks {
 				}},
 				new DrawLiquidTile(AstraFluids.steam),
 				new DrawDefault(),
-				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }},
+				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; }},
 				new DrawGlowRegion()
 			);
 		}};
@@ -1203,23 +1234,80 @@ public class AstraBlocks {
 			);
 		}};
 
-		fissionReactor = new NuclearReactor("fission-reactor") {{
-			requirements(Category.power, BuildVisibility.hidden, ItemStack.with(
-				AstraItems.steel, 250,
-				Items.copper, 275,
-				Items.titanium, 240,
+		fissionReactor = new ExplodableCrafter("fission-reactor") {{
+			requirements(Category.power, ItemStack.with(
+				Items.tungsten, 250,
+				Items.surgeAlloy, 200,
+				AstraItems.vanadium, 240,
 				AstraItems.crystaglass, 180,
-				Items.lead, 300,
-				Items.silicon, 200
+				Items.lead, 350,
+				Items.silicon, 220
 			));
-			scaledHealth = 60f;
+			scaledHealth = 65f;
+			armor = 2f;
 			size = 4;
 			fogRadius = 4;
+			hasPower = true;
+			hasLiquids = outputsLiquid = true;
 			itemCapacity = 20;
-			flags = EnumSet.of(BlockFlag.reactor, BlockFlag.generator);
+			liquidCapacity = 300f;
+			flags = EnumSet.of(BlockFlag.reactor);
 
-			consumeItem(AstraItems.crystals);
-			itemDuration = 300f;
+			consumeItem(hazardItem = AstraItems.nuclearRod);
+			consumeLiquids(LiquidStack.with(Liquids.water, 2.6f, Liquids.cryofluid, 0.75f));
+			consumePower(6.8f);
+			craftTime = 480f;
+			outputLiquid = new LiquidStack(AstraFluids.steam, 2.6f);
+
+			explosionRadius = 30;
+			explosionDamage = 10000;
+			explosionShake = 10f;
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(Liquids.water),
+				new DrawLiquidTile(AstraFluids.steam),
+				new DrawRegion("-mid"),
+				new DrawLiquidRegion(Liquids.cryofluid) {{ suffix = "-mid"; }},
+				new DrawDefault()
+			);
+			ambientSound = Sounds.hum;
+			explodeEffect = Fx.impactReactorExplosion;
+		}};
+
+		fusionReactor = new ImpactReactor("fusion-reactor") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.astranium, 300,
+				Items.surgeAlloy, 220,
+				AstraItems.neodymium, 240,
+				AstraItems.crystaglass, 250,
+				Items.graphite, 320,
+				AstraItems.lithium, 200
+			));
+			scaledHealth = 70f;
+			armor = 4f;
+			size = 5;
+			fogRadius = 5;
+			hasItems = false;
+			liquidCapacity = 150f;
+
+			consumeLiquid(AstraFluids.plasma, 0.5f);
+			consumePower(125f / 6f);
+			powerProduction = 187.5f;
+
+			explosionMinWarmup = 0.6f;
+			explosionRadius = 6;
+			explosionDamage = 1000;
+			explodeEffect = Fx.titanExplosion;
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(AstraFluids.plasma),
+				new DrawRegion("-mid"),
+				new DrawPlasma(),
+				new DrawDefault(),
+				new DrawGlowRegion() {{ color = AstraFluids.plasma.color; }}
+			);
 		}};
 
 		// region DRILLS
@@ -1287,9 +1375,9 @@ public class AstraBlocks {
 
 		plasmaDrill = new PlasmaDrill("plasma-drill") {{
 			requirements(Category.production, ItemStack.with(
-				Items.surgeAlloy, 60,
+				AstraItems.steel, 60,
 				AstraItems.magnetite, 50,
-				Items.thorium, 55,
+				AstraItems.vanadium, 55,
 				AstraItems.lithium, 65,
 				Items.silicon, 70
 			));
@@ -1324,7 +1412,7 @@ public class AstraBlocks {
 				AstraItems.astranium, 80,
 				AstraItems.neodymium, 70,
 				Items.plastanium, 95,
-				AstraItems.lithium, 100,
+				Items.surgeAlloy, 100,
 				AstraItems.crystals, 85,
 				AstraItems.aerogel, 70
 			));
@@ -1429,7 +1517,7 @@ public class AstraBlocks {
 		pulseBore = new BeamDrill("pulse-bore") {{
 			requirements(Category.production, ItemStack.with(
 				AstraItems.astranium, 75,
-				AstraItems.lithium, 80,
+				Items.surgeAlloy, 80,
 				AstraItems.crystaglass, 70,
 				Items.silicon, 90,
 				AstraItems.neodymium, 60
@@ -2075,12 +2163,12 @@ public class AstraBlocks {
 
 		tidalPump = new Pump("tidal-pump") {{
 			requirements(Category.liquid, ItemStack.with(
-				Items.surgeAlloy, 100,
+				Items.tungsten, 100,
 				AstraItems.crystaglass, 120,
 				AstraItems.neodymium, 60,
 				Items.plastanium, 80,
 				Items.graphite, 115,
-				Items.thorium, 90
+				Items.surgeAlloy, 90
 			));
 			scaledHealth = 60f;
 			armor = 4f;
@@ -2303,7 +2391,7 @@ public class AstraBlocks {
 
 		crystalTank = new PipelineRouter("crystal-tank") {{
 			requirements(Category.liquid, ItemStack.with(
-				Items.surgeAlloy, 100,
+				Items.tungsten, 100,
 				AstraItems.crystaglass, 125,
 				Items.thorium, 50,
 				AstraItems.neodymium, 40,
@@ -2399,6 +2487,40 @@ public class AstraBlocks {
 
 		// region UTILITY
 
+		platedContainer = new AstraStorageBlock("plated-container") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 100, Items.graphite, 40));
+			size = 2;
+			fogRadius = 2;
+			scaledHealth = 60f;
+			itemCapacity = 500;
+		}};
+
+		platedVault = new AstraStorageBlock("plated-vault") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.steel, 200, Items.titanium, 75));
+			size = 3;
+			fogRadius = 3;
+			scaledHealth = 70f;
+			armor = 3f;
+			itemCapacity = 2000;
+		}};
+
+		platedCrypt = new AstraStorageBlock("plated-crypt") {{
+			requirements(Category.effect, ItemStack.with(Items.tungsten, 350, Items.thorium, 125));
+			size = 4;
+			fogRadius = 4;
+			scaledHealth = 80f;
+			armor = 6f;
+			itemCapacity = 7500;
+		}};
+
+		sensorArray = new Radar("sensor-array") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 40, AstraItems.magnetite, 20, Items.copper, 50, Items.silicon, 20));
+			size = 2;
+			fogRadius = 40;
+
+			consumePower(1.1f);
+		}};
+
 		incendiaryMine = new LandMine("incendiary-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 18));
 
@@ -2406,6 +2528,7 @@ public class AstraBlocks {
 			explodePower = 40f;
 			knockback = 1.5f;
 			explodeFire = 30f;
+			status = StatusEffects.burning;
 		}};
 
 		blastMine = new LandMine("blast-mine") {{
@@ -2415,6 +2538,7 @@ public class AstraBlocks {
 			explodePower = 70f;
 			knockback = 8f;
 			explodeFire = 5f;
+			status = StatusEffects.blasted;
 		}};
 
 		fragMine = new LandMine("frag-mine") {{
@@ -2429,6 +2553,7 @@ public class AstraBlocks {
 				lifetime = 10f;
 				width = 5f;
 				height = 6f;
+				pierceCap = 3;
 				backColor = Pal.plastaniumBack;
 				frontColor = Pal.plastaniumFront;
 			}};
@@ -2440,7 +2565,9 @@ public class AstraBlocks {
 			explodeRadius = 1f;
 			explodePower = 25f;
 			numLightning = 10;
-			lightningDamage = 40f;
+			lightningDamage = 30f;
+			status = StatusEffects.shocked;
+			statusDuration = 480f;
 		}};
 
 		magneticMine = new LandMine("magnetic-mine") {{
@@ -2448,9 +2575,9 @@ public class AstraBlocks {
 			size = 2;
 			health = 100;
 
-			explodeRadius = 6f;
+			explodeRadius = 8f;
 			explodePower = 30f;
-			knockback = -20f;
+			knockback = -30f;
 		}};
 
 		// region TURRETS
@@ -2648,6 +2775,7 @@ public class AstraBlocks {
 				AstraItems.steel, 10,
 				Items.blastCompound, 10,
 				Items.carbide, 10,
+				AstraItems.crystaglass, 10,
 				Items.phaseFabric, 10,
 				Items.surgeAlloy, 10,
 				AstraItems.aerogel, 10,

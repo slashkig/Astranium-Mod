@@ -1,19 +1,20 @@
 package astramod.world.blocks.defense;
 
 import arc.graphics.*;
-import arc.graphics.g2d.TextureRegion;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
+import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.meta.*;
 import astramod.graphics.*;
 import astramod.world.meta.*;
 
@@ -24,6 +25,9 @@ public class LandMine extends Block {
 	public float explodeRadius = 2.5f;
 	public float explodeFire = 0f;
 	public float knockback = 0f;
+
+	public StatusEffect status = StatusEffects.none;
+	public float statusDuration = 240f;
 
 	public int numLightning = 0;
 	public float lightningDamage = 20f;
@@ -49,24 +53,7 @@ public class LandMine extends Block {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(Stat.damage, Mathf.floor(explodePower / 11f) * explodePower / 2f);
-		stats.add(Stat.range, explodeRadius, StatUnit.blocks);
-		if (knockback != 0) {
-			stats.add(knockback > 0 ? AstraStat.knockback : AstraStat.magneticStrength, Math.abs(knockback));
-		}
-
-		if (explodeFire > 0) {
-			stats.add(AstraStat.incendivity, explodeFire);
-		}
-		if (numLightning > 0) {
-			stats.add(AstraStat.lightningCount, numLightning);
-			stats.add(AstraStat.lightningDamage, lightningDamage);
-		}
-		if (bullet != null) {
-			bullet.displayAmmoMultiplier = false;
-			stats.add(Stat.shots, shots);
-			stats.add(Stat.ammo, StatValues.ammo(ObjectMap.of(this, bullet)));
-		}
+		stats.add(AstraStat.detonation, AstraStatValues.mine(this, 0));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -138,13 +125,16 @@ public class LandMine extends Block {
 
 			Damage.dynamicExplosion(x, y, explodeFire, explodePower, 0f, explodeRadius, true, true, team);
 
+			float radius = explodeRadius * tilesize;
 			if (knockback != 0) {
-				float radius = explodeRadius * tilesize;
 				Units.nearbyEnemies(team, x, y, radius, unit -> {
+					unit.apply(status, statusDuration);
 					float dist = unit.dst(this) / radius;
 					Tmp.v3.set(unit).sub(this).nor().scl(knockback * 80f * (1f - (knockback > 0 ? dist : Mathf.pow(dist * 2f - 1f, 2))));
 					unit.impulse(Tmp.v3);
 				});
+			} else if (status != StatusEffects.none) {
+				Units.nearbyEnemies(team, x, y, radius, unit -> unit.apply(status, statusDuration));
 			}
 
 			kill();

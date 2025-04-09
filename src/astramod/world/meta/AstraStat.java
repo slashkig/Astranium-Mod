@@ -4,8 +4,8 @@ import mindustry.world.meta.*;
 
 public class AstraStat {
 	public static final Stat
+		detonation = new Stat("detonation", StatCat.function),
 		magneticStrength = new Stat("magneticStrength", StatCat.function),
-		knockback = new Stat("knockback", StatCat.function),
 		bridgeRange = new Stat("bridgeRange", StatCat.function),
 		liquidPressure = new Stat("liquidPressure", StatCat.liquids),
 		heatCapacity = new Stat("heatCapacity", StatCat.liquids),
