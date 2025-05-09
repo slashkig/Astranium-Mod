@@ -1,4 +1,4 @@
-package astramod.world.blocks.units;
+package astramod.world.blocks.modules;
 
 import java.util.Arrays;
 import arc.Core;
@@ -19,7 +19,6 @@ import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 import mindustry.world.meta.*;
-import astramod.world.blocks.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
@@ -217,11 +216,11 @@ public class UnitCoreModule extends Block {
 			linkedCore.handleStack(item, amount, source);
 		}
 
-		public void setLinkedCore(Building core) {
+		@Override public void setLinkedCore(Building core) {
 			linkedCore = core;
 		}
 
-		@Nullable public Building getLinkedCore() {
+		@Override @Nullable public Building getLinkedCore() {
 			return linkedCore;
 		}
 

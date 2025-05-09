@@ -4,7 +4,7 @@ import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.Item;
 import mindustry.world.*;
-import astramod.world.blocks.*;
+import astramod.world.blocks.modules.*;
 
 public class AnchoredMinerAI extends AnchoredAI {
 	public boolean mining = true;

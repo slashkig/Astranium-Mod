@@ -1,12 +1,12 @@
 package astramod.world.blocks.storage;
 
 import arc.graphics.g2d.*;
+import astramod.world.blocks.modules.*;
 import mindustry.game.*;
 import mindustry.gen.Building;
 import mindustry.type.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.modules.ItemModule;
-import astramod.world.blocks.CoreModuleBlock;
 
 import static mindustry.Vars.*;
 

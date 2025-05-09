@@ -6,8 +6,8 @@ import astramod.ai.types.*;
 
 public class AstraUnitCommand {
 	public static final UnitCommand
-		protect = new UnitCommand("protect", "eye", u -> new ProtectorAI(400f)),
-		combatFollow = new UnitCommand("combatAssist", "commandAttack", u -> new CombatAssistAI());
+		protect = new UnitCommand("protect", "eye", _ -> new ProtectorAI(400f)),
+		combatFollow = new UnitCommand("combatAssist", "commandAttack", _ -> new CombatAssistAI());
 	
 	public static void load() {
 		Log.info("Loading unit commands");
