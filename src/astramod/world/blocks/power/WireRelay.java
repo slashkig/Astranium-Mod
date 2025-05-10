@@ -576,5 +576,15 @@ public class WireRelay extends PowerBlock {
 	}
 
 	// Multi wire config data container
-	public record WireConfig(Point2 start, Point2 end, boolean adding) { }
+	public class WireConfig {
+		public final Point2 start, end;
+		public final boolean adding;
+
+		public WireConfig(Point2 start, Point2 end, boolean adding) {
+			this.start = start;
+			this.end = end;
+			this.adding = adding;
+		}
+	}
+	// public record WireConfig(Point2 start, Point2 end, boolean adding) { }
 }
