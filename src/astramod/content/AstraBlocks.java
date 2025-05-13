@@ -2,6 +2,7 @@ package astramod.content;
 
 import arc.util.*;
 import arc.graphics.*;
+import arc.graphics.g2d.Draw;
 import arc.math.*;
 import arc.struct.*;
 import mindustry.world.*;
@@ -32,10 +33,10 @@ import astramod.world.blocks.defense.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
 import astramod.world.blocks.liquid.*;
+import astramod.world.blocks.modules.*;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
-import astramod.world.blocks.units.*;
 
 import static mindustry.Vars.*;
 
@@ -59,6 +60,7 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule,
+		defenseModule,
 		platedContainer, platedVault, platedCrypt,
 		sensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
@@ -2485,6 +2487,89 @@ public class AstraBlocks {
 			unitRange = 400f;
 		}};
 
+		defenseModule = new TurretCoreModule("module-defense") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 100,
+				Items.graphite, 125,
+				AstraItems.magnetite, 65,
+				Items.titanium, 80
+			));
+
+			ammo(
+				Items.graphite, new ArtilleryBulletType(3.6f, 40) {{
+					width = 12f;
+					height = 15f;
+					ammoMultiplier = 1;
+					knockback = 0.5f;
+					collidesAir = true;
+					collidesTiles = false;
+					splashDamageRadius = 8f;
+					splashDamage = 40f;
+
+					frontColor = AstraPal.graphiteFront;
+					backColor = AstraPal.graphiteBack;
+				}},
+				Items.titanium, new ArtilleryBulletType(3.6f, 60) {{
+					width = 12f;
+					height = 15f;
+					ammoMultiplier = 1;
+					knockback = 0.8f;
+					collidesAir = true;
+					collidesTiles = false;
+					splashDamageRadius = 8f;
+					splashDamage = 60f;
+
+					//frontColor = AstraPal.titaniumFront;
+					//backColor = AstraPal.titaniumBack;
+				}},
+				Items.plastanium, new ArtilleryBulletType(3.6f, 72) {{
+					width = 12f;
+					height = 15f;
+					ammoMultiplier = 1;
+					rangeChange = 24f;
+					knockback = 1f;
+					collidesAir = true;
+					collidesTiles = false;
+					splashDamageRadius = 8f;
+					splashDamage = 72f;
+
+					//frontColor = AstraPal.plastFront;
+					//backColor = AstraPal.plastBack;
+				}}
+			);
+
+			drawer = new DrawTurret("astranium-") {{
+					parts.add(new RegionPart("-barrel") {{
+						progress = PartProgress.recoil;
+						under = true;
+						moveY = -2f;
+					}});
+				}
+
+				@Override public void drawTurret(Turret block, TurretBuild build) {
+					super.drawTurret(block, build);
+
+					if (block.teamRegion.found()) {
+						Draw.color(build.team().color);
+						Draw.rect(block.teamRegion, build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot());
+						Draw.color();
+					}
+				}
+			};
+
+			scaledHealth = 140f;
+			size = 3;
+			shootY = 7f;
+			recoil = 2f;
+			reload = 60f;
+			rotateSpeed = 2f;
+			shootCone = 2f;
+			inaccuracy = 1f;
+			range = 300f;
+
+			limitRange();
+		}};
+
 		// region UTILITY
 
 		platedContainer = new AstraStorageBlock("plated-container") {{
@@ -2667,6 +2752,8 @@ public class AstraBlocks {
 			shootCone = 12f;
 			inaccuracy = 3f;
 			range = 140f;
+			fogRadius = 4;
+			fogRadiusMultiplier = 0;
 			coolant = consumeCoolant(0.15f);
 
 			ammoUseEffect = Fx.casing2;
@@ -2741,6 +2828,8 @@ public class AstraBlocks {
 			shootCone = 30f;
 			inaccuracy = 10f;
 			range = 224f;
+			fogRadius = 4;
+			fogRadiusMultiplier = 0;
 			consumeAmmoOnce = false;
 			coolant = consumeCoolant(0.2f);
 
