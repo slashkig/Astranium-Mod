@@ -60,7 +60,7 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule,
-		defenseModule,
+		controlModule, defenseModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
 		sensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
@@ -2519,8 +2519,8 @@ public class AstraBlocks {
 					splashDamageRadius = 8f;
 					splashDamage = 60f;
 
-					//frontColor = AstraPal.titaniumFront;
-					//backColor = AstraPal.titaniumBack;
+					frontColor = AstraPal.titaniumFront;
+					backColor = AstraPal.titaniumBack;
 				}},
 				Items.plastanium, new ArtilleryBulletType(3.6f, 72) {{
 					width = 12f;
@@ -2533,29 +2533,49 @@ public class AstraBlocks {
 					splashDamageRadius = 8f;
 					splashDamage = 72f;
 
-					//frontColor = AstraPal.plastFront;
-					//backColor = AstraPal.plastBack;
+					frontColor = Pal.plastaniumFront;
+					backColor = Pal.plastaniumBack;
+				}},
+				AstraItems.crystals, new ArtilleryBulletType(3.6f, 90) {{
+					width = 12f;
+					height = 15f;
+					ammoMultiplier = 1;
+					rangeChange = 16f;
+					knockback = 4f;
+					collidesAir = true;
+					collidesTiles = false;
+					splashDamageRadius = 12f;
+					splashDamage = 90f;
+
+					frontColor = AstraPal.crystalFront;
+					backColor = AstraPal.crystalBack;
+				}},
+				Items.surgeAlloy, new ArtilleryBulletType(3.6f, 100) {{
+					width = 12f;
+					height = 15f;
+					ammoMultiplier = 1;
+					rangeChange = 40f;
+					knockback = 1f;
+					collidesAir = true;
+					collidesTiles = false;
+					splashDamageRadius = 8f;
+					splashDamage = 100f;
+					lightning = 3;
+					lightningLength = 6;
+					lightningDamage = 14;
+
+					//frontColor = AstraPal.surgeFront;
+					//backColor = AstraPal.surgeBack;
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-") {{
-					parts.add(new RegionPart("-barrel") {{
-						progress = PartProgress.recoil;
-						under = true;
-						moveY = -2f;
-					}});
-				}
-
-				@Override public void drawTurret(Turret block, TurretBuild build) {
-					super.drawTurret(block, build);
-
-					if (block.teamRegion.found()) {
-						Draw.color(build.team().color);
-						Draw.rect(block.teamRegion, build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot());
-						Draw.color();
-					}
-				}
-			};
+			drawer = new DrawTeamTurret() {{
+				parts.add(new RegionPart("-barrel") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -2f;
+				}});
+			}};
 
 			scaledHealth = 140f;
 			size = 3;
@@ -2567,7 +2587,24 @@ public class AstraBlocks {
 			inaccuracy = 1f;
 			range = 300f;
 
+			shootSound = Sounds.artillery;
+
 			limitRange();
+		}};
+
+		shieldModule = new ProjectorCoreModule("module-shield") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 150,
+				AstraItems.crystals, 100,
+				Items.silicon, 125,
+				Items.phaseFabric, 80
+			));
+			scaledHealth = 60f;
+			size = 3;
+			itemCapacity = 20;
+			shieldHealth = 2000f;
+			radius = 80f;
+			consumeCoolant = false;
 		}};
 
 		// region UTILITY

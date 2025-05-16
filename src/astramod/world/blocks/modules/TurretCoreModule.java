@@ -1,9 +1,12 @@
 package astramod.world.blocks.modules;
 
 import arc.Core;
+import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
+import astramod.world.draw.DrawTeamTurret;
+import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -52,6 +55,23 @@ public class TurretCoreModule extends ItemTurret {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
 		}
 		return false;
+	}
+
+	@Override public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
+		if (plan.worldContext && player != null && teamRegion != null && teamRegion.found() && drawer instanceof DrawTeamTurret drawTurret) {
+			Draw.rect(drawTurret.base, plan.drawx(), plan.drawy());
+			Draw.color(player.team().color);
+			Draw.rect(teamRegion, plan.drawx(), plan.drawy());
+			Draw.color();
+			Draw.rect(drawTurret.preview, plan.drawx(), plan.drawy());
+			Draw.color(player.team().color);
+			Draw.rect(drawTurret.turretTeam, plan.drawx(), plan.drawy());
+			Draw.color();
+		} else {
+			Draw.rect(getPlanRegion(plan, list), plan.drawx(), plan.drawy(), !rotate || !rotateDraw ? 0 : plan.rotation * 90);
+		}
+
+		drawPlanConfig(plan, list);
 	}
 
 	public class TurretCoreModuleBuild extends ItemTurretBuild implements CoreModuleBlock {

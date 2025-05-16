@@ -25,12 +25,12 @@ public class AstraPal {
 		graphiteBack = Color.valueOf("a6b2ca"),
 		siliconFront = Color.valueOf("c2c0b9"),
 		siliconBack = Color.valueOf("96948d"),
-		titaniumFront = Color.valueOf("000000"),
-		titaniumBack = Color.valueOf("000000"),
+		titaniumFront = Color.valueOf("99c9ff"),
+		titaniumBack = Color.valueOf("7baadf"),
 		lithiumFront = Color.valueOf("f87d42"),
 		lithiumBack = Color.valueOf("f65021"),
-		plastFront = Color.valueOf("000000"),
-		plastBack = Color.valueOf("000000"),
+		crystalFront = Color.valueOf("fb8aa8"),
+		crystalBack = Color.valueOf("ef3a6a"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");
