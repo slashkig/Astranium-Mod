@@ -21,3 +21,5 @@ This is a WIP mod that will add Aziris, a new planet with plenty of new content 
 Programming: Slashkig
 
 Sprite Artists: IAmRustee and VoidThreader
+
+Music Artist : Phil
