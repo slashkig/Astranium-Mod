@@ -5,8 +5,6 @@ import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
-import arc.math.geom.*;
-import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.content.*;
@@ -17,13 +15,12 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
-import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 import mindustry.world.meta.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class UnitCoreModule extends Block {
+public class UnitCoreModule extends GenericCoreModule {
 	public UnitType spawnedUnit;
 	public int numUnits = 1;
 	public float unitBuildTime = 8f * 60f;
@@ -38,15 +35,9 @@ public class UnitCoreModule extends Block {
 		super(name);
 		spawnedUnit = unit;
 		update = true;
-        hasItems = true;
-        separateItemCapacity = true;
-        solid = true;
-        destructible = true;
 		loopSound = Sounds.respawning;
 		loopSoundVolume = 0.4f;
-        group = BlockGroup.transportation;
-        flags = EnumSet.of(BlockFlag.storage);
-        envEnabled = Env.any;
+		group = BlockGroup.transportation;
 	}
 
 	@Override public void setStats() {
@@ -84,28 +75,12 @@ public class UnitCoreModule extends Block {
 		addBar("progress", (UnitCoreModuleBuild b) -> new Bar("bar.progress", Pal.ammo, () -> b.buildProgress));
 	}
 
-	@Override public TextureRegion[] icons() {
-		return teamRegion.found() ? new TextureRegion[] { region, teamRegions[Team.sharded.id] } : new TextureRegion[] { region };
-	}
-
-	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-		for (Point2 edge : Edges.getEdges(size)) {
-			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
-		}
-		return false;
-	}
-
-	@Override public boolean outputsItems() {
-		return false;
-	}
-
-	public class UnitCoreModuleBuild extends Building implements UnitTetherBlock, CoreModuleBlock {
+	public class UnitCoreModuleBuild extends GenericCoreModuleBuild implements UnitTetherBlock {
 		public float buildProgress, totalProgress;
 		public float warmup, readyness;
 		public Unit[] units = new Unit[numUnits];
 		public int[] readUnitId = new int[numUnits];
 		protected int targetIndex = -1;
-		protected @Nullable Building linkedCore;
 
 		@Override public Building create(Block block, Team team) {
 			Arrays.fill(units, null);
@@ -184,9 +159,7 @@ public class UnitCoreModule extends Block {
 		}
 
 		@Override public void drawSelect() {
-			if (linkedCore != null) {
-				linkedCore.drawSelect();
-			}
+			super.drawSelect();
 			Drawf.dashCircle(x, y, unitRange, team.color);
 		}
 
@@ -198,10 +171,6 @@ public class UnitCoreModule extends Block {
 			return buildProgress;
 		}
 
-		@Override public boolean acceptItem(Building source, Item item) {
-			return linkedCore != null && linkedCore.acceptItem(source, item);
-		}
-
 		public int unitCount() {
 			if (targetIndex == -1) return numUnits;
 
@@ -210,18 +179,6 @@ public class UnitCoreModule extends Block {
 				if (unit != null) count++;
 			}
 			return count;
-		}
-
-		@Override public void handleStack(Item item, int amount, Teamc source) {
-			linkedCore.handleStack(item, amount, source);
-		}
-
-		@Override public void setLinkedCore(Building core) {
-			linkedCore = core;
-		}
-
-		@Override @Nullable public Building getLinkedCore() {
-			return linkedCore;
 		}
 
 		@Override public void write(Writes write) {

@@ -62,7 +62,7 @@ public class AstraBlocks {
 		gathererModule, initiateModule, seekerModule,
 		controlModule, defenseModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
-		sensorArray,
+		sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -2420,7 +2420,7 @@ public class AstraBlocks {
 			isFirstTier = true;
 
 			unitType = AstraUnitTypes.manager;
-			unitCapModifier = 10;
+			unitCapModifier = 4;
 
 			thrusterLength = 8f;
 		}};
@@ -2438,9 +2438,16 @@ public class AstraBlocks {
 			itemCapacity = 7500;
 
 			unitType = AstraUnitTypes.director;
-			unitCapModifier = 15;
+			unitCapModifier = 6;
 
 			thrusterLength = 10f;
+		}};
+
+		controlModule = new GenericCoreModule("module-control") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.copper, 75));
+			scaledHealth = 40f;
+			size = 2;
+			unitCapModifier = 2;
 		}};
 
 		gathererModule = new UnitCoreModule("module-gatherer", AstraUnitTypes.gatherer) {{
@@ -2570,12 +2577,20 @@ public class AstraBlocks {
 			);
 
 			drawer = new DrawTeamTurret() {{
-				parts.add(new RegionPart("-barrel") {{
-					progress = PartProgress.recoil;
-					under = true;
-					moveY = -2f;
-				}});
-			}};
+					parts.add(new RegionPart("-barrel") {{
+						progress = PartProgress.recoil;
+						under = true;
+						moveY = -2f;
+					}});
+				}
+
+				@Override public void drawHeat(Turret block, TurretBuild build) {
+					if (build.heat > 0.00001f && ((TurretCoreModuleBuild)build).getCurrentAmmo() == AstraItems.crystals) {
+						Drawf.additive(heat, AstraPal.crystalRed.write(Tmp.c1).a(build.heat), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), Layer.turretHeat);
+					}
+					else super.drawHeat(block, build);
+				};
+			};
 
 			scaledHealth = 140f;
 			size = 3;
