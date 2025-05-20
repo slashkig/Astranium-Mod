@@ -59,8 +59,8 @@ public class AstraBlocks {
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
-		gathererModule, initiateModule, seekerModule,
-		controlModule, defenseModule, shieldModule,
+		gathererModule, initiateModule, seekerModule, wardModule,
+		unloaderModule, controlModule, defenseModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
 		sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
@@ -2443,6 +2443,11 @@ public class AstraBlocks {
 			thrusterLength = 10f;
 		}};
 
+		unloaderModule = new UnloaderCoreModule("module-unloader") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 20, Items.metaglass, 10));
+			health = 60;
+		}};
+
 		controlModule = new GenericCoreModule("module-control") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.copper, 75));
 			scaledHealth = 40f;
@@ -2491,6 +2496,20 @@ public class AstraBlocks {
 			itemCapacity = 40;
 			numUnits = 1;
 			unitBuildTime = 10f * 60f;
+			unitRange = 400f;
+		}};
+
+		wardModule = new UnitCoreModule("module-warder", AstraUnitTypes.ward) {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 80,
+				Items.plastanium, 50,
+				Items.silicon, 85,
+				Items.metaglass, 60
+			));
+			scaledHealth = 50f;
+			size = 3;
+			numUnits = 2;
+			unitBuildTime = 12f * 60f;
 			unitRange = 400f;
 		}};
 
@@ -2612,7 +2631,8 @@ public class AstraBlocks {
 				AstraItems.steel, 150,
 				AstraItems.crystals, 100,
 				Items.silicon, 125,
-				Items.phaseFabric, 80
+				Items.phaseFabric, 80,
+				Items.lead, 200
 			));
 			scaledHealth = 60f;
 			size = 3;
@@ -2651,11 +2671,33 @@ public class AstraBlocks {
 		}};
 
 		sensorArray = new Radar("sensor-array") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 40, AstraItems.magnetite, 20, Items.copper, 50, Items.silicon, 20));
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 40,
+				AstraItems.magnetite, 20,
+				Items.copper, 50,
+				Items.silicon, 20
+			));
 			size = 2;
 			fogRadius = 40;
+			rotateSpeed = 4f;
 
 			consumePower(1.1f);
+		}};
+
+		advancedSensorArray = new Radar("advanced-sensor-array") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 75,
+				Items.plastanium, 40,
+				Items.silicon, 60,
+				AstraItems.magnetite, 45,
+				AstraItems.vanadium, 30
+			));
+			scaledHealth = 45f;
+			size = 3;
+			fogRadius = 75;
+			rotateSpeed = 3f;
+
+			consumePower(3.1f);
 		}};
 
 		incendiaryMine = new LandMine("incendiary-mine") {{

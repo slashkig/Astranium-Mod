@@ -19,7 +19,7 @@ import astramod.type.unit.*;
 
 public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
-	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker;
+	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
 
 	public static void load() {
 		Log.info("Loading units");
@@ -214,7 +214,7 @@ public class AstraUnitTypes {
 		seeker =  new AstraUnitType("seeker") {{
 			constructor = BuildingTetherUnit::create;
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
-			aiController = () -> new ProtectorAI(400f);
+			aiController = () -> new AnchoredProtectorAI(400f);
 			commands = new UnitCommand[] {AstraUnitCommand.protect, AstraUnitCommand.combatFollow};
 			defaultCommand = AstraUnitCommand.protect;
 			flying = true;
@@ -259,6 +259,33 @@ public class AstraUnitTypes {
 					despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
+		}};
+
+		ward = new AstraUnitType("warder") {{
+			constructor = BuildingTetherUnit::create;
+			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
+			aiController = () -> new AnchoredProtectorAI(400f);
+			commands = new UnitCommand[] {AstraUnitCommand.protect, AstraUnitCommand.combatFollow};
+			defaultCommand = AstraUnitCommand.protect;
+			flying = true;
+
+			playerControllable = false;
+			logicControllable = false;
+			isEnemy = false;
+
+			health = 150f;
+			hitSize = 9f;
+			fogRadius = 6f;
+			itemCapacity = 12;
+			range = 40f;
+
+			drag = 0.05f;
+			accel = 0.15f;
+			speed = 2.5f;
+
+			lowAltitude = true;
+			engineOffset = 5.6f;
+			engineSize = 2.2f;
 		}};
 	}
 }
