@@ -24,14 +24,15 @@ public class AnchoredSupportAI extends AnchoredAI {
 	Building damagedTarget;
 	float retreatTimer;
 
-	public AnchoredSupportAI(float bound) {
-		super(bound);
-		fleeRange = bound / 2f;
+	public AnchoredSupportAI() { }
+
+	public AnchoredSupportAI(boolean alwaysFlee) {
+		this.alwaysFlee = alwaysFlee;
 	}
 
-	public AnchoredSupportAI(float bound, boolean alwaysFlee) {
-		this(bound);
-		this.alwaysFlee = alwaysFlee;
+	@Override public void init() {
+		super.init();
+		fleeRange = boundRadius / 2f;
 	}
 
 	@Override public void updateMovement() {

@@ -2510,7 +2510,7 @@ public class AstraBlocks {
 			size = 3;
 			numUnits = 2;
 			unitBuildTime = 12f * 60f;
-			unitRange = 400f;
+			unitRange = 500f;
 		}};
 
 		defenseModule = new TurretCoreModule("module-defense") {{

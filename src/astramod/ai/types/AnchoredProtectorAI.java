@@ -3,12 +3,8 @@ package astramod.ai.types;
 import mindustry.entities.*;
 import mindustry.gen.*;
 
-public class ProtectorAI extends AnchoredAI {
+public class AnchoredProtectorAI extends AnchoredAI {
 	public Unit closestUnit;
-
-	public ProtectorAI(float bound) {
-		super(bound);
-	}
 
 	@Override public void updateMovement() {
 		Building anchor = anchor();

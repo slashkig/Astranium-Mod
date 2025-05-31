@@ -8,6 +8,7 @@ import mindustry.type.weapons.*;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
+import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -133,7 +134,7 @@ public class AstraUnitTypes {
 
 		gatherer = new AstraUnitType("gatherer") {{
 			constructor = BuildingTetherUnit::create;
-			aiController = () -> new AnchoredMinerAI(400f);
+			aiController = () -> new AnchoredMinerAI();
 			flying = true;
 
 			playerControllable = false;
@@ -163,7 +164,7 @@ public class AstraUnitTypes {
 
 		initiate = new AstraUnitType("initiate") {{
 			constructor = BuildingTetherUnit::create;
-			aiController = () -> new AnchoredSupportAI(300f);
+			aiController = () -> new AnchoredSupportAI();
 			flying = true;
 
 			playerControllable = false;
@@ -214,8 +215,8 @@ public class AstraUnitTypes {
 		seeker =  new AstraUnitType("seeker") {{
 			constructor = BuildingTetherUnit::create;
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
-			aiController = () -> new AnchoredProtectorAI(400f);
-			commands = new UnitCommand[] {AstraUnitCommand.protect, AstraUnitCommand.combatFollow};
+			aiController = () -> new AnchoredProtectorAI();
+			commands = new UnitCommand[] { AstraUnitCommand.protect, AstraUnitCommand.combatFollow };
 			defaultCommand = AstraUnitCommand.protect;
 			flying = true;
 
@@ -264,9 +265,9 @@ public class AstraUnitTypes {
 		ward = new AstraUnitType("warder") {{
 			constructor = BuildingTetherUnit::create;
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
-			aiController = () -> new AnchoredProtectorAI(400f);
-			commands = new UnitCommand[] {AstraUnitCommand.protect, AstraUnitCommand.combatFollow};
-			defaultCommand = AstraUnitCommand.protect;
+			aiController = () -> new AnchoredShieldAI();
+			commands = new UnitCommand[] { AstraUnitCommand.shieldCore, AstraUnitCommand.shieldFollow };
+			defaultCommand = AstraUnitCommand.shieldCore;
 			flying = true;
 
 			playerControllable = false;
@@ -286,6 +287,17 @@ public class AstraUnitTypes {
 			lowAltitude = true;
 			engineOffset = 5.6f;
 			engineSize = 2.2f;
+
+			abilities.add(new ShieldArcAbility() {{
+				region = "astramod-warder-shield";
+				radius = 8f;
+				angle = 120f;
+				width = 5f;
+				cooldown = 60f * 10;
+				max = 500f;
+				whenShooting = false;
+				drawArc = false;
+			}});
 		}};
 	}
 }

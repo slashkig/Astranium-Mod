@@ -4,13 +4,14 @@ import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
-import mindustry.entities.units.BuildPlan;
+import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import mindustry.world.consumers.*;
 
 import static mindustry.Vars.*;
 
@@ -19,7 +20,15 @@ public class ProjectorCoreModule extends ForceProjector {
 
 	public ProjectorCoreModule(String name) {
 		super(name);
-		hasLiquids = false;
+	}
+
+	@Override public void init() {
+		if (!consumeCoolant) {
+			removeConsumer(findConsumer(c -> c instanceof ConsumeCoolant));
+			hasLiquids = false;
+		}
+
+		super.init();
 	}
 
 	@Override public void load() {

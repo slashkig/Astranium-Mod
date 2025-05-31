@@ -1,6 +1,6 @@
 package astramod.world.blocks.modules;
 
-import java.util.Arrays;
+import java.util.*;
 import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -11,11 +11,13 @@ import mindustry.content.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.logic.Ranged;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.*;
 import mindustry.world.meta.*;
+import astramod.ai.types.AnchoredAI;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
@@ -75,7 +77,7 @@ public class UnitCoreModule extends GenericCoreModule {
 		addBar("progress", (UnitCoreModuleBuild b) -> new Bar("bar.progress", Pal.ammo, () -> b.buildProgress));
 	}
 
-	public class UnitCoreModuleBuild extends GenericCoreModuleBuild implements UnitTetherBlock {
+	public class UnitCoreModuleBuild extends GenericCoreModuleBuild implements UnitTetherBlock, Ranged {
 		public float buildProgress, totalProgress;
 		public float warmup, readyness;
 		public Unit[] units = new Unit[numUnits];
@@ -117,8 +119,11 @@ public class UnitCoreModule extends GenericCoreModule {
 				if (buildProgress >= 1f && !net.client()) {
 					Unit unit = spawnedUnit.create(team);
 					units[targetIndex] = unit;
-					if(unit instanceof BuildingTetherc bt) {
+					if (unit instanceof BuildingTetherc bt) {
 						bt.building(this);
+						if (bt.controller() instanceof AnchoredAI ai) {
+							ai.anchor(this);
+						}
 					}
 					unit.set(x, y);
 					unit.rotation = 90f;
@@ -169,6 +174,10 @@ public class UnitCoreModule extends GenericCoreModule {
 
 		@Override public float progress() {
 			return buildProgress;
+		}
+
+		@Override public float range() {
+			return unitRange;
 		}
 
 		public int unitCount() {
