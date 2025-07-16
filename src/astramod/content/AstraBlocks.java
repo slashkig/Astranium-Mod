@@ -67,6 +67,8 @@ public class AstraBlocks {
 		dart, viper,
 		omegafactory, uberwall, superRouter, testblaster;
 
+	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
+
 	public static void load() {
 		Log.info("Loading blocks");
 
@@ -3069,5 +3071,11 @@ public class AstraBlocks {
 
 			limitRange();
 		}};
+
+		for (Block block : content.blocks()) {
+			if (block.name.startsWith("astramod-") && block.synthetic()) {
+				azirisBlocks.add(block);
+			}
+		}
 	}
 }
