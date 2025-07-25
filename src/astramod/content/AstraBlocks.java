@@ -60,7 +60,7 @@ public class AstraBlocks {
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
 		gathererModule, initiateModule, seekerModule, wardModule,
-		unloaderModule, controlModule, defenseModule, shieldModule,
+		unloaderModule, storageModule, storageModuleLarge, controlModule, defenseModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
 		sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
@@ -1257,7 +1257,8 @@ public class AstraBlocks {
 			liquidCapacity = 300f;
 			flags = EnumSet.of(BlockFlag.reactor);
 
-			consumeItem(hazardItem = AstraItems.nuclearRod);
+			// consumeItem(hazardItem = AstraItems.nuclearRod); TODO nuclear fuel rod
+			consumeItem(hazardItem = Items.thorium);
 			consumeLiquids(LiquidStack.with(Liquids.water, 2.6f, Liquids.cryofluid, 0.75f));
 			consumePower(6.8f);
 			craftTime = 480f;
@@ -2450,6 +2451,20 @@ public class AstraBlocks {
 			health = 60;
 		}};
 
+		storageModule = new GenericCoreModule("module-storage") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 80, Items.graphite, 45));
+			size = 2;
+			scaledHealth = 55f;
+			itemCapacity = 400;
+		}};
+
+		storageModuleLarge = new GenericCoreModule("module-storage-large") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.steel, 175, Items.titanium, 80));
+			size = 3;
+			scaledHealth = 65f;
+			itemCapacity = 1500;
+		}};
+
 		controlModule = new GenericCoreModule("module-control") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.copper, 75));
 			scaledHealth = 40f;
@@ -2672,7 +2687,7 @@ public class AstraBlocks {
 			itemCapacity = 7500;
 		}};
 
-		sensorArray = new Radar("sensor-array") {{
+		sensorArray = new SensorArray("sensor-array") {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 40,
 				AstraItems.magnetite, 20,
@@ -2686,7 +2701,7 @@ public class AstraBlocks {
 			consumePower(1.1f);
 		}};
 
-		advancedSensorArray = new Radar("advanced-sensor-array") {{
+		advancedSensorArray = new SensorArray("advanced-sensor-array") {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.steel, 75,
 				Items.plastanium, 40,

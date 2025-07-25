@@ -93,5 +93,9 @@ public class ProjectorCoreModule extends ForceProjector {
 		@Override public void setLinkedCore(Building core) {
 			linkedCore = core;
 		}
+
+		@Override public boolean canPickup() {
+			return false;
+		}
 	}
 }

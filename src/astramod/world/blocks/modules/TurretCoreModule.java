@@ -114,6 +114,10 @@ public class TurretCoreModule extends ItemTurret {
 			return linkedCore;
 		}
 
+		@Override public boolean canPickup() {
+			return false;
+		}
+
 		@Override protected void updateReload() {
 			super.updateReload();
 			if (!hasAmmo() && linkedCore != null) {

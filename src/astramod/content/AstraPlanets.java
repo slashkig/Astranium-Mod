@@ -17,6 +17,7 @@ public class AstraPlanets {
 	public static void load() {
 		Log.info("Loading planets");
 
+		// TODO make Aziris more than just a white sphere
 		aziris = new Planet("aziris", sun, 1f, 1) {{
 			generator = new AzirisPlanetGenerator();
 

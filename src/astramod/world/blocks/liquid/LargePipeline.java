@@ -17,6 +17,7 @@ import mindustry.world.blocks.liquid.*;
 import static mindustry.Vars.*;
 
 public class LargePipeline extends ArmoredPipeline {
+	// TODO fix for Android?
 	protected static final float pipeRotatePad = 6, pipeHpad = pipeRotatePad / 2f / 4f;
 	protected static final float[][] pipeRotateOffsets = {{pipeHpad, pipeHpad}, {-pipeHpad, pipeHpad}, {-pipeHpad, -pipeHpad}, {pipeHpad, -pipeHpad}};
 

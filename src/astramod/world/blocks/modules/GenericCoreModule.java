@@ -59,5 +59,9 @@ public class GenericCoreModule extends Block {
 		@Override public void setLinkedCore(Building core) {
 			linkedCore = core;
 		}
+
+		@Override public boolean canPickup() {
+			return false;
+		}
 	}
 }

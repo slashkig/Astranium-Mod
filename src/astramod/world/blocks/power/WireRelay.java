@@ -21,6 +21,7 @@ import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
+// TODO will revisit this
 public class WireRelay extends PowerBlock {
 	public static final int[] blendSprites = {0, 1, 1, 3, 1, 2, 3, 4, 1, 3, 2, 4, 3, 4, 4, 5};
 	public static final int[] blendRotation = {0, 180, 270, 0, 0, 0, 90, 180, 90, 270, 90, 90, 180, 0, 270, 0};
