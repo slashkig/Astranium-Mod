@@ -203,7 +203,7 @@ public class WireRelay extends PowerBlock {
 
 		/** Adds lines of wires along both axes to connect {@code start} to {@code end}, adding the longer axis first.
 		 *  @return Number of wires added. */
-		public int multiWireAdd(Point2 start, Point2 end) {
+		public int multiWireAdd(Point2 start, Point2 end) { // TODO fix shift-click client-side crash bug
 			int wiresAdded = 0;
 			if (Math.abs(start.x - end.x) > Math.abs(start.y - end.y)) {
 				// X is longer

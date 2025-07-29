@@ -146,7 +146,7 @@ public class UnitCoreModule extends GenericCoreModule {
 			return targetIndex != -1 && warmup > 0.01f;
 		}
 
-		@Override public void draw() {
+		@Override public void draw() { // TODO fix client-side draw construct bug
 			Draw.rect(block.region, x, y);
 			drawTeamTop();
 			if (targetIndex != -1) {

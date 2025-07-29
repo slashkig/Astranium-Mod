@@ -2942,7 +2942,7 @@ public class AstraBlocks {
 		}};
 
 		ember = new ItemTurret("ember") {{
-			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
+			requirements(Category.turret, BuildVisibility.hidden, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
 			ammo(
 				Items.pyratite, new BulletType(4f, 45) {{
 					ammoMultiplier = 5;
