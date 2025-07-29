@@ -55,6 +55,7 @@ public class AstraBlocks {
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
+		ironUnloader,
 		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, tidalPipeline,
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 		ironTank, steelTank, crystalTank,
@@ -64,7 +65,7 @@ public class AstraBlocks {
 		platedContainer, platedVault, platedCrypt,
 		sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
-		dart, viper,
+		dart, viper, ember,
 		omegafactory, uberwall, superRouter, testblaster;
 
 	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
@@ -947,7 +948,7 @@ public class AstraBlocks {
 				Items.plastanium, 50,
 				Items.metaglass, 65,
 				Items.copper, 80,
-				AstraItems.vanadium, 90,
+				Items.thorium, 90,
 				Items.silicon, 60
 			));
 			scaledHealth = 55f;
@@ -965,7 +966,7 @@ public class AstraBlocks {
 				Items.surgeAlloy, 60,
 				AstraItems.neodymium, 50,
 				AstraItems.crystaglass, 100,
-				Items.thorium, 75,
+				AstraItems.vanadium, 150,
 				Items.copper, 200,
 				AstraItems.crystals, 175
 			));
@@ -1487,7 +1488,7 @@ public class AstraBlocks {
 			updateEffectChance = 0.015f;
 		}};
 
-		laserBore = new BeamDrill("lazer-bore") {{
+		laserBore = new LaserBore("lazer-bore") {{
 			requirements(Category.production, ItemStack.with(
 				AstraItems.steel, 50,
 				AstraItems.lithium, 40,
@@ -1499,7 +1500,6 @@ public class AstraBlocks {
 			fogRadius = 4;
 			itemCapacity = 20;
 			liquidCapacity = 15f;
-			group = BlockGroup.drills;
 
 			optionalBoostIntensity = 2.65f;
 			consumePower(2.1f);
@@ -1507,19 +1507,12 @@ public class AstraBlocks {
 			drillTime = 100f;
 			tier = 4;
 			range = 4;
-			int baseSpeedTier = 2;
-			float hardnessMult = 0.2f;
-
-			for (Item item : content.items()) {
-				if (item.hardness <= tier && item.hardness != baseSpeedTier) {
-					drillMultipliers.put(item, 1f - hardnessMult * (item.hardness - baseSpeedTier));
-				}
-			}
+			hardnessMult = 0.2f;
 
 			boostHeatColor = AstraFluids.plasma.color;
 		}};
 
-		pulseBore = new BeamDrill("pulse-bore") {{
+		pulseBore = new LaserBore("pulse-bore") {{
 			requirements(Category.production, ItemStack.with(
 				AstraItems.astranium, 75,
 				Items.surgeAlloy, 80,
@@ -1532,7 +1525,6 @@ public class AstraBlocks {
 			fogRadius = 5;
 			itemCapacity = 30;
 			liquidCapacity = 20f;
-			group = BlockGroup.drills;
 
 			optionalBoostIntensity = 2.6f;
 			consumePower(6.2f);
@@ -1541,14 +1533,7 @@ public class AstraBlocks {
 			drillTime = 40f;
 			tier = 5;
 			range = 6;
-			int baseSpeedTier = 2;
-			float hardnessMult = 0.1f;
-
-			for (Item item : content.items()) {
-				if (item.hardness <= tier && item.hardness != baseSpeedTier) {
-					drillMultipliers.put(item, 1f - hardnessMult * (item.hardness - baseSpeedTier));
-				}
-			}
+			hardnessMult = 0.1f;
 
 			heatColor = AstraFluids.plasma.color;
 			boostHeatColor = Liquids.cryofluid.color;
@@ -1968,6 +1953,12 @@ public class AstraBlocks {
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 			invert = true;
+		}};
+
+		ironUnloader = new DirectionalUnloader("module-unloader") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 20, Items.silicon, 15));
+			health = 100;
+			allowCoreUnload = true;
 		}};
 
 		platedJunction = new Junction("plated-junction") {{
@@ -2446,10 +2437,10 @@ public class AstraBlocks {
 			thrusterLength = 10f;
 		}};
 
-		unloaderModule = new UnloaderCoreModule("module-unloader") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 20, Items.metaglass, 10));
-			health = 60;
-		}};
+		/*unloaderModule = new UnloaderCoreModule("module-unloader") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 30, Items.metaglass, 20));
+			health = 120;
+		}};*/
 
 		storageModule = new GenericCoreModule("module-storage") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 80, Items.graphite, 45));
@@ -2948,6 +2939,52 @@ public class AstraBlocks {
 
 			targetGround = false;
 			limitRange();
+		}};
+
+		ember = new ItemTurret("ember") {{
+			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
+			ammo(
+				Items.pyratite, new BulletType(4f, 45) {{
+					ammoMultiplier = 5;
+					hitSize = 8f;
+					lifetime = 18f;
+					status = StatusEffects.burning;
+					statusDuration = 10f * 60;
+					hittable = false;
+					pierce = true;
+					collidesAir = false;
+
+					shootEffect = Fx.shootPyraFlame;
+					hitEffect = Fx.hitFlameSmall;
+					despawnEffect = Fx.none;
+				}}
+			);
+
+			drawer = new DrawTurret("astranium-") {{
+				parts.add(new RegionPart("-side") {{
+					progress = PartProgress.warmup;
+					mirror = true;
+					moveX = 1f;
+				}});
+			}};
+
+			scaledHealth = 160f;
+			size = 2;
+			shootY = 9f;
+			recoil = 0f;
+			reload = 4f;
+			shootCone = 50f;
+			inaccuracy = 20f;
+			range = 80f;
+			fogRadius = 4;
+			fogRadiusMultiplier = 0;
+			ammoUseEffect = Fx.none;
+			coolantMultiplier = 1.5f;
+			coolant = consumeCoolant(0.1f);
+
+			shootSound = Sounds.flame;
+
+			targetAir = false;
 		}};
 
 		// region EXTRAS

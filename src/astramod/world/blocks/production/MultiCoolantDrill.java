@@ -84,5 +84,9 @@ public class MultiCoolantDrill extends Drill {
 			efficiency *= scale;
 			optionalEfficiency *= scale * boostMultMap.get(liquids.current(), 1f);
 		}
+
+		@Override public float warmup() {
+			return warmup;
+		}
 	}
 }
