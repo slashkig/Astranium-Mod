@@ -64,5 +64,13 @@ public class AstraFx {
 		Lines.circle(e.x, e.y, e.fin() * 5f);
 
 		Drawf.light(e.x, e.y, 23f, AstraPal.testPink, e.fout() * 0.7f);
+	}),
+	
+	shootMediumFlame = new Effect(35f, 80f, e -> {
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkFlame, e.fin());
+
+		Angles.randLenVectors(e.id, 12, e.finpow() * 90f, e.rotation, 20f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, 1.5f + e.fout() * 1f);
+		});
 	});
 }

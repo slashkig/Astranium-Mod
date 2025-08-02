@@ -26,6 +26,7 @@ import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.content.*;
+import astramod.entities.part.*;
 import astramod.graphics.*;
 import astramod.world.draw.*;
 import astramod.world.meta.*;
@@ -2942,10 +2943,10 @@ public class AstraBlocks {
 		}};
 
 		ember = new ItemTurret("ember") {{
-			requirements(Category.turret, BuildVisibility.hidden, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
+			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
 			ammo(
-				Items.pyratite, new BulletType(4f, 45) {{
-					ammoMultiplier = 5;
+				Items.pyratite, new BulletType(4f, 22) {{
+					ammoMultiplier = 10;
 					hitSize = 8f;
 					lifetime = 18f;
 					status = StatusEffects.burning;
@@ -2954,35 +2955,46 @@ public class AstraBlocks {
 					pierce = true;
 					collidesAir = false;
 
-					shootEffect = Fx.shootPyraFlame;
+					shootEffect = AstraFx.shootMediumFlame;
 					hitEffect = Fx.hitFlameSmall;
 					despawnEffect = Fx.none;
 				}}
 			);
 
 			drawer = new DrawTurret("astranium-") {{
-				parts.add(new RegionPart("-side") {{
-					progress = PartProgress.warmup;
-					mirror = true;
-					moveX = 1f;
-				}});
+				parts.addAll(
+					new RegionPart("-side") {{
+						progress = PartProgress.warmup;
+						mirror = true;
+						moveX = 1f;
+					}},
+					new FirePart() {{
+						particleCount = 14;
+						minProgress = 0.01f;
+						distOffset = -0.5f;
+					}}
+				);
 			}};
 
 			scaledHealth = 160f;
 			size = 2;
 			shootY = 9f;
 			recoil = 0f;
-			reload = 4f;
+			reload = 2f;
 			shootCone = 50f;
 			inaccuracy = 20f;
 			range = 80f;
 			fogRadius = 4;
 			fogRadiusMultiplier = 0;
-			ammoUseEffect = Fx.none;
-			coolantMultiplier = 1.5f;
-			coolant = consumeCoolant(0.1f);
+			maxAmmo = 80;
 
+			minWarmup = 0.9f;
+			shootWarmupSpeed = 0.05f;
+			warmupMaintainTime = 90f;
+
+			ammoUseEffect = Fx.none;
 			shootSound = Sounds.flame;
+			cooldownTime = 60f;
 
 			targetAir = false;
 		}};
