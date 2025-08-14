@@ -6,7 +6,7 @@ import mindustry.type.*;
 import mindustry.content.*;
 
 public class AstraFluids {
-	public static Liquid steam, ferrofluid, plasma;
+	public static Liquid steam, helium, ferrofluid, plasma;
 	
 	public static void load() {
 		Log.info("Loading fluids");
@@ -26,6 +26,12 @@ public class AstraFluids {
 			temperature = 0.4f;
 			boilPoint = 0.7f;
 			gasColor = Color.grays(0.1f);
+		}};
+
+		helium = new Liquid("helium", Color.valueOf("fff596")) {{
+			gas = true;
+			temperature = 0.4f;
+			flammability = 0;
 		}};
 
 		plasma = new Liquid("plasma", Color.valueOf("7722ed")) {{

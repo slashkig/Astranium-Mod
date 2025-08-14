@@ -17,7 +17,6 @@ import mindustry.world.blocks.liquid.*;
 import static mindustry.Vars.*;
 
 public class LargePipeline extends ArmoredPipeline {
-	// TODO fix for Android?
 	protected static final float pipeRotatePad = 6, pipeHpad = pipeRotatePad / 2f / 4f;
 	protected static final float[][] pipeRotateOffsets = {{pipeHpad, pipeHpad}, {-pipeHpad, pipeHpad}, {-pipeHpad, -pipeHpad}, {pipeHpad, -pipeHpad}};
 
@@ -64,6 +63,7 @@ public class LargePipeline extends ArmoredPipeline {
 		return buildBlending(req.tile(), req.rotation, directionals, req.worldContext);
 	}
 
+	// TODO fix for Android?
 	@Override public boolean blends(Tile tile, int rotation, int direction) {
 		int dir = Mathf.mod(rotation - direction, 4);
         Tile other = tile.nearby(Geometry.d4x(dir) * size, Geometry.d4y(dir) * size);

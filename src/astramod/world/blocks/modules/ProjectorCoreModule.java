@@ -25,6 +25,7 @@ public class ProjectorCoreModule extends ForceProjector {
 	@Override public void init() {
 		if (!consumeCoolant) {
 			removeConsumer(findConsumer(c -> c instanceof ConsumeCoolant));
+			coolantConsumer = null;
 			hasLiquids = false;
 		}
 
