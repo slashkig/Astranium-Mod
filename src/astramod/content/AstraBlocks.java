@@ -34,7 +34,8 @@ import astramod.world.blocks.defense.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
 import astramod.world.blocks.liquid.*;
-import astramod.world.blocks.modules.*;
+import astramod.world.blocks.modules.block.*;
+import astramod.world.blocks.modules.core.*;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
@@ -51,6 +52,7 @@ public class AstraBlocks {
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
 		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
+		coolantPump, thermalSink, nuclearSteamTower, heliumCooler, hydrogenBreeder, heliumDiverter,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
@@ -1139,12 +1141,12 @@ public class AstraBlocks {
 			baseExplosiveness = 1f;
 
 			consumePower(3f);
-			consumeLiquid(Liquids.hydrogen, 1f / 12f);
+			consumeLiquidsMulti(1f / 12f, Liquids.hydrogen, AstraFluids.helium);
 			powerProduction = 16f;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
-				new DrawLiquidTile(Liquids.hydrogen),
+				new DrawLiquidTile(),
 				new DrawRegion("-mid"),
 				new DrawPistons() {{ lenOffset = 0f; sideOffset = Mathf.PI * 2f; sinOffset = 0f; sinScl = 4f; sinMag = 2.25f; }},
 				new DrawRegion("-rotator") {{ rotateSpeed = -45f / (4 * Mathf.PI); rotation = -45f; }},
@@ -1240,7 +1242,7 @@ public class AstraBlocks {
 			);
 		}};
 
-		fissionReactor = new ExplodableCrafter("fission-reactor") {{
+		fissionReactor = new FissionReactor("fission-reactor") {{
 			requirements(Category.power, ItemStack.with(
 				Items.tungsten, 250,
 				Items.surgeAlloy, 200,
@@ -1282,7 +1284,7 @@ public class AstraBlocks {
 			explodeEffect = Fx.impactReactorExplosion;
 		}};
 
-		fusionReactor = new ImpactReactor("fusion-reactor") {{
+		fusionReactor = new FusionReactor("fusion-reactor") {{
 			requirements(Category.power, ItemStack.with(
 				AstraItems.astranium, 300,
 				Items.surgeAlloy, 220,
@@ -1300,7 +1302,9 @@ public class AstraBlocks {
 
 			consumeLiquid(AstraFluids.plasma, 0.5f);
 			consumePower(125f / 6f);
-			powerProduction = 187.5f;
+			powerProduction = 250f;
+			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
+			byproductPoisoning = 0.4f;
 
 			explosionMinWarmup = 0.6f;
 			explosionRadius = 6;
@@ -1311,9 +1315,52 @@ public class AstraBlocks {
 				new DrawRegion("-bottom"),
 				new DrawLiquidTile(AstraFluids.plasma),
 				new DrawRegion("-mid"),
+				new DrawLiquidTile(AstraFluids.helium),
 				new DrawPlasma(),
 				new DrawDefault(),
 				new DrawGlowRegion() {{ color = AstraFluids.plasma.color; }}
+			);
+		}};
+
+		// region POWER MODULES
+
+		hydrogenBreeder = new CrafterBlockModule("module-tritium-breeder") {{
+			requirements(Category.power, ItemStack.with(
+				Items.tungsten, 95,
+				AstraItems.crystaglass, 100,
+				Items.plastanium, 75,
+				Items.phaseFabric, 65
+			));
+			size = 2;
+			fogRadius = 2;
+			targetBlockType = fusionReactor;
+
+			consumeItem(AstraItems.lithium, 2);
+			consumePower(1.8f);
+			craftTime = 240f;
+			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
+			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
+		}};
+
+		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
+			requirements(Category.power, ItemStack.with(
+				Items.tungsten, 80,
+				Items.metaglass, 120,
+				Items.silicon, 90,
+				AstraItems.magnetite, 100
+			));
+			size = 2;
+			fogRadius = 2;
+			targetBlockType = fusionReactor;
+
+			extractLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(AstraFluids.helium),
+				new DrawRegion("-rotator", 5, true),
+				new DrawDefault(),
+				new DrawRegion("-top")
 			);
 		}};
 

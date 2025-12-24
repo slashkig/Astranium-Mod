@@ -1,10 +1,11 @@
-package astramod.world.blocks.modules;
+package astramod.world.blocks.modules.core;
 
 import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
+import astramod.world.blocks.modules.CoreModuleBlock;
 import astramod.world.draw.DrawTeamTurret;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;

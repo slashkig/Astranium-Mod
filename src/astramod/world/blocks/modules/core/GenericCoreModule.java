@@ -1,8 +1,9 @@
-package astramod.world.blocks.modules;
+package astramod.world.blocks.modules.core;
 
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.*;
 import arc.util.*;
+import astramod.world.blocks.modules.CoreModuleBlock;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;

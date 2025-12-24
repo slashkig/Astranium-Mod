@@ -2,16 +2,20 @@ package astramod.world.blocks.power;
 
 import arc.Core;
 import arc.math.*;
+import arc.struct.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
+import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.power.*;
+import mindustry.world.consumers.*;
 
 public class StartupGenerator extends PowerGenerator {
 	public final int timerUse = timers++;
 	public float warmupSpeed = 0.004f;
+	private Seq<Liquid> consumeLiquids;
 
 	public StartupGenerator(String name) {
 		super(name);
@@ -26,6 +30,11 @@ public class StartupGenerator extends PowerGenerator {
 			() -> Pal.powerBar,
 			() -> entity.productionEfficiency
 		));
+	}
+
+	public ConsumeLiquidFilter consumeLiquidsMulti(float amount, Liquid... liquids) {
+		consumeLiquids = new Seq<Liquid>().add(liquids);
+		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> consumeLiquids.contains(liquid), amount));
 	}
 
 	public class StartupGeneratorBuild extends GeneratorBuild {

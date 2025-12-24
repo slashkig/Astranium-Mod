@@ -60,7 +60,7 @@ public class AstraCoreBlock extends CoreBlock {
 			int total = proximity.count(e -> e.items != null && e.items == items);
 			float fract = 1f / total / state.teams.cores(team).size;
 
-			proximity.each(e -> owns(e) && e.items == items && owns(e), t -> {
+			proximity.each(e -> owns(e) && e instanceof CoreModuleBlock m && m.getLinkedCore() == this, t -> {
 				((CoreModuleBlock)t).setLinkedCore(null);
 				t.items = new ItemModule();
 				for (Item item : content.items()) {

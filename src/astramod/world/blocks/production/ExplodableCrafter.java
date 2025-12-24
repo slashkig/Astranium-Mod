@@ -62,7 +62,7 @@ public class ExplodableCrafter extends GenericCrafter {
 		addBar("heat", (ExplodableCrafterBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
 	}
 
-	public class ExplodableCrafterBuild extends GenericCrafterBuild{
+	public class ExplodableCrafterBuild extends GenericCrafterBuild {
 		public float heat;
 		public float flash;
 		public float smoothLight;

@@ -15,6 +15,8 @@ public class LaserBore extends BeamDrill {
 
 	public TextureRegion crystalRegion;
 
+	protected final int timerDump2 = timers++;
+
 	public LaserBore(String name) {
 		super(name);
 		group = BlockGroup.drills;
@@ -37,6 +39,15 @@ public class LaserBore extends BeamDrill {
 	}
 
 	public class LaserBoreBuild extends BeamDrillBuild {
+		@Override
+		public void updateTile() {
+			super.updateTile();
+
+			if (optionalEfficiency > 0 && timer(timerDump2, dumpTime / 2)) {
+				dump();
+            }
+		}
+
 		@Override public void draw() {
 			super.draw();
 			if (crystalRegion.found()) {
