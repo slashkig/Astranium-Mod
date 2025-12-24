@@ -1333,6 +1333,7 @@ public class AstraBlocks {
 			));
 			size = 2;
 			fogRadius = 2;
+			liquidCapacity = 20f;
 			targetBlockType = fusionReactor;
 
 			consumeItem(AstraItems.lithium, 2);
@@ -1351,9 +1352,10 @@ public class AstraBlocks {
 			));
 			size = 2;
 			fogRadius = 2;
+			liquidCapacity = 30f;
 			targetBlockType = fusionReactor;
 
-			extractLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
+			extractLiquid = new LiquidStack(AstraFluids.helium, 0.3f);
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),

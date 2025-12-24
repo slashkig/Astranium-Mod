@@ -1,6 +1,8 @@
 package astramod.world.blocks.modules.block;
 
 import mindustry.type.*;
+import mindustry.world.meta.*;
+import astramod.world.meta.*;
 
 public class ExtractorBlockModule extends GenericBlockModule {
 	public LiquidStack extractLiquid;
@@ -8,6 +10,15 @@ public class ExtractorBlockModule extends GenericBlockModule {
 	public ExtractorBlockModule(String name) {
 		super(name);
 		outputsLiquid = hasLiquids = true;
+	}
+
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.fluidThroughput, StatValues.liquids(1f, true, extractLiquid));
+	}
+
+	@Override public boolean rotatedOutput(int x, int y) {
+		return false;
 	}
 
 	public class ExtractorModuleBuild extends GenericModuleBuild {

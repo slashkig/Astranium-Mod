@@ -8,6 +8,7 @@ public class AstraStat {
 		magneticStrength = new Stat("magneticStrength", StatCat.function),
 		bridgeRange = new Stat("bridgeRange", StatCat.function),
 		liquidPressure = new Stat("liquidPressure", StatCat.liquids),
+		fluidThroughput = new Stat("fluidThroughput", StatCat.liquids),
 		heatCapacity = new Stat("heatCapacity", StatCat.liquids),
 		hLiquidCapacity = new Stat("hLiquidCapacity", StatCat.liquids),
 		vLiquidCapacity = new Stat("vLiquidCapacity", StatCat.liquids),
