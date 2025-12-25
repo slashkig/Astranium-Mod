@@ -1,5 +1,6 @@
 package astramod.world.blocks.modules.block;
 
+import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.game.*;
@@ -46,6 +47,12 @@ public class CrafterBlockModule extends GenericCrafter {
 			if (build != world.build(edge.x, edge.y)) return false;
 		}
 		return true;
+	}
+
+	@Override public void drawOverlay(float x, float y, int rotation) {
+		if (byproductLiquid != null) {
+			Draw.rect(byproductLiquid.liquid.fullIcon, x + Geometry.d4x(rotation) * (size * tilesize / 2f + 4), y + Geometry.d4y(rotation) * (size * tilesize / 2f + 4), 8f, 8f);
+		}
 	}
 
 	public boolean validLink(Building build) {

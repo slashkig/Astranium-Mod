@@ -1304,7 +1304,7 @@ public class AstraBlocks {
 			consumePower(125f / 6f);
 			powerProduction = 250f;
 			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
-			byproductPoisoning = 0.4f;
+			byproductPoisoning = 0.65f;
 
 			explosionMinWarmup = 0.6f;
 			explosionRadius = 6;

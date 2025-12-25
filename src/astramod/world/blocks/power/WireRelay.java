@@ -2,7 +2,6 @@ package astramod.world.blocks.power;
 
 import arc.Core;
 import arc.graphics.g2d.*;
-import arc.input.KeyCode;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -377,6 +376,7 @@ public class WireRelay extends PowerBlock {
 			checked[offsetX(start.x)][offsetY(start.y)] = true;
 			while (!pathFound) {
 				// Target closest unchecked wire to starting point
+				target = null;
 				while (!searchQueue.isEmpty()) {
 					current = searchQueue.removeFirst();
 					if (wiring.containsKey(current.x, current.y)) {
@@ -418,7 +418,6 @@ public class WireRelay extends PowerBlock {
 						}
 					}
 				}
-				target = null;
 			}
 
 			// Construct path
@@ -613,7 +612,7 @@ public class WireRelay extends PowerBlock {
 			}
 
 			if (!configuring) {
-				if (Core.input.keyDown(KeyCode.shiftLeft) || Core.input.keyDown(KeyCode.shiftRight)) {
+				if (Core.input.shift()) {
 					if (!wiring.containsKey(origin.x, origin.y)) {
 						boolean[][] checked = new boolean[(int)boundsRect.width + 1][(int)boundsRect.height + 1];
 						checkQueue.add(origin);
@@ -695,7 +694,7 @@ public class WireRelay extends PowerBlock {
 		 * @param add - Whether the wire's corresponding building (if any) should be added to or removed from {@code connectionChanges}. */
 		public void setConnected(boolean connect, boolean add) {
 			connected = connect;
-			Building linked = world.build(build.tile.x + rx, build.tile.y + ry);
+			Building linked = world.build(build.tile.x + rx + 1, build.tile.y + ry + 1);
 			if (linked != null && linked.power != null && linked.team == build.team) {
 				if (add) build.connectionChanges.addUnique(linked);
 				else build.connectionChanges.remove(linked);

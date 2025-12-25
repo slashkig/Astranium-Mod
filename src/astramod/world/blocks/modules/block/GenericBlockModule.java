@@ -31,6 +31,10 @@ public class GenericBlockModule extends Block {
 		drawer.load(this);
 	}
 
+	@Override public boolean rotatedOutput(int x, int y) {
+		return false;
+	}
+
 	@Override public TextureRegion[] icons() {
 		return drawer.finalIcons(this);
 	}
