@@ -5,6 +5,8 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Pal;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.production.*;
@@ -78,6 +80,7 @@ public class CrafterBlockModule extends GenericCrafter {
 
 		@Override public void drawSelect() {
 			if (linkedBuild != null) {
+				Drawf.selected(linkedBuild, Pal.accent);
 				linkedBuild.drawSelect();
 			}
 			super.drawSelect();

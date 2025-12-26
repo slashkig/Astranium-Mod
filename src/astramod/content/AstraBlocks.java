@@ -66,7 +66,7 @@ public class AstraBlocks {
 		gathererModule, initiateModule, seekerModule, wardModule,
 		unloaderModule, storageModule, storageModuleLarge, controlModule, defenseModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
-		sensorArray, advancedSensorArray,
+		mendBeam, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -2726,6 +2726,20 @@ public class AstraBlocks {
 			scaledHealth = 80f;
 			armor = 6f;
 			itemCapacity = 7500;
+		}};
+
+		mendBeam = new MendTurret("mend-beam") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 80, Items.silicon, 35, Items.lead, 40));
+			size = 2;
+			fogRadius = 5;
+			scaledHealth = 80f;
+
+			repairRadius = 70f;
+			repairSpeed = 1.5f;
+			rotateSpeed = 0.2f;
+			targetingArc = 10f;
+			powerUse = 0.9f;
+			beamWidth = 0.6f;
 		}};
 
 		sensorArray = new SensorArray("sensor-array") {{

@@ -7,6 +7,8 @@ import arc.util.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.graphics.Drawf;
+import mindustry.graphics.Pal;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 import astramod.world.blocks.modules.*;
@@ -83,6 +85,7 @@ public class GenericBlockModule extends Block {
 
 		@Override public void drawSelect() {
 			if (linkedBuild != null) {
+				Drawf.selected(linkedBuild, Pal.accent);
 				linkedBuild.drawSelect();
 			}
 			super.drawSelect();
