@@ -29,31 +29,35 @@ public class MendTurret extends RepairTurret {
 	}
 
 	public void drawBeam(MendTurretBuild build) {
-		drawBeam(build.x, build.y, build.rotation, length, build.id, build.target, build.team, build.strength, pulseStroke, pulseRadius, beamWidth,
+		drawBeam(build.x, build.y, build.rotation, length, build.id, world.build(build.target), build.team, build.strength, pulseStroke, pulseRadius, beamWidth,
 			build.lastEnd, build.offset, laserColor, laserTopColor, laser, laserEnd, laserTop, laserTopEnd);
 	}
 
 	public class MendTurretBuild extends RepairPointBuild {
-		public Building target;
+		public int target = -1;
 
 		@Override public void updateTile() {
 			float multiplier = 1f + (acceptCoolant ? liquids.current().heatCapacity * coolantMultiplier * optionalEfficiency : 0);
+			Building build = null;
 
-			if (target != null && (target.dead() || target.dst(this) - target.block.size * tilesize / 2f > repairRadius || target.health() >= target.maxHealth())) {
-				target = null;
+			if (target != -1) {
+				build = world.build(target);
+				if (build == null || build.dead() || build.dst(this) - build.block.size * tilesize / 2f > repairRadius || build.health() >= build.maxHealth()) {
+					target = -1;
+				}
 			}
 
-			if (target == null) offset.setZero();
+			if (target == -1) offset.setZero();
 
 			boolean healed = false;
 
-			if (target != null && efficiency > 0) {
-				float angle = Angles.angle(x, y, target.x + offset.x, target.y + offset.y);
+			if (build != null && efficiency > 0) {
+				float angle = Angles.angle(x, y, build.x + offset.x, build.y + offset.y);
 				if (Angles.angleDist(angle, rotation) < targetingArc) {
 					healed = true;
-					target.heal(repairSpeed * strength * edelta() * multiplier);
-					target.recentlyHealed();
-					if (timer(timerEffect, 40f / multiplier)) Fx.healBlockFull.at(target.x, target.y, target.block.size, AstraPal.mend, target.block);
+					build.heal(repairSpeed * strength * edelta() * multiplier);
+					build.recentlyHealed();
+					if (timer(timerEffect, 40f / multiplier)) Fx.healBlockFull.at(build.x, build.y, build.block.size, AstraPal.mend, build.block);
 				}
 				rotation = Mathf.slerpDelta(rotation, angle, rotateSpeed * efficiency * timeScale);
 			}
@@ -71,8 +75,8 @@ public class MendTurret extends RepairTurret {
 		public void selectTarget() {
 			// Anonymous helper class for lambda
 			final var bestTarget = new Object() {
-				Building build = target;
-				float weight = target == null ? -1f : 0.5f + targetWeight(target);
+				Building build = world.build(target);
+				float weight = target == -1 ? -1f : 0.5f + targetWeight(build);
 			};
 
 			indexer.eachBlock(this, range(), b -> b.damaged() && !b.isHealSuppressed(), build -> {
@@ -82,7 +86,7 @@ public class MendTurret extends RepairTurret {
 					bestTarget.build = build;
 				}				
 			});
-			target = bestTarget.build;
+			target = bestTarget.build.pos();
 		}
 
 		public float targetWeight(Building build) {
@@ -100,7 +104,7 @@ public class MendTurret extends RepairTurret {
 		}
 
 		@Override public boolean shouldConsume() {
-			return target != null && enabled;
+			return target != -1 && enabled;
 		}
 	}
 }
