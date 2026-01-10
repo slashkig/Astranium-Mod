@@ -994,12 +994,22 @@ public class AstraBlocks {
 
 		// region GENERATORS
 
+		waterMill = new WaterGenerator("water-turbine") {{
+			requirements(Category.power, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.hematite, 90, Items.copper, 50));
+			size = 3;
+			fogRadius = 3;
+
+			powerProduction = 2.2f;
+
+			drawer = new DrawMulti(new DrawDefault(), new DrawFrames() {{ frames = 6; sine = false; }});
+		}};
+
 		windTurbine = new WindGenerator("wind-turbine") {{
 			requirements(Category.power, ItemStack.with(AstraItems.hematite, 30, Items.copper, 40));
 			size = 2;
 			fogRadius = 2;
 
-			powerProduction = 1f / 6f;
+			powerProduction = 0.8f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true));
 		}};
@@ -1010,7 +1020,7 @@ public class AstraBlocks {
 			size = 3;
 			fogRadius = 3;
 
-			powerProduction = 0.5f;
+			powerProduction = 3f;
 
 			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
 		}};
