@@ -1,4 +1,4 @@
-package astramod.world.blocks.modules.block;
+package astramod.world.blocks.modular.block;
 
 import mindustry.type.*;
 import mindustry.world.meta.*;

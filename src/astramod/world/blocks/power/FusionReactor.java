@@ -2,7 +2,7 @@ package astramod.world.blocks.power;
 
 import arc.math.*;
 import arc.util.*;
-import astramod.world.blocks.modules.*;
+import astramod.world.blocks.modular.*;
 import mindustry.type.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;

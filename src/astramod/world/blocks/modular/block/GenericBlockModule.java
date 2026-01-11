@@ -1,17 +1,16 @@
-package astramod.world.blocks.modules.block;
+package astramod.world.blocks.modular.block;
 
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.*;
 import arc.struct.Seq;
 import arc.util.*;
+import astramod.world.blocks.modular.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
-import astramod.world.blocks.modules.*;
 
 import static mindustry.Vars.*;
 
@@ -26,6 +25,7 @@ public class GenericBlockModule extends Block {
 		rotate = true;
 		rotateDraw = false;
 		outputFacing = false;
+		schematicPriority = -5;
 	}
 
 	@Override public void load() {

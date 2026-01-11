@@ -1,10 +1,10 @@
 package astramod.ai.types;
 
+import astramod.world.blocks.modular.*;
 import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import astramod.world.blocks.modules.*;
 
 public class AnchoredMinerAI extends AnchoredAI {
 	public boolean mining = true;

@@ -1,4 +1,4 @@
-package astramod.world.blocks.modules.core;
+package astramod.world.blocks.modular.core;
 
 import java.util.*;
 import arc.Core;

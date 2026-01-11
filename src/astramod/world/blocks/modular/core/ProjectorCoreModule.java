@@ -1,10 +1,10 @@
-package astramod.world.blocks.modules.core;
+package astramod.world.blocks.modular.core;
 
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
-import astramod.world.blocks.modules.CoreModuleBlock;
+import astramod.world.blocks.modular.CoreModuleBlock;
 import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;

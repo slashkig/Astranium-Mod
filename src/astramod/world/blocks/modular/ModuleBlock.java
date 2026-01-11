@@ -1,4 +1,4 @@
-package astramod.world.blocks.modules;
+package astramod.world.blocks.modular;
 
 import arc.util.Nullable;
 import mindustry.gen.Building;

@@ -1,6 +1,6 @@
 package astramod.world.blocks.power;
 
-import astramod.world.blocks.modules.*;
+import astramod.world.blocks.modular.*;
 import astramod.world.blocks.production.*;
 
 public class FissionReactor extends ExplodableCrafter {

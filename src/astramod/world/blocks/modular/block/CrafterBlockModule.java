@@ -1,17 +1,16 @@
-package astramod.world.blocks.modules.block;
+package astramod.world.blocks.modular.block;
 
 import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
+import astramod.world.blocks.modular.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.graphics.Drawf;
-import mindustry.graphics.Pal;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.meta.*;
-import astramod.world.blocks.modules.*;
 
 import static mindustry.Vars.*;
 
