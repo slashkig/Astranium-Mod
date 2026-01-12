@@ -19,7 +19,7 @@ public class AnchoredMinerAI extends AnchoredAI {
 
 	@Override public void updateMovement() {
 		Building anchor = anchor();
-		Building core = anchor instanceof CoreModuleBlock module ? module.getLinkedCore() : unit.closestCore();
+		Building core = anchor instanceof CoreModuleBuild module ? module.getLinkedCore() : unit.closestCore();
 
 		if (!(unit.canMine()) || core == null) return;
 

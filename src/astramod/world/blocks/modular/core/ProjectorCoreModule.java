@@ -4,7 +4,7 @@ import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
-import astramod.world.blocks.modular.CoreModuleBlock;
+import astramod.world.blocks.modular.CoreModuleBuild;
 import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -64,7 +64,7 @@ public class ProjectorCoreModule extends ForceProjector {
 		drawPlanConfig(plan, list);
 	}
 
-	public class ShieldCoreModuleBuild extends ForceBuild implements CoreModuleBlock {
+	public class ShieldCoreModuleBuild extends ForceBuild implements CoreModuleBuild {
 		protected @Nullable Building linkedCore;
 
 		@Override public void drawSelect() {

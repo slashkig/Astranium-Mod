@@ -5,7 +5,7 @@ import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
-import astramod.world.blocks.modular.CoreModuleBlock;
+import astramod.world.blocks.modular.CoreModuleBuild;
 import astramod.world.draw.DrawTeamTurret;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
@@ -75,7 +75,7 @@ public class TurretCoreModule extends ItemTurret {
 		drawPlanConfig(plan, list);
 	}
 
-	public class TurretCoreModuleBuild extends ItemTurretBuild implements CoreModuleBlock {
+	public class TurretCoreModuleBuild extends ItemTurretBuild implements CoreModuleBuild {
 		protected @Nullable Building linkedCore;
 
 		protected Item currentAmmo;

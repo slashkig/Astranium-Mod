@@ -14,7 +14,7 @@ import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class CrafterBlockModule extends GenericCrafter {
+public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 	public @Nullable Block targetBlockType;
 	public @Nullable LiquidStack byproductLiquid;
 
@@ -26,6 +26,11 @@ public class CrafterBlockModule extends GenericCrafter {
 		outputFacing = false;
 	}
 
+	@Override public void init() {
+		schematicPriority = targetBlockType.schematicPriority - 1;
+		super.init();
+	}
+
 	@Override public void setStats() {
 		super.setStats();
 		if (byproductLiquid != null) {
@@ -33,21 +38,12 @@ public class CrafterBlockModule extends GenericCrafter {
 		}
 	}
 
-	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-		return checkEdge(tile.x, tile.y, rotation);
+	@Override public Block parentBlock() {
+		return targetBlockType;
 	}
 
-	public boolean checkEdge(int x, int y, int rotation) {
-		Point2 edge = new Point2();
-		nearbySide(x, y, rotation, 0, edge);
-		Building build = world.build(edge.x, edge.y);
-		if (!validLink(build)) return false;
-
-		for (int i = 1; i < size; i++) {
-			nearbySide(x, y, rotation, i, edge);
-			if (build != world.build(edge.x, edge.y)) return false;
-		}
-		return true;
+	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
+		return canPlaceModule(tile.x, tile.y, rotation);
 	}
 
 	@Override public void drawOverlay(float x, float y, int rotation) {
@@ -60,7 +56,7 @@ public class CrafterBlockModule extends GenericCrafter {
 		return targetBlockType == null && build instanceof BaseModularBlock || build != null && build.block == targetBlockType;
 	}
 
-	public class CrafterModuleBlock extends GenericCrafterBuild implements ModuleBlock {
+	public class CrafterModuleBlock extends GenericCrafterBuild implements ModuleBuild {
 		public @Nullable Building linkedBuild;
 
 		@Override public void updateTile() {
@@ -74,7 +70,7 @@ public class CrafterBlockModule extends GenericCrafter {
 		@Override public void onProximityUpdate() {
 			super.onProximityUpdate();
 
-			if (checkEdge(tile.x, tile.y, rotation)) setLinkedBuild(front());
+			if (checkFront(tile.x, tile.y, rotation)) setLinkedBuild(front());
 		}
 
 		@Override public void drawSelect() {

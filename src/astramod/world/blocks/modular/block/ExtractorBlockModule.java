@@ -1,15 +1,18 @@
 package astramod.world.blocks.modular.block;
 
+import arc.graphics.g2d.*;
+import arc.math.Mathf;
+import arc.math.geom.Geometry;
+import arc.util.Time;
 import mindustry.type.*;
 import mindustry.world.meta.*;
-import arc.graphics.g2d.*;
-import arc.math.geom.Geometry;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
 public class ExtractorBlockModule extends GenericBlockModule {
 	public LiquidStack extractLiquid;
+	public float warmupSpeed = 0.02f;
 
 	public ExtractorBlockModule(String name) {
 		super(name);
@@ -26,20 +29,32 @@ public class ExtractorBlockModule extends GenericBlockModule {
 	}
 
 	public class ExtractorModuleBuild extends GenericModuleBuild {
-		@Override public void updateTile() {
-			if (linkedBuild != null) {
-				float amount = linkedBuild.liquids().get(extractLiquid.liquid);
-				if (amount > 0) {
-					amount = Math.min(
-						efficiency * delta() * extractLiquid.amount,
-						Math.min(liquidCapacity - liquids.get(extractLiquid.liquid), amount)
-					);
+		public float totalProgress = 0f;
+		public float warmup = 0f;
 
+		@Override public void updateTile() {
+			boolean active = false;
+			if (linkedBuild != null) {
+				float amount = Math.min(Math.min(
+					efficiency * delta() * extractLiquid.amount,
+					liquidCapacity - liquids.get(extractLiquid.liquid)),
+					linkedBuild.liquids().get(extractLiquid.liquid)
+				);
+
+				if (amount > 0) {
+					active = true;
 					linkedBuild.handleLiquid(this, extractLiquid.liquid, -amount);
 					handleLiquid(linkedBuild, extractLiquid.liquid, amount);
-					dumpLiquid(extractLiquid.liquid);
 				}
 			}
+
+			warmup = Mathf.approachDelta(warmup, active ? 1f : 0f, warmupSpeed);
+			totalProgress += warmup * Time.delta;
+			dumpLiquid(extractLiquid.liquid);
+		}
+
+		@Override public float totalProgress() {
+			return totalProgress;
 		}
 	}
 }

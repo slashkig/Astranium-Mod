@@ -1,8 +1,7 @@
 package astramod.world.blocks.modular.block;
 
-import arc.graphics.g2d.TextureRegion;
-import arc.math.geom.*;
-import arc.struct.Seq;
+import arc.graphics.g2d.*;
+import arc.struct.*;
 import arc.util.*;
 import astramod.world.blocks.modular.*;
 import mindustry.entities.units.BuildPlan;
@@ -12,9 +11,7 @@ import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
 
-import static mindustry.Vars.*;
-
-public class GenericBlockModule extends Block {
+public class GenericBlockModule extends Block implements BlockModule {
 	public @Nullable Block targetBlockType;
 	public DrawBlock drawer = new DrawDefault();
 
@@ -25,12 +22,20 @@ public class GenericBlockModule extends Block {
 		rotate = true;
 		rotateDraw = false;
 		outputFacing = false;
-		schematicPriority = -5;
+	}
+
+	@Override public void init() {
+		schematicPriority = targetBlockType.schematicPriority - 1;
+		super.init();
 	}
 
 	@Override public void load() {
 		super.load();
 		drawer.load(this);
+	}
+
+	@Override public Block parentBlock() {
+		return targetBlockType;
 	}
 
 	@Override public boolean rotatedOutput(int x, int y) {
@@ -50,33 +55,15 @@ public class GenericBlockModule extends Block {
 	}
 
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-		return checkEdge(tile.x, tile.y, rotation);
+		return canPlaceModule(tile.x, tile.y, rotation);
 	}
 
-	public boolean checkEdge(int x, int y, int rotation) {
-		Point2 edge = new Point2();
-		nearbySide(x, y, rotation, 0, edge);
-		Building build = world.build(edge.x, edge.y);
-		if (!validLink(build)) return false;
-
-		for (int i = 1; i < size; i++) {
-			nearbySide(x, y, rotation, i, edge);
-			if (build != world.build(edge.x, edge.y)) return false;
-		}
-		return true;
-	}
-
-	public boolean validLink(Building build) {
-		return targetBlockType == null && build instanceof BaseModularBlock || build != null && build.block == targetBlockType;
-	}
-
-	public class GenericModuleBuild extends Building implements ModuleBlock {
+	public class GenericModuleBuild extends Building implements ModuleBuild {
 		public @Nullable Building linkedBuild;
 
 		@Override public void onProximityUpdate() {
 			super.onProximityUpdate();
-
-			if (checkEdge(tile.x, tile.y, rotation)) setLinkedBuild(front());
+			if (checkFront(tile.x, tile.y, rotation)) setLinkedBuild(front());
 		}
 
 		@Override public void draw() {

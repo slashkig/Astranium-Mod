@@ -3,7 +3,7 @@ package astramod.world.blocks.modular.core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
-import astramod.world.blocks.modular.CoreModuleBlock;
+import astramod.world.blocks.modular.CoreModuleBuild;
 import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -45,7 +45,7 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 		drawPlanConfigCenter(plan, plan.config, name + "-center");
 	}
 
-	public class UnloaderCoreModuleBuild extends DirectionalUnloaderBuild implements CoreModuleBlock {
+	public class UnloaderCoreModuleBuild extends DirectionalUnloaderBuild implements CoreModuleBuild {
 		protected @Nullable Building linkedCore;
 
 		@Override public void draw() {

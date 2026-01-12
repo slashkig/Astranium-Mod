@@ -3,7 +3,7 @@ package astramod.world.blocks.modular.core;
 import arc.graphics.g2d.TextureRegion;
 import arc.math.geom.*;
 import arc.util.*;
-import astramod.world.blocks.modular.CoreModuleBlock;
+import astramod.world.blocks.modular.CoreModuleBuild;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -35,7 +35,7 @@ public class GenericCoreModule extends Block {
 		return false;
 	}
 
-	public class GenericCoreModuleBuild extends Building implements CoreModuleBlock {
+	public class GenericCoreModuleBuild extends Building implements CoreModuleBuild {
 		protected @Nullable Building linkedCore;
 
 		@Override public void drawSelect() {
