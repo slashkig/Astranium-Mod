@@ -50,6 +50,6 @@ public interface BlockModule {
 	}
 
 	public default boolean validLink(Building build) {
-		return parentBlock() == null && build instanceof BaseModularBlock || build != null && build.block == parentBlock();
+		return build != null && build.block == parentBlock();
 	}
 }

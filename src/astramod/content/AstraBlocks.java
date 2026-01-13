@@ -1348,7 +1348,7 @@ public class AstraBlocks {
 
 			consumeItem(AstraItems.lithium, 2);
 			consumePower(1.8f);
-			craftTime = 240f;
+			craftTime = 300f;
 			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
 			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
 		}};

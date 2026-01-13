@@ -2,11 +2,13 @@ package astramod.content;
 
 import arc.util.Log;
 import arc.graphics.*;
+import arc.struct.Seq;
 import mindustry.content.*;
 import mindustry.type.*;
 
 public class AstraItems {
 	public static Item testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod, aerogel, astranium;
+	public final static Seq<Item> azirisItems = new Seq<>();
 
 	public static void load() {
 		Log.info("Loading items");
@@ -82,5 +84,6 @@ public class AstraItems {
 		Items.graphite.hardness = 2;
 		Items.pyratite.buildable = true;
 		Items.blastCompound.buildable = true;
+		azirisItems.addAll(testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod, aerogel, astranium);
 	}
 }

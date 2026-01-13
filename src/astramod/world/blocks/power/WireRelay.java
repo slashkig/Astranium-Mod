@@ -63,10 +63,10 @@ public class WireRelay extends PowerBlock {
 		// Single wire placement
 		config(Point2.class, (WireRelayBuild relay, Point2 pos) -> {
 			if (relay.getWireAt(pos.x, pos.y) != null) {
-				relay.team.items().add(wireCost.item, wireCost.amount);
+				if (relay.shouldConsumeWire()) relay.team.items().add(wireCost.item, wireCost.amount);
 				relay.setWiring(pos, false);
 			} else if (relay.team.items().get(wireCost.item) >= wireCost.amount) {
-				relay.team.items().remove(wireCost);
+				if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost);
 				relay.setWiring(pos, true);
 			}
 		});
@@ -76,17 +76,17 @@ public class WireRelay extends PowerBlock {
 			WireConfig config = WireConfig.unpack(packed);
 			if (config.adding) {
 				int wiresAdded = relay.multiWireAdd(config.start, config.end);
-				relay.team.items().remove(wireCost.item, wireCost.amount * wiresAdded);
+				if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost.item, wireCost.amount * wiresAdded);
 			} else {
 				int wiresRemoved = relay.multiWireRemove(config.start, config.end);
-				relay.team.items().add(wireCost.item, wireCost.amount * wiresRemoved);
+				if (relay.shouldConsumeWire()) relay.team.items().add(wireCost.item, wireCost.amount * wiresRemoved);
 			}
 		});
 
 		// Rebuilding and new block placement
 		config(Point2[].class, (WireRelayBuild relay, Point2[] positions) -> {
 			relay.generateWiring(positions);
-			relay.team.items().remove(wireCost.item, wireCost.amount * positions.length);
+			if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost.item, wireCost.amount * positions.length);
 		});
 	}
 
@@ -272,6 +272,11 @@ public class WireRelay extends PowerBlock {
 		/** Offsets y-coordinates for arrays (no negative values). */
 		public int offsetY(int ry) {
 			return ry - (int)boundsRect.y;
+		}
+
+		/** @return Whether resources should be consumed when placing wires. */
+		public boolean shouldConsumeWire() {
+			return !cheating() && !state.rules.infiniteResources;
 		}
 
 		/** @return The wire at the specified coordinates. */

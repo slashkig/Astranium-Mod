@@ -3,6 +3,7 @@ package astramod.world.blocks.defense;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.util.*;
+import arc.util.io.*;
 import astramod.graphics.*;
 import mindustry.content.*;
 import mindustry.gen.*;
@@ -86,7 +87,7 @@ public class MendTurret extends RepairTurret {
 					bestTarget.build = build;
 				}				
 			});
-			target = bestTarget.build.pos();
+			target = bestTarget.build != null ? bestTarget.build.pos() : -1;
 		}
 
 		public float targetWeight(Building build) {
@@ -105,6 +106,16 @@ public class MendTurret extends RepairTurret {
 
 		@Override public boolean shouldConsume() {
 			return target != -1 && enabled;
+		}
+
+		@Override public void write(Writes write) {
+			super.write(write);
+			write.i(target);
+		}
+
+		public void read(Reads read, byte revision) {
+			super.read(read, revision);
+			target = read.i();
 		}
 	}
 }

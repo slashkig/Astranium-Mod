@@ -12,7 +12,7 @@ import mindustry.world.*;
 import mindustry.world.draw.*;
 
 public class GenericBlockModule extends Block implements BlockModule {
-	public @Nullable Block targetBlockType;
+	public Block targetBlockType;
 	public DrawBlock drawer = new DrawDefault();
 
 	public GenericBlockModule(String name) {

@@ -47,7 +47,9 @@ public class AstraPlanets {
 			unlockedOnLand.add(AstraBlocks.coreNode);
 		}};
 
+		// TODO how does vanilla do this
 		final var serpuloRules = serpulo.ruleSetter;
+		serpulo.hiddenItems.add(AstraItems.azirisItems);
 		serpulo.ruleSetter = r -> {
 			serpuloRules.get(r);
 			for (Block block : AstraBlocks.azirisBlocks) {
@@ -55,6 +57,7 @@ public class AstraPlanets {
 			}
 		};
 		final var erekirRules = erekir.ruleSetter;
+		erekir.hiddenItems.add(AstraItems.azirisItems);
 		erekir.ruleSetter = r -> {
 			erekirRules.get(r);
 			for (Block block : AstraBlocks.azirisBlocks) {
