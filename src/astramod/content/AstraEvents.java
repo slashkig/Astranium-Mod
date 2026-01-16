@@ -13,7 +13,7 @@ public class AstraEvents {
 
 		Events.on(ResetEvent.class, e -> {
 			WireRelay.relayBuilds.clear();
-			AstraWeathers.resetWind();
+			AstraWeathers.windManager.resetWind();
 		});
 
 		Events.run(Trigger.update, AstraWeathers::updateWind);

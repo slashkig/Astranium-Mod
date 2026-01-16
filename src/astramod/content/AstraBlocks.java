@@ -1011,7 +1011,7 @@ public class AstraBlocks {
 
 			powerProduction = 0.8f;
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true));
+			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true) {{ layer = Layer.blockOver; }});
 		}};
 
 		windTurbineLarge = new WindGenerator("wind-turbine-large") {{
@@ -1022,7 +1022,7 @@ public class AstraBlocks {
 
 			powerProduction = 3f;
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true));
+			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true) {{ layer = Layer.blockOver; }});
 		}};
 
 		solarCell = new SolarGenerator("solar-cell") {{

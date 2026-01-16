@@ -1,6 +1,7 @@
 package astramod.content;
 
 import arc.graphics.*;
+import arc.struct.Seq;
 import arc.util.Log;
 import mindustry.game.*;
 import mindustry.type.*;
@@ -12,6 +13,7 @@ import static mindustry.Vars.*;
 import static mindustry.content.Planets.*;
 
 public class AstraPlanets {
+	public static final Seq<Planet> windPlanets = new Seq<>();
 	public static Planet aziris;
 
 	public static void load() {
@@ -64,5 +66,7 @@ public class AstraPlanets {
 				r.bannedBlocks.add(block);
 			}
 		};
+
+		windPlanets.add(AstraPlanets.aziris, sun);
 	};
 }
