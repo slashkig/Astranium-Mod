@@ -149,7 +149,7 @@ public class AstraWeathers {
 				(1f + Noise.snoise(windCounter, Time.time, Time.toMinutes, windLerpMag)) / Time.toMinutes
 			);
 
-			if (!net.client()) {
+			if (!net.client()) { // TODO possible weather desync
 				if (globalWind > windBase && !windy.isActive() && envWind() < windBase && Mathf.chanceDelta((globalWind - windBase) / weatherChanceScl)) {
 					// Calm -> Wind
 					createWindWeather(windy, windCounter * 2f);

@@ -994,7 +994,7 @@ public class AstraBlocks {
 
 		// region GENERATORS
 
-		waterMill = new WaterGenerator("water-turbine") {{
+		waterMill = new WaterGenerator("water-turbine") {{ // TODO full implementation
 			requirements(Category.power, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.hematite, 90, Items.copper, 50));
 			size = 3;
 			fogRadius = 3;
