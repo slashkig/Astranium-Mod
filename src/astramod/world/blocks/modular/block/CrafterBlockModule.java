@@ -4,6 +4,8 @@ import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import astramod.world.blocks.modular.*;
+import astramod.world.meta.AstraStat;
+import astramod.world.meta.AstraStatValues;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -33,6 +35,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 
 	@Override public void setStats() {
 		super.setStats();
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
 		if (byproductLiquid != null) {
 			stats.add(Stat.output, StatValues.liquids(1f, byproductLiquid));
 		}

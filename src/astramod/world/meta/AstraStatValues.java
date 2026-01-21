@@ -11,6 +11,7 @@ import mindustry.ctype.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.world.*;
 import mindustry.world.meta.*;
 import astramod.world.blocks.defense.*;
 
@@ -130,6 +131,14 @@ public class AstraStatValues {
 		return table -> {
 			table.add(Strings.format("@@-@", unit.icon == null ? "" : unit.icon + " ", fixValue(low), fixValue(high))).left();
 			table.add((unit.space ? " " : "") + unit.localized()).left();
+		};
+	}
+
+	public static StatValue block(Block block) {
+		return table -> {
+			table.marginTop(4);
+			table.image(block.uiIcon).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
+			table.add(block.localizedName).padRight(10).left().top();
 		};
 	}
 

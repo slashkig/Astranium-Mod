@@ -3,13 +3,14 @@ package astramod.world.blocks.modular.block;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
-import astramod.world.blocks.modular.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
+import astramod.world.blocks.modular.*;
+import astramod.world.meta.*;
 
 public class GenericBlockModule extends Block implements BlockModule {
 	public Block targetBlockType;
@@ -32,6 +33,11 @@ public class GenericBlockModule extends Block implements BlockModule {
 	@Override public void load() {
 		super.load();
 		drawer.load(this);
+	}
+
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
 	}
 
 	@Override public Block parentBlock() {
