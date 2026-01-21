@@ -3016,12 +3016,32 @@ public class AstraBlocks {
 		}};
 
 		ember = new ItemTurret("ember") {{
-			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 20));
+			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 30));
 			ammo(
+				Items.coal, new BulletType(3f, 12) {{
+					ammoMultiplier = 4;
+					hitSize = 7f;
+					lifetime = 22f;
+					inaccuracy = 5f;
+					reloadMultiplier = 0.75f;
+					buildingDamageMultiplier = 0.4f;
+					rangeChange = -12f;
+					status = StatusEffects.burning;
+					statusDuration = 3f * 60;
+					hittable = false;
+					pierceCap = 4;
+					pierceDamageFactor = 0.02f;
+					collidesAir = false;
+
+					shootEffect = AstraFx.shootWideFlame;
+					hitEffect = Fx.hitFlameSmall;
+					despawnEffect = Fx.none;
+				}},
 				Items.pyratite, new BulletType(4f, 22) {{
 					ammoMultiplier = 10;
 					hitSize = 8f;
 					lifetime = 18f;
+					buildingDamageMultiplier = 0.6f;
 					status = StatusEffects.burning;
 					statusDuration = 10f * 60;
 					hittable = false;

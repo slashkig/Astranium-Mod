@@ -68,9 +68,19 @@ public class AstraFx {
 	
 	shootMediumFlame = new Effect(35f, 80f, e -> {
 		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkFlame, e.fin());
+		Draw.alpha(0.8f + 0.2f * e.fout());
 
 		Angles.randLenVectors(e.id, 12, e.finpow() * 90f, e.rotation, 20f, (x, y) -> {
-			Fill.circle(e.x + x, e.y + y, 1.5f + e.fout() * 1f);
+			Fill.circle(e.x + x, e.y + y, 0.5f + e.fout() * 2f);
+		});
+	}),
+	
+	shootWideFlame = new Effect(34f, 80f, e -> {
+		Draw.color(Pal.lightFlame, Pal.darkFlame, Pal.darkerGray, e.fin());
+		Draw.alpha(0.7f + 0.3f * e.foutpow());
+
+		Angles.randLenVectors(e.id, 12, e.finpow() * 75f, e.rotation, 25f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, 1.2f + e.fin() * 1.5f);
 		});
 	});
 }

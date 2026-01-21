@@ -14,6 +14,8 @@ import mindustry.ui.*;
 import mindustry.world.meta.*;
 import astramod.world.blocks.defense.*;
 
+import static mindustry.world.meta.StatValues.*;
+
 public class AstraStatValues {
 	public static StatValue craftBooster(String unit, float amount, float boost, UnlockableContent booster) {
 		return table -> {
@@ -106,7 +108,7 @@ public class AstraStatValues {
 					bt.row();
 
 					Table fc = new Table();
-					StatValues.ammo(ObjectMap.of(mine, mine.bullet), indent + 1, false).display(fc);
+					ammo(ObjectMap.of(mine, mine.bullet), indent + 1, false).display(fc);
 					Collapser coll = new Collapser(fc, true);
 					coll.setDuration(0.1f);
 
@@ -121,6 +123,13 @@ public class AstraStatValues {
 				}
 			}).padLeft(indent * 5).padTop(5).padBottom(5).growX().margin(10);
 			table.row();
+		};
+	}
+
+	public static StatValue numberRange(float low, float high, StatUnit unit) {
+		return table -> {
+			table.add(Strings.format("@@-@", unit.icon == null ? "" : unit.icon + " ", fixValue(low), fixValue(high))).left();
+			table.add((unit.space ? " " : "") + unit.localized()).left();
 		};
 	}
 

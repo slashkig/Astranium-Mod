@@ -40,9 +40,12 @@ public class AstraWeathers {
 			hidden = true;
 			color = noiseColor = Color.grays(0.7f);
 			drawNoise = true;
+			drawParticles = false;
 			useWindVector = true;
 			particleRegion = "";
-			opacityMultiplier = 0.2f;
+			opacityMultiplier = 0.4f;
+			noiseLayers = 2;
+			noiseLayerSpeedM = 2.5f;
 			force = 0.25f;
 			attrs.set(wind, 1.2f);
 			attrs.set(Attribute.light, -0.1f);
