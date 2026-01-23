@@ -129,7 +129,7 @@ public class AstraBlocks {
 			craftTime = 50f;
 			outputItem = new ItemStack(AstraItems.iron, 1);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.ironSmoke));
+			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.ironSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -154,7 +154,7 @@ public class AstraBlocks {
 			craftTime = 60f;
 			outputItem = new ItemStack(AstraItems.iron, 6);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
 				color = AstraPal.ironSmoke;
 				particles = 20;
 				particleLife = 90f;
@@ -227,7 +227,7 @@ public class AstraBlocks {
 			craftTime = 200f / 3;
 			outputItem = new ItemStack(Items.silicon, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.siliconSmoke));
+			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.siliconSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -252,7 +252,7 @@ public class AstraBlocks {
 			craftTime = 50f;
 			outputItem = new ItemStack(Items.silicon, 5);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
 				color = AstraPal.siliconSmoke;
 				particles = 20;
 				particleLife = 90f;
@@ -274,7 +274,7 @@ public class AstraBlocks {
 			craftTime = 80f;
 			outputItem = new ItemStack(Items.metaglass, 3);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame(AstraPal.glassSmoke));
+			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.glassSmoke));
 			ambientSound = Sounds.smelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -291,7 +291,6 @@ public class AstraBlocks {
 			craftTime = 150f;
 			outputItem = new ItemStack(Items.pyratite, 2);
 
-			drawer = new DrawMulti(new DrawDefault());
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -314,7 +313,7 @@ public class AstraBlocks {
 			craftTime = 120f;
 			outputItem = new ItemStack(Items.pyratite, 5);
 
-			//drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
+			//drawer = new DrawMultiIntegrated(1, new DrawRegion("-spinner", 4, true));
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -362,7 +361,7 @@ public class AstraBlocks {
 			craftTime = 200f / 3;
 			outputItem = new ItemStack(AstraItems.magnetite, 1);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat());
+			drawer = new DrawMultiIntegrated(new DrawTopHeat());
 			ambientSound = Sounds.electricHum;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -449,7 +448,7 @@ public class AstraBlocks {
 			craftTime = 96f;
 			outputItem = new ItemStack(Items.plastanium, 2);
 
-			//drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+			//drawer = new DrawMultiIntegrated(new DrawFade());
 			craftEffect = Fx.formsmoke;
 			updateEffect = Fx.plasticburn;
 		}};
@@ -476,7 +475,7 @@ public class AstraBlocks {
 			craftTime = 90f;
 			outputItem = new ItemStack(Items.plastanium, 6);
 
-			//drawer = new DrawMulti(new DrawDefault(), new DrawFade());
+			//drawer = new DrawMultiIntegrated(new DrawFade());
 			craftEffect = Fx.formsmoke;
 			updateEffect = Fx.plasticburn;
 		}};
@@ -499,7 +498,7 @@ public class AstraBlocks {
 			craftTime = 80f;
 			outputItem = new ItemStack(AstraItems.steel, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion());
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion());
 			ambientSound = Sounds.smelter;
 			ambientSoundVolume = 0.2f;
 			craftEffect = Fx.smeltsmoke;
@@ -526,7 +525,7 @@ public class AstraBlocks {
 			craftTime = 48f;
 			outputItem = new ItemStack(AstraItems.steel, 4);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawCircles() {{
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawCircles() {{
 				color = Color.valueOf("ffc073").a(0.25f);
 				strokeMax = 2.5f;
 				radius = 10f;
@@ -565,7 +564,7 @@ public class AstraBlocks {
 			craftTime = 75f;
 			outputItem = new ItemStack(Items.blastCompound, 2);
 
-			//drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-spinner", 4, true));
+			//drawer = new DrawMultiIntegrated(1, new DrawRegion("-spinner", 4, true));
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -625,7 +624,7 @@ public class AstraBlocks {
 			craftTime = 75f;
 			outputItem = new ItemStack(AstraItems.crystaglass, 1);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
 				color = Color.valueOf("ffeef1");
 				particles = 20;
 				particleLife = 90f;
@@ -747,7 +746,7 @@ public class AstraBlocks {
 			craftTime = 120f;
 			outputItem = new ItemStack(Items.surgeAlloy, 2);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFlame());
+			drawer = new DrawMultiIntegrated(new DrawFlame());
 			ambientSound = Sounds.smelter;
 			ambientSoundVolume = 0.3f;
 			craftEffect = Fx.smeltsmoke;
@@ -777,7 +776,7 @@ public class AstraBlocks {
 			craftTime = 80f;
 			outputItem = new ItemStack(Items.surgeAlloy, 4);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat(), new DrawGlowRegion(), new DrawSoftParticles() {{
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawSoftParticles() {{
 				alpha = 0.35f;
 				particleRad = 12f;
 				particleSize = 9f;
@@ -951,7 +950,7 @@ public class AstraBlocks {
 				Items.plastanium, 50,
 				Items.metaglass, 65,
 				Items.copper, 80,
-				Items.thorium, 90,
+				AstraItems.vanadium, 90,
 				Items.silicon, 60
 			));
 			scaledHealth = 55f;
@@ -967,18 +966,18 @@ public class AstraBlocks {
 		erythronitePowerCell = new CooledBattery("crystal-battery") {{
 			requirements(Category.power, ItemStack.with(
 				Items.surgeAlloy, 60,
-				AstraItems.neodymium, 50,
-				AstraItems.crystaglass, 100,
-				AstraItems.vanadium, 150,
+				AstraItems.neodymium, 40,
+				AstraItems.crystaglass, 75,
+				Items.thorium, 120,
 				Items.copper, 200,
-				AstraItems.crystals, 175
+				AstraItems.crystals, 150
 			));
 			scaledHealth = 65f;
 			size = 4;
 			fogRadius = 4;
 			liquidCapacity = 30f;
 
-			consumePowerBuffered(1500000f);
+			consumePowerBuffered(1800000f);
 			baseExplosiveness = 20f;
 			coolant = Liquids.water;
 			coolantAmount = 0.2f;
@@ -1001,7 +1000,7 @@ public class AstraBlocks {
 
 			powerProduction = 2.2f;
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawFrames() {{ frames = 6; sine = false; }});
+			drawer = new DrawMultiIntegrated(1, new DrawFrames() {{ frames = 6; sine = false; }});
 		}};
 
 		windTurbine = new WindGenerator("wind-turbine") {{
@@ -1011,7 +1010,7 @@ public class AstraBlocks {
 
 			powerProduction = 0.8f;
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 4f, true) {{ layer = Layer.blockOver; }});
+			drawer = new DrawMultiIntegrated(1, new DrawRegion("-rotator", 4f, true) {{ layer = Layer.blockOver; }});
 		}};
 
 		windTurbineLarge = new WindGenerator("wind-turbine-large") {{
@@ -1022,7 +1021,7 @@ public class AstraBlocks {
 
 			powerProduction = 3f;
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawRegion("-rotator", 5f, true) {{ layer = Layer.blockOver; }});
+			drawer = new DrawMultiIntegrated(1, new DrawRegion("-rotator", 5f, true) {{ layer = Layer.blockOver; }});
 		}};
 
 		solarCell = new SolarGenerator("solar-cell") {{
@@ -1090,8 +1089,7 @@ public class AstraBlocks {
 			consumeLiquid(AstraFluids.steam, 8f / 60f);
 			powerProduction = 4.5f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
+			drawer = new DrawMultiIntegrated(4,
 				new DrawBlurSpin("-rotator", 6f),
 				new DrawRegion("-edge"),
 				new DrawEmitSmoke() {{
@@ -1186,7 +1184,7 @@ public class AstraBlocks {
 			scaleLiquidConsumption = true;
 			outputLiquid = new LiquidStack(AstraFluids.steam, 35f / 60f);
 
-			drawer = new DrawMulti(new DrawDefault(), new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }});
+			drawer = new DrawMultiIntegrated(new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }});
 			updateEffect = Fx.redgeneratespark;
             updateEffectChance = 0.015f;
 		}};
@@ -1244,8 +1242,7 @@ public class AstraBlocks {
 			itemDuration = 1200f;
 			powerProduction = 1f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
+			drawer = new DrawMultiIntegrated(1,
 				new DrawStoredItem(AstraItems.crystals, "crystal"),
 				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 9f; maxAlpha = 0.4f; }},
 				new DrawGlowRegion() {{ alpha = 0.5f; }}
@@ -1334,25 +1331,6 @@ public class AstraBlocks {
 
 		// region POWER MODULES
 
-		hydrogenBreeder = new CrafterBlockModule("module-tritium-breeder") {{
-			requirements(Category.power, ItemStack.with(
-				Items.tungsten, 95,
-				AstraItems.crystaglass, 100,
-				Items.plastanium, 75,
-				Items.phaseFabric, 65
-			));
-			size = 2;
-			fogRadius = 2;
-			liquidCapacity = 20f;
-			targetBlockType = fusionReactor;
-
-			consumeItem(AstraItems.lithium, 2);
-			consumePower(1.8f);
-			craftTime = 300f;
-			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
-			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
-		}};
-
 		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
 			requirements(Category.power, ItemStack.with(
 				Items.tungsten, 80,
@@ -1374,6 +1352,25 @@ public class AstraBlocks {
 				new DrawDefault(),
 				new DrawRegion("-top")
 			);
+		}};
+
+		hydrogenBreeder = new CrafterBlockModule("module-tritium-breeder") {{
+			requirements(Category.power, ItemStack.with(
+				Items.tungsten, 95,
+				AstraItems.crystaglass, 100,
+				Items.plastanium, 75,
+				Items.phaseFabric, 65
+			));
+			size = 2;
+			fogRadius = 2;
+			liquidCapacity = 20f;
+			targetBlockType = fusionReactor;
+
+			consumeItem(AstraItems.lithium, 2);
+			consumePower(1.8f);
+			craftTime = 300f;
+			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
+			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
 		}};
 
 		// region DRILLS
@@ -1622,8 +1619,7 @@ public class AstraBlocks {
 			result = Liquids.oil;
 			pumpAmount = 0.35f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
+			drawer = new DrawMultiIntegrated(2,
 				new DrawLiquidRegion(Liquids.oil),
 				new DrawVerticalPump() {{
 					maxScale = 1.2f;
@@ -2015,10 +2011,9 @@ public class AstraBlocks {
 			invert = true;
 		}};
 
-		ironUnloader = new DirectionalUnloader("module-unloader") {{
+		ironUnloader = new AstraDirectionalUnloader("module-unloader") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 20, Items.silicon, 15));
 			health = 100;
-			allowCoreUnload = true;
 		}};
 
 		platedJunction = new Junction("plated-junction") {{
@@ -2157,11 +2152,7 @@ public class AstraBlocks {
 			consumePower(0.15f);
 			pumpAmount = 0.08f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
-				new DrawPumpLiquid(),
-				new DrawVerticalPump() {{ cycleTime = 75f; maxScale = 1.25f; }}
-			);
+			drawer = new DrawMultiIntegrated(2, new DrawPumpLiquid(), new DrawVerticalPump() {{ cycleTime = 75f; maxScale = 1.25f; }});
 			squareSprite = false;
 		}};
 
@@ -2182,11 +2173,7 @@ public class AstraBlocks {
 			pumpAmount = 0.21f;
 			liquidPressure = 1.05f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
-				new DrawPumpLiquid(),
-				new DrawVerticalPump() {{ cycleTime = 90f; maxScale = 1.2f; }}
-			);
+			drawer = new DrawMultiIntegrated(2, new DrawPumpLiquid(), new DrawVerticalPump() {{ cycleTime = 90f; maxScale = 1.2f; }});
 			squareSprite = false;
 		}};
 
@@ -2209,11 +2196,7 @@ public class AstraBlocks {
 			pumpAmount = 0.24f;
 			liquidPressure = 1.1f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
-				new DrawPumpLiquid(),
-				new DrawVerticalPump() {{ cycleTime = 105f; maxScale = 1.2f; }}
-			);
+			drawer = new DrawMultiIntegrated(2, new DrawPumpLiquid(), new DrawVerticalPump() {{ cycleTime = 105f; maxScale = 1.2f; }});
 			squareSprite = false;
 		}};
 
@@ -2238,11 +2221,7 @@ public class AstraBlocks {
 			pumpAmount = 0.34f;
 			liquidPressure = 1.15f;
 
-			drawer = new DrawMulti(
-				new DrawDefault(),
-				new DrawPumpLiquid(),
-				new DrawVerticalPump() {{ cycleTime = 120f; maxScale = 1.15f; }}
-			);
+			drawer = new DrawMultiIntegrated(2, new DrawPumpLiquid(), new DrawVerticalPump() {{ cycleTime = 120f; maxScale = 1.15f; }});
 			squareSprite = false;
 		}};
 
@@ -2638,6 +2617,7 @@ public class AstraBlocks {
 					collidesTiles = false;
 					splashDamageRadius = 8f;
 					splashDamage = 40f;
+					scaledSplashDamage = true;
 
 					frontColor = AstraPal.graphiteFront;
 					backColor = AstraPal.graphiteBack;
@@ -2651,6 +2631,7 @@ public class AstraBlocks {
 					collidesTiles = false;
 					splashDamageRadius = 8f;
 					splashDamage = 60f;
+					scaledSplashDamage = true;
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = AstraPal.titaniumBack;
@@ -2665,6 +2646,7 @@ public class AstraBlocks {
 					collidesTiles = false;
 					splashDamageRadius = 8f;
 					splashDamage = 72f;
+					scaledSplashDamage = true;
 
 					frontColor = Pal.plastaniumFront;
 					backColor = Pal.plastaniumBack;
@@ -2679,6 +2661,7 @@ public class AstraBlocks {
 					collidesTiles = false;
 					splashDamageRadius = 12f;
 					splashDamage = 90f;
+					scaledSplashDamage = true;
 
 					frontColor = AstraPal.crystalFront;
 					backColor = AstraPal.crystalBack;
@@ -2693,6 +2676,7 @@ public class AstraBlocks {
 					collidesTiles = false;
 					splashDamageRadius = 8f;
 					splashDamage = 100f;
+					scaledSplashDamage = true;
 					lightning = 3;
 					lightningLength = 6;
 					lightningDamage = 14;
@@ -2719,6 +2703,7 @@ public class AstraBlocks {
 			};
 
 			scaledHealth = 140f;
+			armor = 2f;
 			size = 3;
 			shootY = 7f;
 			recoil = 2f;
