@@ -22,4 +22,5 @@ Programming: Slashkig
 
 Sprite Artists: IAmRustee and VoidThreader
 
-Music Artist : Phil
+Translators: Phil
+More translators are welcome!
