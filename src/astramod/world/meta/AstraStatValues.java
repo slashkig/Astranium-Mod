@@ -135,10 +135,14 @@ public class AstraStatValues {
 	}
 
 	public static StatValue block(Block block) {
+		return block(block, null);
+	}
+
+	public static StatValue block(Block block, @Nullable String key) {
 		return table -> {
 			table.marginTop(4);
 			table.image(block.uiIcon).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
-			table.add(block.localizedName).padRight(10).left().top();
+			table.add(key == null ? block.localizedName : Core.bundle.get(key)).padRight(10).left().top();
 		};
 	}
 
@@ -149,6 +153,6 @@ public class AstraStatValues {
 
 	public static void addRow(Table table, String key, Object value, boolean valueFirst) {
 		table.row();
-		table.add(valueFirst ? ("[stat]" + value + "[lightgray] " + Core.bundle.get(key).toLowerCase()) : ("[lightgray]" + Core.bundle.get(key) + ": [stat]" + value));
+		table.add(valueFirst ? Strings.format("[stat]@ [lightgray]@", value, Core.bundle.get(key).toLowerCase()) : Strings.format("[lightgray]@: [stat]@", Core.bundle.get(key), value));
 	}
 }

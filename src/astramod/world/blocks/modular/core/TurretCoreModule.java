@@ -5,8 +5,6 @@ import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
-import astramod.world.blocks.modular.CoreModuleBuild;
-import astramod.world.draw.DrawTeamTurret;
 import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
@@ -16,6 +14,10 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import astramod.content.AstraBlocks;
+import astramod.world.blocks.modular.*;
+import astramod.world.draw.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -37,6 +39,11 @@ public class TurretCoreModule extends ItemTurret {
 			ammoPriority[i] = ammo;
 			i--;
 		}
+	}
+
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
 	}
 
 	@Override public void setBars() {
@@ -107,11 +114,11 @@ public class TurretCoreModule extends ItemTurret {
 			return linkedCore == null ? 0 : linkedCore.removeStack(item, amount);
 		}
 
-		@Override public void setLinkedCore(Building core) {
+		public void setLinkedCore(Building core) {
 			linkedCore = core;
 		}
 
-		@Override @Nullable public Building getLinkedCore() {
+		@Nullable public Building getLinkedCore() {
 			return linkedCore;
 		}
 

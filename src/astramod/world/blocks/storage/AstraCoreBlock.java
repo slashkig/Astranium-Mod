@@ -13,6 +13,7 @@ import static mindustry.Vars.*;
 public class AstraCoreBlock extends CoreBlock {
 	public AstraCoreBlock(String name) {
 		super(name);
+		conductivePower = true;
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -34,8 +35,9 @@ public class AstraCoreBlock extends CoreBlock {
 			}
 			state.teams.registerCore(this);
 
-			storageCapacity = itemCapacity + proximity().sum(e -> owns(e) ? e.block.itemCapacity : 0);
+			storageCapacity = itemCapacity; // + proximity().sum(e -> owns(e) ? e.block.itemCapacity : 0);
 			proximity.each(this::owns, t -> {
+				storageCapacity += t.block.itemCapacity;
 				t.items = items;
 				((CoreModuleBuild)t).setLinkedCore(this);
 			});

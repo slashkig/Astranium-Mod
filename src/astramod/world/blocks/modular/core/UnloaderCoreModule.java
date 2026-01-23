@@ -3,13 +3,15 @@ package astramod.world.blocks.modular.core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
-import astramod.world.blocks.modular.CoreModuleBuild;
 import mindustry.entities.units.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.world.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import astramod.content.AstraBlocks;
+import astramod.world.blocks.modular.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -18,6 +20,11 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 		super(name);
 		allowCoreUnload = true;
 		isDuct = false;
+	}
+
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -60,11 +67,11 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 			super.drawSelect();
 		}
 
-		@Override @Nullable public Building getLinkedCore() {
+		@Nullable public Building getLinkedCore() {
 			return linkedCore;
 		}
 
-		@Override public void setLinkedCore(Building core) {
+		public void setLinkedCore(Building core) {
 			linkedCore = core;
 		}
 

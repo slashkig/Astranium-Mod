@@ -41,7 +41,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 		}
 	}
 
-	@Override public Block parentBlock() {
+	public Block parentBlock() {
 		return targetBlockType;
 	}
 
@@ -55,7 +55,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 		}
 	}
 
-	public class CrafterModuleBlock extends GenericCrafterBuild implements ModuleBuild {
+	public class CrafterModuleBuild extends GenericCrafterBuild implements ModuleBuild {
 		public @Nullable Building linkedBuild;
 
 		@Override public void updateTile() {
@@ -92,10 +92,6 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 
 		@Override public float efficiencyScale() {
 			return linkedBuild != null ? linkedBuild.efficiency() : 0f;
-		}
-
-		@Override public float getProgressIncrease(float baseTime) {
-			return super.getProgressIncrease(baseTime) * efficiency;
 		}
 
 		@Nullable public Building getLinkedBuild() {

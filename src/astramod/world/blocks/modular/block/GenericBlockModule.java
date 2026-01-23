@@ -40,7 +40,7 @@ public class GenericBlockModule extends Block implements BlockModule {
 		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
 	}
 
-	@Override public Block parentBlock() {
+	public Block parentBlock() {
 		return targetBlockType;
 	}
 

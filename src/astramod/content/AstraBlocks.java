@@ -63,8 +63,8 @@ public class AstraBlocks {
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 		ironTank, steelTank, crystalTank,
 		coreNode, coreHub,
-		gathererModule, initiateModule, seekerModule, wardModule,
-		unloaderModule, storageModule, storageModuleLarge, controlModule, defenseModule, shieldModule,
+		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
+		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
 		mendBeam, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
@@ -2523,6 +2523,45 @@ public class AstraBlocks {
 			unitCapModifier = 2;
 		}};
 
+		smelterModule = new CrafterCoreModule("module-smelter") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 45, Items.lead, 25));
+			scaledHealth = 40f;
+			size = 2;
+			itemCapacity = 20;
+			hasPower = hasItems = true;
+
+			consumeItem(AstraItems.hematite, 6);
+			consumePower(0.9f);
+			craftTime = 40f;
+			outputItem = new ItemStack(AstraItems.iron, 3);
+
+			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.ironSmoke));
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
+		fabricatorModule = new CrafterCoreModule("module-fabricator") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 130,
+				Items.graphite, 25,
+				Items.copper, 50,
+				Items.lead, 60
+			));
+			scaledHealth = 40f;
+			size = 3;
+			itemCapacity = 20;
+			hasPower = hasItems = true;
+
+			consumeItems(ItemStack.with(Items.sand, 3, Items.coal, 3, Items.lead, 1));
+			consumePower(1.4f);
+			craftTime = 40f;
+			outputItems = ItemStack.with(Items.graphite, 1, Items.silicon, 1, Items.metaglass, 1);
+
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion());
+			ambientSound = Sounds.smelter;
+			craftEffect = Fx.smeltsmoke;
+		}};
+
 		gathererModule = new UnitCoreModule("module-gatherer", AstraUnitTypes.gatherer) {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 60,
@@ -2692,6 +2731,25 @@ public class AstraBlocks {
 			shootSound = Sounds.artillery;
 
 			limitRange();
+		}};
+
+		rtgModule = new PowerCoreModule("module-rtg") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 60,
+				Items.thorium, 250,
+				Items.plastanium, 50,
+				Items.graphite, 75
+			));
+			scaledHealth = 55f;
+			armor = 1f;
+			size = 2;
+			itemCapacity = 0;
+
+			powerProduction = 20f;
+			envEnabled = Env.any;
+			generateEffect = Fx.generatespark;
+
+			drawer = new DrawMultiIntegrated(new DrawGlowRegion() {{ color = Pal.thoriumPink; }});
 		}};
 
 		shieldModule = new ProjectorCoreModule("module-shield") {{
