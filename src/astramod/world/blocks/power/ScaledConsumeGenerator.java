@@ -26,6 +26,7 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 	@Override public void setStats() {
 		super.setStats();
 		stats.remove(Stat.productionTime);
+		stats.add(AstraStat.maxPowerProduction, powerProduction * itemCapacity * 60f, StatUnit.powerSecond);
 		stats.add(AstraStat.itemLifetime, itemDuration / 60f, StatUnit.seconds);
 	}
 
@@ -43,12 +44,20 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 	public class ScaledConsumeGeneratorBuild extends ConsumeGeneratorBuild {
 		@Override public void updateTile() {
 			super.updateTile();
-			generateTime -= (items.get(targetItem) - 1) * delta() / itemDuration;
+			if (efficiencyMultiplier >= 1) generateTime -= (efficiencyMultiplier - 1) * delta() / itemDuration;
+		}
+
+		@Override public float efficiency() {
+			return efficiencyMultiplier / itemCapacity;
+		}
+
+		@Override public boolean consumeTriggerValid() {
+			return generateTime > 0 && efficiencyMultiplier > 0;
 		}
 
 		@Override public void updateEfficiencyMultiplier() {
-			float mult = items.get(targetItem);
-			if (mult > 0) efficiencyMultiplier = mult;
+			// Efficiency multiplier is effectively the number of target items
+			efficiencyMultiplier = items.get(targetItem);
 		}
 	}
 }

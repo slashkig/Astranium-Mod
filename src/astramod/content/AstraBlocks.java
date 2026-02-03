@@ -66,7 +66,7 @@ public class AstraBlocks {
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
 		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
-		mendBeam, sensorArray, advancedSensorArray,
+		mendBeam, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember,
 		omegafactory, uberwall, superRouter, testblaster;
@@ -1240,10 +1240,10 @@ public class AstraBlocks {
 
 			consumeItem(targetItem = AstraItems.crystals);
 			itemDuration = 1200f;
-			powerProduction = 1f;
+			powerProduction = 1.5f;
 
 			drawer = new DrawMultiIntegrated(1,
-				new DrawStoredItem(AstraItems.crystals, "crystal"),
+				new DrawCrystal(),
 				new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 9f; maxAlpha = 0.4f; }},
 				new DrawGlowRegion() {{ alpha = 0.5f; }}
 			);
@@ -2793,6 +2793,27 @@ public class AstraBlocks {
 			targetingArc = 10f;
 			powerUse = 0.9f;
 			beamWidth = 0.6f;
+		}};
+
+		mendDome = new AstraMendProjector("mend-dome") {{
+			requirements(Category.effect, ItemStack.with(
+				Items.tungsten, 90,
+				AstraItems.crystals, 35,
+				Items.plastanium, 55,
+				Items.silicon, 80,
+				Items.lead, 120
+			));
+			size = 3;
+			fogRadius = 6;
+			scaledHealth = 90f;
+			armor = 3;
+
+			consumePower(2.5f);
+			range = 100f;
+			healAmount = 600f;
+			reload = 300f;
+
+			drawer = new DrawMulti(new DrawSuper(), new DrawCrystal());
 		}};
 
 		sensorArray = new SensorArray("sensor-array") {{

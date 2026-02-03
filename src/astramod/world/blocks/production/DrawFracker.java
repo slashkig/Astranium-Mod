@@ -7,10 +7,11 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.world.blocks.production.Fracker;
+import astramod.world.draw.*;
 
 /** Fracker that can use custom drawers. */
 public class DrawFracker extends Fracker {
-	public DrawBlock drawer = new DrawDefault();
+	public DrawBlock drawer = new DrawSuper();
 	public Effect consumeEffect = Fx.none;
 	public Sound consumeSound = Sounds.drillImpact;
 
@@ -27,7 +28,7 @@ public class DrawFracker extends Fracker {
 		return drawer.icons(this);
 	}
 
-	public class DrawFrackerBuild extends FrackerBuild {
+	public class DrawFrackerBuild extends FrackerBuild implements SuperDrawable {
 		@Override public void updateTile() {
 			if (efficiency > 0 && accumulator >= itemUseTime) {
 				consumeEffect.at(x, y);
@@ -39,6 +40,10 @@ public class DrawFracker extends Fracker {
 
 		@Override public void draw() {
 			drawer.draw(this);
+		}
+
+		public void drawSuper() {
+			super.draw();
 		}
 	}
 }

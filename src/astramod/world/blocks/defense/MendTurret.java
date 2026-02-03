@@ -19,6 +19,7 @@ public class MendTurret extends RepairTurret {
 
 	public MendTurret(String name) {
 		super(name);
+		suppressable = true;
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {

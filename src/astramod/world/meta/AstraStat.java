@@ -13,6 +13,7 @@ public class AstraStat {
 		hLiquidCapacity = new Stat("hLiquidCapacity", StatCat.liquids),
 		vLiquidCapacity = new Stat("vLiquidCapacity", StatCat.liquids),
 		powerPerItem = new Stat("powerPerItem", StatCat.power),
+		maxPowerProduction = new Stat("maxPower", StatCat.power),
 		itemLifetime = new Stat("itemLifetime", StatCat.crafting),
 		numDrones = new Stat("numDrones", StatCat.function),
 		droneBuildTime = new Stat("droneBuildTime", StatCat.function),
