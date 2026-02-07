@@ -32,6 +32,12 @@ public class AstraPal {
 		lithiumBack = Color.valueOf("f65021"),
 		crystalFront = Color.valueOf("fb8aa8"),
 		crystalBack = Color.valueOf("ef3a6a"),
+		magnetFront = Color.valueOf("878787"),
+		magnetBack = Color.valueOf("817878"),
+		steelFront = Color.valueOf("ffffff"),
+		steelBack = Color.valueOf("e4e4e4"),
+		neoFront = Color.valueOf("9c9c9c"),
+		neoBack = Color.valueOf("c0954c"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");
