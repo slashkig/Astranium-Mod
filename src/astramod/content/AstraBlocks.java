@@ -26,11 +26,13 @@ import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.content.*;
+import astramod.entities.bullet.*;
 import astramod.entities.part.*;
 import astramod.graphics.*;
 import astramod.world.draw.*;
 import astramod.world.meta.*;
 import astramod.world.blocks.defense.*;
+import astramod.world.blocks.defense.turrets.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
 import astramod.world.blocks.liquid.*;
@@ -66,9 +68,9 @@ public class AstraBlocks {
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
 		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
-		mendBeam, mendDome, sensorArray, advancedSensorArray,
+		mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
-		dart, viper, ember,
+		dart, viper, ember, ballista,
 		omegafactory, uberwall, superRouter, testblaster;
 
 	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
@@ -1297,7 +1299,7 @@ public class AstraBlocks {
 				Items.surgeAlloy, 220,
 				AstraItems.neodymium, 240,
 				AstraItems.crystaglass, 250,
-				Items.graphite, 320,
+				Items.graphite, 400,
 				AstraItems.lithium, 200
 			));
 			scaledHealth = 70f;
@@ -2787,12 +2789,35 @@ public class AstraBlocks {
 			fogRadius = 5;
 			scaledHealth = 80f;
 
-			repairRadius = 70f;
+			repairRadius = 90f;
 			repairSpeed = 1.5f;
 			rotateSpeed = 0.2f;
 			targetingArc = 10f;
 			powerUse = 0.9f;
 			beamWidth = 0.6f;
+		}};
+
+		mendNode = new AstraMendProjector("mend-node") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 75,
+				Items.metaglass, 40,
+				Items.silicon, 50,
+				Items.titanium, 35
+			));
+			size = 2;
+			fogRadius = 5;
+			scaledHealth = 75f;
+
+			consumePower(1.25f);
+			range = 80f;
+			healAmount = 200f;
+			reload = 360f;
+
+			drawer = new DrawMultiIntegrated(1,
+				new DrawCrystal(),
+				new DrawSquareRipple() {{ color = AstraPal.mend; }},
+				new DrawTopHeat() {{ heatColor = AstraPal.mend; alphaMag = 1f; alphaScl = 50f / Mathf.PI2; maxAlpha = 0.5f; }}
+			);
 		}};
 
 		mendDome = new AstraMendProjector("mend-dome") {{
@@ -2808,12 +2833,16 @@ public class AstraBlocks {
 			scaledHealth = 90f;
 			armor = 3;
 
-			consumePower(2.5f);
-			range = 100f;
+			consumePower(3f);
+			range = 160f;
 			healAmount = 600f;
 			reload = 300f;
 
-			drawer = new DrawMulti(new DrawSuper(), new DrawCrystal());
+			drawer = new DrawMultiIntegrated(1,
+				new DrawCrystal(),
+				new DrawSquareRipple() {{ color = AstraPal.mend; }},
+				new DrawTopHeat() {{ heatColor = AstraPal.mend; alphaMag = 1f; alphaScl = 50f / Mathf.PI2; maxAlpha = 0.5f; }}
+			);
 		}};
 
 		sensorArray = new SensorArray("sensor-array") {{
@@ -3093,6 +3122,7 @@ public class AstraBlocks {
 					status = StatusEffects.burning;
 					statusDuration = 3f * 60;
 					hittable = false;
+					pierce = true;
 					pierceCap = 4;
 					pierceDamageFactor = 0.02f;
 					collidesAir = false;
@@ -3154,6 +3184,81 @@ public class AstraBlocks {
 			cooldownTime = 60f;
 
 			targetAir = false;
+		}};
+
+		ballista = new AstraTurret("ballista") {{
+			requirements(Category.turret, ItemStack.with(
+				AstraItems.steel, 120,
+				Items.copper, 100,
+				AstraItems.magnetite, 70,
+				Items.metaglass, 85,
+				Items.titanium, 55
+			));
+			ammo(
+				AstraItems.iron, new BoltBulletType(10f, 150) {{
+					buildingDamageMultiplier = 0.6f;
+					pierceCap = 15;
+					armorPenetration = 5f;
+
+					trailLength = 7;
+					setColor(AstraPal.ironFront, AstraPal.ironBack);
+				}},
+				AstraItems.magnetite, new BoltBulletType(12f, 220) {{
+					pierceCap = 10;
+					rangeChange = 16f;
+
+					trailLength = 8;
+					setColor(AstraPal.magnetFront, AstraPal.magnetBack);
+				}},
+				AstraItems.steel, new BoltBulletType(10f, 320) {{
+					height = 14f;
+					width = 5.5f;
+					buildingDamageMultiplier = 0.6f;
+					pierceCap = 20;
+					armorPenetration = 10f;
+
+					trailWidth = 1.1f;
+					trailLength = 8;
+					setColor(AstraPal.steelFront, AstraPal.steelBack);
+				}},
+				AstraItems.neodymium, new BoltBulletType(12f, 300) {{
+					height = 13f;
+					width = 5.5f;
+					pierceCap = 15;
+					rangeChange = 36f;
+					reloadMultiplier = 1.3f;
+
+					trailWidth = 1.1f;
+					trailLength = 9;
+					setColor(AstraPal.neoFront, AstraPal.neoBack);
+				}}
+			);
+
+			scaledHealth = 200f;
+			armor = 6;
+			size = 3;
+			fogRadius = 5;
+
+			range = 220f;
+			reload = 120f;
+			rotateSpeed = 2f;
+			shootCone = 2f;
+			targetUnderBlocks = false;
+
+			recoil = 4f;
+			recoilTime = 100f;
+			shootY = 0f;
+			shake = 1.5f;
+			ammoUseEffect = Fx.casing3;
+			shootEffect = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
+			smokeEffect = Fx.shootBigSmoke;
+			shootSound = Sounds.shootSmite;
+
+			consumePower(4f);
+			coolant = consumeCoolant(0.3f);
+			coolantMultiplier = 2.5f;
+			extraStats = true;
+			limitRange();
 		}};
 
 		// region EXTRAS

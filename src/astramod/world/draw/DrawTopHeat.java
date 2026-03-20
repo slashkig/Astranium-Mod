@@ -1,6 +1,7 @@
 package astramod.world.draw;
 
 import arc.*;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.util.*;
 import arc.math.Mathf;
@@ -11,6 +12,7 @@ import mindustry.world.draw.DrawBlock;
 
 public class DrawTopHeat extends DrawBlock {
 	public TextureRegion heatRegion;
+	public Color heatColor = Color.white;
 	public float alphaMag = 0f, alphaScl = 3f;
 	public float maxAlpha = 1f;
 
@@ -21,6 +23,7 @@ public class DrawTopHeat extends DrawBlock {
 	@Override public void draw(Building build) {
 		if (build.warmup() > 0f) {
 			Draw.z(Layer.blockAfterCracks);
+			Draw.color(heatColor);
 
 			if(alphaMag > 0f) Draw.alpha(build.warmup() * maxAlpha * (1f - alphaMag + Mathf.absin(Time.time, alphaScl, alphaMag)));
 			else Draw.alpha(build.warmup() * maxAlpha);

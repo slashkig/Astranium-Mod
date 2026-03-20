@@ -8,11 +8,13 @@ import arc.struct.*;
 import arc.util.*;
 import mindustry.content.*;
 import mindustry.ctype.*;
+import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
+import astramod.entities.bullet.*;
 import astramod.world.blocks.defense.*;
 
 import static mindustry.world.meta.StatValues.*;
@@ -68,6 +70,30 @@ public class AstraStatValues {
 		};
 	}
 
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map) {
+		return astraAmmo(map, 0, false);
+	}
+
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit) {
+		return astraAmmo(map, 0, showUnit);
+	}
+
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, int indent, boolean showUnit) {
+		return table -> {
+			StatValues.ammo(map, indent, showUnit).display(table);
+			var orderedKeys = map.keys().toSeq().sort();
+
+			for (int i = 0; i < orderedKeys.size; i++) {
+				BulletType bullet = map.get(orderedKeys.get(i));
+				Table entry = (Table)table.getCells().get(i + 1).get();
+
+				if (bullet instanceof BoltBulletType bt) {
+					addRow(entry, "stat.armorpenetration", bt.armorPenetration, true);
+				}
+			}
+		};
+	}
+
 	public static StatValue mine(LandMine mine, int indent) {
 		return table -> {
 			table.row();
@@ -109,7 +135,7 @@ public class AstraStatValues {
 					bt.row();
 
 					Table fc = new Table();
-					ammo(ObjectMap.of(mine, mine.bullet), indent + 1, false).display(fc);
+					astraAmmo(ObjectMap.of(mine, mine.bullet), indent + 1, false).display(fc);
 					Collapser coll = new Collapser(fc, true);
 					coll.setDuration(0.1f);
 

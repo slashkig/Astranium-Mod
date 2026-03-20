@@ -18,6 +18,9 @@ public class AstraMendProjector extends MendProjector {
 
 	public AstraMendProjector(String name) {
 		super(name);
+		phaseRangeBoost = 0f;
+		phaseBoost = 0f;
+		hasItems = false;
 	}
 
 	@Override public void load() {
@@ -36,7 +39,7 @@ public class AstraMendProjector extends MendProjector {
 	}
 
 	@Override public TextureRegion[] icons() {
-		return drawer.icons(this);
+		return drawer.finalIcons(this);
 	}
 
 	public class DrawMendBuild extends MendBuild implements SuperDrawable {
@@ -48,12 +51,12 @@ public class AstraMendProjector extends MendProjector {
 			boolean canHeal = !checkSuppression();
 
 			smoothEfficiency = Mathf.lerpDelta(smoothEfficiency, efficiency, warmupSpeed);
-			heat = Mathf.lerpDelta(heat, efficiency > 0 && canHeal ? 1f : 0f, warmupSpeed);
+			heat = Mathf.lerpDelta(heat, efficiency > 0f && canHeal ? 1f : 0f, warmupSpeed);
 			charge += heat * delta();
 
 			phaseHeat = Mathf.lerpDelta(phaseHeat, optionalEfficiency, 0.1f);
 
-			if (optionalEfficiency > 0 && timer(timerUse, useTime) && canHeal) {
+			if (phaseBoost > 0f && optionalEfficiency > 0f && timer(timerUse, useTime) && canHeal) {
 				consume();
 			}
 
