@@ -26,19 +26,19 @@ public class AstraPlanets {
 			alwaysUnlocked = true;
 			allowLaunchToNumbered = false;
 
-			ruleSetter = r -> {
-				r.waveTeam = Team.blue;
-				r.showSpawns = true;
-				r.fog = true;
-				r.staticFog = true;
+			ruleSetter = rule -> {
+				rule.waveTeam = Team.blue;
+				rule.showSpawns = true;
+				rule.fog = true;
+				rule.staticFog = true;
 
-				r.loadout = ItemStack.list(AstraItems.hematite, 100);
+				rule.loadout = ItemStack.list(AstraItems.hematite, 100);
 
-				r.blockWhitelist = true;
-				r.hideBannedBlocks = true;
+				rule.blockWhitelist = true;
+				rule.hideBannedBlocks = true;
 				for (Block block : content.blocks()) {
 					if (AstraBlocks.azirisBlocks.contains(block) || block.buildVisibility == BuildVisibility.sandboxOnly) {
-						r.bannedBlocks.add(block);
+						rule.bannedBlocks.add(block);
 					}
 				}
 			};
@@ -52,18 +52,18 @@ public class AstraPlanets {
 		// TODO how does vanilla do this
 		final var serpuloRules = serpulo.ruleSetter;
 		serpulo.hiddenItems.add(AstraItems.azirisItems);
-		serpulo.ruleSetter = r -> {
-			serpuloRules.get(r);
+		serpulo.ruleSetter = rule -> {
+			serpuloRules.get(rule);
 			for (Block block : AstraBlocks.azirisBlocks) {
-				r.bannedBlocks.add(block);
+				rule.bannedBlocks.add(block);
 			}
 		};
-		final var erekirRules = erekir.ruleSetter;
+		final var erekirRules = erekir.ruleSetter;
 		erekir.hiddenItems.add(AstraItems.azirisItems);
-		erekir.ruleSetter = r -> {
-			erekirRules.get(r);
+		erekir.ruleSetter = rule -> {
+			erekirRules.get(rule);
 			for (Block block : AstraBlocks.azirisBlocks) {
-				r.bannedBlocks.add(block);
+				rule.bannedBlocks.add(block);
 			}
 		};
 
