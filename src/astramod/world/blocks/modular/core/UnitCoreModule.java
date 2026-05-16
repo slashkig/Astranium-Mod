@@ -77,6 +77,11 @@ public class UnitCoreModule extends GenericCoreModule {
 		addBar("progress", (UnitCoreModuleBuild b) -> new Bar("bar.progress", Pal.ammo, () -> b.buildProgress));
 	}
 
+	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
+		super.drawPlace(x, y, rotation, valid);
+		Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, unitRange, Pal.placing);
+	}
+
 	public class UnitCoreModuleBuild extends GenericCoreModuleBuild implements UnitTetherBlock, Ranged {
 		public float buildProgress, totalProgress;
 		public float warmup, readyness;

@@ -16,6 +16,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.power.PowerNode.PowerNodeBuild;
 import mindustry.world.meta.*;
 import astramod.graphics.*;
 import astramod.math.*;
@@ -29,6 +30,9 @@ public class WireRelay extends PowerBlock {
 	public static final int[] blendRotation = {0, 180, 270, 0, 0, 0, 90, 180, 90, 270, 90, 90, 180, 0, 270, 0};
 	/** Cycle time in frames of the wire selection circle. */
 	public static final float selectCircleTime = 120f;
+
+	protected static final ObjectSet<PowerGraph> graphs = new ObjectSet<>();
+	protected static final Seq<Building> connectionChanges = new Seq<>();
 
 	/** Stores all the relays on the map, divided into 32-tile chunks for easier searching. */
 	public static final GridMap<Seq<WireRelayBuild>> relayBuilds = new GridMap<>();
@@ -65,7 +69,7 @@ public class WireRelay extends PowerBlock {
 			if (relay.getWireAt(pos.x, pos.y) != null) {
 				if (relay.shouldConsumeWire()) relay.team.items().add(wireCost.item, wireCost.amount);
 				relay.setWiring(pos, false);
-			} else if (relay.team.items().get(wireCost.item) >= wireCost.amount) {
+			} else if (!relay.shouldConsumeWire() || relay.team.items().has(wireCost.item, wireCost.amount)) {
 				if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost);
 				relay.setWiring(pos, true);
 			}
@@ -79,6 +83,17 @@ public class WireRelay extends PowerBlock {
 				if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost.item, wireCost.amount * wiresAdded);
 			} else {
 				int wiresRemoved = relay.multiWireRemove(config.start, config.end);
+				if (relay.shouldConsumeWire()) relay.team.items().add(wireCost.item, wireCost.amount * wiresRemoved);
+			}
+		});
+
+		// Config all
+		config(Boolean.class, (WireRelayBuild relay, Boolean add) -> {
+			if (add) {
+				int wiresAdded = relay.addAll();
+				if (relay.shouldConsumeWire()) relay.team.items().remove(wireCost.item, wireCost.amount * wiresAdded);
+			} else {
+				int wiresRemoved = relay.removeAll();
 				if (relay.shouldConsumeWire()) relay.team.items().add(wireCost.item, wireCost.amount * wiresRemoved);
 			}
 		});
@@ -106,7 +121,7 @@ public class WireRelay extends PowerBlock {
 		}
 	}
 
-    @Override public void setStats() {
+	@Override public void setStats() {
 		super.setStats();
 		stats.add(Stat.powerRange, wireRange, StatUnit.blocks);
 		stats.add(AstraStat.wireCost, StatValues.items(false, wireCost));
@@ -141,6 +156,33 @@ public class WireRelay extends PowerBlock {
 		Draw.color(Pal.placing);
 		Lines.square(x * tilesize + offset, y * tilesize + offset, wireRange * tilesize);
 		Draw.reset();
+
+		graphs.clear();
+		getPotentialLinks(world.tile(x, y), player.team());
+		
+		tempBuilds.each(b -> !graphs.contains(b.power.graph), build -> {
+			graphs.add(build.power.graph);
+			Drawf.square(build.x, build.y, build.block.size * tilesize / 2f + 2f, Pal.place);
+		});
+		tempBuilds.clear();
+	}
+
+	public void getPotentialLinks(Tile tile, Team team) {
+		tempBuilds.clear();
+
+		int worldRange = wireRange * tilesize;
+		var tree = team.data().buildingTree;
+		if (tree != null) {
+			tree.intersect(tile.worldx() - worldRange, tile.worldy() - worldRange, worldRange * 2, worldRange * 2, build -> {
+				if (build != null && build.tile() != tile && build.block.connectedPower && build.power != null &&
+				(build.block.outputsPower || build.block.consumesPower || build.block instanceof PowerNode) &&
+				build.team == team && !graphs.contains(build.power.graph) && !(build instanceof PowerNodeBuild obuild &&
+				obuild.power.links.size >= ((PowerNode)obuild.block).maxNodes) && !tempBuilds.contains(build)) {
+					tempBuilds.add(build);
+				}
+			});
+		}
+		tempBuilds.sort(b -> tile.dst(b));
 	}
 
 	/** Checks adjacent chunks for connections for a newly placed block. */
@@ -160,7 +202,7 @@ public class WireRelay extends PowerBlock {
 		for (WireRelayBuild build : chunk) {
 			rect.setPosition(tile.x - build.tile.x - offset, tile.y - build.tile.y - offset);
 			if (((WireRelay)build.block).boundsRect.overlaps(rect) && build.isConnectedWithin(rect)) {
-				build.connectionChanges.add(tile.build);
+				connectionChanges.add(tile.build);
 				build.connectBuildings();
 			}
 		}
@@ -172,7 +214,6 @@ public class WireRelay extends PowerBlock {
 		protected GridMap<Wire> wiring = new GridMap<>();
 		protected GridMap<Integer> sourceBlending = new GridMap<>();
 
-		protected final Seq<Building> connectionChanges = new Seq<>();
 		protected final Queue<Point2> checkQueue = new Queue<>();
 		protected boolean configuring = false;
 
@@ -185,12 +226,16 @@ public class WireRelay extends PowerBlock {
 			}
 			chunk.add(this);
 
-			// Generate source blending
+			setSourceBlending();
+
+			return super.init(tile, team, shouldAdd, rotation);
+		}
+
+		/* Generates source blending. */
+		protected void setSourceBlending() {
 			for (Point2 edge : Edges.getInsideEdges(size)) {
 				sourceBlending.put(edge.x - 1, edge.y - 1, 0);
 			}
-
-			return super.init(tile, team, shouldAdd, rotation);
 		}
 
 		@Override public void remove() {
@@ -276,7 +321,7 @@ public class WireRelay extends PowerBlock {
 
 		/** @return Whether resources should be consumed when placing wires. */
 		public boolean shouldConsumeWire() {
-			return !cheating() && !state.rules.infiniteResources;
+			return !cheating() && !state.rules.infiniteResources && !state.rules.editor;
 		}
 
 		/** @return The wire at the specified coordinates. */
@@ -339,9 +384,17 @@ public class WireRelay extends PowerBlock {
 			configuring = false;
 		}
 
-		/** Adds lines of wires along both axes to connect {@code start} to {@code end}, adding the longer axis first.
-		 *  @return Number of wires added. */
 		public int multiWireAdd(Point2 start, Point2 end) {
+			return multiWireAdd(start, end, true);
+		}
+
+		/** Adds lines of wires along both axes to connect {@code start} to {@code end}, adding the longer axis first.
+		 *  @param connect - whether the method should perform a full flood connection on the wiring.
+		 *  @return Number of wires added. */
+		public int multiWireAdd(Point2 start, Point2 end, boolean connect) {
+			// Check if there's enough resources
+			if (shouldConsumeWire() && !team.items().has(wireCost.item, wireCost.amount * (int)Mathx.dstm(start, end))) return 0;
+
 			configuring = true;
 			int wiresAdded = 0;
 			if (Math.abs(start.x - end.x) > Math.abs(start.y - end.y)) {
@@ -355,11 +408,13 @@ public class WireRelay extends PowerBlock {
 			}
 
 			// Flood fill connect
-			checkQueue.add(start);
-			floodConnect(true, true);
-			connectBuildings();
+			if (connect) {
+				checkQueue.add(start);
+				floodConnect(true, true);
+				connectBuildings();
+				configuring = false;
+			}
 
-			configuring = false;
 			return wiresAdded;
 		}
 
@@ -475,7 +530,6 @@ public class WireRelay extends PowerBlock {
 			return wiresAdded;
 		}
 
-
 		/** Removes the wires at the position(s) in {@code path}. */
 		protected void removeWirePath(Point2... path) {
 			Point2 target = path[0];
@@ -511,14 +565,67 @@ public class WireRelay extends PowerBlock {
 			}
 		}
 
+		/** Adds wires to connect to all unconnected buildings within range.
+		 *  @return Number of wires added. */
+		protected int addAll() {
+			configuring = true;
+
+			graphs.clear();
+			graphs.add(power.graph);
+
+			// Search for links
+			getPotentialLinks(tile, team);
+
+			// Connect to links
+			var counter = new Object() { int count = 0; };
+
+			Block.tempBuilds.each(b -> !graphs.contains(b.power.graph) && team.items().has(wireCost.item), t -> {
+				graphs.add(t.power.graph);
+
+				Tile closest = Mathx.findClosestTile(t, this);
+				Tmp.p1.set(closest.x - tile.x - 1, closest.y - tile.y - 1);
+				if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y)) {
+					counter.count += multiWireAdd(Tmp.p1, findClosestWire(Tmp.p1, true), false);
+				}
+			});
+
+			Block.tempBuilds.clear();
+			floodFromSource(true, true);
+			connectBuildings();
+
+			configuring = false;
+			return counter.count;
+		}
+
+		/** Removes all wires and connections.
+		 *  @return Number of wires removed. */
+		protected int removeAll() {
+			configuring = true;
+			int wiresRemoved = wiring.size();
+
+			floodFromSource(false, true);
+			disconnectBuildings();
+			wiring.clear();
+
+			sourceBlending.clear();
+			setSourceBlending();
+
+			configuring = false;
+			return wiresRemoved;
+		}
+
+		public void floodFromSource(boolean add) {
+			floodFromSource(true, add);
+		}
+
 		/** Flood connects the wire grid starting from the source block.
 		 * @param add - Whether buildings should be added to or removed from {@code connectionChanges}. */
-		public void floodFromSource(boolean add) {
+		public void floodFromSource(boolean connect, boolean add) {
 			for (Point2 edge : Edges.getEdges(size)) {
 				edge = new Point2(edge.x - 1, edge.y - 1);
-				if (isDisconnectedAt(edge.x, edge.y)) checkQueue.add(edge);
+				if (connect ? isDisconnectedAt(edge.x, edge.y) : isConnectedAt(edge.x, edge.y)) checkQueue.add(edge);
 			}
-			floodConnect(true, add);
+			floodConnect(connect, add);
 		}
 
 		/** Performs a flood fill on the wire grid connection status. Either adds or removes the affected buildings to/from {@code connectionChanges}.
@@ -528,7 +635,7 @@ public class WireRelay extends PowerBlock {
 			int newX, newY;
 			while (!checkQueue.isEmpty()) {
 				current = checkQueue.removeFirst();
-				wiring.get(current.x, current.y).setConnected(connect, add);	
+				wiring.get(current.x, current.y).setConnected(connect, add);
 				for (Point2 dir : Geometry.d4) {
 					newX = current.x + dir.x;
 					newY = current.y + dir.y;
@@ -606,6 +713,9 @@ public class WireRelay extends PowerBlock {
 
 		@Override public boolean onConfigureTapped(float x, float y) {
 			if (world.buildWorld(x, y) == this) {
+				if (lastSelected == null) {
+					configure(wiring.size() == 0);
+				}
 				deselect();
 				return true;
 			}
@@ -619,29 +729,8 @@ public class WireRelay extends PowerBlock {
 			if (!configuring) {
 				if (Core.input.shift()) {
 					if (!wiring.containsKey(origin.x, origin.y)) {
-						boolean[][] checked = new boolean[(int)boundsRect.width + 1][(int)boundsRect.height + 1];
-						checkQueue.add(origin);
-						checked[offsetX(origin.x)][offsetY(origin.y)] = true;
-
-						Point2 current;
-						int newX, newY;
-						while (!checkQueue.isEmpty()) {
-							current = checkQueue.removeFirst();
-							if (isConnectedAt(current.x, current.y) || sourceRect.contains(current.x, current.y)) {
-								checkQueue.clear();
-								if (current != origin) configure(WireConfig.pack(origin, current, true));
-								break;
-							} else {
-								for (Point2 dir : Geometry.d4) {
-									newX = current.x + dir.x;
-									newY = current.y + dir.y;
-									if (boundsRect.contains(newX, newY) && !checked[offsetX(newX)][offsetY(newY)]) {
-										checkQueue.addLast(new Point2(newX, newY));
-										checked[offsetX(newX)][offsetY(newY)] = true;
-									}
-								}
-							}
-						}
+						Point2 target = findClosestWire(origin, false);
+						if (target != null) configure(WireConfig.pack(origin, target, true));
 					} else if (lastSelected != null) configure(WireConfig.pack(lastSelected, origin, false));
 				} else {
 					configure(origin);
@@ -649,6 +738,33 @@ public class WireRelay extends PowerBlock {
 			}
 			lastSelected = origin;
 			return true;
+		}
+
+		@Nullable public Point2 findClosestWire(Point2 origin, boolean countAll) {
+			boolean[][] checked = new boolean[(int)boundsRect.width + 1][(int)boundsRect.height + 1];
+			checkQueue.add(origin);
+			checked[offsetX(origin.x)][offsetY(origin.y)] = true;
+
+			Point2 current;
+			int newX, newY;
+			while (!checkQueue.isEmpty()) {
+				current = checkQueue.removeFirst();
+				if (wiring.containsKey(current.x, current.y) && (countAll || wiring.get(current.x, current.y).connected) || sourceRect.contains(current.x, current.y)) {
+					checkQueue.clear();
+					if (current != origin) return current;
+					break;
+				} else {
+					for (Point2 dir : Geometry.d4) {
+						newX = current.x + dir.x;
+						newY = current.y + dir.y;
+						if (boundsRect.contains(newX, newY) && !checked[offsetX(newX)][offsetY(newY)]) {
+							checkQueue.addLast(new Point2(newX, newY));
+							checked[offsetX(newX)][offsetY(newY)] = true;
+						}
+					}
+				}
+			}
+			return null;
 		}
 
 		@Override public void deselect() {
@@ -701,8 +817,8 @@ public class WireRelay extends PowerBlock {
 			connected = connect;
 			Building linked = world.build(build.tile.x + rx + 1, build.tile.y + ry + 1);
 			if (linked != null && linked.power != null && linked.team == build.team) {
-				if (add) build.connectionChanges.addUnique(linked);
-				else build.connectionChanges.remove(linked);
+				if (add) connectionChanges.addUnique(linked);
+				else connectionChanges.remove(linked);
 			}
 		}
 

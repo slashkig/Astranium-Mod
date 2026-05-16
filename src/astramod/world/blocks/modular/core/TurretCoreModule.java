@@ -146,7 +146,7 @@ public class TurretCoreModule extends ItemTurret {
 
 		@Override public void read(Reads read, byte revision) {
 			super.read(read, revision);
-			currentAmmo = ammo.peek() instanceof ItemEntry e ? e.item : null;
+			currentAmmo = ammo.size > 0 && ammo.peek() instanceof ItemEntry e ? e.item : null;
 		}
 	}
 }

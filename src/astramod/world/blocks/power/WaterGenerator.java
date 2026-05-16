@@ -10,6 +10,7 @@ public class WaterGenerator extends PowerGenerator {
 	public WaterGenerator(String name) {
 		super(name);
 		rotate = true;
+		rotateDraw = false;
 		floating = true;
 		group = BlockGroup.liquids;
 		envEnabled = Env.terrestrial;

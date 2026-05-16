@@ -3196,6 +3196,8 @@ public class AstraBlocks {
 			));
 			ammo(
 				AstraItems.iron, new BoltBulletType(10f, 150) {{
+					height = 17f;
+					width = 7f;
 					buildingDamageMultiplier = 0.6f;
 					pierceCap = 15;
 					armorPenetration = 5f;
@@ -3204,6 +3206,8 @@ public class AstraBlocks {
 					setColor(AstraPal.ironFront, AstraPal.ironBack);
 				}},
 				AstraItems.magnetite, new BoltBulletType(12f, 220) {{
+					height = 18f;
+					width = 7f;
 					pierceCap = 10;
 					rangeChange = 16f;
 
@@ -3211,24 +3215,24 @@ public class AstraBlocks {
 					setColor(AstraPal.magnetFront, AstraPal.magnetBack);
 				}},
 				AstraItems.steel, new BoltBulletType(10f, 320) {{
-					height = 14f;
-					width = 5.5f;
+					height = 20f;
+					width = 7.5f;
 					buildingDamageMultiplier = 0.6f;
 					pierceCap = 20;
 					armorPenetration = 10f;
 
-					trailWidth = 1.1f;
+					trailWidth = 1.2f;
 					trailLength = 8;
 					setColor(AstraPal.steelFront, AstraPal.steelBack);
 				}},
 				AstraItems.neodymium, new BoltBulletType(12f, 300) {{
-					height = 13f;
-					width = 5.5f;
+					height = 19f;
+					width = 7.5f;
 					pierceCap = 15;
 					rangeChange = 36f;
 					reloadMultiplier = 1.3f;
 
-					trailWidth = 1.1f;
+					trailWidth = 1.2f;
 					trailLength = 9;
 					setColor(AstraPal.neoFront, AstraPal.neoBack);
 				}}
