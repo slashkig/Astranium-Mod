@@ -11,6 +11,11 @@ import static arc.math.Mathf.*;
 public final class Mathx {
 	private Mathx() { }
 
+	/** 0 if odd, 1 if even. */
+	public static int oddEven(int num) {
+		return (num + 1) % 2;
+	}
+
 	public static Rect squareRect(float xy, float size) {
 		return new Rect(xy, xy, size, size);
 	}

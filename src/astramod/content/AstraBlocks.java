@@ -869,6 +869,8 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(Items.copper, 24, AstraItems.hematite, 16));
 			size = 2;
 			fogRadius = 3;
+
+			consumePowerBuffered(1000);
 		}};
 
 		powerRelay = new PowerRelay("power-relay") {{

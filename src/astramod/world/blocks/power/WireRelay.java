@@ -55,8 +55,8 @@ public class WireRelay extends PowerBlock {
 	public WireRelay(String name) {
 		super(name);
 		destructible = true;
-		consumesPower = false;
-		outputsPower = false;
+		consumesPower = true;
+		outputsPower = true;
 		canOverdrive = false;
 		drawDisabled = false;
 		
@@ -108,7 +108,7 @@ public class WireRelay extends PowerBlock {
 	@Override public void init() {
 		super.init();
 		clipSize = Math.max(clipSize, wireRange * tilesize * 2);
-		boundsRect = Mathx.squareRect((size + 1) % 2 - wireRange - 1, wireRange * 2 - (size + 1) % 2 + 0.1f);
+		boundsRect = Mathx.squareRect(Mathx.oddEven(size) - wireRange - 1, wireRange * 2 - Mathx.oddEven(size) + 0.1f);
 		sourceRect = Mathx.squareRect(-(size + 1) / 2, size - 1);
 	}
 
@@ -147,6 +147,16 @@ public class WireRelay extends PowerBlock {
 			() -> Pal.powerBar,
 			() -> Mathf.clamp(entity.power.graph.getLastPowerStored() / entity.power.graph.getLastCapacity())
 		));
+
+		if (consPower != null && consPower.buffered) {
+			float capacity = consPower.capacity;
+
+			addBar("internalpower", entity -> new Bar(
+				() -> Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity))),
+				() -> Pal.powerBar,
+				() -> Mathf.zero(consPower.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status)
+			);
+		}
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
@@ -157,7 +167,6 @@ public class WireRelay extends PowerBlock {
 		Lines.square(x * tilesize + offset, y * tilesize + offset, wireRange * tilesize);
 		Draw.reset();
 
-		graphs.clear();
 		getPotentialLinks(world.tile(x, y), player.team());
 		
 		tempBuilds.each(b -> !graphs.contains(b.power.graph), build -> {
@@ -165,15 +174,17 @@ public class WireRelay extends PowerBlock {
 			Drawf.square(build.x, build.y, build.block.size * tilesize / 2f + 2f, Pal.place);
 		});
 		tempBuilds.clear();
+		graphs.clear();
 	}
 
 	public void getPotentialLinks(Tile tile, Team team) {
 		tempBuilds.clear();
 
-		int worldRange = wireRange * tilesize;
+		float offset = Mathx.oddEven(size) * tilesize / 2;
+		Tmp.r1.setCentered(tile.worldx() + offset, tile.worldy() + offset, boundsRect.width * tilesize);
 		var tree = team.data().buildingTree;
 		if (tree != null) {
-			tree.intersect(tile.worldx() - worldRange, tile.worldy() - worldRange, worldRange * 2, worldRange * 2, build -> {
+			tree.intersect(Tmp.r1, build -> {
 				if (build != null && build.tile() != tile && build.block.connectedPower && build.power != null &&
 				(build.block.outputsPower || build.block.consumesPower || build.block instanceof PowerNode) &&
 				build.team == team && !graphs.contains(build.power.graph) && !(build instanceof PowerNodeBuild obuild &&
@@ -393,10 +404,11 @@ public class WireRelay extends PowerBlock {
 		 *  @return Number of wires added. */
 		public int multiWireAdd(Point2 start, Point2 end, boolean connect) {
 			// Check if there's enough resources
-			if (shouldConsumeWire() && !team.items().has(wireCost.item, wireCost.amount * (int)Mathx.dstm(start, end))) return 0;
+			if (connect && shouldConsumeWire() && !team.items().has(wireCost.item, wireCost.amount * (int)Mathx.dstm(start, end))) return 0;
 
 			configuring = true;
 			int wiresAdded = 0;
+
 			if (Math.abs(start.x - end.x) > Math.abs(start.y - end.y)) {
 				// X is longer
 				wiresAdded += addHorizontalWires(start.x, start.y, end.y);
@@ -570,7 +582,6 @@ public class WireRelay extends PowerBlock {
 		protected int addAll() {
 			configuring = true;
 
-			graphs.clear();
 			graphs.add(power.graph);
 
 			// Search for links
@@ -578,18 +589,27 @@ public class WireRelay extends PowerBlock {
 
 			// Connect to links
 			var counter = new Object() { int count = 0; };
+			boolean noConsume = !shouldConsumeWire();
 
-			Block.tempBuilds.each(b -> !graphs.contains(b.power.graph) && team.items().has(wireCost.item), t -> {
-				graphs.add(t.power.graph);
+			Block.tempBuilds.each(b -> !graphs.contains(b.power.graph), build -> {
 
-				Tile closest = Mathx.findClosestTile(t, this);
-				Tmp.p1.set(closest.x - tile.x - 1, closest.y - tile.y - 1);
-				if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y)) {
-					counter.count += multiWireAdd(Tmp.p1, findClosestWire(Tmp.p1, true), false);
+				if (build instanceof PowerNodeBuild node && node.power.links.size < ((PowerNode)node.block).maxNodes) {
+					node.configure(pos());
+					graphs.add(build.power.graph);
+				} else if (noConsume || team.items().has(wireCost.item)) {
+					Tile closest = Mathx.findClosestTile(build, this);
+					Tmp.p1.set(closest.x - tile.x - 1, closest.y - tile.y - 1);
+					Tmp.p2.set(findClosestWire(Tmp.p1, true));
+
+					if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y) && (noConsume || team.items().has(wireCost.item, counter.count + wireCost.amount * (int)Mathx.dstm(Tmp.p1, Tmp.p2)))) {
+						counter.count += multiWireAdd(Tmp.p1, Tmp.p2, false);
+						graphs.add(build.power.graph);
+					}
 				}
 			});
 
 			Block.tempBuilds.clear();
+			graphs.clear();
 			floodFromSource(true, true);
 			connectBuildings();
 
@@ -777,6 +797,21 @@ public class WireRelay extends PowerBlock {
 		}
 
 		// TODO onDeconstructed()
+
+		@Override public void overwrote(Seq<Building> previous) {
+			for (Building other : previous) {
+				if (other.power != null && other.block.consPower != null && other.block.consPower.buffered) {
+					float amount = other.block.consPower.capacity * other.power.status;
+					power.status = Mathf.clamp(power.status + amount / consPower.capacity);
+				}
+			}
+		}
+
+		@Override public BlockStatus status() {
+			if (Mathf.equal(power.status, 0f, 0.001f)) return BlockStatus.noInput;
+			if (Mathf.equal(power.status, 1f, 0.001f)) return BlockStatus.active;
+			return BlockStatus.noOutput;
+		}
 
 		@Override public void read(Reads read, byte revision) {
 			super.read(read, revision);

@@ -1,8 +1,8 @@
 package astramod.world.blocks.power;
 
-import astramod.content.*;
 import mindustry.world.blocks.power.*;
-import mindustry.world.meta.StatUnit;
+import mindustry.world.meta.*;
+import astramod.content.*;
 import astramod.math.Mathx;
 import astramod.world.meta.AstraStatValues;
 
@@ -36,6 +36,10 @@ public class WindGenerator extends PowerGenerator {
 
 		@Override public float totalProgress() {
 			return totalProgress;
+		}
+
+		@Override public BlockStatus status() {
+			return productionEfficiency <= 0f ? BlockStatus.noInput : super.status();
 		}
 	}
 }

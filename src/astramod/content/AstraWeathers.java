@@ -60,6 +60,13 @@ public class AstraWeathers {
 		return windManager.globalWind;
 	}
 
+	public static void setupWind() {
+		if (windManager.windEnabled()) {
+			Mathf.rand.setSeed(Time.millis());
+			windManager.resetWind();
+		}
+	}
+
 	public static void updateWind() {
 		if (state.isPlaying() && windManager.windEnabled()) {
 			windManager.updateWind();
@@ -78,6 +85,8 @@ public class AstraWeathers {
 
 		public static final long windUpdateInterval = 1000;
 		protected long lastNetUpdate;
+
+		public float setupRandMin = 0.2f, setupRandMax = 0.6f, setupCounterMin = 2.5f, setupCounterMax = 5f;
 
 		public float counterMin = 1f, counterMax = 4f;
 		public float randMin = -0.5f, randMax = 1f;
@@ -185,16 +194,19 @@ public class AstraWeathers {
 		}
 
 		public void changeWind() {
-			randWind = Mathf.random(randMin, randMax);
-			windCounter = Time.toMinutes * Mathf.random(counterMin, counterMax);
+			changeWind(randMin, randMax, counterMin, counterMax);
+		}
+
+		public void changeWind(float rMin, float rMax, float cMin, float cMax) {
+			randWind = Mathf.random(rMin, rMax);
+			windCounter = Time.toMinutes * Mathf.random(cMin, cMax);
 			Call.clientPacketReliable("astramod-changeWind", String.format("%f|%f", randWind, windCounter));
 		}
 
 		public void resetWind() {
-			globalWind = 0f;
-			randWind = 0f;
 			tempWind = 0f;
-			windCounter = 0f;
+			changeWind(setupRandMin, setupRandMax, setupCounterMin, setupCounterMax);
+			globalWind = randWind;
 		}
 
 		public void createWindWeather(Weather wind, float baseLife) {
