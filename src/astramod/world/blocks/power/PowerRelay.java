@@ -11,8 +11,10 @@ import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.ui.Bar;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import mindustry.world.meta.*;
 import astramod.graphics.*;
 
 import static mindustry.Vars.*;
@@ -26,6 +28,8 @@ public class PowerRelay extends PowerNode {
 
 	public PowerRelay(String name) {
 		super(name);
+		consumesPower = true;
+		outputsPower = true;
 
 		laserScale = 0.5f;
 		laserColor1 = Color.white;
@@ -40,6 +44,20 @@ public class PowerRelay extends PowerNode {
 		laserEnd = Core.atlas.find("astramod-power-relay-cable-end");
 		laserGlow = Core.atlas.find("astramod-power-relay-cable-glow");
 		laserGlowEnd = Core.atlas.find("astramod-power-relay-cable-glow-end");
+	}
+
+	@Override public void setBars() {
+		super.setBars();
+
+		if (consPower != null && consPower.buffered) {
+			float capacity = consPower.capacity;
+
+			addBar("internalpower", entity -> new Bar(
+				() -> Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity))),
+				() -> Pal.powerBar,
+				() -> Mathf.zero(consPower.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status)
+			);
+		}
 	}
 
 	@Override public boolean linkValid(Building tile, Building link, boolean checkMaxNodes) {
@@ -162,6 +180,21 @@ public class PowerRelay extends PowerNode {
 
 		public float warmupTarget() {
 			return power.graph.getSatisfaction();
+		}
+
+		@Override public void overwrote(Seq<Building> previous) {
+			for (Building other : previous) {
+				if (other.power != null && other.block.consPower != null && other.block.consPower.buffered) {
+					float amount = other.block.consPower.capacity * other.power.status;
+					power.status = Mathf.clamp(power.status + amount / consPower.capacity);
+				}
+			}
+		}
+
+		@Override public BlockStatus status() {
+			if (Mathf.equal(power.status, 0f, 0.001f)) return BlockStatus.noInput;
+			if (Mathf.equal(power.status, 1f, 0.001f)) return BlockStatus.active;
+			return BlockStatus.noOutput;
 		}
 	}
 }

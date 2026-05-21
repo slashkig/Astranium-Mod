@@ -55,8 +55,6 @@ public class WireRelay extends PowerBlock {
 	public WireRelay(String name) {
 		super(name);
 		destructible = true;
-		consumesPower = true;
-		outputsPower = true;
 		canOverdrive = false;
 		drawDisabled = false;
 		
@@ -147,16 +145,6 @@ public class WireRelay extends PowerBlock {
 			() -> Pal.powerBar,
 			() -> Mathf.clamp(entity.power.graph.getLastPowerStored() / entity.power.graph.getLastCapacity())
 		));
-
-		if (consPower != null && consPower.buffered) {
-			float capacity = consPower.capacity;
-
-			addBar("internalpower", entity -> new Bar(
-				() -> Core.bundle.format("bar.poweramount", Float.isNaN(entity.power.status * capacity) ? "<ERROR>" : UI.formatAmount((int)(entity.power.status * capacity))),
-				() -> Pal.powerBar,
-				() -> Mathf.zero(consPower.requestedPower(entity)) && entity.power.graph.getPowerProduced() + entity.power.graph.getBatteryStored() > 0f ? 1f : entity.power.status)
-			);
-		}
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
@@ -797,21 +785,6 @@ public class WireRelay extends PowerBlock {
 		}
 
 		// TODO onDeconstructed()
-
-		@Override public void overwrote(Seq<Building> previous) {
-			for (Building other : previous) {
-				if (other.power != null && other.block.consPower != null && other.block.consPower.buffered) {
-					float amount = other.block.consPower.capacity * other.power.status;
-					power.status = Mathf.clamp(power.status + amount / consPower.capacity);
-				}
-			}
-		}
-
-		@Override public BlockStatus status() {
-			if (Mathf.equal(power.status, 0f, 0.001f)) return BlockStatus.noInput;
-			if (Mathf.equal(power.status, 1f, 0.001f)) return BlockStatus.active;
-			return BlockStatus.noOutput;
-		}
 
 		@Override public void read(Reads read, byte revision) {
 			super.read(read, revision);

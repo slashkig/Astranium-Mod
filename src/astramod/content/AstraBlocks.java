@@ -869,8 +869,6 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(Items.copper, 24, AstraItems.hematite, 16));
 			size = 2;
 			fogRadius = 3;
-
-			consumePowerBuffered(1000);
 		}};
 
 		powerRelay = new PowerRelay("power-relay") {{
@@ -879,6 +877,8 @@ public class AstraBlocks {
 			fogRadius = 2;
 			maxNodes = 3;
 			laserRange = 14f;
+
+			consumePowerBuffered(1000);
 
 			squareSprite = false;
 		}};
@@ -890,6 +890,8 @@ public class AstraBlocks {
 			fogRadius = 3;
 			maxNodes = 5;
 			laserRange = 26f;
+
+			consumePowerBuffered(5000);
 
 			squareSprite = false;
 		}};
@@ -906,6 +908,8 @@ public class AstraBlocks {
 			fogRadius = 3;
 			maxNodes = 2;
 			laserRange = 60f;
+
+			consumePowerBuffered(10000);
 
 			squareSprite = false;
 		}};
