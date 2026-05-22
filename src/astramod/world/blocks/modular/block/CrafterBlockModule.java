@@ -29,19 +29,21 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 	}
 
 	@Override public void init() {
-		schematicPriority = targetBlockType.schematicPriority - 1;
+		((BaseModularBlock)targetBlockType).addValidModule(this);
+		schematicPriority = -9;
 		super.init();
 	}
 
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
+
 		if (byproductLiquid != null) {
 			stats.add(Stat.output, StatValues.liquids(1f, byproductLiquid));
 		}
 	}
 
-	public Block parentBlock() {
+	public Block targetBlock() {
 		return targetBlockType;
 	}
 
@@ -72,6 +74,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 			super.onProximityUpdate();
 
 			if (checkFront(tile.x, tile.y, rotation)) setLinkedBuild(front());
+			else setLinkedBuild(null);
 		}
 
 		@Override public void drawSelect() {
@@ -100,6 +103,10 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 
 		public void setLinkedBuild(Building build) {
 			linkedBuild = build;
+		}
+
+		@Override public BlockStatus status() {
+			return linkedBuild == null ? BlockStatus.noInput : super.status();
 		}
 
 		@Override public boolean canPickup() {

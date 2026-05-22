@@ -2,6 +2,7 @@ package astramod.world.blocks.modular;
 
 import arc.func.Boolf;
 import arc.math.geom.*;
+import arc.util.*;
 import mindustry.entities.units.BuildPlan;
 import mindustry.gen.Building;
 import mindustry.world.*;
@@ -9,13 +10,13 @@ import mindustry.world.*;
 import static mindustry.Vars.*;
 
 public interface BlockModule {
-	public Block parentBlock();
+	@Nullable public Block targetBlock();
 
 	public default boolean canPlaceModule(int x, int y, int rot) {
 		if (checkFront(x, y, rot)) {
 			return true;
 		} else {
-			Boolf<BuildPlan> pred = plan -> plan.block == parentBlock() ? plan.placeable(player.team()) && checkHitbox(plan, x, y, rot) : false;
+			Boolf<BuildPlan> pred = plan -> validBlock(plan.block) ? plan.placeable(player.team()) && checkHitbox(plan, x, y, rot) : false;
 			return control.input.selectPlans.find(pred) != null || player.unit().plans.indexOf(pred) != -1;
 		}
 	}
@@ -26,7 +27,7 @@ public interface BlockModule {
 		self.nearbySide(x, y, rot, 0, edge);
 
 		Building build = world.build(edge.x, edge.y);
-		if (!validLink(build)) return false;
+		if (build == null || !validBlock(build.block)) return false;
 
 		for (int i = 1; i < self.size; i++) {
 			self.nearbySide(x, y, rot, i, edge);
@@ -49,7 +50,7 @@ public interface BlockModule {
 		return true;
 	}
 
-	public default boolean validLink(Building build) {
-		return build != null && build.block == parentBlock();
+	public default boolean validBlock(Block block) {
+		return block == targetBlock();
 	}
 }

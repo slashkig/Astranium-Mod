@@ -16,6 +16,22 @@ public final class Mathx {
 		return (num + 1) % 2;
 	}
 
+	public static float min(float... values) {
+		float min = Float.MAX_VALUE;
+		for (float val : values) {
+			min = Math.min(val, min);
+		}
+		return min;
+	}
+
+	public static float pow2(float num) {
+		return num * num;
+	}
+
+	public static float snapZero(float val, float tolerance) {
+		return Mathf.zero(val, tolerance) ? 0f : val;
+	}
+
 	public static Rect squareRect(float xy, float size) {
 		return new Rect(xy, xy, size, size);
 	}

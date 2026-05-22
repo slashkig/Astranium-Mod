@@ -172,6 +172,17 @@ public class AstraStatValues {
 		};
 	}
 
+	public static StatValue blocks(Seq<Block> blocks) {
+		return table -> {
+			table.row().table(t -> {
+				blocks.each(b -> {
+					block(b).display(t);
+					t.row();
+				});
+			});
+		};
+	}
+
 	public static void addRow(Table table, String key, Object... args) {
 		table.row();
 		table.add(Core.bundle.format(key, args));

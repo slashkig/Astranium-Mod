@@ -1,5 +1,12 @@
 package astramod.world.blocks.modular;
 
-public interface BaseModularBlock {
+import arc.struct.*;
+import mindustry.world.Block;
 
+public interface BaseModularBlock {
+	public Seq<Block> getValidModules();
+
+	public void addValidModule(Block block);
+
+	public EnumSet<ModularType> getModuleTypes();
 }

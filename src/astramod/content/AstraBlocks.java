@@ -36,6 +36,7 @@ import astramod.world.blocks.defense.turrets.*;
 import astramod.world.blocks.distribution.*;
 import astramod.world.blocks.environment.*;
 import astramod.world.blocks.liquid.*;
+import astramod.world.blocks.modular.*;
 import astramod.world.blocks.modular.block.*;
 import astramod.world.blocks.modular.core.*;
 import astramod.world.blocks.power.*;
@@ -74,6 +75,7 @@ public class AstraBlocks {
 		omegafactory, uberwall, superRouter, testblaster;
 
 	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
+	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -891,7 +893,7 @@ public class AstraBlocks {
 			maxNodes = 5;
 			laserRange = 26f;
 
-			consumePowerBuffered(5000);
+			consumePowerBuffered(4000);
 
 			squareSprite = false;
 		}};
@@ -1231,6 +1233,24 @@ public class AstraBlocks {
 			);
 		}};
 
+		steamEngine = new ConsumeGenerator("steam-engine") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 120,
+				Items.copper, 160,
+				Items.graphite, 100,
+				Items.plastanium, 90,
+				Items.metaglass, 150
+			));
+			scaledHealth = 60f;
+			size = 3;
+			fogRadius = 3;
+			hasLiquids = true;
+			liquidCapacity = 30f;
+
+			consumeLiquid(AstraFluids.steam, 0.75f);
+			powerProduction = 31f;
+		}};
+
 		crystalReactor = new ScaledConsumeGenerator("crystal-generator") {{
 			requirements(Category.power, ItemStack.with(
 				AstraItems.steel, 175,
@@ -1240,6 +1260,7 @@ public class AstraBlocks {
 				Items.plastanium, 150,
 				Items.silicon, 190
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 65f;
 			size = 3;
 			fogRadius = 3;
@@ -1263,9 +1284,10 @@ public class AstraBlocks {
 				Items.surgeAlloy, 200,
 				AstraItems.vanadium, 240,
 				AstraItems.crystaglass, 180,
-				Items.lead, 350,
+				Items.lead, 400,
 				Items.silicon, 220
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 65f;
 			armor = 2f;
 			size = 4;
@@ -1273,15 +1295,20 @@ public class AstraBlocks {
 			hasPower = true;
 			hasLiquids = outputsLiquid = true;
 			itemCapacity = 20;
-			liquidCapacity = 300f;
-			flags = EnumSet.of(BlockFlag.reactor);
+			liquidCapacity = 450f;
 
-			// consumeItem(hazardItem = AstraItems.nuclearRod); TODO nuclear fuel rod
-			consumeItem(hazardItem = Items.thorium);
-			consumeLiquids(LiquidStack.with(Liquids.water, 2.6f, Liquids.cryofluid, 0.75f));
-			consumePower(6.8f);
+			consumeItem(hazardItem = AstraItems.nuclearRod);
+			consumeLiquid(Liquids.water, 8f / 3f);
+			consumePower(5.2f);
 			craftTime = 480f;
-			outputLiquid = new LiquidStack(AstraFluids.steam, 2.6f);
+			outputLiquid = new LiquidStack(AstraFluids.steam, 8f / 3f);
+
+			coolantCapacity = 120f;
+			coolantThreshhold = 80f;
+			heating = 0.003f;
+			coolantPower = 0.1f;
+			maxCoolantConsumption = 0.75f;
+			noRemoveThreshold = 0.6f;
 
 			explosionRadius = 30;
 			explosionDamage = 10000;
@@ -1308,6 +1335,7 @@ public class AstraBlocks {
 				Items.graphite, 400,
 				AstraItems.lithium, 200
 			));
+			buildCostMultiplier = 1.8f;
 			scaledHealth = 70f;
 			armor = 4f;
 			size = 5;
@@ -1320,6 +1348,10 @@ public class AstraBlocks {
 			powerProduction = 250f;
 			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
 			byproductPoisoning = 0.65f;
+			warmupSpeed = 1f / 1200f;
+
+			coolantCapacity = 60f;
+			coolantConsumption = 0.35f;
 
 			explosionMinWarmup = 0.6f;
 			explosionRadius = 6;
@@ -1338,6 +1370,22 @@ public class AstraBlocks {
 		}};
 
 		// region POWER MODULES
+
+		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 75,
+				Items.metaglass, 100,
+				Items.graphite, 80,
+				Items.titanium, 60
+			));
+			size = 2;
+			fogRadius = 2;
+			liquidCapacity = 50f;
+
+			consumeLiquid(Liquids.cryofluid, 0.3f);
+			consumePower(1.3f);
+			coolantProduction = 0.4f;
+		}};
 
 		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
 			requirements(Category.power, ItemStack.with(
@@ -1367,7 +1415,7 @@ public class AstraBlocks {
 				Items.tungsten, 95,
 				AstraItems.crystaglass, 100,
 				Items.plastanium, 75,
-				Items.phaseFabric, 65
+				Items.phaseFabric, 60
 			));
 			size = 2;
 			fogRadius = 2;
@@ -3411,6 +3459,9 @@ public class AstraBlocks {
 		for (Block block : content.blocks()) {
 			if (block.name.startsWith("astramod-") && block.synthetic()) {
 				azirisBlocks.add(block);
+			}
+			if (block instanceof BaseModularBlock m && m.getModuleTypes().contains(ModularType.cooled)) {
+				cooledBlocks.add(block);
 			}
 		}
 	}

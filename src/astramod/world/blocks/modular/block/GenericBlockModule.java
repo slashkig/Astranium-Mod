@@ -9,11 +9,13 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
 import mindustry.world.draw.*;
+import mindustry.world.meta.BlockStatus;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
 public class GenericBlockModule extends Block implements BlockModule {
-	public Block targetBlockType;
+	public @Nullable Block targetBlockType;
+	public ObjectSet<Block> targetBlocks;
 	public DrawBlock drawer = new DrawDefault();
 
 	public GenericBlockModule(String name) {
@@ -26,7 +28,11 @@ public class GenericBlockModule extends Block implements BlockModule {
 	}
 
 	@Override public void init() {
-		schematicPriority = targetBlockType.schematicPriority - 1;
+		if (targetBlocks == null) targetBlocks = ObjectSet.with(targetBlockType);
+
+		targetBlocks.each(b -> ((BaseModularBlock)b).addValidModule(this));
+		schematicPriority = -9;
+
 		super.init();
 	}
 
@@ -37,10 +43,11 @@ public class GenericBlockModule extends Block implements BlockModule {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
+		if (targetBlockType != null) stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlockType));
+		else stats.add(AstraStat.parentBlocks, AstraStatValues.blocks(targetBlocks.toSeq()));
 	}
 
-	public Block parentBlock() {
+	public Block targetBlock() {
 		return targetBlockType;
 	}
 
@@ -64,12 +71,17 @@ public class GenericBlockModule extends Block implements BlockModule {
 		return canPlaceModule(tile.x, tile.y, rotation);
 	}
 
+	@Override public boolean validBlock(Block block) {
+		return targetBlocks.contains(block);
+	}
+
 	public class GenericModuleBuild extends Building implements ModuleBuild {
 		public @Nullable Building linkedBuild;
 
 		@Override public void onProximityUpdate() {
 			super.onProximityUpdate();
 			if (checkFront(tile.x, tile.y, rotation)) setLinkedBuild(front());
+			else setLinkedBuild(null);
 		}
 
 		@Override public void draw() {
@@ -94,6 +106,10 @@ public class GenericBlockModule extends Block implements BlockModule {
 
 		public void setLinkedBuild(Building build) {
 			linkedBuild = build;
+		}
+
+		@Override public BlockStatus status() {
+			return linkedBuild == null ? BlockStatus.noInput : super.status();
 		}
 	}
 }

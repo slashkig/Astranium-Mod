@@ -66,8 +66,7 @@ public class AstraItems {
 		}};
 
 		nuclearRod = new Item("nuclear-rod") {{
-			hidden = true; // TODO nuclear fuel rod
-			radioactivity = 2f;
+			radioactivity = 4f;
 			buildable = false;
 		}};
 

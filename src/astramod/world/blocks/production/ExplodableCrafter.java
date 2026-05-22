@@ -15,6 +15,7 @@ import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.world.Tile;
 import mindustry.world.blocks.production.*;
 
 import static mindustry.Vars.*;
@@ -22,10 +23,12 @@ import static mindustry.Vars.*;
 /** Modeled after the Thorium Reactor. */
 public class ExplodableCrafter extends GenericCrafter {
 	public float heating = 0.005f;
-	/** Threshold at which block starts smoking */
+	/** Heat threshold at which block starts smoking */
 	public float smokeThreshold = 0.3f;
 	/** Heat threshold at which lights start flashing */
 	public float flashThreshold = 0.5f;
+	/** Heat threshold at which the block cannot be deconstructed */
+	public float noRemoveThreshold = 0.99f;
 
 	public Item hazardItem;
 	public Liquid coolant = Liquids.cryofluid;
@@ -62,6 +65,10 @@ public class ExplodableCrafter extends GenericCrafter {
 		addBar("heat", (ExplodableCrafterBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
 	}
 
+	@Override public boolean canBreak(Tile tile) {
+		return state.rules.infiniteResources || tile.build.cheating() || tile.build instanceof ExplodableCrafterBuild b && b.heat < noRemoveThreshold;
+	}
+
 	public class ExplodableCrafterBuild extends GenericCrafterBuild {
 		public float heat;
 		public float flash;
@@ -71,12 +78,10 @@ public class ExplodableCrafter extends GenericCrafter {
 			super.updateTile();
 
 			if ((!hasPower || power.graph.getSatisfaction() > 0f) && hazardItem != null) {
-				heat += (items.get(hazardItem) / itemCapacity) * heating * Math.min(delta(), 4f);
+				heat += efficiencyScale() * heating * Math.min(delta(), 4f);
 
 				if (heat > 0) {
-					float maxUsed = Math.min(liquids.get(coolant), heat / coolantPower);
-					heat -= maxUsed * coolantPower;
-					liquids.remove(coolant, maxUsed);
+					handleCoolant();
 				}
 
 				if (heat > smokeThreshold) {
@@ -94,9 +99,14 @@ public class ExplodableCrafter extends GenericCrafter {
 			}
 		}
 
-		@Override public double sense(LAccess sensor) {
-			if (sensor == LAccess.heat) return heat;
-			return super.sense(sensor);
+		@Override public float efficiencyScale() {
+			return (float)items.get(hazardItem) / itemCapacity;
+		}
+
+		public void handleCoolant() {
+			float maxUsed = Math.min(liquids.get(coolant), heat / coolantPower);
+			heat -= maxUsed * coolantPower;
+			liquids.remove(coolant, maxUsed);
 		}
 
         @Override public void onDestroyed() {
@@ -140,6 +150,11 @@ public class ExplodableCrafter extends GenericCrafter {
 			}
 
 			Draw.reset();
+		}
+
+		@Override public double sense(LAccess sensor) {
+			if (sensor == LAccess.heat) return heat;
+			return super.sense(sensor);
 		}
 
 		@Override public void write(Writes write) {
