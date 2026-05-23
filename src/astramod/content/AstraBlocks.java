@@ -145,6 +145,7 @@ public class AstraBlocks {
 				Items.titanium, 80,
 				Items.graphite, 75
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 3;
@@ -197,6 +198,7 @@ public class AstraBlocks {
 				Items.plastanium, 75,
 				Items.silicon, 50
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -244,6 +246,7 @@ public class AstraBlocks {
 				Items.titanium, 100,
 				AstraItems.lithium, 75
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -306,6 +309,7 @@ public class AstraBlocks {
 				Items.metaglass, 70,
 				AstraItems.magnetite, 60
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 3;
@@ -355,6 +359,7 @@ public class AstraBlocks {
 
 		magnetiteSynthesizer = new GenericCrafter("magnetite-synthesizer") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.silicon, 40, Items.graphite, 50));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 2;
 			fogRadius = 2;
@@ -402,6 +407,7 @@ public class AstraBlocks {
 				Items.silicon, 100,
 				Items.graphite, 120
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 65f;
 			size = 3;
 			fogRadius = 3;
@@ -466,6 +472,7 @@ public class AstraBlocks {
 				Items.phaseFabric, 50,
 				AstraItems.neodymium, 60
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 70f;
 			size = 3;
 			fogRadius = 3;
@@ -517,6 +524,7 @@ public class AstraBlocks {
 				AstraItems.crystals, 100,
 				Items.thorium, 120
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 60f;
 			armor = 5f;
 			size = 4;
@@ -557,6 +565,7 @@ public class AstraBlocks {
 				Items.silicon, 60,
 				AstraItems.magnetite, 50
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -580,6 +589,7 @@ public class AstraBlocks {
 				AstraItems.magnetite, 125,
 				Items.graphite, 100
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 65f;
 			size = 3;
 			fogRadius = 3;
@@ -617,6 +627,7 @@ public class AstraBlocks {
 				Items.thorium, 90,
 				Items.silicon, 125
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 65f;
 			size = 2;
 			fogRadius = 2;
@@ -648,6 +659,7 @@ public class AstraBlocks {
 				AstraItems.vanadium, 90,
 				Items.silicon, 175
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 65f;
 			size = 3;
 			fogRadius = 3;
@@ -682,6 +694,7 @@ public class AstraBlocks {
 				AstraItems.magnetite, 100,
 				Items.thorium, 120
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 60f;
 			size = 2;
 			fogRadius = 2;
@@ -707,6 +720,7 @@ public class AstraBlocks {
 				AstraItems.neodymium, 140,
 				Items.phaseFabric, 100
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 70f;
 			armor = 2f;
 			size = 3;
@@ -738,6 +752,7 @@ public class AstraBlocks {
 				AstraItems.lithium, 120,
 				Items.thorium, 100
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 65f;
 			armor = 2f;
 			size = 3;
@@ -765,6 +780,7 @@ public class AstraBlocks {
 				AstraItems.neodymium, 175,
 				AstraItems.crystals, 160
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 70f;
 			armor = 6f;
 			size = 4;
@@ -801,6 +817,7 @@ public class AstraBlocks {
 				Items.phaseFabric, 225,
 				AstraItems.neodymium, 200
 			));
+			buildCostMultiplier = 1.6f;
 			scaledHealth = 70f;
 			armor = 5f;
 			size = 4;
@@ -836,6 +853,7 @@ public class AstraBlocks {
 				AstraItems.neodymium, 180,
 				AstraItems.crystals, 300
 			));
+			buildCostMultiplier = 1.7f;
 			scaledHealth = 75f;
 			armor = 8f;
 			size = 4;
@@ -887,6 +905,7 @@ public class AstraBlocks {
 
 		largePowerRelay = new PowerRelay("large-power-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 50, Items.silicon, 25, AstraItems.steel, 20));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 3;
@@ -905,6 +924,7 @@ public class AstraBlocks {
 				AstraItems.steel, 30,
 				AstraItems.crystals, 40
 			));
+			buildCostMultiplier = 1.6f;
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 3;
@@ -945,6 +965,7 @@ public class AstraBlocks {
 				Items.copper, 50,
 				AstraItems.lithium, 60
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 3;
@@ -963,6 +984,7 @@ public class AstraBlocks {
 				AstraItems.vanadium, 90,
 				Items.silicon, 60
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 55f;
 			size = 4;
 			fogRadius = 4;
@@ -982,6 +1004,7 @@ public class AstraBlocks {
 				Items.copper, 200,
 				AstraItems.crystals, 150
 			));
+			buildCostMultiplier = 1.7f;
 			scaledHealth = 65f;
 			size = 4;
 			fogRadius = 4;
@@ -1025,6 +1048,7 @@ public class AstraBlocks {
 
 		windTurbineLarge = new WindGenerator("wind-turbine-large") {{
 			requirements(Category.power, ItemStack.with(AstraItems.iron, 70, Items.copper, 100, Items.silicon, 50));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 45f;
 			size = 3;
 			fogRadius = 3;
@@ -1043,7 +1067,13 @@ public class AstraBlocks {
 		}};
 
 		solarCellLarge = new SolarGenerator("solar-cell-large") {{
-			requirements(Category.power, ItemStack.with(Items.copper, 75, Items.silicon, 100, Items.phaseFabric, 25, AstraItems.lithium, 40));
+			requirements(Category.power, ItemStack.with(
+				Items.copper, 75,
+				Items.silicon, 100,
+				Items.phaseFabric, 25,
+				AstraItems.lithium, 40
+			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 25f;
 			size = 4;
 			fogRadius = 4;
@@ -1051,7 +1081,13 @@ public class AstraBlocks {
 		}};
 
 		solarArray = new SolarGenerator("solar-array") {{
-			requirements(Category.power, ItemStack.with(Items.surgeAlloy, 60, Items.silicon, 160, AstraItems.aerogel, 40, AstraItems.crystaglass, 30));
+			requirements(Category.power, ItemStack.with(
+				Items.surgeAlloy, 60,
+				Items.silicon, 160,
+				AstraItems.aerogel, 40,
+				AstraItems.crystaglass, 30
+			));
+			buildCostMultiplier = 1.8f;
 			scaledHealth = 20f;
 			size = 6;
 			fogRadius = 6;
@@ -1122,6 +1158,7 @@ public class AstraBlocks {
 				Items.graphite, 90,
 				Items.titanium, 40
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 3;
@@ -1152,6 +1189,7 @@ public class AstraBlocks {
 				Items.silicon, 125,
 				AstraItems.lithium, 75
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 3;
@@ -1207,6 +1245,7 @@ public class AstraBlocks {
 				Items.plastanium, 100,
 				AstraItems.lithium, 75
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -1241,6 +1280,7 @@ public class AstraBlocks {
 				Items.plastanium, 90,
 				Items.metaglass, 150
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -1260,7 +1300,7 @@ public class AstraBlocks {
 				Items.plastanium, 150,
 				Items.silicon, 190
 			));
-			buildCostMultiplier = 1.2f;
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 65f;
 			size = 3;
 			fogRadius = 3;
@@ -1287,7 +1327,7 @@ public class AstraBlocks {
 				Items.lead, 400,
 				Items.silicon, 220
 			));
-			buildCostMultiplier = 1.5f;
+			buildCostMultiplier = 1.7f;
 			scaledHealth = 65f;
 			armor = 2f;
 			size = 4;
@@ -1335,7 +1375,7 @@ public class AstraBlocks {
 				Items.graphite, 400,
 				AstraItems.lithium, 200
 			));
-			buildCostMultiplier = 1.8f;
+			buildCostMultiplier = 2f;
 			scaledHealth = 70f;
 			armor = 4f;
 			size = 5;
@@ -1470,6 +1510,7 @@ public class AstraBlocks {
 				Items.graphite, 45,
 				Items.titanium, 35
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 3;
@@ -1500,6 +1541,7 @@ public class AstraBlocks {
 				AstraItems.lithium, 65,
 				Items.silicon, 70
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 60f;
 			size = 4;
 			fogRadius = 4;
@@ -1535,6 +1577,7 @@ public class AstraBlocks {
 				AstraItems.crystals, 85,
 				AstraItems.aerogel, 70
 			));
+			buildCostMultiplier = 1.9f;
 			scaledHealth = 65f;
 			size = 5;
 			fogRadius = 5;
@@ -1582,6 +1625,7 @@ public class AstraBlocks {
 
 		ironBore = new WallDrill("iron-bore") {{
 			requirements(Category.production, ItemStack.with(AstraItems.iron, 35, Items.silicon, 20, Items.graphite, 25));
+			buildCostMultiplier = 1.2f;
 			size = 2;
 			fogRadius = 2;
 			scaledHealth = 50f;
@@ -1608,6 +1652,7 @@ public class AstraBlocks {
 				Items.metaglass, 60,
 				Items.silicon, 55
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 55f;
 			size = 3;
 			fogRadius = 4;
@@ -1633,6 +1678,7 @@ public class AstraBlocks {
 				Items.silicon, 90,
 				AstraItems.neodymium, 60
 			));
+			buildCostMultiplier = 1.9f;
 			scaledHealth = 60f;
 			size = 4;
 			fogRadius = 5;
@@ -1660,6 +1706,7 @@ public class AstraBlocks {
 				Items.metaglass, 150,
 				Items.titanium, 140
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
@@ -1704,6 +1751,7 @@ public class AstraBlocks {
 
 		ironWall = new Wall("iron-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
+			buildCostMultiplier = 1.2f;
 			health = 120 * 4;
 			armor = 2f;
 			fogRadius = 2;
@@ -1711,6 +1759,7 @@ public class AstraBlocks {
 
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
+			buildCostMultiplier = 1.2f;
 			health = 120 * 16;
 			armor = 2f;
 			size = 2;
@@ -1719,6 +1768,7 @@ public class AstraBlocks {
 
 		ironDoor = new AutoDoor("iron-door") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 20, Items.silicon, 10));
+			buildCostMultiplier = 1.2f;
 			health = 115 * 16;
 			armor = 2f;
 			size = 2;
@@ -1727,6 +1777,7 @@ public class AstraBlocks {
 
 		platedTitaniumWall = new Wall("plated-titanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.graphite, 2));
+			buildCostMultiplier = 1.4f;
 			health = 160 * 4;
 			armor = 4f;
 			fogRadius = 2;
@@ -1734,6 +1785,7 @@ public class AstraBlocks {
 
 		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedTitaniumWall.requirements, 4));
+			buildCostMultiplier = 1.4f;
 			health = 160 * 16;
 			armor = 4f;
 			size = 2;
@@ -1742,6 +1794,7 @@ public class AstraBlocks {
 
 		platedPlastaniumWall = new Wall("plated-plastanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.metaglass, 4));
+			buildCostMultiplier = 1.6f;
 			health = 175 * 4;
 			armor = 2f;
 			fogRadius = 2;
@@ -1752,6 +1805,7 @@ public class AstraBlocks {
 
 		platedPlastaniumWallLarge = new Wall("plated-plastanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPlastaniumWall.requirements, 4));
+			buildCostMultiplier = 1.6f;
 			health = 175 * 16;
 			armor = 2f;
 			size = 2;
@@ -1763,6 +1817,7 @@ public class AstraBlocks {
 
 		steelWall = new Wall("steel-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.steel, 8));
+			buildCostMultiplier = 1.7f;
 			health = 220 * 4;
 			armor = 8f;
 			fogRadius = 2;
@@ -1770,6 +1825,7 @@ public class AstraBlocks {
 
 		steelWallLarge = new Wall("steel-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(steelWall.requirements, 4));
+			buildCostMultiplier = 1.7f;
 			health = 220 * 16;
 			armor = 8f;
 			size = 2;
@@ -1778,6 +1834,7 @@ public class AstraBlocks {
 
 		platedThoriumWall = new EffectWall("plated-thorium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.crystals, 2));
+			buildCostMultiplier = 1.8f;
 			health = 205 * 4;
 			armor = 6f;
 			fogRadius = 2;
@@ -1798,6 +1855,7 @@ public class AstraBlocks {
 
 		platedThoriumWallLarge = new EffectWall("plated-thorium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedThoriumWall.requirements, 4));
+			buildCostMultiplier = 1.8f;
 			health = 205 * 16;
 			armor = 6f;
 			size = 2;
@@ -1819,6 +1877,7 @@ public class AstraBlocks {
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, AstraItems.lithium, 6));
+			buildCostMultiplier = 1.9f;
 			health = 280 * 4;
 			armor = 16f;
 			fogRadius = 2;
@@ -1829,6 +1888,7 @@ public class AstraBlocks {
 
 		platedSurgeWallLarge = new Wall("plated-surge-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedSurgeWall.requirements, 4));
+			buildCostMultiplier = 1.9f;
 			health = 280 * 16;
 			armor = 16f;
 			size = 2;
@@ -1840,6 +1900,7 @@ public class AstraBlocks {
 
 		platedPhaseWall = new Wall("plated-phase-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, AstraItems.magnetite, 6));
+			buildCostMultiplier = 2f;
 			health = 190 * 4;
 			armor = 10f;
 			fogRadius = 2;
@@ -1850,6 +1911,7 @@ public class AstraBlocks {
 
 		platedPhaseWallLarge = new Wall("plated-phase-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
+			buildCostMultiplier = 2f;
 			health = 190 * 16;
 			armor = 10f;
 			size = 2;
@@ -1861,6 +1923,7 @@ public class AstraBlocks {
 
 		aerotechWall = new ProjectorWall("aerotech-wall", 1.6f) {{
 			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystaglass, 5));
+			buildCostMultiplier = 2.2f;
 			health = 210 * 4;
 			armor = 12f;
 			fogRadius = 3;
@@ -1875,6 +1938,7 @@ public class AstraBlocks {
 
 		aerotechWallLarge = new ProjectorWall("aerotech-wall-large", 3.2f) {{
 			requirements(Category.defense, ItemStack.mult(aerotechWall.requirements, 4));
+			buildCostMultiplier = 2.2f;
 			health = 210 * 16;
 			armor = 12f;
 			size = 2;
@@ -1890,6 +1954,7 @@ public class AstraBlocks {
 
 		astraniumWall = new EffectWall("astranium-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.crystals, 6, AstraItems.neodymium, 5));
+			buildCostMultiplier = 2.3f;
 			health = 360 * 4;
 			armor = 25f;
 			fogRadius = 2;
@@ -1913,6 +1978,7 @@ public class AstraBlocks {
 
 		astraniumWallLarge = new EffectWall("astranium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(astraniumWall.requirements, 4));
+			buildCostMultiplier = 2.3f;
 			health = 360 * 16;
 			armor = 25f;
 			size = 2;
@@ -1947,6 +2013,7 @@ public class AstraBlocks {
 
 		ironConveyor = new Conveyor("iron-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 1, Items.lead, 1));
+			buildCostMultiplier = 1.2f;
 			health = 60;
 			fogRadius = 1;
 			speed = 0.1f;
@@ -1956,6 +2023,7 @@ public class AstraBlocks {
 
 		durasteelConveyor = new Conveyor("durasteel-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, AstraItems.magnetite, 1, Items.titanium, 1));
+			buildCostMultiplier = 1.5f;
 			health = 180;
 			fogRadius = 1;
 			speed = 0.15f;
@@ -1965,6 +2033,7 @@ public class AstraBlocks {
 
 		platedSteelConveyor = new ArmoredConveyor("plated-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 1, Items.thorium, 1, Items.graphite, 2));
+			buildCostMultiplier = 1.8f;
 			health = 300;
 			armor = 2f;
 			fogRadius = 1;
@@ -1975,6 +2044,7 @@ public class AstraBlocks {
 
 		bulkConveyor = new StackConveyor("bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.plastanium, 1, Items.metaglass, 1, Items.silicon, 1));
+			buildCostMultiplier = 2f;
 			health = 140;
 			armor = 1f;
 			fogRadius = 1;
@@ -1984,6 +2054,7 @@ public class AstraBlocks {
 
 		surgeBulkConveyor = new RailConveyor("surge-bulk-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 1, AstraItems.magnetite, 2, AstraItems.lithium, 2));
+			buildCostMultiplier = 3f;
 			health = 340;
 			armor = 3f;
 			fogRadius = 1;
@@ -2074,6 +2145,7 @@ public class AstraBlocks {
 
 		platedJunction = new Junction("plated-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.graphite, 4));
+			buildCostMultiplier = 1.5f;
 			health = 320;
 			armor = 2f;
 			fogRadius = 1;
@@ -2087,6 +2159,7 @@ public class AstraBlocks {
 
 		platedBridge = new AstraBufferedItemBridge("plated-bridge") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 8, Items.thorium, 6, Items.plastanium, 4));
+			buildCostMultiplier = 1.5f;
 			health = 335;
 			armor = 2f;
 			fogRadius = 2;
@@ -2106,6 +2179,7 @@ public class AstraBlocks {
 
 		platedRouter = new Router("plated-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 3, Items.thorium, 2, AstraItems.magnetite, 2));
+			buildCostMultiplier = 1.5f;
 			health = 350;
 			armor = 3f;
 			fogRadius = 2;
@@ -2115,6 +2189,7 @@ public class AstraBlocks {
 
 		platedDistributor = new Router("plated-distributor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 10, Items.thorium, 8, AstraItems.magnetite, 6));
+			buildCostMultiplier = 1.5f;
 			health = 900;
 			armor = 4f;
 			size = 2;
@@ -2124,6 +2199,7 @@ public class AstraBlocks {
 
 		platedOverflowGate = new OverflowGate("plated-overflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
+			buildCostMultiplier = 1.5f;
 			health = 320;
 			armor = 2f;
 			fogRadius = 2;
@@ -2132,6 +2208,7 @@ public class AstraBlocks {
 
 		platedUnderflowGate = new OverflowGate("plated-underflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 2, Items.thorium, 2, Items.plastanium, 1));
+			buildCostMultiplier = 1.5f;
 			health = 320;
 			armor = 2f;
 			fogRadius = 2;
@@ -2146,6 +2223,7 @@ public class AstraBlocks {
 				Items.silicon, 4,
 				AstraItems.magnetite, 2
 			));
+			buildCostMultiplier = 1.5f;
 			health = 320;
 			armor = 2f;
 			fogRadius = 2;
@@ -2159,6 +2237,7 @@ public class AstraBlocks {
 				Items.silicon, 4,
 				AstraItems.magnetite, 2
 			));
+			buildCostMultiplier = 1.5f;
 			health = 320;
 			armor = 2f;
 			fogRadius = 2;
@@ -2168,6 +2247,7 @@ public class AstraBlocks {
 
 		surgeBulkJunction = new Junction("surge-bulk-junction") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 4, Items.phaseFabric, 2));
+			buildCostMultiplier = 3f;
 			health = 360;
 			armor = 3f;
 			fogRadius = 2;
@@ -2180,6 +2260,7 @@ public class AstraBlocks {
 
 		surgeBulkRouter = new StackRouter("surge-bulk-router") {{
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 10, AstraItems.neodymium, 8, Items.silicon, 16));
+			buildCostMultiplier = 2.5f;
 			health = 680;
 			armor = 4f;
 			fogRadius = 3;
@@ -2219,6 +2300,7 @@ public class AstraBlocks {
 				Items.metaglass, 60,
 				Items.graphite, 35
 			));
+			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 2;
 			fogRadius = 2;
@@ -2241,6 +2323,7 @@ public class AstraBlocks {
 				AstraItems.magnetite, 40,
 				Items.thorium, 50
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 55f;
 			armor = 2f;
 			size = 3;
@@ -2265,6 +2348,7 @@ public class AstraBlocks {
 				Items.graphite, 115,
 				Items.surgeAlloy, 90
 			));
+			buildCostMultiplier = 1.8f;
 			scaledHealth = 60f;
 			armor = 4f;
 			size = 4;
@@ -2290,6 +2374,7 @@ public class AstraBlocks {
 
 		wavePipeline = new Pipeline("wave-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.metaglass, 1, Items.copper, 2, Items.graphite, 1));
+			buildCostMultiplier = 1.2f;
 			health = 120;
 			fogRadius = 1;
 			liquidCapacity = 14f;
@@ -2299,6 +2384,7 @@ public class AstraBlocks {
 
 		jetPipeline = new Pipeline("jet-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.metaglass, 2, Items.titanium, 1, AstraItems.magnetite, 1));
+			buildCostMultiplier = 1.5f;
 			health = 200;
 			fogRadius = 1;
 			liquidCapacity = 18f;
@@ -2309,6 +2395,7 @@ public class AstraBlocks {
 
 		crystalPipeline = new ArmoredPipeline("crystal-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.crystaglass, 2, Items.thorium, 1, Items.plastanium, 1));
+			buildCostMultiplier = 1.8f;
 			health = 310;
 			armor = 2;
 			fogRadius = 1;
@@ -2324,6 +2411,7 @@ public class AstraBlocks {
 				Items.plastanium, 6,
 				AstraItems.neodymium, 2
 			));
+			buildCostMultiplier = 2.2f;
 			health = 820;
 			armor = 4;
 			size = 2;
@@ -2343,6 +2431,7 @@ public class AstraBlocks {
 
 			((Conduit)crudePipeline).junctionReplacement = this;
 			((Conduit)wavePipeline).junctionReplacement = this;
+			((Pipeline)jetPipeline).fallbackJunction = this;
 		}};
 
 		waveBridge = new PipelineBridge("wave-bridge") {{
@@ -2357,6 +2446,7 @@ public class AstraBlocks {
 
 			((Conduit)crudePipeline).bridgeReplacement = this;
 			((Conduit)wavePipeline).bridgeReplacement = this;
+			((Pipeline)jetPipeline).fallbackBridge = this;
 		}};
 
 		waveRouter = new PipelineRouter("wave-router") {{
@@ -2370,6 +2460,7 @@ public class AstraBlocks {
 
 		crystalJunction = new PipelineJunction("crystal-junction") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.crystaglass, 6, Items.thorium, 2, Items.plastanium, 4));
+			buildCostMultiplier = 1.6f;
 			health = 340;
 			armor = 2;
 			fogRadius = 1;
@@ -2389,6 +2480,7 @@ public class AstraBlocks {
 				Items.plastanium, 8,
 				AstraItems.magnetite, 4
 			));
+			buildCostMultiplier = 1.6f;
 			health = 350;
 			armor = 3;
 			fogRadius = 2;
@@ -2409,6 +2501,7 @@ public class AstraBlocks {
 				Items.plastanium, 4,
 				AstraItems.magnetite, 2
 			));
+			buildCostMultiplier = 1.6f;
 			health = 350;
 			armor = 3;
 			fogRadius = 2;
@@ -2424,6 +2517,7 @@ public class AstraBlocks {
 				Items.plastanium, 15,
 				AstraItems.neodymium, 6
 			));
+			buildCostMultiplier = 2.4f;
 			health = 850;
 			armor = 4;
 			size = 2;
@@ -2442,6 +2536,7 @@ public class AstraBlocks {
 				Items.plastanium, 10,
 				AstraItems.neodymium, 8
 			));
+			buildCostMultiplier = 2.4f;
 			health = 850;
 			armor = 6;
 			size = 2;
@@ -2470,6 +2565,7 @@ public class AstraBlocks {
 				Items.titanium, 40,
 				AstraItems.magnetite, 25
 			));
+			buildCostMultiplier = 1.4f;
 			scaledHealth = 70f;
 			armor = 3f;
 			size = 3;
@@ -2488,6 +2584,7 @@ public class AstraBlocks {
 				AstraItems.neodymium, 40,
 				Items.plastanium, 80
 			));
+			buildCostMultiplier = 1.8f;
 			scaledHealth = 80f;
 			armor = 6f;
 			size = 4;
@@ -2546,6 +2643,7 @@ public class AstraBlocks {
 
 		storageModuleLarge = new GenericCoreModule("module-storage-large") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.steel, 175, Items.titanium, 80));
+			buildCostMultiplier = 1.4f;
 			size = 3;
 			scaledHealth = 65f;
 			itemCapacity = 1500;
@@ -2618,6 +2716,7 @@ public class AstraBlocks {
 				Items.silicon, 100,
 				Items.titanium, 40
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 45f;
 			size = 3;
 			itemCapacity = 60;
@@ -2633,6 +2732,7 @@ public class AstraBlocks {
 				Items.silicon, 75,
 				AstraItems.lithium, 50
 			));
+			buildCostMultiplier = 1.3f;
 			scaledHealth = 55f;
 			size = 3;
 			itemCapacity = 40;
@@ -2648,6 +2748,7 @@ public class AstraBlocks {
 				Items.silicon, 85,
 				Items.metaglass, 60
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 50f;
 			size = 3;
 			numUnits = 2;
@@ -2662,6 +2763,7 @@ public class AstraBlocks {
 				AstraItems.magnetite, 65,
 				Items.titanium, 80
 			));
+			buildCostMultiplier = 1.5f;
 
 			ammo(
 				Items.graphite, new ArtilleryBulletType(3.6f, 40) {{
@@ -2781,6 +2883,7 @@ public class AstraBlocks {
 				Items.plastanium, 50,
 				Items.graphite, 75
 			));
+			buildCostMultiplier = 1.5f;
 			scaledHealth = 55f;
 			armor = 1f;
 			size = 2;
@@ -2801,6 +2904,7 @@ public class AstraBlocks {
 				Items.phaseFabric, 80,
 				Items.lead, 200
 			));
+			buildCostMultiplier = 1.7f;
 			scaledHealth = 60f;
 			size = 3;
 			itemCapacity = 20;
@@ -2821,6 +2925,7 @@ public class AstraBlocks {
 
 		platedVault = new AstraStorageBlock("plated-vault") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.steel, 200, Items.titanium, 75));
+			buildCostMultiplier = 1.4f;
 			size = 3;
 			fogRadius = 3;
 			scaledHealth = 70f;
@@ -2830,6 +2935,7 @@ public class AstraBlocks {
 
 		platedCrypt = new AstraStorageBlock("plated-crypt") {{
 			requirements(Category.effect, ItemStack.with(Items.tungsten, 350, Items.thorium, 125));
+			buildCostMultiplier = 1.8f;
 			size = 4;
 			fogRadius = 4;
 			scaledHealth = 80f;
@@ -2882,6 +2988,7 @@ public class AstraBlocks {
 				Items.silicon, 80,
 				Items.lead, 120
 			));
+			buildCostMultiplier = 1.6f;
 			size = 3;
 			fogRadius = 6;
 			scaledHealth = 90f;
@@ -2906,6 +3013,7 @@ public class AstraBlocks {
 				Items.copper, 50,
 				Items.silicon, 20
 			));
+			buildCostMultiplier = 1.4f;
 			size = 2;
 			fogRadius = 40;
 			rotateSpeed = 4f;
@@ -2921,6 +3029,7 @@ public class AstraBlocks {
 				AstraItems.magnetite, 45,
 				AstraItems.vanadium, 30
 			));
+			buildCostMultiplier = 1.8f;
 			scaledHealth = 45f;
 			size = 3;
 			fogRadius = 75;
@@ -2980,6 +3089,7 @@ public class AstraBlocks {
 
 		magneticMine = new LandMine("magnetic-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 18));
+			buildCostMultiplier = 2.5f;
 			size = 2;
 			health = 100;
 
@@ -3248,6 +3358,8 @@ public class AstraBlocks {
 				Items.metaglass, 85,
 				Items.titanium, 55
 			));
+			buildCostMultiplier = 1.4f;
+
 			ammo(
 				AstraItems.iron, new BoltBulletType(10f, 150) {{
 					height = 17f;
