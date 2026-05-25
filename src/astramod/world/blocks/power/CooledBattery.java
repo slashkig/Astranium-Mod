@@ -18,10 +18,12 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import astramod.world.blocks.modular.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class CooledBattery extends Battery {
+public class CooledBattery extends Battery implements BaseModularBlock {
     /** how quickly instability moves towards 1 per frame */
 	public float unstableSpeed = 0.006f;
     /** how quickly instability moves towards 0 when cooled, per frame */
@@ -54,6 +56,8 @@ public class CooledBattery extends Battery {
 	public float flashScl = 1f;
 	public float glowAlpha = 0.6f;
 
+	protected Seq<Block> validModules = new Seq<>();
+
 	public CooledBattery(String name) {
 		super(name);
 		hasLiquids = true;
@@ -73,12 +77,30 @@ public class CooledBattery extends Battery {
 		coreGlowRegion = Core.atlas.find(name + "-core-glow");
 	}
 
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.unstableSpeed, 6000f * unstableSpeed, AstraStatUnit.percentSecond);
+		stats.add(AstraStat.moduleBlocks, AstraStatValues.blocks(validModules));
+	}
+
 	@Override public void setBars() {
 		super.setBars();
 		addBar("instability", (CooledBatteryBuild entity) -> new Bar("bar.instability", Pal.sap, () -> entity.instability));
 	}
 
-	public class CooledBatteryBuild extends BatteryBuild {
+	public Seq<Block> getValidModules() {
+		return validModules;
+	}
+
+	public void addValidModule(Block block) {
+		validModules.add(block);
+	}
+
+	public EnumSet<ModularType> getModuleTypes() {
+		return EnumSet.of(ModularType.heat);
+	}
+
+	public class CooledBatteryBuild extends BatteryBuild implements HeatedBuild {
 		public float instability = 0f;
 		public float flash;
 		public float smoothLight;
@@ -191,6 +213,14 @@ public class CooledBattery extends Battery {
 					Effect.shake(explosionShake * powerStatus, explosionShakeDuration, this);
 				}
 			}
+		}
+
+		public float getHeatFrac() {
+			return instability;
+		}
+
+		public void handleHeat(float amount) {
+			instability += amount;
 		}
 
 		@Override public void write(Writes write) {

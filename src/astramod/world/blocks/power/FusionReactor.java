@@ -36,8 +36,8 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 
 		if (coolantCapacity > 0f) {
 			stats.add(AstraStat.coolantCapacity, coolantCapacity, StatUnit.liquidUnits);
-			stats.add(AstraStat.coolantConsumption, coolantConsumption * 60f, StatUnit.liquidSecond);
 			stats.add(AstraStat.coolantBoost, coolantBoost * 100f, StatUnit.percent);
+			stats.add(AstraStat.coolantConsumption, coolantConsumption * 60f, StatUnit.liquidSecond);
 		}
 
 		stats.add(AstraStat.rampupTime, 1f / (60f * warmupSpeed), StatUnit.seconds);
@@ -91,7 +91,7 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 			productionEfficiency = Mathf.pow(warmup, 5f) *
 				(1f - byproductPoisoning * liquids.get(byproductLiquid.liquid) / liquidCapacity + boostFactor);
 
-			coolant = Math.min(coolant - coolantConsumption * warmup * edelta(), 0f);
+			coolant = Mathf.maxZero(coolant - coolantConsumption * warmup * edelta());
 
 			if (byproductLiquid != null) {
 				liquids.add(byproductLiquid.liquid, Math.min(

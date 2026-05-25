@@ -17,6 +17,8 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.Tile;
 import mindustry.world.blocks.production.*;
+import astramod.world.blocks.modular.HeatedBuild;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -60,6 +62,11 @@ public class ExplodableCrafter extends GenericCrafter {
 		lightsRegion = Core.atlas.find(name + "-lights");
 	}
 
+	@Override public void setStats() {
+		super.setStats();
+		stats.add(AstraStat.heatSpeed, 6000f * heating, AstraStatUnit.percentSecond);
+	}
+
 	@Override public void setBars() {
 		super.setBars();
 		addBar("heat", (ExplodableCrafterBuild entity) -> new Bar("bar.heat", Pal.lightOrange, () -> entity.heat));
@@ -69,7 +76,7 @@ public class ExplodableCrafter extends GenericCrafter {
 		return state.rules.infiniteResources || tile.build.cheating() || tile.build instanceof ExplodableCrafterBuild b && b.heat < noRemoveThreshold;
 	}
 
-	public class ExplodableCrafterBuild extends GenericCrafterBuild {
+	public class ExplodableCrafterBuild extends GenericCrafterBuild implements HeatedBuild {
 		public float heat;
 		public float flash;
 		public float smoothLight;
@@ -99,38 +106,6 @@ public class ExplodableCrafter extends GenericCrafter {
 			}
 		}
 
-		@Override public float efficiencyScale() {
-			return (float)items.get(hazardItem) / itemCapacity;
-		}
-
-		public void handleCoolant() {
-			float maxUsed = Math.min(liquids.get(coolant), heat / coolantPower);
-			heat -= maxUsed * coolantPower;
-			liquids.remove(coolant, maxUsed);
-		}
-
-        @Override public void onDestroyed() {
-            super.onDestroyed();
-
-            if (state.rules.reactorExplosions && warmup >= explosionMinWarmup && (items.get(hazardItem) >= 5 || heat >= 0.5f)) {
-				if (explosionDamage > 0) {
-					Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
-				}
-
-				explodeEffect.at(this);
-				explodeSound.at(this);
-
-				if(explosionShake > 0) {
-					Effect.shake(explosionShake, explosionShakeDuration, this);
-				}
-			}
-		}
-
-		@Override public void drawLight() {
-			smoothLight = Mathf.lerpDelta(smoothLight, efficiency, 0.08f);
-			Drawf.light(x, y, (90f + Mathf.absin(5, 5f)) * smoothLight, Tmp.c1.set(lightColor).lerp(Color.scarlet, heat), 0.6f * smoothLight);
-		}
-
 		@Override public void draw() {
 			super.draw();
 
@@ -150,6 +125,46 @@ public class ExplodableCrafter extends GenericCrafter {
 			}
 
 			Draw.reset();
+		}
+
+		@Override public void drawLight() {
+			smoothLight = Mathf.lerpDelta(smoothLight, efficiency, 0.08f);
+			Drawf.light(x, y, (90f + Mathf.absin(5, 5f)) * smoothLight, Tmp.c1.set(lightColor).lerp(Color.scarlet, heat), 0.6f * smoothLight);
+		}
+
+		@Override public void onDestroyed() {
+			super.onDestroyed();
+
+			if (state.rules.reactorExplosions && warmup >= explosionMinWarmup && (items.get(hazardItem) >= 5 || heat >= 0.5f)) {
+				if (explosionDamage > 0) {
+					Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
+				}
+
+				explodeEffect.at(this);
+				explodeSound.at(this);
+
+				if(explosionShake > 0) {
+					Effect.shake(explosionShake, explosionShakeDuration, this);
+				}
+			}
+		}
+
+		@Override public float efficiencyScale() {
+			return (float)items.get(hazardItem) / itemCapacity;
+		}
+
+		public void handleCoolant() {
+			float maxUsed = Math.min(liquids.get(coolant), heat / coolantPower);
+			heat -= maxUsed * coolantPower;
+			liquids.remove(coolant, maxUsed);
+		}
+
+		public float getHeatFrac() {
+			return heat;
+		}
+
+		public void handleHeat(float amount) {
+			heat += amount;
 		}
 
 		@Override public double sense(LAccess sensor) {

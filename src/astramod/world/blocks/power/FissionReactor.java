@@ -10,8 +10,7 @@ import mindustry.world.meta.*;
 import astramod.math.Mathx;
 import astramod.world.blocks.modular.*;
 import astramod.world.blocks.production.*;
-import astramod.world.meta.AstraStat;
-import astramod.world.meta.AstraStatValues;
+import astramod.world.meta.*;
 
 public class FissionReactor extends ExplodableCrafter implements BaseModularBlock {
 	/** Minimum coolant for 100% cooling effectiveness. */
@@ -24,10 +23,6 @@ public class FissionReactor extends ExplodableCrafter implements BaseModularBloc
 	public FissionReactor(String name) {
 		super(name);
 		flags = EnumSet.of(BlockFlag.reactor);
-	}
-
-	@Override public void init() {
-		super.init();
 	}
 
 	@Override public void setStats() {

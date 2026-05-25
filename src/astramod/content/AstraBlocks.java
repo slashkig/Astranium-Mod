@@ -50,7 +50,8 @@ public class AstraBlocks {
 	public static Block
 		hardstone, hardstoneWall, bedrock, bedrockWall,
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
-		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, plasmaEnergizer, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, vacuumChamber, astraniumForge,
+		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor,
+		plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer, vacuumChamber, astraniumForge,
 		wireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
@@ -58,7 +59,7 @@ public class AstraBlocks {
 		coolantPump, thermalSink, nuclearSteamTower, heliumCooler, hydrogenBreeder, heliumDiverter,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
-		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, phaseDoor, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		ironUnloader,
@@ -76,6 +77,7 @@ public class AstraBlocks {
 
 	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
 	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();
+	public static final ObjectSet<Block> heatedBlocks = new ObjectSet<>();
 
 	public static void load() {
 		Log.info("Loading blocks");
@@ -650,42 +652,6 @@ public class AstraBlocks {
 			craftEffect = Fx.smeltsmoke;
 		}};
 
-		plasmaEnergizer = new BoostableCrafter("plasma-energizer") {{
-			requirements(Category.crafting, ItemStack.with(
-				AstraItems.steel, 160,
-				AstraItems.crystaglass, 125,
-				Items.plastanium, 110,
-				AstraItems.magnetite, 140,
-				AstraItems.vanadium, 90,
-				Items.silicon, 175
-			));
-			buildCostMultiplier = 1.4f;
-			scaledHealth = 65f;
-			size = 3;
-			fogRadius = 3;
-			hasPower = hasItems = true;
-			hasLiquids = outputsLiquid = true;
-			liquidCapacity = 100f;
-
-			warmupSpeed = 0.008f;
-			consumeItem(AstraItems.crystals, 2);
-			consumeLiquid(Liquids.hydrogen, 2f / 3f);
-			consumePower(7.2f);
-			craftTime = 40f;
-			outputLiquid = new LiquidStack(AstraFluids.plasma, 1f / 3f);
-
-			drawer = new DrawMulti(
-				new DrawRegion("-bottom"),
-				new DrawLiquidTile(Liquids.water),
-				new DrawLiquidTile(AstraFluids.plasma) {{ drawLiquidLight = true; }},
-				new DrawPlasmaBall(),
-				new DrawDefault()
-			);
-
-			ambientSound = Sounds.flux;
-			ambientSoundVolume = 0.3f;
-		}};
-
 		phaseWeaver = new GenericCrafter("phase-weaver") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 180,
@@ -806,6 +772,64 @@ public class AstraBlocks {
 			ambientSound = Sounds.smelter;
 			ambientSoundVolume = 0.3f;
 			craftEffect = Fx.smeltsmoke;
+		}};
+
+		enrichmentPlant = new GenericCrafter("enrichment-plant") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 180,
+				Items.silicon, 160,
+				Items.lead, 200,
+				AstraItems.lithium, 140,
+				AstraItems.vanadium, 115,
+				Items.graphite, 150
+			));
+			buildCostMultiplier = 1.3f;
+			scaledHealth = 60f;
+			size = 3;
+			fogRadius = 3;
+			hasPower = hasItems = true;
+			itemCapacity = 20;
+
+			consumeItems(ItemStack.with(Items.thorium, 5, Items.graphite, 3, Items.metaglass, 2));
+			consumePower(6.4f);
+			craftTime = 360f;
+			outputItem = new ItemStack(AstraItems.nuclearRod, 1);
+		}};
+
+		plasmaEnergizer = new BoostableCrafter("plasma-energizer") {{
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.steel, 160,
+				AstraItems.crystaglass, 125,
+				Items.plastanium, 110,
+				AstraItems.magnetite, 140,
+				AstraItems.vanadium, 90,
+				Items.silicon, 175
+			));
+			buildCostMultiplier = 1.4f;
+			scaledHealth = 65f;
+			size = 3;
+			fogRadius = 3;
+			hasPower = hasItems = true;
+			hasLiquids = outputsLiquid = true;
+			liquidCapacity = 100f;
+
+			warmupSpeed = 0.008f;
+			consumeItem(AstraItems.crystals, 2);
+			consumeLiquid(Liquids.hydrogen, 2f / 3f);
+			consumePower(7.2f);
+			craftTime = 40f;
+			outputLiquid = new LiquidStack(AstraFluids.plasma, 1f / 3f);
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawLiquidTile(Liquids.water),
+				new DrawLiquidTile(AstraFluids.plasma) {{ drawLiquidLight = true; }},
+				new DrawPlasmaBall(),
+				new DrawDefault()
+			);
+
+			ambientSound = Sounds.flux;
+			ambientSoundVolume = 0.3f;
 		}};
 
 		vacuumChamber = new GenericCrafter("vacuum-chamber") {{
@@ -1276,7 +1300,7 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(
 				AstraItems.steel, 120,
 				Items.copper, 160,
-				Items.graphite, 100,
+				AstraItems.magnetite, 100,
 				Items.plastanium, 90,
 				Items.metaglass, 150
 			));
@@ -1346,7 +1370,7 @@ public class AstraBlocks {
 			coolantCapacity = 120f;
 			coolantThreshhold = 80f;
 			heating = 0.003f;
-			coolantPower = 0.1f;
+			coolantPower = 0.04f;
 			maxCoolantConsumption = 0.75f;
 			noRemoveThreshold = 0.6f;
 
@@ -1373,7 +1397,7 @@ public class AstraBlocks {
 				AstraItems.neodymium, 240,
 				AstraItems.crystaglass, 250,
 				Items.graphite, 400,
-				AstraItems.lithium, 200
+				AstraItems.lithium, 260
 			));
 			buildCostMultiplier = 2f;
 			scaledHealth = 70f;
@@ -1411,12 +1435,27 @@ public class AstraBlocks {
 
 		// region POWER MODULES
 
+		thermalSink = new HeatsinkBlockModule("module-thermal-sink") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 60,
+				Items.copper, 100,
+				Items.graphite, 80,
+				Items.plastanium, 50
+			));
+			size = 2;
+			fogRadius = 2;
+
+			heatConduction = 0.005f;
+			heatDecay = 1f / 2700f;
+			heatOutput = 10f;
+		}};
+
 		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
 			requirements(Category.power, ItemStack.with(
-				AstraItems.steel, 75,
+				AstraItems.steel, 80,
 				Items.metaglass, 100,
-				Items.graphite, 80,
-				Items.titanium, 60
+				AstraItems.magnetite, 60,
+				Items.titanium, 70
 			));
 			size = 2;
 			fogRadius = 2;
@@ -1425,6 +1464,22 @@ public class AstraBlocks {
 			consumeLiquid(Liquids.cryofluid, 0.3f);
 			consumePower(1.3f);
 			coolantProduction = 0.4f;
+		}};
+
+		nuclearSteamTower = new GeneratorBlockModule("module-steam-tower") {{
+			requirements(Category.power, ItemStack.with(
+				AstraItems.steel, 140,
+				AstraItems.crystaglass, 90,
+				Items.plastanium, 120,
+				Items.surgeAlloy, 75,
+				AstraItems.neodymium, 50
+			));
+			size = 3;
+			fogRadius = 3;
+			targetBlockType = fissionReactor;
+
+			consumeLiquid(AstraFluids.steam, 2.6f);
+			powerProduction = 135f;
 		}};
 
 		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
@@ -3572,8 +3627,10 @@ public class AstraBlocks {
 			if (block.name.startsWith("astramod-") && block.synthetic()) {
 				azirisBlocks.add(block);
 			}
-			if (block instanceof BaseModularBlock m && m.getModuleTypes().contains(ModularType.cooled)) {
-				cooledBlocks.add(block);
+			if (block instanceof BaseModularBlock m) {
+				var types = m.getModuleTypes();
+				if (types.contains(ModularType.cooled)) cooledBlocks.add(block);
+				if (types.contains(ModularType.heat)) heatedBlocks.add(block);
 			}
 		}
 	}
