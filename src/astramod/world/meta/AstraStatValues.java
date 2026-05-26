@@ -94,7 +94,7 @@ public class AstraStatValues {
 		};
 	}
 
-	public static StatValue mine(LandMine mine, int indent) {
+	public static StatValue mine(Mine mine, int indent) {
 		return table -> {
 			table.row();
 

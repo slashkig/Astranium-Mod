@@ -28,6 +28,7 @@ public class AstraStat {
 		incendivity = new Stat("incendivity", StatCat.function),
 		lightningCount = new Stat("lightningCount", StatCat.function),
 		lightningDamage = new Stat("lightningDamage", StatCat.function),
+		damageResistance = new Stat("damageResistance", StatCat.function),
 		wireCost = new Stat("wireCost", StatCat.function),
 		parentBlock = new Stat("parentBlock", StatCat.general),
 		parentBlocks = new Stat("parentBlocks", StatCat.general),

@@ -59,7 +59,8 @@ public class AstraBlocks {
 		coolantPump, thermalSink, nuclearSteamTower, heliumCooler, hydrogenBreeder, heliumDiverter,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
-		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, phaseDoor, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge,
+		platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, phaseDoor, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		ironUnloader,
@@ -1976,6 +1977,19 @@ public class AstraBlocks {
 			flashHit = true;
 		}};
 
+		phaseDoor = new AutoDoor("phase-door") {{
+			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 32, AstraItems.vanadium, 20));
+			health = 185 * 16;
+			armor = 10f;
+			size = 2;
+			fogRadius = 2;
+
+			chanceDeflect = 12f;
+			flashHit = true;
+			doorSound = Sounds.none;
+			triggerMargin = 8f;
+		}};
+
 		aerotechWall = new ProjectorWall("aerotech-wall", 1.6f) {{
 			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystaglass, 5));
 			buildCostMultiplier = 2.2f;
@@ -2409,6 +2423,7 @@ public class AstraBlocks {
 			size = 4;
 			fogRadius = 4;
 			hasPower = true;
+			placeableLiquid = true;
 			liquidCapacity = 120f;
 
 			consumePower(3.4f);
@@ -3093,7 +3108,22 @@ public class AstraBlocks {
 			consumePower(3.1f);
 		}};
 
-		incendiaryMine = new LandMine("incendiary-mine") {{
+		navalMine = new Mine("naval-mine") {{
+				requirements(Category.effect, ItemStack.with(AstraItems.iron, 12, Items.blastCompound, 18));
+				size = 2;
+				health = 140;
+
+				placeableLiquid = true;
+				createRubble = false;
+				explodePower = 80f;
+				damageResistFactor = 0.2f;
+			}
+			@Override public boolean validTile(Tile tile) {
+				return tile.floor().isLiquid && tile.floor().liquidDrop == Liquids.water;
+			}
+		};
+
+		incendiaryMine = new Mine("incendiary-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 18));
 
 			explodeRadius = 2f;
@@ -3103,7 +3133,7 @@ public class AstraBlocks {
 			status = StatusEffects.burning;
 		}};
 
-		blastMine = new LandMine("blast-mine") {{
+		blastMine = new Mine("blast-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 18));
 
 			explodeRadius = 3f;
@@ -3113,7 +3143,7 @@ public class AstraBlocks {
 			status = StatusEffects.blasted;
 		}};
 
-		fragMine = new LandMine("frag-mine") {{
+		fragMine = new Mine("frag-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 8, Items.blastCompound, 10, Items.plastanium, 8));
 
 			explodeRadius = 1.5f;
@@ -3131,22 +3161,24 @@ public class AstraBlocks {
 			}};
 		}};
 
-		surgeMine = new LandMine("surge-mine") {{
+		surgeMine = new Mine("surge-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 18));
 
 			explodeRadius = 1f;
 			explodePower = 25f;
 			numLightning = 10;
 			lightningDamage = 30f;
+			lightningLength = 10;
 			status = StatusEffects.shocked;
 			statusDuration = 480f;
 		}};
 
-		magneticMine = new LandMine("magnetic-mine") {{
+		magneticMine = new Mine("magnetic-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 18));
 			buildCostMultiplier = 2.5f;
 			size = 2;
-			health = 100;
+			health = 120;
+			armor = 1;
 
 			explodeRadius = 8f;
 			explodePower = 30f;

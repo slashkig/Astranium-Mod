@@ -15,23 +15,25 @@ import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.world.*;
+import mindustry.world.meta.StatUnit;
 import astramod.graphics.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class LandMine extends Block {
+public class Mine extends Block {
 	public float explodePower = 50f;
 	public float explodeRadius = 2.5f;
 	public float explodeFire = 0f;
 	public float knockback = 0f;
+	public float damageResistFactor = 0.5f;
 
 	public StatusEffect status = StatusEffects.none;
 	public float statusDuration = 240f;
 
 	public int numLightning = 0;
-	public float lightningDamage = 20f;
-	public int lightningLength = 10;
+	public float lightningDamage;
+	public int lightningLength;
 	public Color lightningColor = Pal.surge;
 
 	public @Nullable BulletType bullet;
@@ -40,7 +42,7 @@ public class LandMine extends Block {
 
 	public float teamAlpha = 0.3f;
 
-	public LandMine(String name) {
+	public Mine(String name) {
 		super(name);
 		update = false;
 		destructible = true;
@@ -53,6 +55,7 @@ public class LandMine extends Block {
 
 	@Override public void setStats() {
 		super.setStats();
+		stats.add(AstraStat.damageResistance, 100f * (1f - damageResistFactor), StatUnit.percent);
 		stats.add(AstraStat.detonation, AstraStatValues.mine(this, 0));
 	}
 
@@ -61,7 +64,9 @@ public class LandMine extends Block {
 	}
 
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
-		if (tile.floor().isLiquid) return false;
+		for (Tile t : tile.getLinkedTilesAs(this, tempTiles)) {
+			if (!validTile(t)) return false;
+		}
 
 		for (Point2 edge : Edges.getEdges(size)) {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof LandMineBuild) return false;
@@ -69,8 +74,12 @@ public class LandMine extends Block {
 		return true;
 	}
 
+	public boolean validTile(Tile tile) {
+		return !tile.floor().isLiquid;
+	}
+
 	@Override public boolean canReplace(Block other) {
-		return other.alwaysReplace || !other.privileged && other != this && other instanceof LandMine;
+		return other.alwaysReplace || !other.privileged && other != this && other instanceof Mine;
 	}
 
 	@Override public void changePlacementPath(Seq<Point2> points, int rotation) {
@@ -99,7 +108,7 @@ public class LandMine extends Block {
 		}
 
 		@Override public void damage(float damage) {
-			super.damage(damage / 2f);
+			super.damage(damage * damageResistFactor);
 		}
 
 		@Override public void control(LAccess type, double p1, double p2, double p3, double p4) {
