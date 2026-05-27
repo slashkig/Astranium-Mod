@@ -1,5 +1,6 @@
 package astramod.world.blocks.modular.block;
 
+import arc.Core;
 import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
@@ -28,6 +29,7 @@ public class GenericBlockModule extends Block implements BlockModule {
 	}
 
 	@Override public void init() {
+		localizedName = Core.bundle.get("module").replace("{0}", localizedName);
 		if (targetBlocks == null) targetBlocks = ObjectSet.with(targetBlockType);
 
 		targetBlocks.each(b -> ((BaseModularBlock)b).addValidModule(this));

@@ -21,19 +21,21 @@ import static mindustry.Vars.*;
 
 public class PowerRelay extends PowerNode {
 	public float warmupSpeed = 0.02f;
-	public float glowAlpha = 0.75f;
-	public float glowMag = 0.25f;
-	public float glowScl = 60f;
+	public float glowAlpha = 0.75f, glowMag = 0.25f, glowScl = 60f;
 	public TextureRegion glowRegion, laserGlow, laserGlowEnd;
+	public boolean storesPower = true;
 
 	public PowerRelay(String name) {
 		super(name);
-		consumesPower = true;
-		outputsPower = true;
 
 		laserScale = 0.5f;
 		laserColor1 = Color.white;
 		laserColor2 = AstraPal.powerGlow;
+	}
+
+	@Override public void init() {
+		super.init();
+		consumesPower = outputsPower = storesPower;
 	}
 
 	@Override public void load() {
@@ -49,7 +51,7 @@ public class PowerRelay extends PowerNode {
 	@Override public void setBars() {
 		super.setBars();
 
-		if (consPower != null && consPower.buffered) {
+		if (storesPower) {
 			float capacity = consPower.capacity;
 
 			addBar("internalpower", entity -> new Bar(
@@ -183,17 +185,20 @@ public class PowerRelay extends PowerNode {
 		}
 
 		@Override public void overwrote(Seq<Building> previous) {
-			for (Building other : previous) {
-				if (other.power != null && other.block.consPower != null && other.block.consPower.buffered) {
-					float amount = other.block.consPower.capacity * other.power.status;
-					power.status = Mathf.clamp(power.status + amount / consPower.capacity);
+			if (storesPower) {
+				for (Building other : previous) {
+					if (other.power != null && other.block.consPower != null && other.block.consPower.buffered) {
+						float amount = other.block.consPower.capacity * other.power.status;
+						power.status = Mathf.clamp(power.status + amount / consPower.capacity);
+					}
 				}
 			}
 		}
 
 		@Override public BlockStatus status() {
-			if (Mathf.equal(power.status, 0f, 0.001f)) return BlockStatus.noInput;
-			if (Mathf.equal(power.status, 1f, 0.001f)) return BlockStatus.active;
+			if (!storesPower) return super.status();
+			else if (Mathf.equal(power.status, 0f, 0.001f)) return BlockStatus.noInput;
+			else if (Mathf.equal(power.status, 1f, 0.001f)) return BlockStatus.active;
 			return BlockStatus.noOutput;
 		}
 	}

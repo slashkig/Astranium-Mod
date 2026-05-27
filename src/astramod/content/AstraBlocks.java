@@ -72,7 +72,7 @@ public class AstraBlocks {
 		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
 		mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
-		incendiaryMine, blastMine, largeBlastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
+		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
 		omegafactory, uberwall, superRouter, testblaster;
 
@@ -1051,8 +1051,8 @@ public class AstraBlocks {
 
 		// region GENERATORS
 
-		waterMill = new WaterGenerator("water-turbine") {{ // TODO full implementation
-			requirements(Category.power, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.hematite, 90, Items.copper, 50));
+		waterMill = new WaterGenerator("water-turbine") {{
+			requirements(Category.power, BuildVisibility.hidden, ItemStack.with(AstraItems.hematite, 90, Items.copper, 50));
 			size = 3;
 			fogRadius = 3;
 
@@ -1334,7 +1334,7 @@ public class AstraBlocks {
 
 			consumeItem(targetItem = AstraItems.crystals);
 			itemDuration = 1200f;
-			powerProduction = 1.5f;
+			powerProduction = 1.25f;
 
 			drawer = new DrawMultiIntegrated(1,
 				new DrawCrystal(),
@@ -1406,12 +1406,12 @@ public class AstraBlocks {
 			size = 5;
 			fogRadius = 5;
 			hasItems = false;
-			liquidCapacity = 150f;
+			liquidCapacity = 200f;
 
-			consumeLiquid(AstraFluids.plasma, 0.5f);
+			consumeLiquid(AstraFluids.plasma, 5f / 6f);
 			consumePower(125f / 6f);
 			powerProduction = 250f;
-			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
+			byproductLiquid = new LiquidStack(AstraFluids.helium, 5f / 12f);
 			byproductPoisoning = 0.65f;
 			warmupSpeed = 1f / 1200f;
 
@@ -1449,6 +1449,8 @@ public class AstraBlocks {
 			heatConduction = 0.005f;
 			heatDecay = 1f / 2700f;
 			heatOutput = 10f;
+
+			drawer = new DrawMultiIntegrated(new DrawHeatOutput());
 		}};
 
 		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
@@ -1481,6 +1483,16 @@ public class AstraBlocks {
 
 			consumeLiquid(AstraFluids.steam, 2.6f);
 			powerProduction = 135f;
+
+			drawer = new DrawMultiIntegrated(new DrawSideRegion(), new DrawEmitSmoke() {{
+				color = Color.valueOf("e9e9e9");
+				alpha = 0.6f;
+				particles = 15;
+				particleLife = 150f;
+				particleRad = 6f;
+				particleSize = 3f;
+				addSizeMult = 0.6f;
+			}});
 		}};
 
 		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
@@ -1495,7 +1507,7 @@ public class AstraBlocks {
 			liquidCapacity = 30f;
 			targetBlockType = fusionReactor;
 
-			extractLiquid = new LiquidStack(AstraFluids.helium, 0.3f);
+			extractLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -3028,7 +3040,7 @@ public class AstraBlocks {
 		}};
 
 		mendNode = new AstraMendProjector("mend-node") {{
-			requirements(Category.effect, ItemStack.with(
+			requirements(Category.effect, BuildVisibility.hidden, ItemStack.with(
 				AstraItems.iron, 75,
 				Items.metaglass, 40,
 				Items.silicon, 50,
@@ -3147,7 +3159,7 @@ public class AstraBlocks {
 			requirements(Category.effect, ItemStack.with(Items.silicon, 8, Items.blastCompound, 10, Items.plastanium, 8));
 
 			explodeRadius = 1.5f;
-			explodePower = 50f;
+			explodePower = 30f;
 			knockback = 5f;
 			shots = 8;
 			shotInaccuracy = 10f;
@@ -3161,13 +3173,26 @@ public class AstraBlocks {
 			}};
 		}};
 
+		largeFragMine = new Mine("frag-mine-large") {{
+			requirements(Category.effect, ItemStack.with(Items.silicon, 24, Items.blastCompound, 28, Items.plastanium, 32));
+			size = 2;
+			health = 100;
+
+			explodeRadius = 2f;
+			explodePower = 45f;
+			knockback = 6f;
+			shots = 32;
+			shotInaccuracy = 10f;
+			bullet = ((Mine)fragMine).bullet;
+		}};
+
 		surgeMine = new Mine("surge-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 18));
 
 			explodeRadius = 1f;
 			explodePower = 25f;
 			numLightning = 10;
-			lightningDamage = 30f;
+			lightningDamage = 36f;
 			lightningLength = 10;
 			status = StatusEffects.shocked;
 			statusDuration = 480f;

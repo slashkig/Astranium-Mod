@@ -1,5 +1,6 @@
 package astramod.world.blocks.modular.block;
 
+import arc.Core;
 import arc.graphics.g2d.Draw;
 import arc.math.geom.*;
 import arc.util.*;
@@ -29,6 +30,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 	}
 
 	@Override public void init() {
+		localizedName = Core.bundle.get("module").replace("{0}", localizedName);
 		((BaseModularBlock)targetBlockType).addValidModule(this);
 		schematicPriority = -9;
 		super.init();

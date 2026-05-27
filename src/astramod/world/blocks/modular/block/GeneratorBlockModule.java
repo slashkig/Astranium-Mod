@@ -2,6 +2,7 @@ package astramod.world.blocks.modular.block;
 
 import static mindustry.Vars.tilesize;
 
+import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
@@ -28,6 +29,7 @@ public class GeneratorBlockModule extends ConsumeGenerator implements BlockModul
 	}
 
 	@Override public void init() {
+		localizedName = Core.bundle.get("module").replace("{0}", localizedName);
 		((BaseModularBlock)targetBlockType).addValidModule(this);
 		schematicPriority = -9;
 		super.init();

@@ -82,10 +82,11 @@ public class AstraStatValues {
 		return table -> {
 			StatValues.ammo(map, indent, showUnit).display(table);
 			var orderedKeys = map.keys().toSeq().sort();
+			int offset = table.getCells().size - orderedKeys.size;
 
 			for (int i = 0; i < orderedKeys.size; i++) {
 				BulletType bullet = map.get(orderedKeys.get(i));
-				Table entry = (Table)table.getCells().get(i + 1).get();
+				Table entry = (Table)table.getCells().get(i + offset).get();
 
 				if (bullet instanceof BoltBulletType bt) {
 					addRow(entry, "stat.armorpenetration", bt.armorPenetration, true);
@@ -176,7 +177,7 @@ public class AstraStatValues {
 		return table -> {
 			table.row().table(t -> {
 				blocks.each(b -> {
-					block(b).display(t);
+					block(b, Strings.format("block.@.name", b.name)).display(t);
 					t.row();
 				});
 			});

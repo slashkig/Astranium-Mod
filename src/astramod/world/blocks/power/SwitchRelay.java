@@ -10,6 +10,8 @@ public class SwitchRelay extends PowerRelay {
 	public SwitchRelay(String name) {
 		super(name);
 		drawDisabled = true;
+		storesPower = false;
+
 		config(Boolean.class, (SwitchRelayBuild relay, Boolean state) -> relay.setActive(state));
 	}
 
