@@ -22,6 +22,8 @@ public class AstraWeathers {
 	public static WindLogic windManager;
 
 	public static void load() {
+		Log.info("Loading weathers");
+
 		Weathers.rain.attrs.set(wind, 0.2f);
 		Weathers.snow.attrs.set(wind, 0.4f);
 		Weathers.sandstorm.attrs.set(wind, 1f);
