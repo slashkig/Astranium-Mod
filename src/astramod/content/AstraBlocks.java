@@ -2,7 +2,7 @@ package astramod.content;
 
 import arc.util.*;
 import arc.graphics.*;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
 import mindustry.world.*;
@@ -22,6 +22,7 @@ import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.entities.part.DrawPart.*;
 import mindustry.entities.pattern.*;
+import mindustry.entities.units.*;
 import mindustry.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
@@ -31,6 +32,7 @@ import astramod.entities.part.*;
 import astramod.graphics.*;
 import astramod.world.draw.*;
 import astramod.world.meta.*;
+import astramod.world.blocks.GenericBlock;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.defense.turrets.*;
 import astramod.world.blocks.distribution.*;
@@ -74,7 +76,7 @@ public class AstraBlocks {
 		mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
-		omegafactory, uberwall, superRouter, testblaster;
+		omegafactory, uberwall, superRouter, testblaster, bouncyOhno;
 
 	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
 	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();
@@ -1058,7 +1060,7 @@ public class AstraBlocks {
 
 			powerProduction = 2.2f;
 
-			drawer = new DrawMultiIntegrated(1, new DrawFrames() {{ frames = 6; sine = false; }});
+			drawer = new DrawMultiIntegrated(1, new DrawRegion() {{ suffix = "-frame0"; }});
 		}};
 
 		windTurbine = new WindGenerator("wind-turbine") {{
@@ -1438,7 +1440,7 @@ public class AstraBlocks {
 
 		thermalSink = new HeatsinkBlockModule("module-thermal-sink") {{
 			requirements(Category.power, ItemStack.with(
-				AstraItems.steel, 60,
+				AstraItems.iron, 75,
 				Items.copper, 100,
 				Items.graphite, 80,
 				Items.plastanium, 50
@@ -1467,6 +1469,13 @@ public class AstraBlocks {
 			consumeLiquid(Liquids.cryofluid, 0.3f);
 			consumePower(1.3f);
 			coolantProduction = 0.4f;
+
+			drawer = new DrawMultiIntegrated(2,
+				new DrawLiquidRegion(Liquids.cryofluid),
+				new DrawVerticalPump() {{ suffix = "-rotator"; maxScale = 1.1f; cycleTime = 120f; downTime = 0.5f; }},
+				//new DrawRegion("-rotator", 1, true),
+				new DrawSideRegion()
+			);
 		}};
 
 		nuclearSteamTower = new GeneratorBlockModule("module-steam-tower") {{
@@ -1484,7 +1493,7 @@ public class AstraBlocks {
 			consumeLiquid(AstraFluids.steam, 2.6f);
 			powerProduction = 135f;
 
-			drawer = new DrawMultiIntegrated(new DrawSideRegion(), new DrawEmitSmoke() {{
+			drawer = new DrawMultiIntegrated(new DrawEmitSmoke() {{
 				color = Color.valueOf("e9e9e9");
 				alpha = 0.6f;
 				particles = 15;
@@ -1514,6 +1523,7 @@ public class AstraBlocks {
 				new DrawLiquidTile(AstraFluids.helium),
 				new DrawRegion("-rotator", 5, true),
 				new DrawDefault(),
+				new DrawSideRegion() { @Override public TextureRegion[] icons(Block block) { return new TextureRegion[0]; }},
 				new DrawRegion("-top")
 			);
 		}};
@@ -1535,6 +1545,8 @@ public class AstraBlocks {
 			craftTime = 300f;
 			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
 			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
+
+			drawer = new DrawMultiIntegrated(new DrawSideRegion(), new DrawGlowRegion());
 		}};
 
 		// region DRILLS
@@ -2158,7 +2170,7 @@ public class AstraBlocks {
 			((Conveyor)ironConveyor).junctionReplacement = this;
 		}};
 
-		ironBridge = new BufferedItemBridge("iron-bridge") {{
+		ironBridge = new AstraItemBridge("iron-bridge") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 6, Items.lead, 6));
 			health = 70;
 			fogRadius = 2;
@@ -2238,7 +2250,7 @@ public class AstraBlocks {
 			((Conveyor)platedSteelConveyor).junctionReplacement = this;
 		}};
 
-		platedBridge = new AstraBufferedItemBridge("plated-bridge") {{
+		platedBridge = new AstraItemBridge("plated-bridge") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.steel, 8, Items.thorium, 6, Items.plastanium, 4));
 			buildCostMultiplier = 1.5f;
 			health = 335;
@@ -3690,5 +3702,13 @@ public class AstraBlocks {
 				if (types.contains(ModularType.heat)) heatedBlocks.add(block);
 			}
 		}
+
+		bouncyOhno = new GenericBlock("ohno") {{
+			requirements(Category.logic, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1));
+			health = 1;
+			drawer = new DrawVerticalPump() {{ downTime = 0.5f; }
+				@Override public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) { block.drawDefaultPlanRegion(plan, list); }
+			};
+		}};
 	}
 }

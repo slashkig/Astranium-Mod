@@ -34,8 +34,8 @@ public class PowerRelay extends PowerNode {
 	}
 
 	@Override public void init() {
-		super.init();
 		consumesPower = outputsPower = storesPower;
+		super.init();
 	}
 
 	@Override public void load() {

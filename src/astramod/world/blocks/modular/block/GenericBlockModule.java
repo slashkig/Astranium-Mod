@@ -1,28 +1,24 @@
 package astramod.world.blocks.modular.block;
 
 import arc.Core;
-import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
-import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.world.*;
-import mindustry.world.draw.*;
 import mindustry.world.meta.BlockStatus;
+import astramod.world.blocks.GenericBlock;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
-public class GenericBlockModule extends Block implements BlockModule {
+public class GenericBlockModule extends GenericBlock implements BlockModule {
 	public @Nullable Block targetBlockType;
 	public ObjectSet<Block> targetBlocks;
-	public DrawBlock drawer = new DrawDefault();
 
 	public GenericBlockModule(String name) {
 		super(name);
 		update = true;
-		solid = true;
 		rotate = true;
 		rotateDraw = false;
 		outputFacing = false;
@@ -36,11 +32,6 @@ public class GenericBlockModule extends Block implements BlockModule {
 		schematicPriority = -9;
 
 		super.init();
-	}
-
-	@Override public void load() {
-		super.load();
-		drawer.load(this);
 	}
 
 	@Override public void setStats() {
@@ -57,18 +48,6 @@ public class GenericBlockModule extends Block implements BlockModule {
 		return false;
 	}
 
-	@Override public TextureRegion[] icons() {
-		return drawer.finalIcons(this);
-	}
-
-	@Override public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
-		drawer.drawPlan(this, plan, list);
-	}
-
-	@Override public void getRegionsToOutline(Seq<TextureRegion> out) {
-		drawer.getRegionsToOutline(this, out);
-	}
-
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
 		return canPlaceModule(tile.x, tile.y, rotation);
 	}
@@ -77,17 +56,13 @@ public class GenericBlockModule extends Block implements BlockModule {
 		return targetBlocks.contains(block);
 	}
 
-	public class GenericModuleBuild extends Building implements ModuleBuild {
+	public class GenericModuleBuild extends GenericBuild implements ModuleBuild {
 		public @Nullable Building linkedBuild;
 
 		@Override public void onProximityUpdate() {
 			super.onProximityUpdate();
 			if (checkFront(tile.x, tile.y, rotation)) setLinkedBuild(front());
 			else setLinkedBuild(null);
-		}
-
-		@Override public void draw() {
-			drawer.draw(this);
 		}
 
 		@Override public void drawSelect() {

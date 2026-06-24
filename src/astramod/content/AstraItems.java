@@ -65,7 +65,7 @@ public class AstraItems {
 			cost = 1.5f;
 		}};
 
-		nuclearRod = new Item("nuclear-rod") {{
+		nuclearRod = new Item("nuclear-rod", Color.valueOf("5e988d")) {{
 			radioactivity = 4f;
 			buildable = false;
 		}};
