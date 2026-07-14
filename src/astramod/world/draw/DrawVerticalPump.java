@@ -10,11 +10,15 @@ import mindustry.world.draw.*;
 
 /** Draws an pump cycle with 4 phases: still -> up -> rotate -> down */
 public class DrawVerticalPump extends DrawBlock {
+	/** Amount of frames one spin cycle takes. */
 	public float cycleTime = 60f;
+	/** Scale of the sprite when in the up phase. */
 	public float maxScale = 1.5f;
-	public boolean rotate = true;
 	/** Speed of the down phase in proportion to the other phases. */
 	public float downTime = 1f;
+
+	public float layer = Layer.blockOver;
+	public boolean rotate = true;
 
 	public String suffix = "-top";
 	public TextureRegion topRegion;
@@ -29,6 +33,8 @@ public class DrawVerticalPump extends DrawBlock {
 
 	@Override public void draw(Building build) {
 		float progress = (3f + downTime) * (build.totalProgress() % cycleTime) / cycleTime;
+		Draw.z(layer);
+
 		if (progress <= 1f) {
 			// Still phase
 			Draw.rect(topRegion, build.x, build.y);
@@ -48,6 +54,8 @@ public class DrawVerticalPump extends DrawBlock {
 			Draw.scl(scl, scl);
 			Draw.rect(topRegion, build.x, build.y);
 		}
+
 		Draw.scl();
+		Draw.z();
 	}
 }

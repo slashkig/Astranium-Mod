@@ -1309,13 +1309,32 @@ public class AstraBlocks {
 			));
 			buildCostMultiplier = 1.4f;
 			scaledHealth = 60f;
-			size = 3;
-			fogRadius = 3;
+			size = 4;
+			fogRadius = 4;
 			hasLiquids = true;
 			liquidCapacity = 30f;
 
 			consumeLiquid(AstraFluids.steam, 0.75f);
 			powerProduction = 31f;
+			warmupSpeed = 0.01f;
+
+			drawer = new DrawMulti(
+				new DrawRegion("-bottom"),
+				new DrawBlurSpin("-rotator", 6f) {{ blurThresh = 0.95f; }},
+				new DrawEmitSmoke() {{
+					color = AstraFluids.steam.color;
+					particles = 30;
+					particleRad = 12f;
+					particleSize = 2.5f;
+					rotateScl = 0.3f;
+					layer = -1;
+					particleInterp = new Interp.PowOut(2);
+				}},
+				new DrawDefault(),
+				new DrawPistons() {{ sinOffset = Mathf.PI * 2f; sinScl = 4f; sinMag = 1f; }}
+				// new DrawTopHeat() {{ alphaScl = 20f; alphaMag = 0.5f; maxAlpha = 0.5f; }},
+				// new DrawGlowRegion() {{ alpha = 0.6f; }}
+			);
 		}};
 
 		crystalReactor = new ScaledConsumeGenerator("crystal-generator") {{
@@ -1488,6 +1507,7 @@ public class AstraBlocks {
 			));
 			size = 3;
 			fogRadius = 3;
+			scaledHealth = 125f;
 			targetBlockType = fissionReactor;
 
 			consumeLiquid(AstraFluids.steam, 2.6f);
@@ -1640,7 +1660,7 @@ public class AstraBlocks {
 			drillMultipliers.put(AstraItems.lithium, 0.8f);
 			drillMultipliers.put(AstraItems.neodymium, 0.75f);
 
-			rotateSpeed = 5.5f;
+			rotateSpeed = 6f;
 			drawRim = true;
 			heatColor = AstraPal.plasmaGlowBlue;
 			updateEffect = AstraFx.pulverizePurple;
@@ -1675,7 +1695,7 @@ public class AstraBlocks {
 			hardnessDrillMultiplier = 35f;
 			drillMultipliers.put(AstraItems.lithium, 0.9f);
 
-			rotateSpeed = 6.5f;
+			rotateSpeed = 7f;
 			drawRim = true;
 			heatColor = AstraPal.plasmaGlowBlue;
 			updateEffect = AstraFx.pulverizePurple;

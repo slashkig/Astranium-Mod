@@ -41,7 +41,7 @@ public class AstraItemBridge extends BufferedItemBridge {
 	}
 
 	@Override public boolean rotatedOutput(int x, int y) {
-		return ((ItemBridgeBuild)Vars.world.build(x, y)).link != -1;
+		return Vars.world.build(x, y) instanceof ItemBridgeBuild bridge && bridge.link != -1;
 	}
 
 	public class AstraItemBridgeBuild extends BufferedItemBridgeBuild {
