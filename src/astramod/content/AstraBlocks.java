@@ -1404,8 +1404,7 @@ public class AstraBlocks {
 				new DrawRegion("-bottom"),
 				new DrawLiquidTile(Liquids.water),
 				new DrawLiquidTile(AstraFluids.steam),
-				new DrawRegion("-mid"),
-				new DrawLiquidRegion(Liquids.cryofluid) {{ suffix = "-mid"; }},
+				new DrawGlowRegion("-glow") {{ color = Color.cyan; glowIntensity = 0.3f; layer = Layer.block; }},
 				new DrawDefault()
 			);
 			ambientSound = Sounds.hum;
