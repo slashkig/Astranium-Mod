@@ -640,6 +640,7 @@ public class AstraBlocks {
 			itemCapacity = 20;
 
 			consumeItems(ItemStack.with(AstraItems.crystals, 1, Items.metaglass, 4));
+			consumeLiquid(Liquids.hydrogen, 5);
 			consumePower(6.6f);
 			craftTime = 75f;
 			outputItem = new ItemStack(AstraItems.crystaglass, 1);
@@ -797,6 +798,11 @@ public class AstraBlocks {
 			consumePower(6.4f);
 			craftTime = 360f;
 			outputItem = new ItemStack(AstraItems.nuclearRod, 1);
+
+			drawer = new DrawMulti( // idk how to do pistons slash will do it instead
+				new DrawGlowRegion("-glow") {{ color = Color.cyan; glowIntensity = 0.3f; layer = Layer.blockOver; }},
+				new DrawDefault()
+			);
 		}};
 
 		plasmaEnergizer = new BoostableCrafter("plasma-energizer") {{
