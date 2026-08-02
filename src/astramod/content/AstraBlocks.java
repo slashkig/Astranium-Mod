@@ -640,7 +640,9 @@ public class AstraBlocks {
 			itemCapacity = 20;
 
 			consumeItems(ItemStack.with(AstraItems.crystals, 1, Items.metaglass, 4));
-			consumeLiquid(Liquids.hydrogen, 0.1f);
+			// consumeLiquid takes the amount in game ticks, so a value of 1f would take about 60 liquid in game
+			// We divide our desired amount by 60f to get our target liquid consumption per second
+			consumeLiquid(Liquids.hydrogen, 5f / 60f);
 			consumePower(6.6f);
 			craftTime = 75f;
 			outputItem = new ItemStack(AstraItems.crystaglass, 1);
@@ -1476,7 +1478,7 @@ public class AstraBlocks {
 			heatDecay = 1f / 2700f;
 			heatOutput = 10f;
 
-			drawer = new DrawMultiIntegrated(new DrawHeatOutput());
+			drawer = new DrawMultiIntegrated(new DrawHeatOutput(), new DrawHeatRegion("-heat"));
 		}};
 
 		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
@@ -1497,7 +1499,7 @@ public class AstraBlocks {
 			drawer = new DrawMultiIntegrated(2,
 				new DrawLiquidRegion(Liquids.cryofluid),
 				new DrawVerticalPump() {{ suffix = "-rotator"; maxScale = 1.1f; cycleTime = 120f; downTime = 0.5f; }},
-				//new DrawRegion("-rotator", 1, true),
+				new DrawRegion("-rotator", 1, true),
 				new DrawSideRegion()
 			);
 		}};
