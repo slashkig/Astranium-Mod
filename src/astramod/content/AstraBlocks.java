@@ -1490,6 +1490,7 @@ public class AstraBlocks {
 			fogRadius = 2;
 			liquidCapacity = 50f;
 
+			warmupSpeed = 0.003f;
 			consumeLiquid(Liquids.cryofluid, 0.3f);
 			consumePower(1.3f);
 			coolantProduction = 0.4f;
@@ -2242,14 +2243,14 @@ public class AstraBlocks {
 		}};
 
 		ironSorter = new Sorter("iron-sorter") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
+			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.copper, 3));
 			health = 70;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
 
 		invertedIronSorter = new Sorter("inverted-iron-sorter") {{
-			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.graphite, 1));
+			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.copper, 3));
 			health = 70;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
