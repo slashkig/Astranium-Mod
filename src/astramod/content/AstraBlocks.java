@@ -54,11 +54,11 @@ public class AstraBlocks {
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor,
 		plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer, vacuumChamber, astraniumForge,
-		wireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
+		wireRelay, largeWireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
 		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
-		coolantPump, thermalSink, nuclearSteamTower, heliumCooler, hydrogenBreeder, heliumDiverter,
+		coolantPump, thermalSink, nuclearSteamTower, heliumPump, hydrogenBreeder, heliumDiverter,
 		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
 		compactPump, turbinePump, jetstreamPump, tidalPump,
 		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge,
@@ -921,7 +921,17 @@ public class AstraBlocks {
 		wireRelay = new WireRelay("cable-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 24, AstraItems.hematite, 16));
 			size = 2;
-			fogRadius = 3;
+			fogRadius = 4;
+			wireRange = 9;
+		}};
+
+		largeWireRelay = new WireRelay("large-cable-relay") {{
+			requirements(Category.power, ItemStack.with(Items.copper, 60, AstraItems.steel, 30, Items.titanium, 20));
+			buildCostMultiplier = 1.3f;
+			scaledHealth = 50f;
+			size = 3;
+			fogRadius = 5;
+			wireRange = 15;
 		}};
 
 		powerRelay = new PowerRelay("power-relay") {{
@@ -958,7 +968,7 @@ public class AstraBlocks {
 				AstraItems.crystals, 40
 			));
 			buildCostMultiplier = 1.6f;
-			scaledHealth = 55f;
+			scaledHealth = 60f;
 			size = 3;
 			fogRadius = 3;
 			maxNodes = 2;
@@ -1490,7 +1500,7 @@ public class AstraBlocks {
 			fogRadius = 2;
 			liquidCapacity = 50f;
 
-			warmupSpeed = 0.003f;
+			warmupSpeed = 1f / 330f;
 			consumeLiquid(Liquids.cryofluid, 0.3f);
 			consumePower(1.3f);
 			coolantProduction = 0.4f;
@@ -1530,11 +1540,35 @@ public class AstraBlocks {
 			}});
 		}};
 
+		heliumPump = new CoolantBlockModule("module-helium-pump") {{
+			requirements(Category.power, BuildVisibility.hidden, ItemStack.with(
+				Items.tungsten, 90,
+				Items.metaglass, 150,
+				AstraItems.magnetite, 80,
+				Items.phaseFabric, 75
+			));
+			size = 2;
+			fogRadius = 2;
+			liquidCapacity = 60f;
+			targetBlockType = fissionReactor;
+
+			warmupSpeed = 1f / 150f;
+			consumeLiquid(AstraFluids.helium, 0.4f);
+			consumePower(2.1f);
+			coolantProduction = 0.8f;
+
+			drawer = new DrawMultiIntegrated(2,
+				new DrawLiquidRegion(AstraFluids.helium),
+				new DrawRegion("-rotator", 1, true),
+				new DrawSideRegion()
+			);
+		}};
+
 		heliumDiverter = new ExtractorBlockModule("module-helium-diverter") {{
 			requirements(Category.power, ItemStack.with(
 				Items.tungsten, 80,
-				Items.metaglass, 120,
-				Items.silicon, 90,
+				AstraItems.crystaglass, 90,
+				Items.silicon, 120,
 				AstraItems.magnetite, 100
 			));
 			size = 2;

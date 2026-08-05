@@ -106,7 +106,7 @@ public class WireRelay extends PowerBlock {
 	@Override public void init() {
 		super.init();
 		clipSize = Math.max(clipSize, wireRange * tilesize * 2);
-		boundsRect = Mathx.squareRect(Mathx.oddEven(size) - wireRange - 1, wireRange * 2 - Mathx.oddEven(size) + 0.1f);
+		boundsRect = Mathx.squareRect((size / 2) - wireRange - 1, wireRange * 2 + size);
 		sourceRect = Mathx.squareRect(-(size + 1) / 2, size - 1);
 	}
 
@@ -152,7 +152,7 @@ public class WireRelay extends PowerBlock {
 
 		Lines.stroke(1f);
 		Draw.color(Pal.placing);
-		Lines.square(x * tilesize + offset, y * tilesize + offset, wireRange * tilesize);
+		Lines.square(x * tilesize + offset, y * tilesize + offset, visualRange());
 		Draw.reset();
 
 		getPotentialLinks(world.tile(x, y), player.team());
@@ -182,6 +182,10 @@ public class WireRelay extends PowerBlock {
 			});
 		}
 		tempBuilds.sort(b -> tile.dst(b));
+	}
+
+	public float visualRange() {
+		return tilesize * (wireRange + size / 2f);
 	}
 
 	/** Checks adjacent chunks for connections for a newly placed block. */
@@ -266,19 +270,19 @@ public class WireRelay extends PowerBlock {
 		@Override public void drawSelect() {
 			super.drawSelect();
 			drawWiring();
-			Drawf.square(x, y, wireRange * tilesize * Mathf.sqrt2, 0f);
+			Drawf.square(x, y, visualRange() * Mathf.sqrt2, 0f);
 		}
 
 		@Override public void drawConfigure() {
 			Draw.z(Layer.blockUnder + 0.1f);
 			Draw.color(Pal.accentBack, 0.2f);
-			Fill.square(x, y, wireRange * tilesize);
+			Fill.square(x, y, visualRange());
 			Draw.color();
 			Draw.z(Layer.blockOver);
 			drawWiring();
 			Draw.rect(region, x, y);
 			super.drawConfigure();
-			Drawf.square(x, y, wireRange * tilesize * Mathf.sqrt2, 0f);
+			Drawf.square(x, y, visualRange() * Mathf.sqrt2, 0f);
 			if (lastSelected != null) {
 				Draw.color(configuring ? Pal.accentBack : Pal.accent);
 				Lines.circle(
@@ -301,11 +305,11 @@ public class WireRelay extends PowerBlock {
 		}
 
 		public float wireDrawX(float rx) {
-			return x + (rx + 0.5f) * tilesize;
+			return x + (rx + (size % 2 == 0 ? 0.5f : 1f)) * tilesize;
 		}
 
 		public float wireDrawY(float ry) {
-			return y + (ry + 0.5f) * tilesize;
+			return y + (ry + (size % 2 == 0 ? 0.5f : 1f)) * tilesize;
 		}
 
 		/** Offsets x-coordinates for arrays (no negative values). */
