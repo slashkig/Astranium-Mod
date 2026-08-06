@@ -800,6 +800,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.nuclearRod, 1);
 
 			drawer = new DrawMultiIntegrated(//2,
+				new DrawTopHeat(),
 				new DrawGlowRegion("-glow") {{ color = Color.cyan; glowIntensity = 0.3f; layer = Layer.blockOver; }}
 				/*new DrawVerticalPump() {{ maxScale = 1.2f; rotate = false; cycleTime = 120f; }}*/
 			);
@@ -1486,7 +1487,7 @@ public class AstraBlocks {
 			heatDecay = 1f / 2700f;
 			heatOutput = 10f;
 
-			drawer = new DrawMultiIntegrated(new DrawHeatOutput());
+			drawer = new DrawMultiIntegrated(new DrawHeatOutput(0, true));
 		}};
 
 		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
