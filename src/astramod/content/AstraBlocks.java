@@ -634,8 +634,8 @@ public class AstraBlocks {
 			));
 			buildCostMultiplier = 1.4f;
 			scaledHealth = 65f;
-			size = 2;
-			fogRadius = 2;
+			size = 4;
+			fogRadius = 4;
 			hasPower = hasItems = true;
 			itemCapacity = 20;
 
@@ -1433,7 +1433,7 @@ public class AstraBlocks {
 				AstraItems.astranium, 300,
 				Items.surgeAlloy, 220,
 				AstraItems.neodymium, 240,
-				AstraItems.crystaglass, 250,
+				AstraItems.crystaglass, 350,
 				Items.graphite, 400,
 				AstraItems.lithium, 260
 			));
@@ -1487,7 +1487,7 @@ public class AstraBlocks {
 			heatDecay = 1f / 2700f;
 			heatOutput = 10f;
 
-			drawer = new DrawMultiIntegrated(new DrawHeatOutput(0, true));
+			drawer = new DrawMultiIntegrated(new DrawHeatOutput());
 		}};
 
 		coolantPump = new CoolantBlockModule("module-coolant-pump") {{
@@ -2062,7 +2062,7 @@ public class AstraBlocks {
 			flashHit = true;
 		}};
 
-		phaseDoor = new AutoDoor("phase-door") {{
+		phaseDoor = new PhaseDoor("phase-door") {{
 			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 32, AstraItems.vanadium, 20));
 			health = 185 * 16;
 			armor = 10f;
@@ -2214,7 +2214,7 @@ public class AstraBlocks {
 			fogRadius = 1;
 			speed = 0.08f;
 			itemCapacity = 20;
-			buildCostMultiplier = 1.5f;
+			floating = true;
 		}};
 
 		// region DISTRIBUTION
@@ -3113,7 +3113,7 @@ public class AstraBlocks {
 		}};
 
 		mendNode = new AstraMendProjector("mend-node") {{
-			requirements(Category.effect, BuildVisibility.hidden, ItemStack.with(
+			requirements(Category.effect, BuildVisibility.sandboxOnly, ItemStack.with(
 				AstraItems.iron, 75,
 				Items.metaglass, 40,
 				Items.silicon, 50,
@@ -3194,19 +3194,18 @@ public class AstraBlocks {
 		}};
 
 		navalMine = new Mine("naval-mine") {{
-				requirements(Category.effect, ItemStack.with(AstraItems.iron, 12, Items.blastCompound, 18));
-				size = 2;
-				health = 140;
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 12, Items.blastCompound, 18));
+			size = 2;
+			health = 140;
+			placeableLiquid = requiresWater = true;
 
-				placeableLiquid = true;
-				createRubble = false;
-				explodePower = 80f;
-				damageResistFactor = 0.2f;
-			}
-			@Override public boolean validTile(Tile tile) {
-				return tile.floor().isLiquid && tile.floor().liquidDrop == Liquids.water;
-			}
-		};
+			explodePower = 80f;
+			damageResistFactor = 0.75f;
+
+			cloaked = true;
+			createRubble = false;
+			drawAlpha = 0.5f;
+		}};
 
 		incendiaryMine = new Mine("incendiary-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 18));

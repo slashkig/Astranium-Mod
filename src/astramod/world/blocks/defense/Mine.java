@@ -40,7 +40,8 @@ public class Mine extends Block {
 	public int shots = 0;
 	public float shotInaccuracy = 0f;
 
-	public float teamAlpha = 0.3f;
+	public float drawAlpha = 1f;
+	public boolean cloaked = false;
 
 	public Mine(String name) {
 		super(name);
@@ -51,6 +52,11 @@ public class Mine extends Block {
 		underBullets = true;
 		squareSprite = false;
 		hasShadow = false;
+	}
+
+	@Override public void init() {
+		super.init();
+		if (cloaked) drawTeamOverlay = false;
 	}
 
 	@Override public void setStats() {
@@ -75,7 +81,7 @@ public class Mine extends Block {
 	}
 
 	public boolean validTile(Tile tile) {
-		return !tile.floor().isLiquid;
+		return placeableLiquid || !tile.floor().isLiquid;
 	}
 
 	@Override public boolean canReplace(Block other) {
@@ -97,10 +103,18 @@ public class Mine extends Block {
 	}
 
 	@Override public int minimapColor(Tile tile) {
-		return AstraPal.teamFaded[tile.team().id].rgba();
+		return (!cloaked || tile.team() == player.team() ? AstraPal.teamFaded[tile.team().id] : tile.floor().mapColor).rgba();
 	}
 
 	public class LandMineBuild extends Building {
+		@Override public void draw() {
+			if (!cloaked || team == player.team()) {
+				Draw.alpha(drawAlpha);
+				super.draw();
+				Draw.reset();
+			}
+		}
+
 		@Override public void drawCracks() { }
 
 		@Override public void unitOn(Unit unit) {
