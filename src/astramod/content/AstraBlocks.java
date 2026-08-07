@@ -634,14 +634,14 @@ public class AstraBlocks {
 			));
 			buildCostMultiplier = 1.4f;
 			scaledHealth = 65f;
-			size = 4;
-			fogRadius = 4;
+			size = 3;
+			fogRadius = 6;
 			hasPower = hasItems = true;
-			itemCapacity = 20;
+			itemCapacity = 30;
 
-			consumeItems(ItemStack.with(AstraItems.crystals, 1, Items.metaglass, 4));
+			consumeItems(ItemStack.with(AstraItems.crystals, 3, Items.metaglass, 8));
 			consumeLiquid(Liquids.hydrogen, 5f / 60f);
-			consumePower(6.6f);
+			consumePower(13.0f);
 			craftTime = 75f;
 			outputItem = new ItemStack(AstraItems.crystaglass, 1);
 
