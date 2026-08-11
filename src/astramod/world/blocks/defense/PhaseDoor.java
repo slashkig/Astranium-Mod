@@ -13,6 +13,11 @@ public class PhaseDoor extends AutoDoor {
 	public PhaseDoor(String name) {
 		super(name);
 	}
+
+	@Override public void load() {
+		super.load();
+		if (!openRegion.found()) openRegion = region;
+	}
 	
 	public class PhaseDoorBuild extends AutoDoorBuild {
 		@Override public void draw() {

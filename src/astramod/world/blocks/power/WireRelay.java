@@ -106,7 +106,7 @@ public class WireRelay extends PowerBlock {
 	@Override public void init() {
 		super.init();
 		clipSize = Math.max(clipSize, wireRange * tilesize * 2);
-		boundsRect = Mathx.squareRect((size / 2) - wireRange - 1, wireRange * 2 + size);
+		boundsRect = Mathx.squareRect(-wireRange - (size + 1) / 2, wireRange * 2 + size - 0.01f);
 		sourceRect = Mathx.squareRect(-(size + 1) / 2, size - 1);
 	}
 

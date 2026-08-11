@@ -626,24 +626,24 @@ public class AstraBlocks {
 
 		crystaglassKiln = new GenericCrafter("crystal-kiln") {{
 			requirements(Category.crafting, ItemStack.with(
-				AstraItems.steel, 140,
-				Items.plastanium, 100,
-				AstraItems.lithium, 110,
-				Items.thorium, 90,
-				Items.silicon, 125
+				AstraItems.steel, 200,
+				Items.plastanium, 140,
+				AstraItems.lithium, 125,
+				Items.thorium, 100,
+				Items.silicon, 160
 			));
 			buildCostMultiplier = 1.4f;
 			scaledHealth = 65f;
 			size = 3;
-			fogRadius = 6;
+			fogRadius = 3;
 			hasPower = hasItems = true;
 			itemCapacity = 30;
 
 			consumeItems(ItemStack.with(AstraItems.crystals, 3, Items.metaglass, 8));
 			consumeLiquid(Liquids.hydrogen, 5f / 60f);
 			consumePower(13.0f);
-			craftTime = 75f;
-			outputItem = new ItemStack(AstraItems.crystaglass, 1);
+			craftTime = 120f;
+			outputItem = new ItemStack(AstraItems.crystaglass, 2);
 
 			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawEmitSmoke() {{
 				color = Color.valueOf("ffeef1");
@@ -1335,6 +1335,8 @@ public class AstraBlocks {
 			powerProduction = 31f;
 			warmupSpeed = 0.01f;
 
+			ambientSound = Sounds.machine;
+
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
 				new DrawBlurSpin("-rotator", 6f) {{ blurThresh = 0.95f; }},
@@ -1459,6 +1461,9 @@ public class AstraBlocks {
 			explosionRadius = 6;
 			explosionDamage = 1000;
 			explodeEffect = Fx.titanExplosion;
+
+			ambientSound = Sounds.spellLoop;
+			ambientSoundVolume = 0.5f;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -2071,7 +2076,7 @@ public class AstraBlocks {
 
 			chanceDeflect = 12f;
 			flashHit = true;
-			doorSound = Sounds.none;
+			// doorSound = Sounds.swish; bugged sound for some reason
 			triggerMargin = 8f;
 		}};
 
@@ -3271,15 +3276,17 @@ public class AstraBlocks {
 		}};
 
 		magneticMine = new Mine("magnetic-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 18));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 8, AstraItems.vanadium, 6));
 			buildCostMultiplier = 2.5f;
 			size = 2;
 			health = 120;
 			armor = 1;
 
+			cloaked = true;
 			explodeRadius = 8f;
 			explodePower = 30f;
 			knockback = -30f;
+			drawAlpha = 0.65f;
 		}};
 
 		// region TURRETS
