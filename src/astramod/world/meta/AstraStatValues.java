@@ -45,7 +45,7 @@ public class AstraStatValues {
 		return table -> {
 			table.table(c -> {
 				for (ItemStack stack : items) {
-					c.add(new ItemDisplay(stack.item, stack.amount, timePeriod, true)).left().grow().padBottom(5f).padRight(5f);
+					c.add(displayItem(stack.item, stack.amount, timePeriod, true)).left().grow().padBottom(5f).padRight(5f);
 				}
 			}).left().expand();
 			table.row();
@@ -70,17 +70,30 @@ public class AstraStatValues {
 		};
 	}
 
+
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map) {
-		return astraAmmo(map, 0, false);
+		return astraAmmo(map, false, false, null);
 	}
 
-	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit) {
-		return astraAmmo(map, 0, showUnit);
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit){
+		return astraAmmo(map, false, showUnit, null);
 	}
 
-	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, int indent, boolean showUnit) {
+    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, String blockName){
+        return astraAmmo(map, false, false, blockName);
+    }
+
+    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit, String blockName){
+        return astraAmmo(map, false, showUnit, blockName);
+    }
+
+    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit){
+        return astraAmmo(map, nested, showUnit, null);
+    }
+
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName) {
 		return table -> {
-			StatValues.ammo(map, indent, showUnit).display(table);
+			StatValues.ammo(map, nested, showUnit, blockName).display(table);
 			var orderedKeys = map.keys().toSeq().sort();
 			int offset = table.getCells().size - orderedKeys.size;
 
@@ -136,7 +149,7 @@ public class AstraStatValues {
 					bt.row();
 
 					Table fc = new Table();
-					astraAmmo(ObjectMap.of(mine, mine.bullet), indent + 1, false).display(fc);
+					astraAmmo(ObjectMap.of(mine, mine.bullet), true, false).display(fc);
 					Collapser coll = new Collapser(fc, true);
 					coll.setDuration(0.1f);
 

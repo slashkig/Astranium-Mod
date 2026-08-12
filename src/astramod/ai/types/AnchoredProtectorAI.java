@@ -3,6 +3,7 @@ package astramod.ai.types;
 import mindustry.entities.*;
 import mindustry.gen.*;
 
+// TODO overhaul
 public class AnchoredProtectorAI extends AnchoredAI {
 	public Unit closestUnit;
 

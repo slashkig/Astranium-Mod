@@ -43,9 +43,7 @@ public class ProjectorWall extends Wall {
 	protected static final Cons<Bullet> shieldConsumer = bullet -> {
 		if (bullet.team != paramEntity.team && bullet.type.absorbable && Intersector.isInRegularPolygon(((ProjectorWall)(paramEntity.block)).sides, paramEntity.x, paramEntity.y, paramEntity.realRadius(), ((ProjectorWall)(paramEntity.block)).shieldRotation, bullet.x, bullet.y)) {
 			bullet.absorb();
-			paramEffect.at(bullet);
-			paramEntity.hit = 1f;
-			paramEntity.shield -= bullet.damage;
+			paramEntity.hit(bullet);
 		}
 	};
 
@@ -156,6 +154,12 @@ public class ProjectorWall extends Wall {
 
 		public float realRadius() {
 			return fullRadius * radscl;
+		}
+
+		public void hit(Bullet bullet) {
+			paramEffect.at(bullet);
+			hit = 1f;
+			shield -= bullet.damage;
 		}
 
 		@Override public float warmup() {

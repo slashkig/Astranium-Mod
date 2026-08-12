@@ -40,7 +40,7 @@ public class ExplodableCrafter extends GenericCrafter {
 	public int explosionRadius = 10;
 	public int explosionDamage = 2500;
 	public Effect explodeEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
-	public Sound explodeSound = Sounds.explosionbig;
+	public Sound explodeSound = Sounds.explosionReactor;
 	public float explosionShake = 6f, explosionShakeDuration = 16f;
 
 	public TextureRegion topRegion;

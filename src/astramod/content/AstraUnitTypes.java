@@ -5,7 +5,6 @@ import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
-import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
@@ -61,7 +60,7 @@ public class AstraUnitTypes {
 				y = 3.75f;
 				top = false;
 				layerOffset = -0.1f;
-				shootSound = Sounds.lasershoot;
+				shootSound = Sounds.shootLaser;
 
 				bullet = new LaserBoltBulletType(5f, 15) {{
 					lifetime = 35f;
@@ -114,7 +113,7 @@ public class AstraUnitTypes {
 				y = 2.5f;
 				top = false;
 				layerOffset = -0.1f;
-				shootSound = Sounds.lasershoot;
+				shootSound = Sounds.shootLaser;
 
 				bullet = new LaserBoltBulletType(5.5f, 15) {{
 					lifetime = 37.5f;
@@ -216,7 +215,7 @@ public class AstraUnitTypes {
 			constructor = BuildingTetherUnit::create;
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 			aiController = () -> new AnchoredProtectorAI();
-			commands = new UnitCommand[] { AstraUnitCommand.protect, AstraUnitCommand.combatFollow };
+			commands = Seq.with(AstraUnitCommand.protect, AstraUnitCommand.combatFollow);
 			defaultCommand = AstraUnitCommand.protect;
 			flying = true;
 
@@ -246,7 +245,7 @@ public class AstraUnitTypes {
 				y = 3f;
 				top = false;
 				mirror = false;
-				shootSound = Sounds.lasershoot;
+				shootSound = Sounds.shootLaser;
 
 				bullet = new LaserBoltBulletType(5f, 15) {{
 					lifetime = 25f;
@@ -266,7 +265,7 @@ public class AstraUnitTypes {
 			constructor = BuildingTetherUnit::create;
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 			aiController = () -> new AnchoredShieldAI();
-			commands = new UnitCommand[] { AstraUnitCommand.shieldCore, AstraUnitCommand.shieldFollow };
+			commands = Seq.with(AstraUnitCommand.shieldCore, AstraUnitCommand.shieldFollow);
 			defaultCommand = AstraUnitCommand.shieldCore;
 			flying = true;
 

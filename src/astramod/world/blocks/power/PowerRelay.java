@@ -94,9 +94,9 @@ public class PowerRelay extends PowerNode {
 	@Override protected void getPotentialLinks(Tile tile, Team team, Cons<Building> others) {
 		if (!autolink) return;
 
-		Boolf<Building> valid = other -> (other != null && other.tile() != tile && other.block.connectedPower && other.team == team &&
+		Boolf<Building> valid = other -> (other != null && other.tile != tile && other.block.connectedPower && other.team == team &&
 			(other instanceof PowerNodeBuild oNode && oNode.power.links.size < ((PowerNode)oNode.block).maxNodes || other.block instanceof WireRelay) &&
-			overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile(), laserRange * tilesize) &&
+			overlaps(tile.x * tilesize + offset, tile.y * tilesize + offset, other.tile, laserRange * tilesize) &&
 			!graphs.contains(other.power.graph) && !insulated(tile, other.tile) && !Structs.contains(Edges.getEdges(size), p -> {
 				var t = world.tile(tile.x + p.x, tile.y + p.y);
 				return t != null && t.build == other;

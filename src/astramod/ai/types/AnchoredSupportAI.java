@@ -135,13 +135,13 @@ public class AnchoredSupportAI extends AnchoredAI {
 					BlockPlan block = blocks.first();
 
 					// Check if it's already been placed
-					if (world.tile(block.x, block.y) != null && world.tile(block.x, block.y).block().id == block.block) {
+					if (world.tile(block.x, block.y) != null && world.tile(block.x, block.y).block() == block.block) {
 						blocks.removeFirst();
-					} else if (Build.validPlace(content.block(block.block), unit.team(), block.x, block.y, block.rotation) &&
+					} else if (Build.validPlace(block.block, unit.team(), block.x, block.y, block.rotation) &&
 					(!alwaysFlee || !nearEnemy(block.x, block.y)) && anchor.dst(block.x * tilesize, block.y * tilesize) < boundRadius) {
 						lastPlan = block;
 						// Add build plan
-						unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, content.block(block.block), block.config));
+						unit.addBuild(new BuildPlan(block.x, block.y, block.rotation, block.block, block.config));
 						// Shift build plan to tail so next unit builds something else
 						blocks.addLast(blocks.removeFirst());
 					} else {

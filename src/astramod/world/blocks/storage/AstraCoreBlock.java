@@ -10,6 +10,7 @@ import mindustry.world.modules.ItemModule;
 
 import static mindustry.Vars.*;
 
+// TODO extra vision when landing
 public class AstraCoreBlock extends CoreBlock {
 	public AstraCoreBlock(String name) {
 		super(name);
@@ -29,7 +30,7 @@ public class AstraCoreBlock extends CoreBlock {
 			noSleep();
 
 			for (Building other : state.teams.cores(team)) {
-				if (other.tile() != tile) {
+				if (other.tile != tile) {
 					this.items = other.items;
 				}
 			}
@@ -43,8 +44,8 @@ public class AstraCoreBlock extends CoreBlock {
 			});
 
 			for (Building other : state.teams.cores(team)) {
-				if (other.tile() == tile) continue;
-				storageCapacity += other.block.itemCapacity + other.proximity().sum(e -> owns(other, e) ? e.block.itemCapacity : 0);
+				if (other.tile == tile) continue;
+				storageCapacity += other.block.itemCapacity + other.proximity.sum(e -> owns(other, e) ? e.block.itemCapacity : 0);
 			}
 
 			if (!world.isGenerating()) {

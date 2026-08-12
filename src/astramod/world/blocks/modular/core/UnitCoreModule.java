@@ -37,8 +37,8 @@ public class UnitCoreModule extends GenericCoreModule {
 		super(name);
 		spawnedUnit = unit;
 		update = true;
-		loopSound = Sounds.respawning;
-		loopSoundVolume = 0.4f;
+		ambientSound = Sounds.loopUnitBuilding;
+		ambientSoundVolume = 0.4f;
 		group = BlockGroup.transportation;
 	}
 
@@ -145,10 +145,6 @@ public class UnitCoreModule extends GenericCoreModule {
 				readUnitId[targetIndex] = id;
 			}
 			targetIndex = -1;
-		}
-
-		@Override public boolean shouldActiveSound() {
-			return targetIndex != -1 && warmup > 0.01f;
 		}
 
 		@Override public void draw() { // TODO fix client-side draw construct bug

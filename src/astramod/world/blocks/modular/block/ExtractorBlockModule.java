@@ -39,7 +39,7 @@ public class ExtractorBlockModule extends GenericBlockModule {
 				float amount = Mathx.min(
 					edelta() * extractLiquid.amount,
 					liquidCapacity - liquids.get(extractLiquid.liquid),
-					linkedBuild.liquids().get(extractLiquid.liquid)
+					linkedBuild.liquids.get(extractLiquid.liquid)
 				);
 
 				if (amount > 0) {

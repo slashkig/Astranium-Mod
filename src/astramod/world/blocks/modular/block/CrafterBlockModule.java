@@ -65,7 +65,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 		@Override public void updateTile() {
 			super.updateTile();
 			if (linkedBuild != null) {
-				float cap = byproductLiquid != null ? linkedBuild.block.liquidCapacity - linkedBuild.liquids().get(byproductLiquid.liquid) : -1f;
+				float cap = byproductLiquid != null ? linkedBuild.block.liquidCapacity - linkedBuild.liquids.get(byproductLiquid.liquid) : -1f;
 				if (efficiency > 0 && cap > 0) {
 					linkedBuild.handleLiquid(this, byproductLiquid.liquid, Math.min(byproductLiquid.amount * getProgressIncrease(1f), cap));
 				}
@@ -88,7 +88,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 		}
 
 		@Override public boolean productionValid() {
-			return linkedBuild != null && (byproductLiquid == null || ignoreLiquidFullness || linkedBuild.block.liquidCapacity - linkedBuild.liquids().get(byproductLiquid.liquid) > 0.1f);
+			return linkedBuild != null && (byproductLiquid == null || ignoreLiquidFullness || linkedBuild.block.liquidCapacity - linkedBuild.liquids.get(byproductLiquid.liquid) > 0.1f);
 		}
 
 		@Override public float warmupTarget() {
@@ -96,7 +96,7 @@ public class CrafterBlockModule extends GenericCrafter implements BlockModule {
 		}
 
 		@Override public float efficiencyScale() {
-			return linkedBuild != null ? linkedBuild.efficiency() : 0f;
+			return linkedBuild != null ? linkedBuild.efficiency : 0f;
 		}
 
 		@Nullable public Building getLinkedBuild() {

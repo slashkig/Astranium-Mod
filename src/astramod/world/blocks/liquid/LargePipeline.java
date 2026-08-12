@@ -66,10 +66,10 @@ public class LargePipeline extends ArmoredPipeline {
 	// TODO fix for Android?
 	@Override public boolean blends(Tile tile, int rotation, int direction) {
 		int dir = Mathf.mod(rotation - direction, 4);
-        Tile other = tile.nearby(Geometry.d4x(dir) * size, Geometry.d4y(dir) * size);
-        return other != null && other.build != null && other.team() == tile.team() &&
+		Tile other = tile.nearby(Geometry.d4x(dir) * size, Geometry.d4y(dir) * size);
+		return other != null && other.build != null && other.team() == tile.team() &&
 			blends(tile, rotation, other.x, other.y, other.build.rotation, other.build.block);
-    }
+	}
 
 	@Override public boolean blends(Tile tile, int rotation, int otherx, int othery, int otherrot, Block otherblock) {
 		if (tile.build instanceof LargePipelineBuild p) return p.checkSide(world.build(otherx, othery)) && super.blends(tile, rotation, otherx, othery, otherrot, otherblock);
@@ -102,8 +102,10 @@ public class LargePipeline extends ArmoredPipeline {
 	}
 
 	public class LargePipelineBuild extends ArmoredConduitBuild {
-		@Override public void draw() {
+		@Override public void draw(boolean under) {
 			int r = this.rotation;
+
+			if(under) Draw.color(botColor);
 
 			//draw extra conduits facing this one for tiling purposes
 			Draw.z(Layer.blockUnder);
@@ -111,44 +113,47 @@ public class LargePipeline extends ArmoredPipeline {
 				if ((blending & (1 << i)) != 0) {
 					int dir = r - i;
 					float offsetMult = size * tilesize * 0.75f;
-					drawAt(x + Geometry.d4x(dir) * offsetMult, y + Geometry.d4y(dir) * offsetMult, 0, i == 0 ? r : dir, i != 0 ? SliceMode.bottom : SliceMode.top);
+					drawAt(x + Geometry.d4x(dir) * offsetMult, y + Geometry.d4y(dir) * offsetMult, 0, i == 0 ? r : dir, i != 0 ? SliceMode.bottom : SliceMode.top, under);
 				}
 			}
 
 			Draw.z(Layer.block);
 
 			Draw.scl(xscl, yscl);
-			drawAt(x, y, blendbits, r, SliceMode.none);
+			drawAt(x, y, blendbits, r, SliceMode.none, under);
 			Draw.reset();
+
+			if (!under) return;
 
 			if (capped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg());
 			if (backCapped && capRegion.found()) Draw.rect(capRegion, x, y, rotdeg() + 180);
 		}
 
-		@Override protected void drawAt(float x, float y, int bits, int rotation, SliceMode slice) {
+		@Override protected void drawAt(float x, float y, int bits, int rotation, SliceMode slice, boolean under) {
 			float angle = rotation * 90f;
-			Draw.color(botColor);
-			Draw.rect(sliced(botRegions[bits], slice), x, y, angle);
+			if (under) {
+				Draw.rect(sliced(botRegions[bits], slice), x, y, angle);
+			} else {
+				int offset = yscl == -1 ? 3 : 0;
 
-			int offset = yscl == -1 ? 3 : 0;
+				int frame = liquids.current().getAnimationFrame();
+				int gas = liquids.current().gas ? 1 : 0;
+				float ox = 0f, oy = 0f;
+				int wrapRot = (rotation + offset) % 4;
+				TextureRegion liquidr = bits == 1 && padCorners ? rotateRegions[wrapRot][gas][frame] : renderer.fluidFrames[gas][frame];
 
-			int frame = liquids.current().getAnimationFrame();
-			int gas = liquids.current().gas ? 1 : 0;
-			float ox = 0f, oy = 0f;
-			int wrapRot = (rotation + offset) % 4;
-			TextureRegion liquidr = bits == 1 && padCorners ? rotateRegions[wrapRot][gas][frame] : renderer.fluidFrames[gas][frame];
+				if (bits == 1 && padCorners) {
+					ox = pipeRotateOffsets[wrapRot][0] * size;
+					oy = pipeRotateOffsets[wrapRot][1] * size;
+				}
 
-			if (bits == 1 && padCorners) {
-				ox = pipeRotateOffsets[wrapRot][0] * size;
-				oy = pipeRotateOffsets[wrapRot][1] * size;
+				float xscl = Draw.xscl, yscl = Draw.yscl;
+				Draw.scl(size, size);
+				Drawf.liquid(sliced(liquidr, slice), x + ox, y + oy, smoothLiquid, liquids.current().color.write(Tmp.c1).a(1f));
+				Draw.scl(xscl, yscl);
+
+				Draw.rect(sliced(topRegions[bits], slice), x, y, angle);
 			}
-
-			float xscl = Draw.xscl, yscl = Draw.yscl;
-			Draw.scl(size, size);
-			Drawf.liquid(sliced(liquidr, slice), x + ox, y + oy, smoothLiquid, liquids.current().color.write(Tmp.c1).a(1f));
-			Draw.scl(xscl, yscl);
-
-			Draw.rect(sliced(topRegions[bits], slice), x, y, angle);
 		}
 
 		@Override public float moveLiquidForward(boolean leaks, Liquid liquid) {

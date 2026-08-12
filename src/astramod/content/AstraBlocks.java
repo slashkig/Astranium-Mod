@@ -47,6 +47,7 @@ import astramod.world.blocks.storage.*;
 
 import static mindustry.Vars.*;
 
+// TODO new sound library
 @SuppressWarnings("unused")
 public class AstraBlocks {
 	public static Block
@@ -139,7 +140,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.iron, 1);
 
 			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.ironSmoke));
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -170,7 +171,7 @@ public class AstraBlocks {
 				particleLife = 90f;
 				particleRad = 6f;
 			}});
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -239,7 +240,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(Items.silicon, 2);
 
 			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.siliconSmoke));
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -270,7 +271,7 @@ public class AstraBlocks {
 				particleLife = 90f;
 				particleRad = 6f;
 			}});
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -287,7 +288,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(Items.metaglass, 3);
 
 			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.glassSmoke));
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -376,7 +377,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.magnetite, 1);
 
 			drawer = new DrawMultiIntegrated(new DrawTopHeat());
-			ambientSound = Sounds.electricHum;
+			ambientSound = Sounds.loopElectricHum;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -515,7 +516,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.steel, 2);
 
 			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion());
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			ambientSoundVolume = 0.2f;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -557,7 +558,7 @@ public class AstraBlocks {
 				particleSize = 4f;
 				addSizeMult = 0.3f;
 			}});
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			ambientSoundVolume = 0.8f;
 			craftEffect = Fx.smeltsmoke;
 			updateEffect = Fx.smeltsmoke;
@@ -652,7 +653,7 @@ public class AstraBlocks {
 				particleRad = 6f;
 				particleSize = 2f;
 			}});
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -677,7 +678,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(Items.phaseFabric, 2);
 
 			drawer = new DrawMulti(new DrawRegion("-bottom"), new DrawWeave(), new DrawDefault());
-			ambientSound = Sounds.techloop;
+			ambientSound = Sounds.loopTech;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -709,7 +710,7 @@ public class AstraBlocks {
 				new DrawDefault(),
 				new DrawGlowRegion() {{ color = Items.thorium.color; }}
 			);
-			ambientSound = Sounds.techloop;
+			ambientSound = Sounds.loopTech;
 			ambientSoundVolume = 0.4f;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -736,7 +737,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(Items.surgeAlloy, 2);
 
 			drawer = new DrawMultiIntegrated(new DrawFlame());
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			ambientSoundVolume = 0.3f;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -773,7 +774,7 @@ public class AstraBlocks {
 				particleLife = 120f;
 				particles = 27;
 			}});
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			ambientSoundVolume = 0.3f;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -838,7 +839,7 @@ public class AstraBlocks {
 				new DrawDefault()
 			);
 
-			ambientSound = Sounds.flux;
+			ambientSound = Sounds.loopFlux;
 			ambientSoundVolume = 0.3f;
 		}};
 
@@ -872,7 +873,7 @@ public class AstraBlocks {
 				new DrawCrucibleFlame() {{ flameColor = AstraItems.aerogel.color; }},
 				new DrawDefault()
 			);
-			ambientSound = Sounds.electricHum;
+			ambientSound = Sounds.loopElectricHum;
 			ambientSoundVolume = 0.5f;
 			updateEffect = Fx.plasticburn; // Not sure why it's called that
 			craftEffect = Fx.smeltsmoke;
@@ -912,7 +913,7 @@ public class AstraBlocks {
 				new DrawTopHeat() {{ alphaMag = 0.3f; maxAlpha = 0.6f; }},
 				new DrawGlowRegion() {{ color = Color.purple; glowIntensity = 0.8f; }}
 			);
-			ambientSound = Sounds.pulse;
+			ambientSound = Sounds.loopPulse;
 			ambientSoundVolume = 0.15f;
 			craftEffect = Fx.smeltsmoke;
 		}};
@@ -1335,7 +1336,7 @@ public class AstraBlocks {
 			powerProduction = 31f;
 			warmupSpeed = 0.01f;
 
-			ambientSound = Sounds.machine;
+			ambientSound = Sounds.loopMachine;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -1426,7 +1427,7 @@ public class AstraBlocks {
 				new DrawGlowRegion("-glow") {{ color = Color.cyan; glowIntensity = 0.3f; layer = Layer.block; }},
 				new DrawDefault()
 			);
-			ambientSound = Sounds.hum;
+			ambientSound = Sounds.loopHum;
 			explodeEffect = Fx.impactReactorExplosion;
 		}};
 
@@ -1462,7 +1463,7 @@ public class AstraBlocks {
 			explosionDamage = 1000;
 			explodeEffect = Fx.titanExplosion;
 
-			ambientSound = Sounds.spellLoop;
+			ambientSound = Sounds.loopMalign;
 			ambientSoundVolume = 0.5f;
 
 			drawer = new DrawMulti(
@@ -1764,7 +1765,7 @@ public class AstraBlocks {
 			hardnessDrillMultiplier = 50f;
 
 			rotateSpeed = 2f;
-			ambientSound = Sounds.drill;
+			ambientSound = Sounds.loopDrill;
 			ambientSoundVolume = 0.05f;
 			updateEffectChance = 0.01f;
 		}};
@@ -1786,7 +1787,7 @@ public class AstraBlocks {
 			hardnessDrillMultiplier = 30f;
 
 			rotateSpeed = 3f;
-			ambientSound = Sounds.drill;
+			ambientSound = Sounds.loopDrill;
 			ambientSoundVolume = 0.075f;
 			updateEffectChance = 0.015f;
 		}};
@@ -2829,7 +2830,7 @@ public class AstraBlocks {
 			outputItem = new ItemStack(AstraItems.iron, 3);
 
 			drawer = new DrawMultiIntegrated(new DrawFlame(AstraPal.ironSmoke));
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -2851,7 +2852,7 @@ public class AstraBlocks {
 			outputItems = ItemStack.with(Items.graphite, 1, Items.silicon, 1, Items.metaglass, 1);
 
 			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion());
-			ambientSound = Sounds.smelter;
+			ambientSound = Sounds.loopSmelter;
 			craftEffect = Fx.smeltsmoke;
 		}};
 
@@ -3031,7 +3032,7 @@ public class AstraBlocks {
 			inaccuracy = 1f;
 			range = 300f;
 
-			shootSound = Sounds.artillery;
+			shootSound = Sounds.shootArtillery;
 
 			limitRange();
 		}};
@@ -3457,7 +3458,7 @@ public class AstraBlocks {
 			consumeAmmoOnce = false;
 			coolant = consumeCoolant(0.2f);
 
-			shootSound = Sounds.missile;
+			shootSound = Sounds.shootMissile;
 
 			targetGround = false;
 			limitRange();
@@ -3535,7 +3536,7 @@ public class AstraBlocks {
 			warmupMaintainTime = 90f;
 
 			ammoUseEffect = Fx.none;
-			shootSound = Sounds.flame;
+			shootSound = Sounds.shootFlame;
 			cooldownTime = 60f;
 
 			targetAir = false;
@@ -3754,7 +3755,7 @@ public class AstraBlocks {
 			shootY = 7.5f;
 
 			ammoUseEffect = Fx.none;
-			shootSound = Sounds.missile;
+			shootSound = Sounds.shootMissile;
 
 			limitRange();
 		}};

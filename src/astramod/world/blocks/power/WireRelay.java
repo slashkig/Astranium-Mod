@@ -173,7 +173,7 @@ public class WireRelay extends PowerBlock {
 		var tree = team.data().buildingTree;
 		if (tree != null) {
 			tree.intersect(Tmp.r1, build -> {
-				if (build != null && build.tile() != tile && build.block.connectedPower && build.power != null &&
+				if (build != null && build.tile != tile && build.block.connectedPower && build.power != null &&
 				(build.block.outputsPower || build.block.consumesPower || build.block instanceof PowerNode) &&
 				build.team == team && !graphs.contains(build.power.graph) && !(build instanceof PowerNodeBuild obuild &&
 				obuild.power.links.size >= ((PowerNode)obuild.block).maxNodes) && !tempBuilds.contains(build)) {

@@ -18,7 +18,7 @@ public class DrawCrystal extends DrawBlock {
 	}
 
 	@Override public void draw(Building build) {
-		Draw.alpha(build.efficiency());
+		Draw.alpha(build.efficiency);
 		Draw.rect(crystalRegion, build.x, build.y);
 		Draw.color();
 	}

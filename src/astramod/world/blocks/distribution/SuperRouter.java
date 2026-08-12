@@ -19,7 +19,7 @@ public class SuperRouter extends Router {
 
 	public DrawCircles circles;
 	public Color color;
-	public Sound shootSound = Sounds.missile;
+	public Sound shootSound = Sounds.shootMissile;
 
 	public SuperRouter(String name) {
 		super(name);

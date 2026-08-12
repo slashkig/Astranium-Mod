@@ -38,7 +38,7 @@ public class CooledBattery extends Battery implements BaseModularBlock {
     public int explosionDamage = 12000;
     public float explosionShake = 0f, explosionShakeDuration = 6f;
     public Effect explodeEffect = Fx.bigShockwave;
-    public Sound explodeSound = Sounds.explosionbig;
+    public Sound explodeSound = Sounds.explosionReactor;
 
 	public int maxLightning = 30;
 	public float lightningDamage = 500f;

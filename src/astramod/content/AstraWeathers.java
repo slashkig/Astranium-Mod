@@ -51,7 +51,7 @@ public class AstraWeathers {
 			force = 0.25f;
 			attrs.set(wind, 1.2f);
 			attrs.set(Attribute.light, -0.1f);
-			sound = Sounds.windhowl;
+			sound = Sounds.windHowl;
 			soundVol = 0.8f;
 		}};
 

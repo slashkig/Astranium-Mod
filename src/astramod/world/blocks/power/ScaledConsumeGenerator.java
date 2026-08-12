@@ -47,7 +47,7 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 			if (efficiencyMultiplier >= 1) generateTime -= (efficiencyMultiplier - 1) * delta() / itemDuration;
 		}
 
-		@Override public float efficiency() {
+		@Override public float efficiencyScale() {
 			return efficiencyMultiplier / itemCapacity;
 		}
 

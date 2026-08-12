@@ -109,7 +109,7 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 			coolant = Math.min(coolant + amount, coolantCapacity);
 		}
 
-		@Override public float efficiency() {
+		@Override public float efficiencyScale() {
 			return productionEfficiency;
 		}
 
