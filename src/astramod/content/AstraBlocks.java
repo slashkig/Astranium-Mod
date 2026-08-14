@@ -70,7 +70,7 @@ public class AstraBlocks {
 		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, tidalPipeline,
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 		ironTank, steelTank, crystalTank,
-		coreNode, coreHub,
+		coreNode, coreHub, coreNexus,
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
 		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
@@ -2788,6 +2788,25 @@ public class AstraBlocks {
 			unitCapModifier = 6;
 
 			thrusterLength = 10f;
+		}};
+
+		coreNexus = new AstraCoreBlock("core-nexus") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.steel, 6000,
+				AstraItems.crystals, 2000,
+				Items.thorium, 4000,
+				Items.plastanium, 4000,
+				Items.silicon, 8000
+			));
+			health = 10000;
+			armor = 8f;
+			size = 6;
+			itemCapacity = 15000;
+
+			unitType = AstraUnitTypes.director;
+			unitCapModifier = 10;
+
+			thrusterLength = 15f;
 		}};
 
 		/*unloaderModule = new UnloaderCoreModule("module-unloader") {{
