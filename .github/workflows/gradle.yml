@@ -15,15 +15,9 @@ jobs:
         with:
           java-version: 17
           distribution: 'temurin'
-      - name: Get mod name
-        id: get_mod_name
-        run: |
-          chmod +x gradlew
-          modName=$(./gradlew printModName | grep "MOD_NAME" | cut -d '=' -f2)
-          echo "Mod name: ${modName}"
-          echo "mod_name=${modName}" >> $GITHUB_OUTPUT
       - name: Build mod artifact
         run: |
+          chmod +x gradlew
           ./gradlew clean dex
       - name: Upload built mod artifact
         uses: actions/upload-artifact@v7
