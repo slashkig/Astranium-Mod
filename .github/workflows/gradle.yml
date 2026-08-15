@@ -29,4 +29,6 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: ${{ github.event.repository.name }}
-          path: build/libs/*.jar
+          path: |
+            build/libs/*.jar
+            !build/libs/*Desktop*.jar
