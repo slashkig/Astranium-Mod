@@ -31,4 +31,4 @@ jobs:
         with:
           archive: false
           name: ${{ github.event.repository.name }}
-          path: build/libs/${{ steps.get_mod_name.outputs.mod_name }}.jar
+          path: build/libs/${{ github.event.repository.name }}.jar
