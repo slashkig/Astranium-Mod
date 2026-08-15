@@ -24,6 +24,7 @@ jobs:
 #          echo "mod_name=${modName}" >> $GITHUB_OUTPUT
       - name: Build mod artifact
         run: |
+          chmod +x gradlew
           ./gradlew clean dex
       - name: Upload built mod artifact
         uses: actions/upload-artifact@v7
