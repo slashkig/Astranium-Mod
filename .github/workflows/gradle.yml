@@ -30,6 +30,4 @@ jobs:
         with:
           archive: false
           name: ${{ github.event.repository.name }}
-          path: |
-            build/libs/*.jar
-            !build/libs/*Desktop*.jar
+          path: build/libs/*Desktop*.jar
