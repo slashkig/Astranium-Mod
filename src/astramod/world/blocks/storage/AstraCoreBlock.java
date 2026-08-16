@@ -1,9 +1,13 @@
 package astramod.world.blocks.storage;
 
+import arc.Core;
+import arc.graphics.*;
 import arc.graphics.g2d.*;
+import astramod.graphics.AstraPal;
 import astramod.world.blocks.modular.*;
 import mindustry.game.*;
 import mindustry.gen.Building;
+import mindustry.graphics.Layer;
 import mindustry.type.*;
 import mindustry.world.blocks.storage.*;
 import mindustry.world.modules.ItemModule;
@@ -12,9 +16,18 @@ import static mindustry.Vars.*;
 
 // TODO extra vision when landing
 public class AstraCoreBlock extends CoreBlock {
+	public Color glowColor = AstraPal.crystalGlow;
+	public float glowAlpha = 0.5f;
+	public TextureRegion glowRegion;
+	
 	public AstraCoreBlock(String name) {
 		super(name);
 		conductivePower = true;
+	}
+
+	@Override public void load() {
+		super.load();
+		glowRegion = Core.atlas.find(name + "-glow");
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -24,6 +37,20 @@ public class AstraCoreBlock extends CoreBlock {
 	public class AstraCoreBuild extends CoreBuild {
 		@Override public boolean owns(Building core, Building tile) {
 			return tile instanceof CoreModuleBuild m && (m.getLinkedCore() == core || m.getLinkedCore() == null);
+		}
+
+		@Override public void draw() {
+			super.draw();
+
+			if (glowRegion.found()) {
+				Draw.z(Layer.blockAdditive);
+				Draw.blend(Blending.additive);
+				Draw.color(glowColor);
+				Draw.alpha(glowAlpha);
+				Draw.rect(glowRegion, x, y);
+				Draw.reset();
+				Draw.blend();
+			}
 		}
 
 		@Override public void onProximityUpdate() {

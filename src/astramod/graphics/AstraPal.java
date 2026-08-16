@@ -13,6 +13,7 @@ public class AstraPal {
 		plasmaGlowBlue = Color.valueOf("9292ff"),
 		plasmaGlowPurple = Color.valueOf("c080ff"),
 		crystalRed = Color.valueOf("ff0044"),
+		crystalGlow = Color.valueOf("f0c2ce"),
 		powerGlow = Color.valueOf("ffe08f"),
 		mend = Color.valueOf("84f491"),
 
