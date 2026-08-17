@@ -3,19 +3,23 @@ package astramod.world.blocks.storage;
 import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import astramod.graphics.AstraPal;
-import astramod.world.blocks.modular.*;
+import arc.struct.*;
+import mindustry.Vars;
 import mindustry.game.*;
 import mindustry.gen.Building;
-import mindustry.graphics.Layer;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.world.blocks.storage.*;
+import mindustry.world.meta.*;
 import mindustry.world.modules.ItemModule;
+import astramod.graphics.*;
+import astramod.world.blocks.modular.*;
 
 import static mindustry.Vars.*;
 
-// TODO extra vision when landing
 public class AstraCoreBlock extends CoreBlock {
+	public float extraFogRadius = 20f;
+
 	public Color glowColor = AstraPal.crystalGlow;
 	public float glowAlpha = 0.5f;
 	public TextureRegion glowRegion;
@@ -23,6 +27,7 @@ public class AstraCoreBlock extends CoreBlock {
 	public AstraCoreBlock(String name) {
 		super(name);
 		conductivePower = true;
+		flags = EnumSet.of(BlockFlag.core, BlockFlag.hasFogRadius);
 	}
 
 	@Override public void load() {
@@ -35,8 +40,12 @@ public class AstraCoreBlock extends CoreBlock {
 	}
 
 	public class AstraCoreBuild extends CoreBuild {
-		@Override public boolean owns(Building core, Building tile) {
-			return tile instanceof CoreModuleBuild m && (m.getLinkedCore() == core || m.getLinkedCore() == null);
+		@Override public void updateTile() {
+			super.updateTile();
+
+			if (renderer.getLandTime() > 0f) {
+				Vars.fogControl.forceUpdate(team, this);
+			}
 		}
 
 		@Override public void draw() {
@@ -51,6 +60,14 @@ public class AstraCoreBlock extends CoreBlock {
 				Draw.reset();
 				Draw.blend();
 			}
+		}
+
+		@Override public boolean owns(Building core, Building tile) {
+			return tile instanceof CoreModuleBuild m && (m.getLinkedCore() == core || m.getLinkedCore() == null);
+		}
+
+		@Override public float fogRadius() {
+			return fogRadius + (renderer.getLandTime() > 0f ? extraFogRadius * (1f - renderer.getLandTimeIn()) : 0f);
 		}
 
 		@Override public void onProximityUpdate() {

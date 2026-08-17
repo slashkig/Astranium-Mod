@@ -788,7 +788,10 @@ public class WireRelay extends PowerBlock {
 			return packWiring();
 		}
 
-		// TODO onDeconstructed()
+		@Override public void onDeconstructed(Unit builder) {
+			super.onDeconstructed(builder);
+			team.items().add(wireCost.item, wireCost.amount * wiring.size());
+		}
 
 		@Override public void read(Reads read, byte revision) {
 			super.read(read, revision);

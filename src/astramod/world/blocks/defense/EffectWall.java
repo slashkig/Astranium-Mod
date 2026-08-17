@@ -11,7 +11,6 @@ import mindustry.world.blocks.defense.*;
 import static mindustry.Vars.*;
 
 /** A wall that has an area effect. */
-@SuppressWarnings("unused")
 public class EffectWall extends Wall {
 	public float effectRange = 24f;
 	public float effectStrength = 10f;

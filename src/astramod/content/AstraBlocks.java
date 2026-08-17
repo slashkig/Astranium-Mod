@@ -2765,6 +2765,7 @@ public class AstraBlocks {
 			itemCapacity = 5000;
 			alwaysUnlocked = true;
 			isFirstTier = true;
+			extraFogRadius = 24f;
 
 			unitType = AstraUnitTypes.manager;
 			unitCapModifier = 4;
@@ -2783,6 +2784,7 @@ public class AstraBlocks {
 			armor = 4f;
 			size = 5;
 			itemCapacity = 7500;
+			extraFogRadius = 32f;
 
 			unitType = AstraUnitTypes.director;
 			unitCapModifier = 6;
@@ -2793,18 +2795,19 @@ public class AstraBlocks {
 		coreNexus = new AstraCoreBlock("core-nexus") {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.steel, 6000,
-				AstraItems.crystals, 2000,
-				Items.thorium, 4000,
-				Items.plastanium, 4000,
-				Items.silicon, 8000
+				AstraItems.crystals, 2500,
+				Items.thorium, 3500,
+				AstraItems.lithium, 4000,
+				Items.silicon, 5000
 			));
-			health = 10000;
+			health = 8000;
 			armor = 8f;
 			size = 6;
-			itemCapacity = 15000;
+			itemCapacity = 10000;
+			extraFogRadius = 40f;
 
 			unitType = AstraUnitTypes.director;
-			unitCapModifier = 10;
+			unitCapModifier = 8;
 
 			thrusterLength = 15f;
 		}};
@@ -3091,6 +3094,7 @@ public class AstraBlocks {
 			shieldHealth = 2000f;
 			radius = 80f;
 			consumeCoolant = false;
+			hasPower = false;
 		}};
 
 		// region UTILITY
@@ -3363,8 +3367,8 @@ public class AstraBlocks {
 					reloadMultiplier = 0.75f;
 					collidesAir = false;
 
-					frontColor = AstraPal.graphiteFront;
-					backColor = AstraPal.graphiteBack;
+					frontColor = Pal.graphiteAmmoFront;
+					backColor = Pal.graphiteAmmoBack;
 				}},
 				Items.silicon, new BasicBulletType(3.5f, 24) {{
 					width = 9f;
@@ -3374,8 +3378,8 @@ public class AstraBlocks {
 					homingPower = 0.15f;
 					collidesAir = false;
 
-					frontColor = AstraPal.siliconFront;
-					backColor = AstraPal.siliconBack;
+					frontColor = Pal.siliconAmmoFront;
+					backColor = Pal.siliconAmmoBack;
 				}}
 			);
 
@@ -3424,8 +3428,8 @@ public class AstraBlocks {
 					homingPower = 0.6f;
 					collidesGround = false;
 
-					frontColor = AstraPal.siliconFront;
-					backColor = AstraPal.siliconBack;
+					frontColor = Pal.siliconAmmoFront;
+					backColor = Pal.siliconAmmoBack;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 20) {{
 					width = 6f;
