@@ -3491,30 +3491,28 @@ public class AstraBlocks {
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 40, Items.graphite, 30));
 			ammo(
 				Items.coal, new BulletType(3f, 12) {{
-					ammoMultiplier = 4;
+					ammoMultiplier = 6;
 					hitSize = 7f;
 					lifetime = 22f;
 					inaccuracy = 5f;
 					reloadMultiplier = 0.75f;
-					buildingDamageMultiplier = 0.4f;
+					armorMultiplier = 2f;
 					rangeChange = -12f;
 					status = StatusEffects.burning;
 					statusDuration = 3f * 60;
 					hittable = false;
 					pierce = true;
-					pierceCap = 4;
-					pierceDamageFactor = 0.02f;
 					collidesAir = false;
 
 					shootEffect = AstraFx.shootWideFlame;
 					hitEffect = Fx.hitFlameSmall;
 					despawnEffect = Fx.none;
 				}},
-				Items.pyratite, new BulletType(4f, 22) {{
+				Items.pyratite, new BulletType(4f, 18) {{
 					ammoMultiplier = 10;
 					hitSize = 8f;
 					lifetime = 18f;
-					buildingDamageMultiplier = 0.6f;
+					armorMultiplier = 1.5f;
 					status = StatusEffects.burning;
 					statusDuration = 10f * 60;
 					hittable = false;
@@ -3546,7 +3544,7 @@ public class AstraBlocks {
 			size = 2;
 			shootY = 9f;
 			recoil = 0f;
-			reload = 2f;
+			reload = 3f;
 			shootCone = 50f;
 			inaccuracy = 20f;
 			range = 80f;
@@ -3581,7 +3579,9 @@ public class AstraBlocks {
 					width = 7f;
 					buildingDamageMultiplier = 0.6f;
 					pierceCap = 15;
+					pierceDamageFactor = 1f / 15f;
 					armorPenetration = 5f;
+					knockback = 4f;
 
 					trailLength = 7;
 					setColor(AstraPal.ironFront, AstraPal.ironBack);
@@ -3590,7 +3590,9 @@ public class AstraBlocks {
 					height = 18f;
 					width = 7f;
 					pierceCap = 10;
+					pierceDamageFactor = 1f / 10f;
 					rangeChange = 16f;
+					knockback = 6f;
 
 					trailLength = 8;
 					setColor(AstraPal.magnetFront, AstraPal.magnetBack);
@@ -3600,7 +3602,9 @@ public class AstraBlocks {
 					width = 7.5f;
 					buildingDamageMultiplier = 0.6f;
 					pierceCap = 20;
+					pierceDamageFactor = 1f / 20f;
 					armorPenetration = 10f;
+					knockback = 4f;
 
 					trailWidth = 1.2f;
 					trailLength = 8;
@@ -3610,8 +3614,10 @@ public class AstraBlocks {
 					height = 19f;
 					width = 7.5f;
 					pierceCap = 15;
+					pierceDamageFactor = 1f / 15f;
 					rangeChange = 36f;
 					reloadMultiplier = 1.3f;
+					knockback = 6f;
 
 					trailWidth = 1.2f;
 					trailLength = 9;

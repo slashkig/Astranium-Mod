@@ -1,10 +1,12 @@
 package astramod.content;
 
+import arc.graphics.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
+import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
@@ -28,10 +30,11 @@ public class AstraUnitTypes {
 
 		manager = new AstraUnitType("manager") {{
 			constructor = UnitEntity::create;
-			aiController = BuilderAI::new;
+			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 			alwaysUnlocked = true;
 
+			targetBuildingsMobile = false;
 			isEnemy = false;
 			coreUnitDock = true;
 			targetPriority = -2.5f;
@@ -55,32 +58,34 @@ public class AstraUnitTypes {
 			engineOffset = 7f;
 
 			weapons.add(new Weapon("astramod-manager-weapon") {{
-				reload = 20f;
+				reload = 30f;
 				x = 5f;
 				y = 3.75f;
 				top = false;
 				layerOffset = -0.1f;
-				shootSound = Sounds.shootLaser;
+				shootSound = Sounds.shootAlpha;
 
 				bullet = new LaserBoltBulletType(5f, 15) {{
+					width = 1.6f;
+					height = 6f;
 					lifetime = 35f;
-					keepVelocity = false;
+					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
+					homingPower = 0.03f;
 
-					backColor = Pal.bulletYellowBack;
-					frontColor = Pal.bulletYellow;
-					smokeEffect = AstraFx.coreLaser;
-					hitEffect = AstraFx.coreLaser;
-					despawnEffect = AstraFx.coreLaser;
+					backColor = hitColor = lightColor = Pal.yellowBoltFront;
+					frontColor = Color.white;
+					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
 
 		director = new AstraUnitType("director") {{
 			constructor = UnitEntity::create;
-			aiController = BuilderAI::new;
+			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
+			targetBuildingsMobile = false;
 			isEnemy = false;
 			coreUnitDock = true;
 			targetPriority = -2.5f;
@@ -105,7 +110,7 @@ public class AstraUnitTypes {
 			engineSize = 3.5f;
 
 			weapons.add(new Weapon("astramod-director-weapon") {{
-				reload = 30f;
+				reload = 50f;
 				shoot.shots = 3;
 				shoot.shotDelay = 5f;
 				inaccuracy = 6f;
@@ -113,18 +118,19 @@ public class AstraUnitTypes {
 				y = 2.5f;
 				top = false;
 				layerOffset = -0.1f;
-				shootSound = Sounds.shootLaser;
+				shootSound = Sounds.shootAlpha;
 
 				bullet = new LaserBoltBulletType(5.5f, 15) {{
+					width = 1.6f;
+					height = 5f;
 					lifetime = 37.5f;
-					keepVelocity = false;
+					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
+					homingPower = 0.03f;
 
-					backColor = Pal.bulletYellowBack;
-					frontColor = Pal.bulletYellow;
-					smokeEffect = AstraFx.coreLaser;
-					hitEffect = AstraFx.coreLaser;
-					despawnEffect = AstraFx.coreLaser;
+					backColor = hitColor = lightColor = Pal.yellowBoltFront;
+					frontColor = Color.white;
+					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
@@ -138,6 +144,7 @@ public class AstraUnitTypes {
 
 			playerControllable = false;
 			logicControllable = false;
+			controlSelectGlobal = false;
 			isEnemy = false;
 			targetPriority = -5f;
 
@@ -168,6 +175,7 @@ public class AstraUnitTypes {
 
 			playerControllable = false;
 			logicControllable = false;
+			controlSelectGlobal = false;
 			isEnemy = false;	
 			targetPriority = -5f;
 
@@ -202,8 +210,7 @@ public class AstraUnitTypes {
 
 				targetUnits = false;
 				targetBuildings = true;
-				laserColor = Pal.accent;
-				healColor = Pal.accent;
+				laserColor = healColor = Pal.yellowBoltFront;
 
 				bullet = new BulletType() {{
 					maxRange = 30f;
@@ -216,11 +223,12 @@ public class AstraUnitTypes {
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 			aiController = () -> new AnchoredProtectorAI();
 			commands = Seq.with(AstraUnitCommand.protect, AstraUnitCommand.combatFollow);
-			defaultCommand = AstraUnitCommand.protect;
+			stances = Seq.with(UnitStance.stop, UnitStance.holdFire, UnitStance.holdPosition);
 			flying = true;
 
 			playerControllable = false;
 			logicControllable = false;
+			controlSelectGlobal = false;
 			isEnemy = false;
 
 			health = 200f;
@@ -237,7 +245,7 @@ public class AstraUnitTypes {
 			engineSize = 2.2f;
 
 			weapons.add(new Weapon("astramod-seeker-weapon") {{
-				reload = 30f;
+				reload = 60f;
 				shoot.shots = 4;
 				shoot.shotDelay = 6f;
 				inaccuracy = 1f;
@@ -249,14 +257,12 @@ public class AstraUnitTypes {
 
 				bullet = new LaserBoltBulletType(5f, 15) {{
 					lifetime = 25f;
-					keepVelocity = false;
+					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.5f;
 
-					backColor = Pal.bulletYellowBack;
-					frontColor = Pal.bulletYellow;
-					smokeEffect = AstraFx.coreLaser;
-					hitEffect = AstraFx.coreLaser;
-					despawnEffect = AstraFx.coreLaser;
+					backColor = hitColor = lightColor = Pal.yellowBoltFront;
+					frontColor = Color.white;
+					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
@@ -266,12 +272,14 @@ public class AstraUnitTypes {
 			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 			aiController = () -> new AnchoredShieldAI();
 			commands = Seq.with(AstraUnitCommand.shieldCore, AstraUnitCommand.shieldFollow);
-			defaultCommand = AstraUnitCommand.shieldCore;
+			stances = Seq.with(UnitStance.stop, UnitStance.holdPosition);
 			flying = true;
 
 			playerControllable = false;
 			logicControllable = false;
+			controlSelectGlobal = false;
 			isEnemy = false;
+			targetPriority = -4f;
 
 			health = 150f;
 			hitSize = 9f;
@@ -288,14 +296,12 @@ public class AstraUnitTypes {
 			engineSize = 2.2f;
 
 			abilities.add(new ShieldArcAbility() {{
-				region = "astramod-warder-shield";
-				radius = 8f;
+				radius = 10f;
 				angle = 120f;
 				width = 5f;
 				cooldown = 60f * 10;
 				max = 500f;
 				whenShooting = false;
-				drawArc = false;
 			}});
 		}};
 	}

@@ -33,9 +33,20 @@ public class BoltBulletType extends BasicBulletType {
 	}
 
 	@Override public void hitEntity(Bullet b, Hitboxc entity, float health) {
-		if (entity instanceof Unit u) b.damage += Math.min(u.armor(), armorPenetration);
-		else if (entity instanceof Building build) b.damage += Math.min(build.block.armor, armorPenetration);
+		float pierceDamage = 0f;
+		if (!pierceArmor) {
+			if (entity instanceof Unit u) pierceDamage = Math.min(u.armorOverride() >= 0f ? u.armorOverride() : u.armor(), armorPenetration);
+			else if (entity instanceof Building build) pierceDamage = Math.min(build.block.armor, armorPenetration);
+			b.damage += pierceDamage *= b.type.armorMultiplier;
+		}
 
 		super.hitEntity(b, entity, health);
+
+		b.damage -= pierceDamage;
+
+		if (removeAfterPierce && b.damage <= 0) {
+			b.hit = true;
+			b.remove();
+		}
 	}
 }
