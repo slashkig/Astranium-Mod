@@ -206,4 +206,9 @@ public class AstraStatValues {
 		table.row();
 		table.add(valueFirst ? Strings.format("[stat]@ [lightgray]@", value, Core.bundle.get(key).toLowerCase()) : Strings.format("[lightgray]@: [stat]@", Core.bundle.get(key), value));
 	}
+
+	public static void addRowString(Table table, String key, Object... args) {
+		table.row();
+		table.add(Strings.format(key, args));
+	}
 }

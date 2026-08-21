@@ -18,7 +18,7 @@ import astramod.ai.types.*;
 import astramod.gen.*;
 import astramod.gen.UnitEntity;
 import astramod.type.unit.*;
-import astramod.graphics.*;
+import astramod.type.weapons.*;
 
 public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director, overseer;
@@ -41,7 +41,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 120f;
-      armor = 2f;
+			armor = 2f;
 			hitSize = 10f;
 			fogRadius = 0f;
 			itemCapacity = 25;
@@ -140,22 +140,23 @@ public class AstraUnitTypes {
 
 		overseer = new AstraUnitType("overseer") {{
 			constructor = UnitEntity::create;
-			aiController = BuilderAI::new;
+			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
+			targetBuildingsMobile = false;
 			isEnemy = false;
 			coreUnitDock = true;
 			targetPriority = -2.5f;
 
-			health = 300f;
+			health = 250f;
 			armor = 4f;
 			hitSize = 17f;
 			fogRadius = 0;
-			itemCapacity = 110;
+			itemCapacity = 60;
 
 			drag = 0.07f;
 			accel = 0.1f;
-			speed = 5.5f;
+			speed = 5f;
 			rotateSpeed = 17.5f;
 
 			buildSpeed = 1.3f;
@@ -166,31 +167,31 @@ public class AstraUnitTypes {
 			lowAltitude = true;
 			engineOffset = 13f;
 			engineSize = 5f;
-			setEnginesMirror(
-				new UnitEngine(7, -12, 3, 315f)
-			);
+			setEnginesMirror(new UnitEngine(7f, -12f, 3f, 315f));
 
-			weapons.add(new Weapon("astramod-overseer-weapon") {{
-				reload = 16f;
-				shoot.shots = 4;
-				shoot.shotDelay = 4.5f;
+			weapons.add(new RampUpWeapon("astramod-overseer-weapon") {{
+				reload = 40f;
+				rampupFactor = 0.875f;
+				shootWarmupSpeed = 1f / 360f;
 				inaccuracy = 4f;
 				x = 7.9f;
 				y = 1.6f;
 				top = false;
 				layerOffset = -0.1f;
 				shootSound = Sounds.shootLaser;
+				shootY = 4.5f;
 
-				bullet = new LaserBoltBulletType(6.5f, 18) {{
-					lifetime = 45.5f;
-					keepVelocity = false;
+				bullet = new LaserBoltBulletType(6.5f, 15) {{
+					width = 1.6f;
+					height = 5f;
+					lifetime = 30f;
+					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
+					homingPower = 0.03f;
 
-					backColor = Pal.bulletYellowBack;
-					frontColor = Pal.bulletYellow;
-					smokeEffect = AstraFx.coreLaser;
-					hitEffect = AstraFx.coreLaser;
-					despawnEffect = AstraFx.coreLaser;
+					backColor = hitColor = lightColor = Pal.yellowBoltFront;
+					frontColor = Color.white;
+					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};

@@ -166,6 +166,7 @@ public class WireRelay extends PowerBlock {
 	}
 
 	public void getPotentialLinks(Tile tile, Team team) {
+		if (tile == null) return;
 		tempBuilds.clear();
 
 		float offset = Mathx.oddEven(size) * tilesize / 2;

@@ -43,7 +43,7 @@ public class SuperRouter extends Router {
 		}
 
 		@Override public void draw() {
-			Drawf.spinSprite(region, x, y, (Time.time * routateSpeed) % 360f + rotdeg());
+			Drawf.spinSprite(region, x, y, Time.time * routateSpeed);
 			circles.draw(this);
 		}
 	}

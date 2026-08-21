@@ -56,7 +56,7 @@ public class AstraBlocks {
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor,
 		plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer, vacuumChamber, astraniumForge,
 		wireRelay, largeWireRelay, powerRelay, largePowerRelay, relayTower, centralRelayTower, switchRelay,
-		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell, lamp,
+		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
 		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
 		coolantPump, thermalSink, nuclearSteamTower, heliumPump, hydrogenBreeder, heliumDiverter,
@@ -74,7 +74,7 @@ public class AstraBlocks {
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
 		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
 		platedContainer, platedVault, platedCrypt,
-		mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
+		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
 		omegafactory, uberwall, superRouter, testblaster, bouncyOhno;
@@ -1087,18 +1087,6 @@ public class AstraBlocks {
 			}}, new DrawDefault());
 			lightningColor = AstraPal.crystalRed;
 			unstableGlowColor = Color.purple;
-		}};
-
-		lamp = new LightBlock("lamp"){{
-				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
-					AstraItems.iron, 15, 
-					Items.copper, 10, 
-					Items.lead, 10
-				));
-				size = 2;
-				brightness = 1f;
-				radius = 300f;
-				consumePower(0.5f);
 		}};
 
 		// region GENERATORS
@@ -3157,6 +3145,19 @@ public class AstraBlocks {
 			scaledHealth = 80f;
 			armor = 6f;
 			itemCapacity = 7500;
+		}};
+
+		lamp = new LightBlock("lamp") {{
+				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.metaglass, 20,
+					Items.copper, 15
+				));
+				size = 2;
+				fogRadius = 6;
+				brightness = 1f;
+				radius = 300f;
+				consumePower(0.5f);
 		}};
 
 		mendBeam = new MendTurret("mend-beam") {{
