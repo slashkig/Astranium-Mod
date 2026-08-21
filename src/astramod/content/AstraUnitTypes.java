@@ -18,9 +18,10 @@ import astramod.ai.types.*;
 import astramod.gen.*;
 import astramod.gen.UnitEntity;
 import astramod.type.unit.*;
+import astramod.graphics.*;
 
 public class AstraUnitTypes {
-	public static @EntityDef({ Unitc.class }) UnitType manager, director;
+	public static @EntityDef({ Unitc.class }) UnitType manager, director, overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
 
 	public static void load() {
@@ -40,6 +41,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 120f;
+      armor = 2f;
 			hitSize = 10f;
 			fogRadius = 0f;
 			itemCapacity = 25;
@@ -91,6 +93,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 160f;
+			armor = 3f;
 			hitSize = 12f;
 			fogRadius = 0;
 			itemCapacity = 40;
@@ -131,6 +134,63 @@ public class AstraUnitTypes {
 					backColor = hitColor = lightColor = Pal.yellowBoltFront;
 					frontColor = Color.white;
 					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
+				}};
+			}});
+		}};
+
+		overseer = new AstraUnitType("overseer") {{
+			constructor = UnitEntity::create;
+			aiController = BuilderAI::new;
+			flying = true;
+
+			isEnemy = false;
+			coreUnitDock = true;
+			targetPriority = -2.5f;
+
+			health = 300f;
+			armor = 4f;
+			hitSize = 17f;
+			fogRadius = 0;
+			itemCapacity = 110;
+
+			drag = 0.07f;
+			accel = 0.1f;
+			speed = 5.5f;
+			rotateSpeed = 17.5f;
+
+			buildSpeed = 1.3f;
+			mineTier = 2;
+			mineSpeed = 10f;
+			mineWalls = true;
+
+			lowAltitude = true;
+			engineOffset = 13f;
+			engineSize = 5f;
+			setEnginesMirror(
+				new UnitEngine(7, -12, 3, 315f)
+			);
+
+			weapons.add(new Weapon("astramod-overseer-weapon") {{
+				reload = 16f;
+				shoot.shots = 4;
+				shoot.shotDelay = 4.5f;
+				inaccuracy = 4f;
+				x = 7.9f;
+				y = 1.6f;
+				top = false;
+				layerOffset = -0.1f;
+				shootSound = Sounds.shootLaser;
+
+				bullet = new LaserBoltBulletType(6.5f, 18) {{
+					lifetime = 45.5f;
+					keepVelocity = false;
+					buildingDamageMultiplier = 0.01f;
+
+					backColor = Pal.bulletYellowBack;
+					frontColor = Pal.bulletYellow;
+					smokeEffect = AstraFx.coreLaser;
+					hitEffect = AstraFx.coreLaser;
+					despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
@@ -180,6 +240,7 @@ public class AstraUnitTypes {
 			targetPriority = -5f;
 
 			health = 150f;
+			armor = 1f;
 			hitSize = 9f;
 			fogRadius = 6f;
 			itemCapacity = 10;
@@ -232,6 +293,7 @@ public class AstraUnitTypes {
 			isEnemy = false;
 
 			health = 200f;
+			armor = 2f;
 			hitSize = 9f;
 			fogRadius = 6f;
 			itemCapacity = 10;
@@ -282,6 +344,7 @@ public class AstraUnitTypes {
 			targetPriority = -4f;
 
 			health = 150f;
+			armor = 3f;
 			hitSize = 9f;
 			fogRadius = 6f;
 			itemCapacity = 12;

@@ -55,8 +55,8 @@ public class AstraBlocks {
 		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
 		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor,
 		plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer, vacuumChamber, astraniumForge,
-		wireRelay, largeWireRelay, powerRelay, largePowerRelay, relayTower, switchRelay,
-		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
+		wireRelay, largeWireRelay, powerRelay, largePowerRelay, relayTower, centralRelayTower, switchRelay,
+		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell, lamp,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
 		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
 		coolantPump, thermalSink, nuclearSteamTower, heliumPump, hydrogenBreeder, heliumDiverter,
@@ -981,6 +981,26 @@ public class AstraBlocks {
 			squareSprite = false;
 		}};
 
+		centralRelayTower = new PowerRelay("central-relay-tower") {{
+			requirements(Category.power, BuildVisibility.sandboxOnly, ItemStack.with(
+				Items.copper, 1000,
+				AstraItems.astranium, 100,
+				AstraItems.steel, 500,
+				AstraItems.crystals, 300
+			));
+			buildCostMultiplier = 1.6f;
+			scaledHealth = 100f;
+			armor = 12f;
+			size = 4;
+			fogRadius = 4;
+			maxNodes = 4;
+			laserRange = 500f;
+
+			consumePowerBuffered(100000);
+
+			squareSprite = false;
+		}};
+
 		switchRelay = new SwitchRelay("switch-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 15, Items.silicon, 5, AstraItems.iron, 10));
 			size = 2;
@@ -1067,6 +1087,18 @@ public class AstraBlocks {
 			}}, new DrawDefault());
 			lightningColor = AstraPal.crystalRed;
 			unstableGlowColor = Color.purple;
+		}};
+
+		lamp = new LightBlock("lamp"){{
+				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
+					AstraItems.iron, 15, 
+					Items.copper, 10, 
+					Items.lead, 10
+				));
+				size = 2;
+				brightness = 1f;
+				radius = 300f;
+				consumePower(0.5f);
 		}};
 
 		// region GENERATORS
@@ -2806,8 +2838,13 @@ public class AstraBlocks {
 			itemCapacity = 10000;
 			extraFogRadius = 40f;
 
+<<<<<<< Updated upstream
 			unitType = AstraUnitTypes.director;
 			unitCapModifier = 8;
+=======
+			unitType = AstraUnitTypes.overseer;
+			unitCapModifier = 10;
+>>>>>>> Stashed changes
 
 			thrusterLength = 15f;
 		}};
