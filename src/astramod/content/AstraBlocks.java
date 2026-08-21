@@ -3769,9 +3769,7 @@ public class AstraBlocks {
 				lifetime = 60f;
 				backColor = AstraPal.testPink;
 				frontColor = Color.white;
-				smokeEffect = AstraFx.superLaser;
-				hitEffect = AstraFx.superLaser;
-				despawnEffect = AstraFx.superLaser;
+				smokeEffect = hitEffect = despawnEffect = AstraFx.colorLaser;
 			}};
 
 			color = AstraPal.testPink;

@@ -23,6 +23,8 @@ public class SuperRouter extends Router {
 
 	public SuperRouter(String name) {
 		super(name);
+		drawCached = false;
+		drawDynamic = true;
 	}
 
 	@Override public int minimapColor(Tile tile) {

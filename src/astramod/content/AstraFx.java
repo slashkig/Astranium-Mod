@@ -6,6 +6,7 @@ import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.gen.*;
 import astramod.graphics.*;
 
 public class AstraFx {
@@ -50,20 +51,13 @@ public class AstraFx {
 		Lines.poly(e.x, e.y, 8, e.rotation + e.fin(), 22.5f);
 	}),
 
-	coreLaser = new Effect(8, e -> {
-		Draw.color(Pal.bulletYellow, Pal.bulletYellowBack, e.fin());
+	colorLaser = new Effect(8, e -> {
+		Color color = e.data instanceof Teamc t ? t.team().color : e.color;
+		Draw.color(Color.white, color, e.fin());
 		Lines.stroke(0.5f + e.fout());
 		Lines.circle(e.x, e.y, e.fin() * 5f);
 
-		Drawf.light(e.x, e.y, 23f, Pal.bulletYellowBack, e.fout() * 0.7f);
-	}),
-
-	superLaser = new Effect(8, e -> {
-		Draw.color(Color.white, AstraPal.testPink, e.fin());
-		Lines.stroke(0.5f + e.fout());
-		Lines.circle(e.x, e.y, e.fin() * 5f);
-
-		Drawf.light(e.x, e.y, 23f, AstraPal.testPink, e.fout() * 0.7f);
+		Drawf.light(e.x, e.y, 23f, color, e.fout() * 0.7f);
 	}),
 	
 	shootMediumFlame = new Effect(35f, 80f, e -> {

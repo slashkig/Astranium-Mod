@@ -56,6 +56,7 @@ public class EffectWall extends Wall {
 			effect.get(this);
 		}
 
+		// TODO doesn't draw effect
 		@Override public void draw() {
 			super.draw();
 

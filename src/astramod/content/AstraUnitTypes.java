@@ -1,6 +1,5 @@
 package astramod.content;
 
-import arc.graphics.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
@@ -15,13 +14,18 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import astramod.ai.*;
 import astramod.ai.types.*;
-import astramod.gen.*;
+import astramod.entities.bullet.*;
 import astramod.gen.UnitEntity;
+import astramod.gen.PayloadUnit;
+import astramod.gen.BuildingTetherUnit;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 
+import static mindustry.Vars.*;
+
 public class AstraUnitTypes {
-	public static @EntityDef({ Unitc.class }) UnitType manager, director, overseer;
+	public static @EntityDef({ Unitc.class }) UnitType manager, director;
+	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
 
 	public static void load() {
@@ -67,17 +71,13 @@ public class AstraUnitTypes {
 				layerOffset = -0.1f;
 				shootSound = Sounds.shootAlpha;
 
-				bullet = new LaserBoltBulletType(5f, 15) {{
+				bullet = new TeamLaserBoltBulletType(5f, 15) {{
 					width = 1.6f;
 					height = 6f;
 					lifetime = 35f;
 					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
 					homingPower = 0.03f;
-
-					backColor = hitColor = lightColor = Pal.yellowBoltFront;
-					frontColor = Color.white;
-					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
@@ -92,7 +92,7 @@ public class AstraUnitTypes {
 			coreUnitDock = true;
 			targetPriority = -2.5f;
 
-			health = 160f;
+			health = 180f;
 			armor = 3f;
 			hitSize = 12f;
 			fogRadius = 0;
@@ -123,23 +123,19 @@ public class AstraUnitTypes {
 				layerOffset = -0.1f;
 				shootSound = Sounds.shootAlpha;
 
-				bullet = new LaserBoltBulletType(5.5f, 15) {{
+				bullet = new TeamLaserBoltBulletType(5.5f, 15) {{
 					width = 1.6f;
 					height = 5f;
 					lifetime = 37.5f;
 					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
 					homingPower = 0.03f;
-
-					backColor = hitColor = lightColor = Pal.yellowBoltFront;
-					frontColor = Color.white;
-					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
 
 		overseer = new AstraUnitType("overseer") {{
-			constructor = UnitEntity::create;
+			constructor = PayloadUnit::create;
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
@@ -148,11 +144,12 @@ public class AstraUnitTypes {
 			coreUnitDock = true;
 			targetPriority = -2.5f;
 
-			health = 250f;
+			health = 260f;
 			armor = 4f;
 			hitSize = 17f;
 			fogRadius = 0;
 			itemCapacity = 60;
+			payloadCapacity = 4f * tilePayload;
 
 			drag = 0.07f;
 			accel = 0.1f;
@@ -170,9 +167,9 @@ public class AstraUnitTypes {
 			setEnginesMirror(new UnitEngine(7f, -12f, 3f, 315f));
 
 			weapons.add(new RampUpWeapon("astramod-overseer-weapon") {{
-				reload = 40f;
+				reload = 35f;
 				rampupFactor = 0.875f;
-				shootWarmupSpeed = 1f / 360f;
+				shootWarmupSpeed = 1f / 400f;
 				inaccuracy = 4f;
 				x = 7.9f;
 				y = 1.6f;
@@ -181,17 +178,11 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootLaser;
 				shootY = 4.5f;
 
-				bullet = new LaserBoltBulletType(6.5f, 15) {{
-					width = 1.6f;
-					height = 5f;
-					lifetime = 30f;
+				bullet = new TeamLaserBoltBulletType(6.5f, 15) {{
+					lifetime = 34f;
 					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.01f;
 					homingPower = 0.03f;
-
-					backColor = hitColor = lightColor = Pal.yellowBoltFront;
-					frontColor = Color.white;
-					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
@@ -318,14 +309,10 @@ public class AstraUnitTypes {
 				mirror = false;
 				shootSound = Sounds.shootLaser;
 
-				bullet = new LaserBoltBulletType(5f, 15) {{
+				bullet = new TeamLaserBoltBulletType(5f, 15) {{
 					lifetime = 25f;
 					scaleKeepVelocity = true;
 					buildingDamageMultiplier = 0.5f;
-
-					backColor = hitColor = lightColor = Pal.yellowBoltFront;
-					frontColor = Color.white;
-					smokeEffect = hitEffect = despawnEffect = AstraFx.coreLaser;
 				}};
 			}});
 		}};
