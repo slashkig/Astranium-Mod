@@ -2838,13 +2838,8 @@ public class AstraBlocks {
 			itemCapacity = 10000;
 			extraFogRadius = 40f;
 
-<<<<<<< Updated upstream
-			unitType = AstraUnitTypes.director;
-			unitCapModifier = 8;
-=======
 			unitType = AstraUnitTypes.overseer;
 			unitCapModifier = 10;
->>>>>>> Stashed changes
 
 			thrusterLength = 15f;
 		}};
