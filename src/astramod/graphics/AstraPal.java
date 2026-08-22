@@ -1,8 +1,8 @@
 package astramod.graphics;
 
-import arc.graphics.*;
+import arc.graphics.Color;
 import arc.util.Log;
-import mindustry.game.*;
+import mindustry.game.Team;
 
 public class AstraPal {
 	public static Color
@@ -39,6 +39,8 @@ public class AstraPal {
 		steelBack = Color.valueOf("e4e4e4"),
 		neoFront = Color.valueOf("9c9c9c"),
 		neoBack = Color.valueOf("c0954c"),
+
+		machineGunHeat = Color.valueOf("f9350f"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");

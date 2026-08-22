@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.math.geom.Rect;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
@@ -10,14 +11,17 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.type.unit.*;
 import astramod.ai.*;
 import astramod.ai.types.*;
 import astramod.entities.bullet.*;
 import astramod.gen.UnitEntity;
 import astramod.gen.PayloadUnit;
 import astramod.gen.BuildingTetherUnit;
+import astramod.graphics.AstraPal;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 
@@ -27,6 +31,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
+	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei;
 
 	public static void load() {
 		Log.info("Loading units");
@@ -228,7 +233,7 @@ public class AstraUnitTypes {
 			playerControllable = false;
 			logicControllable = false;
 			controlSelectGlobal = false;
-			isEnemy = false;	
+			isEnemy = false;
 			targetPriority = -5f;
 
 			health = 150f;
@@ -353,6 +358,51 @@ public class AstraUnitTypes {
 				cooldown = 60f * 10;
 				max = 500f;
 				whenShooting = false;
+			}});
+		}};
+
+		// region MACHINE GUN TANKS
+
+		aculei = new TankUnitType("aculei"){{
+			hitSize = 12f;
+			treadPullOffset = 3;
+			speed = 0.50f;
+			rotateSpeed = 3.5f;
+			health = 650;
+			armor = 4f;
+			itemCapacity = 20;
+			floorMultiplier = 0.95f;
+			treadRects = new Rect[] {
+					new Rect(-21f, -28f, 42, 56)
+			};
+			researchCostMultiplier = 0f;
+
+			tankMoveVolume *= 0.4f;
+			tankMoveSound = Sounds.tankMoveSmall;
+
+			weapons.add(new Weapon("astramod-aculei-weapon"){{
+				layerOffset = 0.0001f;
+				reload = 7f;
+				inaccuracy = 5.5f;
+				shootY = 5f;
+				recoil = 1f;
+				rotate = true;
+				rotateSpeed = 2.2f;
+				mirror = false;
+				x = 0f;
+				y = -0.75f;
+				heatColor = AstraPal.machineGunHeat;
+				cooldownTime = 100f;
+
+				bullet = new BasicBulletType(7f, 12){{
+					smokeEffect = Fx.shootBigSmoke;
+					lifetime = 27f;
+					hitSize = 4f;
+					hitColor = trailColor = AstraPal.machineGunHeat;
+					trailWidth = 1f;
+					trailLength = 3;
+					despawnEffect = hitEffect = Fx.hitBulletColor;
+				}};
 			}});
 		}};
 	}
