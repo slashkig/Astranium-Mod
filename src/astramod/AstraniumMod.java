@@ -6,6 +6,7 @@ import astramod.ai.*;
 import astramod.content.*;
 import astramod.gen.*;
 import astramod.graphics.*;
+import astramod.ui.Icons;
 
 public class AstraniumMod extends Mod {
 	public AstraniumMod() {
@@ -25,6 +26,7 @@ public class AstraniumMod extends Mod {
 		AzirisTechTree.load();
 		AstraEvents.load();
 		AstraSectorPresets.load();
+		Icons.load();
 
 		Log.info("Astranium Mod loaded");
 	}
