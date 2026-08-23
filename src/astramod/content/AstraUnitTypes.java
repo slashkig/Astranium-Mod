@@ -413,8 +413,6 @@ public class AstraUnitTypes {
 					height = 8.5f;
 					lifetime = 35f;
 					hitSize = 5f;
-					pierce = true;
-					pierceCap = 23;
 					hitColor = backColor = trailColor = AstraPal.heavyGunnerBack;
 					frontColor = AstraPal.heavyGunnerFront;
 
