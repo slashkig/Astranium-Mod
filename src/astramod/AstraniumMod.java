@@ -18,6 +18,7 @@ public class AstraniumMod extends Mod {
 		AstraPal.load();
 		AstraItems.load();
 		AstraFluids.load();
+		AstraUnitStance.load();
 		AstraUnitCommand.load();
 		AstraUnitTypes.load();
 		AstraBlocks.load();

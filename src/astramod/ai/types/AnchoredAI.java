@@ -1,23 +1,20 @@
 package astramod.ai.types;
 
 import mindustry.Vars;
+import mindustry.ai.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.logic.Ranged;
 
 /** Unit must implement {@link BuildingTetherc}. */
-public abstract class AnchoredAI extends AIController {
+public class AnchoredAI extends AIController {
 	public float boundRadius;
-	private Building anchor;
+	protected Building anchor;
 
 	@Override public void init() {
 		if (unit instanceof BuildingTetherc bt && bt.building() != null) {
 			anchor(bt.building());
 		}
-	}
-
-	public Building anchor() {
-		return anchor;
 	}
 
 	public void anchor(Building build) {
@@ -29,7 +26,19 @@ public abstract class AnchoredAI extends AIController {
 
 	@Override public void updateMovement() {
 		if (unit.dst(anchor) > Vars.tilesize) {
-			moveTo(anchor, 0.1f);
+			moveTo(anchor, 1f);
 		}
+	}
+	
+	@Override public boolean shouldFire() {
+		return target != null && unit.inRange(target) && !hasStance(UnitStance.holdFire);
+	}
+
+	@Override public boolean invalid(Teamc target) {
+		return super.invalid(target) || anchor.dst(target) > boundRadius * 1.1f && !hasStance(UnitStance.pursueTarget);
+	}
+
+	@Override public boolean isLogicControllable() {
+		return false;
 	}
 }

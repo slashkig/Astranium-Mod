@@ -1,27 +1,21 @@
 package astramod.content;
 
-import arc.math.geom.Rect;
+import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
-import mindustry.type.*;
-import mindustry.type.weapons.*;
-import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
-import mindustry.type.unit.*;
-import astramod.ai.*;
+import mindustry.type.*;
+import mindustry.type.weapons.*;
 import astramod.ai.types.*;
 import astramod.entities.bullet.*;
-import astramod.gen.UnitEntity;
 import astramod.gen.PayloadUnit;
-import astramod.gen.BuildingTetherUnit;
-import astramod.graphics.AstraPal;
+import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 
@@ -39,7 +33,6 @@ public class AstraUnitTypes {
 		// region CORE
 
 		manager = new AstraUnitType("manager") {{
-			constructor = UnitEntity::create;
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 			alwaysUnlocked = true;
@@ -88,7 +81,6 @@ public class AstraUnitTypes {
 		}};
 
 		director = new AstraUnitType("director") {{
-			constructor = UnitEntity::create;
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
@@ -155,6 +147,7 @@ public class AstraUnitTypes {
 			fogRadius = 0;
 			itemCapacity = 60;
 			payloadCapacity = 4f * tilePayload;
+			pickupUnits = false;
 
 			drag = 0.07f;
 			accel = 0.1f;
@@ -194,15 +187,10 @@ public class AstraUnitTypes {
 
 		// region MODULES
 
-		gatherer = new AstraUnitType("gatherer") {{
-			constructor = BuildingTetherUnit::create;
+		gatherer = new AstraAnchoredUnitType("gatherer") {{
 			aiController = () -> new AnchoredMinerAI();
-			flying = true;
 
-			playerControllable = false;
-			logicControllable = false;
-			controlSelectGlobal = false;
-			isEnemy = false;
+			flying = true;
 			targetPriority = -5f;
 
 			health = 80f;
@@ -225,15 +213,10 @@ public class AstraUnitTypes {
 			engineSize = 2f;
 		}};
 
-		initiate = new AstraUnitType("initiate") {{
-			constructor = BuildingTetherUnit::create;
+		initiate = new AstraAnchoredUnitType("initiate") {{
 			aiController = () -> new AnchoredSupportAI();
-			flying = true;
 
-			playerControllable = false;
-			logicControllable = false;
-			controlSelectGlobal = false;
-			isEnemy = false;
+			flying = true;
 			targetPriority = -5f;
 
 			health = 150f;
@@ -276,18 +259,9 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		seeker =  new AstraUnitType("seeker") {{
-			constructor = BuildingTetherUnit::create;
-			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
-			aiController = () -> new AnchoredProtectorAI();
-			commands = Seq.with(AstraUnitCommand.protect, AstraUnitCommand.combatFollow);
-			stances = Seq.with(UnitStance.stop, UnitStance.holdFire, UnitStance.holdPosition);
+		seeker = new AstraAnchoredUnitType("seeker") {{
+			aiController = () -> new AnchoredAttackerAI();
 			flying = true;
-
-			playerControllable = false;
-			logicControllable = false;
-			controlSelectGlobal = false;
-			isEnemy = false;
 
 			health = 200f;
 			armor = 2f;
@@ -322,18 +296,8 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		ward = new AstraUnitType("warder") {{
-			constructor = BuildingTetherUnit::create;
-			controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
-			aiController = () -> new AnchoredShieldAI();
-			commands = Seq.with(AstraUnitCommand.shieldCore, AstraUnitCommand.shieldFollow);
-			stances = Seq.with(UnitStance.stop, UnitStance.holdPosition);
+		ward = new AstraAnchoredUnitType("warder") {{
 			flying = true;
-
-			playerControllable = false;
-			logicControllable = false;
-			controlSelectGlobal = false;
-			isEnemy = false;
 			targetPriority = -4f;
 
 			health = 150f;
@@ -355,52 +319,52 @@ public class AstraUnitTypes {
 				radius = 10f;
 				angle = 120f;
 				width = 5f;
-				cooldown = 60f * 10;
+				cooldown = 10f * Time.toSeconds;
 				max = 500f;
+				regen = 0.15f;
 				whenShooting = false;
 			}});
 		}};
 
-		// region MACHINE GUN TANKS
+		// region GUNNER TANKS
 
-		aculei = new TankUnitType("aculei"){{
-			hitSize = 12f;
-			treadPullOffset = 3;
-			speed = 0.50f;
-			rotateSpeed = 3.5f;
-			health = 650;
+		aculei = new AstraTankUnitType("aculei") {{
+			health = 500;
 			armor = 4f;
-			itemCapacity = 20;
+			hitSize = 12f;
+			fogRadius = 10f;
+			itemCapacity = 10;
+
+			speed = 0.6f;
+			accel = 0.2f;
+			rotateSpeed = 3f;
 			floorMultiplier = 0.95f;
-			treadRects = new Rect[] {
-					new Rect(-21f, -28f, 42, 56)
-			};
-			researchCostMultiplier = 0f;
+
+			treadRects = new Rect[] { new Rect(-21f, -28f, 42f, 56f) };
+			treadPullOffset = 3;
 
 			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
 
-			weapons.add(new Weapon("astramod-aculei-weapon"){{
-				layerOffset = 0.0001f;
-				reload = 7f;
+			weapons.add(new Weapon("astramod-aculei-weapon") {{
+				reload = 15f;
 				inaccuracy = 5.5f;
 				shootY = 5f;
 				recoil = 1f;
-				rotate = true;
-				rotateSpeed = 2.2f;
-				mirror = false;
 				x = 0f;
 				y = -0.75f;
+				mirror = false;
+				rotate = true;
+				rotateSpeed = 2.2f;
+
+				layerOffset = 0.0001f;
 				heatColor = AstraPal.machineGunHeat;
 				cooldownTime = 100f;
 
-				bullet = new BasicBulletType(7f, 12){{
+				bullet = new BasicBulletType(5f, 12) {{
 					smokeEffect = Fx.shootBigSmoke;
-					lifetime = 27f;
+					lifetime = 30f;
 					hitSize = 4f;
-					hitColor = trailColor = AstraPal.machineGunHeat;
-					trailWidth = 1f;
-					trailLength = 3;
 					despawnEffect = hitEffect = Fx.hitBulletColor;
 				}};
 			}});

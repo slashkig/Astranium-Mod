@@ -1,7 +1,7 @@
 package astramod.ai.types;
 
-import arc.struct.*;
 import arc.util.*;
+import mindustry.ai.types.*;
 import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.game.Teams.BlockPlan;
@@ -11,8 +11,9 @@ import mindustry.world.blocks.ConstructBlock.ConstructBuild;
 
 import static mindustry.Vars.*;
 
+/** Uses elements from BuilderAI and RepairAI. */
 public class AnchoredSupportAI extends AnchoredAI {
-	public @Nullable Unit following;
+	public @Nullable Unit assisting;
 	public @Nullable Teamc enemy;
 	public @Nullable BlockPlan lastPlan;
 
@@ -35,14 +36,15 @@ public class AnchoredSupportAI extends AnchoredAI {
 		fleeRange = boundRadius / 2f;
 	}
 
+	@Override public void updateVisuals() {
+		if (target == null) super.updateVisuals();
+	}
+
 	@Override public void updateMovement() {
-		Building anchor = anchor();
-
-		if (target != null && shouldShoot()) {
-			unit.lookAt(target);
-		}
-
 		unit.updateBuilding = true;
+		boolean moving = false;
+
+		if (assisting != null && !assisting.isValid()) assisting = null;
 
 		if (unit.buildPlan() == null && damagedTarget == null || alwaysFlee) {
 			if (timer.get(timerTarget4, 40)) {
@@ -50,30 +52,29 @@ public class AnchoredSupportAI extends AnchoredAI {
 			}
 
 			// Fly away from enemy when not doing anything, but only after a delay
-			if ((retreatTimer += Time.delta) >= retreatDelay || alwaysFlee) {
-				if (enemy != null) {
-					unit.clearBuilding();
-					super.updateMovement();
-				}
+			if (((retreatTimer += Time.delta) >= retreatDelay || alwaysFlee) && enemy != null) {
+				unit.clearBuilding();
+				super.updateMovement();
+				moving = true;
 			}
 		}
 
 		// Try to follow and mimic someone
-		if (following != null) {
+		if (assisting != null) {
 			retreatTimer = 0f;
 
 			// Validate follower
-			if (!following.isValid() || anchor.dst(following) > boundRadius || !following.activelyBuilding()) {
-				following = null;
+			if (!assisting.isValid() || anchor.dst(assisting) > boundRadius || !assisting.activelyBuilding()) {
+				assisting = null;
 				unit.plans.clear();
 				return;
 			}
 
 			// Set to follower's first build plan, whatever that is
 			unit.plans.clear();
-			unit.plans.addFirst(following.buildPlan());
+			unit.plans.addFirst(assisting.buildPlan());
 			lastPlan = null;
-			moveTo(following.buildPlan(), unit.type.buildRange * 0.9f, 25f);
+			moveTo(assisting.buildPlan(), unit.type.buildRange * 0.9f, 25f);
 		} else if (unit.buildPlan() != null) {
 			if (!alwaysFlee) retreatTimer = 0f;
 			// Approach plan if building
@@ -97,7 +98,9 @@ public class AnchoredSupportAI extends AnchoredAI {
 
 			if (valid) {
 				// Move toward the plan
-				moveTo(req.tile(), unit.type.buildRange * 0.9f, 25f);
+				float range = Math.min(unit.type.buildRange - unit.type.hitSize * 2f, BuilderAI.buildRadius);
+				moveTo(req.tile(), range, 20f);
+				moving = !unit.within(req.tile(), range);
 			} else {
 				// Discard invalid plan
 				unit.plans.removeFirst();
@@ -120,7 +123,7 @@ public class AnchoredSupportAI extends AnchoredAI {
 
 							// Make sure you can reach the plan in time
 							if (dist / unit.speed() < cons.buildCost * 0.9f) {
-								following = u;
+								assisting = u;
 								found = true;
 							}
 						}
@@ -128,10 +131,10 @@ public class AnchoredSupportAI extends AnchoredAI {
 				});
 			}
 
-			if (following == null) {
+			if (assisting == null) {
 				// Find new plan
 				if (!unit.team.data().plans.isEmpty()) {
-					Queue<BlockPlan> blocks = unit.team.data().plans;
+					var blocks = unit.team.data().plans;
 					BlockPlan block = blocks.first();
 
 					// Check if it's already been placed
@@ -167,9 +170,9 @@ public class AnchoredSupportAI extends AnchoredAI {
 
 					if (target != null && target instanceof Building b && b.team == unit.team) {
 						if (unit.type.circleTarget) {
-							circleAttack(120f);
+							circleAttack(unit.type.circleTargetRadius);
 						} else if (!target.within(unit, unit.type.range * 0.65f)) {
-							moveTo(target, unit.type.range * 0.65f);
+							moveTo(target, unit.type.range * 0.65f, 10f);
 						}
 
 						if (!unit.type.circleTarget) {
@@ -182,12 +185,15 @@ public class AnchoredSupportAI extends AnchoredAI {
 				}
 			}
 		}
+		if (!unit.type.flying) {
+            unit.updateBoosting(unit.type.boostWhenBuilding || moving || unit.floorOn().isDuct || unit.floorOn().damageTaken > 0f || unit.floorOn().isDeep());
+		}
 	}
 
 	@Override public void updateTargeting() {
-		if (timer.get(timerTarget, 15)) {
+		if (timer.get(timerTarget, 15f)) {
 			damagedTarget = Units.findDamagedTile(unit.team, unit.x, unit.y);
-			if (damagedTarget instanceof ConstructBuild || damagedTarget != null && damagedTarget.dst(anchor()) > boundRadius) damagedTarget = null;
+			if (damagedTarget instanceof ConstructBuild || damagedTarget != null && damagedTarget.dst(anchor) > boundRadius) damagedTarget = null;
 		}
 
 		if (damagedTarget == null) {
@@ -197,11 +203,11 @@ public class AnchoredSupportAI extends AnchoredAI {
 		}
 	}
 
-	protected boolean nearEnemy(int x, int y) {
-		return Units.nearEnemy(unit.team, x * tilesize - fleeRange / 2f, y * tilesize - fleeRange / 2f, fleeRange, fleeRange);
+	@Override public boolean shouldFire() {
+		return !(unit.controller() instanceof CommandAI ai) || ai.shouldFire();
 	}
 
-	@Override public boolean shouldShoot() {
-		return !unit.isBuilding() && unit.type.canAttack;
+	protected boolean nearEnemy(int x, int y) {
+		return Units.nearEnemy(unit.team, x * tilesize - fleeRange / 2f, y * tilesize - fleeRange / 2f, fleeRange, fleeRange);
 	}
 }

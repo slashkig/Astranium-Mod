@@ -1,11 +1,13 @@
 package astramod.ai.types;
 
-import static mindustry.Vars.state;
-
 import arc.util.*;
+import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
+import astramod.ai.*;
+
+import static mindustry.Vars.state;
 
 public abstract class FollowAI extends AIController {
 	public @Nullable Unit following;
@@ -16,25 +18,40 @@ public abstract class FollowAI extends AIController {
 			moveTo(following, following.type.hitSize + unit.type.hitSize / 2f + followRange);
 		}
 
-		float minDst = Float.MAX_VALUE;
-		Player closest = null;
-		for (Player player : Groups.player) {
-			if (!player.dead() && player.team() == unit.team) {
-				float dst = player.dst2(unit);
-				if (dst < minDst) {
-					closest = player;
-					minDst = dst;
+		if (timer.get(timerTarget2, following == null ? 40f : 90f) && (!hasStance(AstraUnitStance.lockFollow) || following == null || !following.isValid())) {
+			float minDst = Float.MAX_VALUE;
+			Player closest = null;
+
+			for (Player player : Groups.player) {
+				if (!player.dead() && player.team() == unit.team) {
+					float dst = player.dst2(unit);
+					if (dst < minDst) {
+						closest = player;
+						minDst = dst;
+					}
 				}
 			}
+			follow(closest == null ? null : closest.unit());
 		}
-		following = closest == null ? null : closest.unit();
 	}
 
 	@Override public AIController fallback() {
-		return unit.type.flying ? new FlyingAI() : new GroundAI();
+		return unit.team.isAI() && unit.team.rules().prebuildAi ? new PrebuildAI() : unit.type.flying ? new FlyingAI() : new GroundAI();
 	}
 
 	@Override public boolean useFallback() {
-		return state.rules.waves && unit.team == state.rules.waveTeam && !unit.team.rules().rtsAi;
+		return unit.team.isAI() && unit.team.rules().prebuildAi || state.rules.waves && unit.team == state.rules.waveTeam && !unit.team.rules().rtsAi;
+	}
+
+	@Override public boolean shouldFire() {
+		return !hasStance(UnitStance.holdFire) && target != null && unit.inRange(target);
+	}
+
+	@Override public boolean shouldShoot() {
+		return !unit.isBuilding() && unit.type.canAttack;
+	}
+
+	public void follow(Unit unit) {
+		following = unit;
 	}
 }
