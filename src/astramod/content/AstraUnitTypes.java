@@ -329,40 +329,41 @@ public class AstraUnitTypes {
 		// region GUNNER TANKS
 
 		aculei = new AstraTankUnitType("aculei") {{
-			health = 500;
-			armor = 4f;
+			health = 600;
+			armor = 5f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 10;
 
-			speed = 0.6f;
+			speed = 1.2f;
 			accel = 0.2f;
 			rotateSpeed = 3f;
 			floorMultiplier = 0.95f;
 
-			treadRects = new Rect[] { new Rect(-21f, -28f, 42f, 56f) };
 			treadPullOffset = 3;
+			treadRects = new Rect[] {
+					new Rect(-21f, -28f, 15, 56)
+			};
 
 			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
 
 			weapons.add(new Weapon("astramod-aculei-weapon") {{
-				reload = 15f;
-				inaccuracy = 5.5f;
-				shootY = 5f;
+				reload = 7.5f;
+				inaccuracy = 6f;
+				shootY = 5.5f;
 				recoil = 1f;
 				x = 0f;
 				y = -0.75f;
 				mirror = false;
 				rotate = true;
-				rotateSpeed = 2.2f;
+				rotateSpeed = 2.5f;
 
 				layerOffset = 0.0001f;
-				heatColor = AstraPal.machineGunHeat;
+				// heatColor = AstraPal.machineGunHeat; (Still debating on whether I want this or not)
 				cooldownTime = 100f;
 
-				bullet = new BasicBulletType(5f, 12) {{
-					smokeEffect = Fx.shootBigSmoke;
+				bullet = new BasicBulletType(6f, 13) {{
 					lifetime = 30f;
 					hitSize = 4f;
 					despawnEffect = hitEffect = Fx.hitBulletColor;
