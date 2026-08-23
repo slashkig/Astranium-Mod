@@ -8,6 +8,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
@@ -25,7 +26,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei;
+	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	public static void load() {
 		Log.info("Loading units");
@@ -360,13 +361,82 @@ public class AstraUnitTypes {
 				rotateSpeed = 2.5f;
 
 				layerOffset = 0.0001f;
-				// heatColor = AstraPal.machineGunHeat; (Still debating on whether I want this or not)
-				cooldownTime = 100f;
 
 				bullet = new BasicBulletType(6f, 13) {{
 					lifetime = 30f;
 					hitSize = 4f;
 					despawnEffect = hitEffect = Fx.hitBulletColor;
+				}};
+			}});
+		}};
+
+		echidna = new AstraTankUnitType("echidna") {{
+			health = 1900;
+			armor = 8f;
+			hitSize = 19f;
+			fogRadius = 20f;
+			itemCapacity = 25;
+
+			speed = 0.8f;
+			accel = 0.6f;
+			rotateSpeed = 2.8f;
+			floorMultiplier = 0.8f;
+
+			treadPullOffset = 5;
+			treadRects = new Rect[] {
+					new Rect(-35f, -38f, 18, 79),
+					new Rect(-12f, -44f, 24, 88)
+			};
+
+			tankMoveVolume *= 0.58f;
+			tankMoveSound = Sounds.tankMove;
+
+			weapons.add(new Weapon("astramod-echidna-weapon") {{
+				reload = 6.5f;
+				shootY = 10f;
+				inaccuracy = 8f;
+				recoil = 1.1f;
+				rotate = true;
+				rotateSpeed = 2f;
+				mirror = false;
+				shootCone = 2f;
+				x = 0f;
+				y = 0f;
+
+				layerOffset = 0.0001f;
+
+				shoot = new ShootAlternate(3.52f);
+
+				bullet = new BasicBulletType(6.5f, 25){{
+					smokeEffect = Fx.shootBigSmoke;
+					width = 6f;
+					height = 8.5f;
+					lifetime = 35f;
+					hitSize = 5f;
+					pierce = true;
+					pierceCap = 23;
+					hitColor = backColor = trailColor = AstraPal.heavyGunnerBack;
+					frontColor = AstraPal.heavyGunnerFront;
+
+					trailWidth = 1.7f;
+					trailLength = 2;
+
+					fragBullets = 1;
+
+					fragBullet = new BasicBulletType(6.5f, 10) {{
+						width = 6f;
+						height = 8.5f;
+						lifetime = 15f;
+						hitSize = 5f;
+						pierce = true;
+						pierceCap = 2;
+						pierceBuilding = true;
+						hitColor = backColor = trailColor = AstraPal.heavyGunnerBack;
+						frontColor = AstraPal.heavyGunnerFront;
+
+						trailWidth = 1.7f;
+						trailLength = 2;
+					}};
 				}};
 			}});
 		}};

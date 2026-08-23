@@ -40,6 +40,14 @@ public class AstraPal {
 		neoFront = Color.valueOf("9c9c9c"),
 		neoBack = Color.valueOf("c0954c"),
 
+		heavyGunnerFront = Color.valueOf("ffbf75"),
+		heavyGunnerBack = Color.valueOf("d17104"),
+		heavyGunnerTrail = Color.valueOf("994102"),
+
+		deflectFront = Color.valueOf("#ffe77d"),
+		deflectback = Color.valueOf("e3be07"),
+		deflectTrail = Color.valueOf("ba4a00"),
+
 		machineGunHeat = Color.valueOf("f9350f"),
 
 		testPink = Color.valueOf("ff22ff"),
