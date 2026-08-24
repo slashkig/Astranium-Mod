@@ -40,6 +40,8 @@ public class AstraPal {
 		neoFront = Color.valueOf("9c9c9c"),
 		neoBack = Color.valueOf("c0954c"),
 
+		darkerOutline = Color.valueOf("181818"),
+
 		heavyGunnerFront = Color.valueOf("ffbf75"),
 		heavyGunnerBack = Color.valueOf("d17104"),
 		heavyGunnerTrail = Color.valueOf("994102"),

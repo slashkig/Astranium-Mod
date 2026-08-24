@@ -349,7 +349,7 @@ public class AstraUnitTypes {
 			tankMoveSound = Sounds.tankMoveSmall;
 
 			weapons.add(new Weapon("astramod-aculei-weapon") {{
-				reload = 12f;
+				reload = 8f;
 				inaccuracy = 6f;
 				rotate = true;
 				rotateSpeed = 2.5f;
@@ -361,8 +361,8 @@ public class AstraUnitTypes {
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(5f, 12) {{
-					lifetime = 30f;
+				bullet = new BasicBulletType(5f, 11) {{
+					lifetime = 25f;
 					hitSize = 4f;
 					shrinkY = 0f;
 				}};
@@ -370,9 +370,9 @@ public class AstraUnitTypes {
 		}};
 
 		echidna = new AstraTankUnitType("echidna") {{
-			health = 1900;
-			armor = 8f;
-			hitSize = 19f;
+			health = 1700;
+			armor = 7f;
+			hitSize = 21f;
 			fogRadius = 12f;
 			itemCapacity = 20;
 
@@ -381,23 +381,23 @@ public class AstraUnitTypes {
 			rotateSpeed = 2.5f;
 			floorMultiplier = 0.8f;
 
-			treadPullOffset = 5;
+			treadPullOffset = 8;
+			treadFrames = 16;
 			treadRects = new Rect[] {
-				new Rect(-35f, -38f, 18, 79),
-				new Rect(-12f, -44f, 24, 88)
+				new Rect(-35f, -44f, 18, 88)
 			};
 
 			tankMoveVolume *= 0.58f;
 			tankMoveSound = Sounds.tankMove;
 
 			weapons.add(new Weapon("astramod-echidna-weapon") {{
-				reload = 7.5f;
+				reload = 7f;
 				inaccuracy = 8f;
 				rotate = true;
 				rotateSpeed = 2f;
 				shootCone = 2f;
 				recoil = 0.8f;
-				shoot = new ShootAlternate(4f);
+				shoot = new ShootAlternate(5.2f);
 
 				mirror = false;
 				x = 0f;
@@ -405,21 +405,20 @@ public class AstraUnitTypes {
 				shootY = 10f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(5f, 16) {{
-					width = 6f;
-					height = 8.5f;
-					lifetime = 35f;
-					hitSize = 5f;
+				bullet = new BasicBulletType(6f, 18) {{
+					width = 7f;
+					height = 9f;
+					lifetime = 27f;
+					hitSize = 4f;
 					shrinkY = 0f;
 					smokeEffect = Fx.shootBigSmoke;
 
 					fragBullets = 1;
 					fragOnHit = false;
-					fragBullet = new BasicBulletType(5f, 16) {{
-						width = 6f;
-						height = 8.5f;
-						lifetime = 15f;
-						hitSize = 5f;
+					fragBullet = new BasicBulletType(6f, 18) {{
+						width = 7f;
+						height = 9f;
+						lifetime = 18f;
 						shrinkY = 0f;
 					}};
 				}};
