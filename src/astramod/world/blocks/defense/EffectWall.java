@@ -56,9 +56,8 @@ public class EffectWall extends Wall {
 			effect.get(this);
 		}
 
-		// TODO doesn't draw effect
-		@Override public void draw() {
-			super.draw();
+		@Override public void drawCached() {
+			super.drawCached();
 
 			if (effectAlpha > 0f) {
 				Draw.color(effectColor, effectAlpha);

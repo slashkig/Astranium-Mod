@@ -364,7 +364,7 @@ public class AstraBlocks {
 		}};
 
 		magnetiteSynthesizer = new GenericCrafter("magnetite-synthesizer") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.silicon, 40, Items.graphite, 50));
+			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.copper, 160, Items.graphite, 50));
 			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 2;
@@ -372,7 +372,7 @@ public class AstraBlocks {
 			hasPower = hasItems = true;
 
 			consumeItems(ItemStack.with(AstraItems.hematite, 2, Items.graphite, 1));
-			consumePower(1.5f);
+			consumePower(1.8f);
 			craftTime = 200f / 3;
 			outputItem = new ItemStack(AstraItems.magnetite, 1);
 
@@ -589,11 +589,11 @@ public class AstraBlocks {
 
 		ferrofluidMixer = new BoostableCrafter("ferrofluid-mixer") {{
 			requirements(Category.crafting, ItemStack.with(
-				AstraItems.steel, 150,
+				AstraItems.steel, 180,
 				Items.metaglass, 140,
-				Items.plastanium, 80,
-				AstraItems.magnetite, 125,
-				Items.graphite, 100
+				Items.thorium, 80,
+				AstraItems.magnetite, 150,
+				Items.graphite, 200
 			));
 			buildCostMultiplier = 1.3f;
 			scaledHealth = 65f;
@@ -800,10 +800,9 @@ public class AstraBlocks {
 			craftTime = 360f;
 			outputItem = new ItemStack(AstraItems.nuclearRod, 1);
 
-			drawer = new DrawMultiIntegrated(//2,
+			drawer = new DrawMultiIntegrated(
 				new DrawTopHeat(),
 				new DrawGlowRegion("-glow") {{ color = Color.cyan; glowIntensity = 0.3f; layer = Layer.blockOver; }}
-				/*new DrawVerticalPump() {{ maxScale = 1.2f; rotate = false; cycleTime = 120f; }}*/
 			);
 		}};
 
@@ -2097,7 +2096,6 @@ public class AstraBlocks {
 
 			chanceDeflect = 12f;
 			flashHit = true;
-			// doorSound = Sounds.swish; bugged sound for some reason
 			triggerMargin = 8f;
 		}};
 
@@ -2108,9 +2106,9 @@ public class AstraBlocks {
 			armor = 12f;
 			fogRadius = 3;
 
-			consumePower(0.05f);
+			consumePower(0.2f);
 			shieldHealth = 150f;
-			breakCooldown = 1500f;
+			breakCooldown = 25f * Time.toSeconds;
 			regenSpeed = 0.25f;
 			flashHit = true;
 			absorbLightning = absorbLasers = true;
@@ -2124,9 +2122,9 @@ public class AstraBlocks {
 			size = 2;
 			fogRadius = 4;
 
-			consumePower(0.2f);
+			consumePower(1f);
 			shieldHealth = 600f;
-			breakCooldown = 1200f;
+			breakCooldown = 30f * Time.toSeconds;
 			regenSpeed = 1f;
 			flashHit = true;
 			absorbLightning = absorbLasers = true;
@@ -3211,7 +3209,7 @@ public class AstraBlocks {
 			scaledHealth = 90f;
 			armor = 3;
 
-			consumePower(3f);
+			consumePower(8f);
 			range = 160f;
 			healAmount = 600f;
 			reload = 300f;
@@ -3426,20 +3424,21 @@ public class AstraBlocks {
 
 			scaledHealth = 120f;
 			size = 2;
-			shootY = 7f;
-			recoil = 1f;
-			reload = 30f;
-			rotateSpeed = 8f;
-			shootCone = 12f;
-			inaccuracy = 3f;
 			range = 140f;
-			fogRadius = 4;
-			fogRadiusMultiplier = 0;
-			coolant = consumeCoolant(0.15f);
-
-			ammoUseEffect = Fx.casing2;
+			fogRadiusMultiplier = 0.4f;
+			reload = 30f;
 
 			targetAir = false;
+			rotateSpeed = 8f;
+			inaccuracy = 3f;
+			shootCone = 12f;
+
+			coolant = consumeCoolant(0.15f);
+
+			recoil = 1f;
+			shootY = 7f;
+			ammoUseEffect = Fx.casing2;
+
 			limitRange();
 		}};
 
@@ -3499,24 +3498,24 @@ public class AstraBlocks {
 				}});
 			}};
 
-			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 4f; }};
-
 			scaledHealth = 150f;
 			size = 2;
-			shootY = 4.5f;
-			reload = 30f;
-			rotateSpeed = 8f;
-			shootCone = 30f;
-			inaccuracy = 10f;
 			range = 224f;
-			fogRadius = 4;
-			fogRadiusMultiplier = 0;
+			fogRadiusMultiplier = 0.4f;
+			reload = 30f;
+			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 4f; }};
 			consumeAmmoOnce = false;
-			coolant = consumeCoolant(0.2f);
-
-			shootSound = Sounds.shootMissile;
 
 			targetGround = false;
+			rotateSpeed = 8f;
+			inaccuracy = 10f;
+			shootCone = 30f;
+
+			coolant = consumeCoolant(0.2f);
+
+			shootY = 4.5f;
+			shootSound = Sounds.shootMissile;
+
 			limitRange();
 		}};
 
@@ -3575,25 +3574,25 @@ public class AstraBlocks {
 
 			scaledHealth = 160f;
 			size = 2;
-			shootY = 9f;
-			recoil = 0f;
-			reload = 3f;
-			shootCone = 50f;
-			inaccuracy = 20f;
 			range = 80f;
-			fogRadius = 4;
-			fogRadiusMultiplier = 0;
+			fogRadiusMultiplier = 0.5f;
+			reload = 3f;
 			maxAmmo = 80;
+
+			targetAir = false;
+			inaccuracy = 20f;
+			shootCone = 50f;
 
 			minWarmup = 0.9f;
 			shootWarmupSpeed = 0.05f;
 			warmupMaintainTime = 90f;
 
-			ammoUseEffect = Fx.none;
-			shootSound = Sounds.shootFlame;
+			recoil = 0f;
+			shootY = 9f;
 			cooldownTime = 60f;
 
-			targetAir = false;
+			ammoUseEffect = Fx.none;
+			shootSound = Sounds.shootFlame;
 		}};
 
 		ballista = new AstraTurret("ballista") {{
@@ -3614,7 +3613,7 @@ public class AstraBlocks {
 					pierceCap = 15;
 					pierceDamageFactor = 1f / 15f;
 					armorPenetration = 5f;
-					knockback = 4f;
+					knockback = 10f;
 
 					trailLength = 7;
 					setColor(AstraPal.ironFront, AstraPal.ironBack);
@@ -3625,7 +3624,7 @@ public class AstraBlocks {
 					pierceCap = 10;
 					pierceDamageFactor = 1f / 10f;
 					rangeChange = 16f;
-					knockback = 6f;
+					knockback = 12f;
 
 					trailLength = 8;
 					setColor(AstraPal.magnetFront, AstraPal.magnetBack);
@@ -3637,7 +3636,7 @@ public class AstraBlocks {
 					pierceCap = 20;
 					pierceDamageFactor = 1f / 20f;
 					armorPenetration = 10f;
-					knockback = 4f;
+					knockback = 10f;
 
 					trailWidth = 1.2f;
 					trailLength = 8;
@@ -3650,7 +3649,7 @@ public class AstraBlocks {
 					pierceDamageFactor = 1f / 15f;
 					rangeChange = 36f;
 					reloadMultiplier = 1.3f;
-					knockback = 6f;
+					knockback = 14f;
 
 					trailWidth = 1.2f;
 					trailLength = 9;
@@ -3661,26 +3660,29 @@ public class AstraBlocks {
 			scaledHealth = 200f;
 			armor = 6;
 			size = 3;
-			fogRadius = 5;
-
 			range = 220f;
+			fogRadiusMultiplier = 0.4f;
 			reload = 120f;
-			rotateSpeed = 2f;
+			maxAmmo = 12;
+
+			rotateSpeed = 1.5f;
 			shootCone = 2f;
 			targetUnderBlocks = false;
+
+			consumePower(4f);
+			coolant = consumeCoolant(0.3f);
+			coolantMultiplier = 2.5f;
 
 			recoil = 4f;
 			recoilTime = 100f;
 			shootY = 0f;
 			shake = 1.5f;
+
 			ammoUseEffect = Fx.casing3;
 			shootEffect = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
 			smokeEffect = Fx.shootBigSmoke;
 			shootSound = Sounds.shootSmite;
 
-			consumePower(4f);
-			coolant = consumeCoolant(0.3f);
-			coolantMultiplier = 2.5f;
 			extraStats = true;
 			limitRange();
 		}};

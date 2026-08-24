@@ -15,6 +15,8 @@ public class BoltBulletType extends BasicBulletType {
 		buildingDamageMultiplier = 0.5f;
 		pierce = true;
 		pierceBuilding = true;
+		impact = true;
+		hitEffect = Fx.colorSpark;
 	}
 
 	public BoltBulletType(float speed, float damage) {

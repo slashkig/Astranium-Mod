@@ -10,7 +10,7 @@ public class AstraUnitCommand {
 	public static void load() {
 		Log.info("Loading unit commands");
 		anchorIdle = new UnitCommand("anchorIdle", "home", u -> new AnchoredAI());
-		anchorMine = new UnitCommand("anchorMine", "production", u -> new AnchoredMinerAI()) {{ extraStances.add(UnitStance.mineAuto); refreshOnSelect = true; }};
+		anchorMine = new UnitCommand("anchorMine", "production", u -> new AnchoredMinerAI()) {{ refreshOnSelect = true; }};
 		anchorSupport = new UnitCommand("anchorSupport", "hammer", u -> new AnchoredSupportAI());
 		anchorProtect = new UnitCommand("anchorProtect", "turret", u -> new AnchoredAttackerAI()) {{ extraStances.add(UnitStance.pursueTarget); }};
 		anchorShield = new UnitCommand("anchorShield", "defense", u -> new AnchoredShieldAI());

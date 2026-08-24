@@ -11,4 +11,6 @@ public class AstraTankUnitType extends AstraUnitType {
 		rotateMoveFirst = true;
 		envDisabled = Env.none;
 	}
+
+	// TODO custom treads
 }

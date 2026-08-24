@@ -21,7 +21,7 @@ public class AstraFluids {
 			coolant = true;
 			barColor = Color.valueOf("440202");
 			viscosity = 0.25f;
-			heatCapacity = 0.7f;
+			heatCapacity = 1.1f;
 			flammability = 0.05f;
 			temperature = 0.4f;
 			boilPoint = 0.7f;

@@ -11,7 +11,6 @@ public class AstraTurret extends ItemTurret {
 	public AstraTurret(String name) {
 		super(name);
 		drawer = new DrawTurret("astranium-");
-		fogRadiusMultiplier = 0;
 	}
 
 	@Override public void setStats() {

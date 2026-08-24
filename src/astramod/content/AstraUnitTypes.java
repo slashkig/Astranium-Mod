@@ -16,7 +16,6 @@ import mindustry.type.weapons.*;
 import astramod.ai.types.*;
 import astramod.entities.bullet.*;
 import astramod.gen.PayloadUnit;
-import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 
@@ -37,7 +36,6 @@ public class AstraUnitTypes {
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 			alwaysUnlocked = true;
-
 			targetBuildingsMobile = false;
 			isEnemy = false;
 			coreUnitDock = true;
@@ -64,9 +62,10 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-manager-weapon") {{
 				reload = 30f;
+
+				top = false;
 				x = 5f;
 				y = 3.75f;
-				top = false;
 				layerOffset = -0.1f;
 				shootSound = Sounds.shootAlpha;
 
@@ -84,7 +83,6 @@ public class AstraUnitTypes {
 		director = new AstraUnitType("director") {{
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
-
 			targetBuildingsMobile = false;
 			isEnemy = false;
 			coreUnitDock = true;
@@ -132,8 +130,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		overseer = new AstraUnitType("overseer") {{
-			constructor = PayloadUnit::create;
+		overseer = new AstraUnitType("overseer", PayloadUnit::create) {{
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
@@ -170,12 +167,13 @@ public class AstraUnitTypes {
 				rampupFactor = 0.875f;
 				shootWarmupSpeed = 1f / 400f;
 				inaccuracy = 4f;
+
+				top = false;
 				x = 7.9f;
 				y = 1.6f;
-				top = false;
+				shootY = 4.5f;
 				layerOffset = -0.1f;
 				shootSound = Sounds.shootLaser;
-				shootY = 4.5f;
 
 				bullet = new TeamLaserBoltBulletType(6.5f, 15) {{
 					lifetime = 34f;
@@ -190,14 +188,13 @@ public class AstraUnitTypes {
 
 		gatherer = new AstraAnchoredUnitType("gatherer") {{
 			aiController = () -> new AnchoredMinerAI();
-
 			flying = true;
+			canAttack = false;
 			targetPriority = -5f;
 
 			health = 80f;
 			hitSize = 6f;
 			fogRadius = 6f;
-			canAttack = false;
 			itemCapacity = 30;
 
 			drag = 0.06f;
@@ -216,7 +213,6 @@ public class AstraUnitTypes {
 
 		initiate = new AstraAnchoredUnitType("initiate") {{
 			aiController = () -> new AnchoredSupportAI();
-
 			flying = true;
 			targetPriority = -5f;
 
@@ -224,7 +220,7 @@ public class AstraUnitTypes {
 			armor = 1f;
 			hitSize = 9f;
 			fogRadius = 6f;
-			itemCapacity = 10;
+			itemCapacity = 0;
 
 			drag = 0.06f;
 			accel = 0.12f;
@@ -238,20 +234,21 @@ public class AstraUnitTypes {
 			engineSize = 2f;
 
 			weapons.add(new RepairBeamWeapon() {{
-				widthSinMag = 0.1f;
 				reload = 20f;
-				x = 0f;
-				y = 4f;
 				rotate = false;
-				shootY = 0f;
 				beamWidth = 0.5f;
 				repairSpeed = 2.5f;
-				aimDst = 0f;
 				shootCone = 4f;
-				mirror = false;
 
+				aimDst = 0f;
 				targetUnits = false;
 				targetBuildings = true;
+
+				mirror = false;
+				x = 0f;
+				y = 4f;
+				shootY = 0f;
+				widthSinMag = 0.1f;
 				laserColor = healColor = Pal.yellowBoltFront;
 
 				bullet = new BulletType() {{
@@ -268,7 +265,7 @@ public class AstraUnitTypes {
 			armor = 2f;
 			hitSize = 9f;
 			fogRadius = 6f;
-			itemCapacity = 10;
+			itemCapacity = 0;
 
 			drag = 0.05f;
 			accel = 0.1f;
@@ -280,13 +277,14 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-seeker-weapon") {{
 				reload = 60f;
+				inaccuracy = 1f;
 				shoot.shots = 4;
 				shoot.shotDelay = 6f;
-				inaccuracy = 1f;
-				x = 0f;
-				y = 3f;
+
 				top = false;
 				mirror = false;
+				x = 0f;
+				y = 3f;
 				shootSound = Sounds.shootLaser;
 
 				bullet = new TeamLaserBoltBulletType(5f, 15) {{
@@ -304,9 +302,9 @@ public class AstraUnitTypes {
 			health = 150f;
 			armor = 3f;
 			hitSize = 9f;
-			fogRadius = 6f;
-			itemCapacity = 12;
 			range = 40f;
+			fogRadius = 6f;
+			itemCapacity = 0;
 
 			drag = 0.05f;
 			accel = 0.15f;
@@ -317,13 +315,14 @@ public class AstraUnitTypes {
 			engineSize = 2.2f;
 
 			abilities.add(new ShieldArcAbility() {{
-				radius = 10f;
-				angle = 120f;
-				width = 5f;
-				cooldown = 10f * Time.toSeconds;
 				max = 500f;
 				regen = 0.15f;
+				cooldown = 10f * Time.toSeconds;
 				whenShooting = false;
+
+				angle = 120f;
+				radius = 10f;
+				width = 5f;
 			}});
 		}};
 
@@ -343,29 +342,29 @@ public class AstraUnitTypes {
 
 			treadPullOffset = 3;
 			treadRects = new Rect[] {
-					new Rect(-21f, -28f, 15, 56)
+				new Rect(-21f, -28f, 15f, 56f)
 			};
 
 			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
 
 			weapons.add(new Weapon("astramod-aculei-weapon") {{
-				reload = 7.5f;
+				reload = 12f;
 				inaccuracy = 6f;
-				shootY = 5.5f;
-				recoil = 1f;
-				x = 0f;
-				y = -0.75f;
-				mirror = false;
 				rotate = true;
 				rotateSpeed = 2.5f;
+				recoil = 0.8f;
 
+				mirror = false;
+				x = 0f;
+				y = -0.75f;
+				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(6f, 13) {{
+				bullet = new BasicBulletType(5f, 12) {{
 					lifetime = 30f;
 					hitSize = 4f;
-					despawnEffect = hitEffect = Fx.hitBulletColor;
+					shrinkY = 0f;
 				}};
 			}});
 		}};
@@ -374,66 +373,54 @@ public class AstraUnitTypes {
 			health = 1900;
 			armor = 8f;
 			hitSize = 19f;
-			fogRadius = 20f;
-			itemCapacity = 25;
+			fogRadius = 12f;
+			itemCapacity = 20;
 
 			speed = 0.8f;
-			accel = 0.6f;
-			rotateSpeed = 2.8f;
+			accel = 0.18f;
+			rotateSpeed = 2.5f;
 			floorMultiplier = 0.8f;
 
 			treadPullOffset = 5;
 			treadRects = new Rect[] {
-					new Rect(-35f, -38f, 18, 79),
-					new Rect(-12f, -44f, 24, 88)
+				new Rect(-35f, -38f, 18, 79),
+				new Rect(-12f, -44f, 24, 88)
 			};
 
 			tankMoveVolume *= 0.58f;
 			tankMoveSound = Sounds.tankMove;
 
 			weapons.add(new Weapon("astramod-echidna-weapon") {{
-				reload = 6.5f;
-				shootY = 10f;
+				reload = 7.5f;
 				inaccuracy = 8f;
-				recoil = 1.1f;
 				rotate = true;
 				rotateSpeed = 2f;
-				mirror = false;
 				shootCone = 2f;
+				recoil = 0.8f;
+				shoot = new ShootAlternate(4f);
+
+				mirror = false;
 				x = 0f;
 				y = 0f;
-
+				shootY = 10f;
 				layerOffset = 0.0001f;
 
-				shoot = new ShootAlternate(3.52f);
-
-				bullet = new BasicBulletType(6.5f, 25){{
-					smokeEffect = Fx.shootBigSmoke;
+				bullet = new BasicBulletType(5f, 16) {{
 					width = 6f;
 					height = 8.5f;
 					lifetime = 35f;
 					hitSize = 5f;
-					hitColor = backColor = trailColor = AstraPal.heavyGunnerBack;
-					frontColor = AstraPal.heavyGunnerFront;
-
-					trailWidth = 1.7f;
-					trailLength = 2;
+					shrinkY = 0f;
+					smokeEffect = Fx.shootBigSmoke;
 
 					fragBullets = 1;
-
-					fragBullet = new BasicBulletType(6.5f, 10) {{
+					fragOnHit = false;
+					fragBullet = new BasicBulletType(5f, 16) {{
 						width = 6f;
 						height = 8.5f;
 						lifetime = 15f;
 						hitSize = 5f;
-						pierce = true;
-						pierceCap = 2;
-						pierceBuilding = true;
-						hitColor = backColor = trailColor = AstraPal.heavyGunnerBack;
-						frontColor = AstraPal.heavyGunnerFront;
-
-						trailWidth = 1.7f;
-						trailLength = 2;
+						shrinkY = 0f;
 					}};
 				}};
 			}});

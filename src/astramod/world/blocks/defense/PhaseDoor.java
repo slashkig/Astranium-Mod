@@ -18,6 +18,13 @@ public class PhaseDoor extends AutoDoor {
 		super.load();
 		if (!openRegion.found()) openRegion = region;
 	}
+
+	@Override public void init() {
+		super.init();
+		if (flashHit && openAlpha < 1f) {
+			drawCached = false;
+		}
+	}
 	
 	public class PhaseDoorBuild extends AutoDoorBuild {
 		@Override public void draw() {
