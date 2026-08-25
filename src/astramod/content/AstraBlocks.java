@@ -3686,13 +3686,13 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		// region ASSEMBLERS
+		// region UNITS
 
-		primaryLightAssembler = new UnitFactory("primary-light-assembler"){{
+		primaryLightAssembler = new UnitFactory("primary-light-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 120,
-				Items.lead, 80,
-				Items.silicon, 100
+				AstraItems.iron, 100,
+				Items.lead, 120,
+				Items.silicon, 90
 			));
 			regionSuffix = "-mech";
 			size = 3;
@@ -3700,22 +3700,18 @@ public class AstraBlocks {
 
 			plans = Seq.with(
 				new UnitPlan(
-					AstraUnitTypes.dicentra, 60f * 18,
-					ItemStack.with(
-						AstraItems.iron, 15,
-						Items.silicon, 10
-					)
+					AstraUnitTypes.dicentra, 18f * Time.toSeconds,
+					ItemStack.with(AstraItems.iron, 15, Items.silicon, 10)
 				)
 			);
 		}};
 
-		primaryHeavyAssembler = new UnitFactory("primary-heavy-assembler"){{
+		primaryHeavyAssembler = new UnitFactory("primary-heavy-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 250,
+				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
-				Items.lead, 110,
-				Items.silicon, 150,
-				Items.graphite, 100
+				Items.lead, 200,
+				Items.silicon, 150
 			));
 			regionSuffix = "-heavy";
 			size = 5;
@@ -3723,7 +3719,7 @@ public class AstraBlocks {
 
 			plans = Seq.with(
 				new UnitPlan(
-					AstraUnitTypes.aculei, 60f * 23,
+					AstraUnitTypes.aculei, 23f * Time.toSeconds,
 					ItemStack.with(
 						AstraItems.iron, 20,
 						Items.silicon, 20,
@@ -3731,12 +3727,11 @@ public class AstraBlocks {
 					)
 				),
 				new UnitPlan(
-					AstraUnitTypes.echidna, 60f * 50,
+					AstraUnitTypes.echidna, 50f * Time.toSeconds,
 					ItemStack.with(
-						AstraItems.iron, 40,
-						AstraItems.magnetite, 20,
+						AstraItems.iron, 65,
 						Items.silicon, 40,
-						Items.graphite, 30
+						Items.graphite, 50
 					)
 				)
 			);

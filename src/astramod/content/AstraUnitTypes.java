@@ -327,6 +327,41 @@ public class AstraUnitTypes {
 			}});
 		}};
 
+		// region OFFENSIVE MECHS
+
+		dicentra = new AstraMechUnitType("dicentra") {{
+			health = 250;
+			armor = 2f;
+			hitSize = 10f;
+			fogRadius = 12f;
+			speed = 0.6f;
+			accel = 0.3f;
+			stepSoundVolume = 0.4f;
+
+			immunities.add(StatusEffects.slow);
+
+			weapons.add(new Weapon("astramod-dicentra-weapon") {{
+				reload = 30f;
+				recoil = 1f;
+
+				top = false;
+				x = 7f;
+				y = 0.7f;
+				shootY = 5f;
+				shootSound = Sounds.shootStell;
+				ejectEffect = Fx.casing2;
+
+				bullet = new BasicBulletType(5.5f, 20) {{
+					width = 6f;
+					height = 12f;
+					lifetime = 30f;
+					knockback = 4f;
+					status = StatusEffects.slow;
+					statusDuration = 4f * Time.toSeconds;
+				}};
+			}});
+		}};
+
 		// region GUNNER TANKS
 
 		aculei = new AstraTankUnitType("aculei") {{
@@ -418,34 +453,6 @@ public class AstraUnitTypes {
 						lifetime = 18f;
 						shrinkY = 0f;
 					}};
-				}};
-			}});
-		}};
-
-		// region RIFLE MECHS
-
-		dicentra = new AstraMechUnitType("dicentra"){{
-			speed = 0.7f;
-			hitSize = 10f;
-			health = 200;
-			armor = 5f;
-			stepSoundVolume = 0.4f;
-
-			weapons.add(new Weapon("astramod-dicentra-weapon"){{
-				shootSound = Sounds.shootStell;
-				x = 7f;
-				y = 0.7f;
-				shootY = 5f;
-
-				top = false;
-
-				reload = 18f;
-				recoil = 0.7f;
-				ejectEffect = Fx.casing2;
-				bullet = new BasicBulletType(5.5f, 25){{
-					width = 6f;
-					height = 12f;
-					lifetime = 30f;
 				}};
 			}});
 		}};
