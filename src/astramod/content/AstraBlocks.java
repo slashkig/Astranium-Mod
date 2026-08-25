@@ -77,9 +77,9 @@ public class AstraBlocks {
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
-		omegafactory, uberwall, superRouter, testblaster, bouncyOhno;
+		mechAssembler, tankAssembler, airAssembler, shipAssembler, lightReassembler, heavyReassembler,
+		omegafactory, uberwall, superRouter, testblaster, ohno;
 
-	public static final ObjectSet<Block> azirisBlocks = new ObjectSet<>();
 	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();
 	public static final ObjectSet<Block> heatedBlocks = new ObjectSet<>();
 
@@ -3822,23 +3822,20 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		for (Block block : content.blocks()) {
-			if (block.name.startsWith("astramod-") && block.synthetic()) {
-				azirisBlocks.add(block);
-			}
-			if (block instanceof BaseModularBlock m) {
-				var types = m.getModuleTypes();
-				if (types.contains(ModularType.cooled)) cooledBlocks.add(block);
-				if (types.contains(ModularType.heat)) heatedBlocks.add(block);
-			}
-		}
-
-		bouncyOhno = new GenericBlock("ohno") {{
+		ohno = new GenericBlock("ohno") {{
 			requirements(Category.logic, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1));
 			health = 1;
 			drawer = new DrawVerticalPump() {{ downTime = 0.5f; }
 				@Override public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) { block.drawDefaultPlanRegion(plan, list); }
 			};
 		}};
+
+		for (Block block : content.blocks()) {
+			if (block instanceof BaseModularBlock m) {
+				var types = m.getModuleTypes();
+				if (types.contains(ModularType.cooled)) cooledBlocks.add(block);
+				if (types.contains(ModularType.heat)) heatedBlocks.add(block);
+			}
+		}
 	}
 }

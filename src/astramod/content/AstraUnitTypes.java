@@ -261,7 +261,7 @@ public class AstraUnitTypes {
 			aiController = () -> new AnchoredAttackerAI();
 			flying = true;
 
-			health = 200f;
+			health = 400f;
 			armor = 2f;
 			hitSize = 9f;
 			fogRadius = 6f;
@@ -299,7 +299,7 @@ public class AstraUnitTypes {
 			flying = true;
 			targetPriority = -4f;
 
-			health = 150f;
+			health = 300f;
 			armor = 3f;
 			hitSize = 9f;
 			range = 40f;
@@ -341,9 +341,7 @@ public class AstraUnitTypes {
 			floorMultiplier = 0.95f;
 
 			treadPullOffset = 3;
-			treadRects = new Rect[] {
-				new Rect(-21f, -28f, 15f, 56f)
-			};
+			treadRects = new Rect[] { new Rect(-21f, -28f, 15f, 56f) };
 
 			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
@@ -383,9 +381,7 @@ public class AstraUnitTypes {
 
 			treadPullOffset = 8;
 			treadFrames = 16;
-			treadRects = new Rect[] {
-				new Rect(-35f, -44f, 18, 88)
-			};
+			treadRects = new Rect[] { new Rect(-35f, -44f, 18f, 88f) };
 
 			tankMoveVolume *= 0.58f;
 			tankMoveSound = Sounds.tankMove;

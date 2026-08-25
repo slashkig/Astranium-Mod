@@ -791,7 +791,7 @@ public class WireRelay extends PowerBlock {
 
 		@Override public void onDeconstructed(Unit builder) {
 			super.onDeconstructed(builder);
-			team.items().add(wireCost.item, wireCost.amount * wiring.size());
+			if (shouldConsumeWire()) team.items().add(wireCost.item, wireCost.amount * wiring.size());
 		}
 
 		@Override public void read(Reads read, byte revision) {

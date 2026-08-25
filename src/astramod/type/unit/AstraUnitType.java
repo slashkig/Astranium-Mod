@@ -2,7 +2,6 @@ package astramod.type.unit;
 
 import arc.func.Prov;
 import mindustry.gen.*;
-import mindustry.graphics.*;
 import mindustry.type.UnitType;
 import astramod.gen.UnitEntity;
 import astramod.graphics.AstraPal;

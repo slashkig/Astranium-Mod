@@ -4,16 +4,21 @@ import arc.*;
 import arc.util.*;
 import arc.graphics.*;
 import arc.graphics.Texture.*;
-import arc.graphics.g2d.PixmapRegion;
+import arc.graphics.g2d.*;
 import arc.graphics.g2d.PixmapPacker.*;
 import arc.graphics.g2d.TextureAtlas.*;
 import arc.math.geom.*;
-import arc.struct.Seq;
-import arc.struct.StringMap;
+import arc.struct.*;
 import mindustry.core.*;
 import mindustry.game.*;
 import mindustry.graphics.*;
+import mindustry.type.*;
 import mindustry.ui.*;
+import mindustry.world.Block;
+import mindustry.world.meta.BuildVisibility;
+import astramod.content.*;
+
+import mindustry.Vars;
 
 public class Icons {
 	private static final StringMap extraIcons = new StringMap();
@@ -21,6 +26,25 @@ public class Icons {
 	public static void load() {
 		Log.info("Loading icons");
 		addIcon("sentinels", "astramod-team-sentinels");
+
+		for (Item item : AstraItems.azirisItems) {
+			addIcon(item.name, item.name);
+		}
+		for (Liquid liquid : Vars.content.liquids()) {
+			if (liquid.name.startsWith("astramod-")) {
+				addIcon(liquid.name, liquid.name);
+			}
+		}
+		for (Block block : Vars.content.blocks()) {
+			if (block.name.startsWith("astramod-") && block.name != "astramod-ohno" && block.buildVisibility != BuildVisibility.hidden) {
+				addIcon(block.name, "block-" + block.name + "-full");
+			}
+		}
+		for (UnitType unit : Vars.content.units()) {
+			if (unit.name.startsWith("astramod-")) {
+				addIcon(unit.name, unit.name + "-full");
+			}
+		}
 	}
 
 	public static void addIcon(String iconName, String regionName) {
@@ -31,6 +55,7 @@ public class Icons {
 	public static void packIcons() {
 		Page page = UI.packer.getPages().first();
 		Seq<Team> teams = Seq.with(Team.all);
+		Rect rect = new Rect();
 
 		for (var entry : extraIcons.entries()) {
 			AtlasRegion region = Core.atlas.find(entry.value);
@@ -44,12 +69,18 @@ public class Icons {
 
 			Team team = teams.find(t -> t.name == entry.key);
 			if (team != null) {
+				// Generate team icon
 				Pixmap px = pixmapRegion.pixmap;
-				px.each((x, y) -> px.setRaw(x, y, Color.muli(px.getRaw(x, y), team.color.rgba())));
+				rect.set(pixmapRegion.x, pixmapRegion.y, pixmapRegion.width - 1, pixmapRegion.height - 1);
+				px.each((x, y) -> {
+					if (rect.contains(x, y)) {
+						px.setRaw(x, y, Color.muli(px.getRaw(x, y), team.color.rgba()));
+					}
+				});
 				pixmapRegion.pixmap = px.outline(Pal.gray, 3);
 			}
 
-			Rect rect = UI.packer.pack(region.name, pixmapRegion, region.splits, region.pads);
+			rect.set(UI.packer.pack(region.name, pixmapRegion, region.splits, region.pads));
 
 			region.texture = page.getTexture();
 			region.set((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);

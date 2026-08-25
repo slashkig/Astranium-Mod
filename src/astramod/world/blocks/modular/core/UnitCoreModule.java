@@ -87,7 +87,7 @@ public class UnitCoreModule extends GenericCoreModule {
 		public float warmup, readyness;
 		public Unit[] units = new Unit[numUnits];
 		public int[] readUnitId = new int[numUnits];
-		protected int targetIndex = -1;
+		public int targetIndex = -1;
 
 		@Override public Building create(Block block, Team team) {
 			Arrays.fill(units, null);
@@ -145,6 +145,10 @@ public class UnitCoreModule extends GenericCoreModule {
 				readUnitId[targetIndex] = id;
 			}
 			targetIndex = -1;
+		}
+
+		@Override public boolean shouldAmbientSound() {
+			return targetIndex != -1 && warmup > 0.01f;
 		}
 
 		@Override public void draw() { // TODO fix client-side draw construct bug

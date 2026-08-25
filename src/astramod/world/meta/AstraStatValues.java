@@ -181,8 +181,7 @@ public class AstraStatValues {
 	public static StatValue block(Block block, @Nullable String key) {
 		return table -> {
 			table.marginTop(4);
-			table.image(block.uiIcon).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
-			table.add(key == null ? block.localizedName : Core.bundle.get(key)).padRight(10).left().top();
+			table.add(block.emoji() + " " + (key == null ? block.localizedName : Core.bundle.get(key))).padRight(10).left().top();
 		};
 	}
 

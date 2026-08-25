@@ -34,7 +34,7 @@ public class CoolantBlockModule extends GenericBlockModule {
 		super.setBars();
 
 		addBar("warmup", entity -> new Bar(
-			"bar.pumpspeed", Pal.techBlue,
+			"bar.coolingspeed", Pal.techBlue,
 			() -> entity.warmup()
 		));
 	}
