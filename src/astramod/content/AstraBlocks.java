@@ -736,7 +736,7 @@ public class AstraBlocks {
 			craftTime = 120f;
 			outputItem = new ItemStack(Items.surgeAlloy, 2);
 
-			drawer = new DrawMultiIntegrated(new DrawFlame());
+			drawer = new DrawMultiIntegrated(new DrawTopHeat(), new DrawGlowRegion(), new DrawSoftParticles());
 			ambientSound = Sounds.loopSmelter;
 			ambientSoundVolume = 0.3f;
 			craftEffect = Fx.smeltsmoke;
@@ -2206,7 +2206,6 @@ public class AstraBlocks {
 			fogRadius = 1;
 			speed = 0.15f;
 			displayedSpeed = 21f;
-			buildCostMultiplier = 1.5f;
 		}};
 
 		platedSteelConveyor = new ArmoredConveyor("plated-conveyor") {{
@@ -2327,7 +2326,6 @@ public class AstraBlocks {
 			health = 320;
 			armor = 2f;
 			fogRadius = 1;
-			buildCostMultiplier = 1.5f;
 			speed = 8f;
 			capacity = 8;
 
@@ -2429,7 +2427,6 @@ public class AstraBlocks {
 			health = 360;
 			armor = 3f;
 			fogRadius = 2;
-			buildCostMultiplier = 3f;
 			speed = 0f;
 			capacity = 25;
 
@@ -3058,7 +3055,7 @@ public class AstraBlocks {
 						Drawf.additive(heat, AstraPal.crystalRed.write(Tmp.c1).a(build.heat), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), Layer.turretHeat);
 					}
 					else super.drawHeat(block, build);
-				};
+				}
 			};
 
 			scaledHealth = 140f;
