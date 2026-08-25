@@ -96,23 +96,7 @@ public class UnitCoreModule extends GenericCoreModule {
 		}
 
 		@Override public void updateTile() {
-			for (int i = 0; i < numUnits; i++) {
-				// Unit was lost/destroyed
-				if (units[i] != null && (units[i].dead || !units[i].isAdded())) {
-					units[i] = null;
-				}
-
-				if (readUnitId[i] != -1) {
-					units[i] = Groups.unit.getByID(readUnitId[i]);
-					if (units[i] != null || !net.client()) {
-						readUnitId[i] = -1;
-					}
-				}
-
-				if (units[i] == null && targetIndex == -1) {
-					targetIndex = i;
-				}
-			}
+			targetIndex = updateIndex();
 
 			warmup = Mathf.approachDelta(warmup, efficiency, 1f / 60f);
 			readyness = Mathf.approachDelta(readyness, targetIndex != -1 ? 1f : 0f, 1f / 60f);
@@ -135,7 +119,31 @@ public class UnitCoreModule extends GenericCoreModule {
 					unit.add();
 					Call.unitTetherBlockSpawned(tile, unit.id);
 				}
+			} else {
+				buildProgress = 0f;
 			}
+		}
+
+		public int updateIndex() {
+			for (int i = 0; i < numUnits; i++) {
+				// Unit was lost/destroyed
+				if (units[i] != null && (units[i].dead || !units[i].isAdded())) {
+					units[i] = null;
+				}
+
+				// Read unit ID
+				if (readUnitId[i] != -1) {
+					units[i] = Groups.unit.getByID(readUnitId[i]);
+					if (units[i] != null || !net.client()) {
+						readUnitId[i] = -1;
+					}
+				}
+
+				if (units[i] == null) {
+					return i;
+				}
+			}
+			return -1;
 		}
 
 		public void spawned(int id) {
@@ -151,7 +159,7 @@ public class UnitCoreModule extends GenericCoreModule {
 			return targetIndex != -1 && warmup > 0.01f;
 		}
 
-		@Override public void draw() { // TODO fix client-side draw construct bug
+		@Override public void draw() {
 			Draw.rect(block.region, x, y);
 			drawTeamTop();
 			if (targetIndex != -1) {
