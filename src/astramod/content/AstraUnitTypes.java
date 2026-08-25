@@ -25,6 +25,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	public static void load() {
@@ -417,6 +418,34 @@ public class AstraUnitTypes {
 						lifetime = 18f;
 						shrinkY = 0f;
 					}};
+				}};
+			}});
+		}};
+
+		// region RIFLE MECHS
+
+		dicentra = new AstraMechUnitType("dicentra"){{
+			speed = 0.7f;
+			hitSize = 10f;
+			health = 200;
+			armor = 5f;
+			stepSoundVolume = 0.4f;
+
+			weapons.add(new Weapon("astramod-dicentra-weapon"){{
+				shootSound = Sounds.shootStell;
+				x = 7f;
+				y = 0.7f;
+				shootY = 5f;
+
+				top = false;
+
+				reload = 18f;
+				recoil = 0.7f;
+				ejectEffect = Fx.casing2;
+				bullet = new BasicBulletType(5.5f, 25){{
+					width = 6f;
+					height = 12f;
+					lifetime = 30f;
 				}};
 			}});
 		}};

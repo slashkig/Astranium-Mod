@@ -44,6 +44,7 @@ import astramod.world.blocks.modular.core.*;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
+import mindustry.world.blocks.units.*;
 
 import static mindustry.Vars.*;
 
@@ -77,6 +78,7 @@ public class AstraBlocks {
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
+		primaryLightAssembler, primaryHeavyAssembler,
 		mechAssembler, tankAssembler, airAssembler, shipAssembler, lightReassembler, heavyReassembler,
 		omegafactory, uberwall, superRouter, testblaster, ohno;
 
@@ -3682,6 +3684,62 @@ public class AstraBlocks {
 
 			extraStats = true;
 			limitRange();
+		}};
+
+		// region ASSEMBLERS
+
+		primaryLightAssembler = new UnitFactory("primary-light-assembler"){{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 120,
+				Items.lead, 80,
+				Items.silicon, 100
+			));
+			regionSuffix = "-mech";
+			size = 3;
+			consumePower(1.2f);
+
+			plans = Seq.with(
+				new UnitPlan(
+					AstraUnitTypes.dicentra, 60f * 18,
+					ItemStack.with(
+						AstraItems.iron, 15,
+						Items.silicon, 10
+					)
+				)
+			);
+		}};
+
+		primaryHeavyAssembler = new UnitFactory("primary-heavy-assembler"){{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 250,
+				AstraItems.magnetite, 80,
+				Items.lead, 110,
+				Items.silicon, 150,
+				Items.graphite, 100
+			));
+			regionSuffix = "-heavy";
+			size = 5;
+			consumePower(3f);
+
+			plans = Seq.with(
+				new UnitPlan(
+					AstraUnitTypes.aculei, 60f * 23,
+					ItemStack.with(
+						AstraItems.iron, 20,
+						Items.silicon, 20,
+						Items.graphite, 10
+					)
+				),
+				new UnitPlan(
+					AstraUnitTypes.echidna, 60f * 50,
+					ItemStack.with(
+						AstraItems.iron, 40,
+						AstraItems.magnetite, 20,
+						Items.silicon, 40,
+						Items.graphite, 30
+					)
+				)
+			);
 		}};
 
 		// region EXTRAS
