@@ -15,6 +15,7 @@ import mindustry.type.*;
 import mindustry.type.weapons.*;
 import astramod.ai.types.*;
 import astramod.entities.bullet.*;
+import astramod.gen.MechUnit;
 import astramod.gen.PayloadUnit;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
@@ -193,7 +194,7 @@ public class AstraUnitTypes {
 			canAttack = false;
 			targetPriority = -5f;
 
-			health = 80f;
+			health = 150f;
 			hitSize = 6f;
 			fogRadius = 6f;
 			itemCapacity = 30;
@@ -217,7 +218,7 @@ public class AstraUnitTypes {
 			flying = true;
 			targetPriority = -5f;
 
-			health = 150f;
+			health = 250f;
 			armor = 1f;
 			hitSize = 9f;
 			fogRadius = 6f;
@@ -262,7 +263,7 @@ public class AstraUnitTypes {
 			aiController = () -> new AnchoredAttackerAI();
 			flying = true;
 
-			health = 400f;
+			health = 500f;
 			armor = 2f;
 			hitSize = 9f;
 			fogRadius = 6f;
@@ -297,10 +298,11 @@ public class AstraUnitTypes {
 		}};
 
 		ward = new AstraAnchoredUnitType("warder") {{
+			aiController = () -> new AnchoredShieldAI();
 			flying = true;
 			targetPriority = -4f;
 
-			health = 300f;
+			health = 400f;
 			armor = 3f;
 			hitSize = 9f;
 			range = 40f;
@@ -329,7 +331,7 @@ public class AstraUnitTypes {
 
 		// region OFFENSIVE MECHS
 
-		dicentra = new AstraMechUnitType("dicentra") {{
+		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
 			health = 250;
 			armor = 2f;
 			hitSize = 10f;

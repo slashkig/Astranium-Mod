@@ -2011,7 +2011,8 @@ public class AstraBlocks {
 			effectStrength = 4f;
 			effect = build -> {
 				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
-					unit.damageContinuous(effectStrength / 60f);
+					unit.damageContinuousPierce(effectStrength / Time.toSeconds);
+					if (unit.hitTime < -1f) unit.hitTime = 1f;
 				});
 			};
 
@@ -2019,6 +2020,7 @@ public class AstraBlocks {
 			effectAlpha = 0.1f;
 			lightAlpha = 0.75f;
 			effectStat = Stat.damage;
+			effectUnit = StatUnit.perSecond;
 		}};
 
 		platedThoriumWallLarge = new EffectWall("plated-thorium-wall-large") {{
@@ -2033,7 +2035,8 @@ public class AstraBlocks {
 			effectStrength = 16f;
 			effect = build -> {
 				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
-					unit.damageContinuous(effectStrength / 60f);
+					unit.damageContinuousPierce(effectStrength / Time.toSeconds);
+					if (unit.hitTime < -1f) unit.hitTime = 1f;
 				});
 			};
 
@@ -2041,6 +2044,7 @@ public class AstraBlocks {
 			effectAlpha = 0.1f;
 			lightAlpha = 0.75f;
 			effectStat = Stat.damage;
+			effectUnit = StatUnit.perSecond;
 		}};
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{

@@ -46,7 +46,7 @@ public class AstraPal {
 		heavyGunnerBack = Color.valueOf("d17104"),
 		heavyGunnerTrail = Color.valueOf("994102"),
 
-		deflectFront = Color.valueOf("#ffe77d"),
+		deflectFront = Color.valueOf("ffe77d"),
 		deflectback = Color.valueOf("e3be07"),
 		deflectTrail = Color.valueOf("ba4a00"),
 
