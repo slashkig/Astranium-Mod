@@ -15,6 +15,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.meta.*;
 import astramod.entities.bullet.*;
+import astramod.type.effect.*;
 import astramod.world.blocks.defense.*;
 
 import static mindustry.world.meta.StatValues.*;
@@ -70,6 +71,27 @@ public class AstraStatValues {
 		};
 	}
 
+	public static StatValue statusEffect(StatusEffect effect, float time) {
+		return table -> addRowString(table, "@[stat]@[lightgray] ~ [white]@[lightgray] @",
+			(effect.hasEmoji() ? effect.emoji() + " " : ""),
+			effect.localizedName,
+			Strings.autoFixed(time / Time.toSeconds, 1),
+			Core.bundle.get("unit.seconds")
+		);
+	}
+
+	public static StatValue effectStack(StatusEffectStack[] stacks) {
+		return table -> {
+			table.row();
+			for (StatusEffectStack stack : stacks) {
+				table.table(Styles.grayPanel, t -> {
+					t.left().top().defaults().padRight(3).left();
+					stack.display(t);
+				}).padLeft(5).padTop(5).padBottom(5).growX().margin(10);
+				table.row();
+			}
+		};
+	}
 
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map) {
 		return astraAmmo(map, false, false, null);
@@ -141,8 +163,7 @@ public class AstraStatValues {
 				}
 
 				if (mine.status != StatusEffects.none) {
-					bt.row();
-					bt.add((mine.status.minfo.mod == null ? mine.status.emoji() : "") + "[stat]" + mine.status.localizedName + "[lightgray] ~ [stat]" + ((int)(mine.statusDuration / 60f)) + "[lightgray] " + Core.bundle.get("unit.seconds"));
+					statusEffect(mine.status, mine.statusDuration).display(bt);
 				}
 
 				if (mine.bullet != null) {

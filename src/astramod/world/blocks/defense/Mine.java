@@ -16,6 +16,7 @@ import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.meta.StatUnit;
+import astramod.entities.Unitsx;
 import astramod.graphics.*;
 import astramod.world.meta.*;
 
@@ -152,9 +153,8 @@ public class Mine extends Block {
 			if (knockback != 0) {
 				Units.nearbyEnemies(team, x, y, radius, unit -> {
 					unit.apply(status, statusDuration);
-					float dist = unit.dst(this) / radius;
-					Tmp.v3.set(unit).sub(this).nor().scl(knockback * 80f * (1f - (knockback > 0 ? dist : Mathf.pow(dist * 2f - 1f, 2))));
-					unit.impulse(Tmp.v3);
+					if (knockback < 0f) Unitsx.attract(unit, this, -knockback, radius);
+					else Unitsx.knockback(unit, this, knockback, radius);
 				});
 			} else if (status != StatusEffects.none) {
 				Units.nearbyEnemies(team, x, y, radius, unit -> unit.apply(status, statusDuration));

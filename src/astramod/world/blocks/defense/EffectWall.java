@@ -3,10 +3,13 @@ package astramod.world.blocks.defense;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.func.*;
+import mindustry.content.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
+import mindustry.type.*;
 import mindustry.world.meta.*;
 import mindustry.world.blocks.defense.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -14,6 +17,8 @@ import static mindustry.Vars.*;
 public class EffectWall extends Wall {
 	public float effectRange = 24f;
 	public float effectStrength = 10f;
+	public StatusEffect statusEffect = StatusEffects.none;
+	public float statusEffectTime = 0f;
 	public Cons<EffectWallBuild> effect = b -> { return; };
 
 	public Color effectColor;
@@ -38,6 +43,7 @@ public class EffectWall extends Wall {
 
 		stats.add(Stat.range, effectRange / tilesize, StatUnit.blocks);
 		stats.add(effectStat, effectStrength, effectUnit);
+		if (statusEffect != StatusEffects.none) stats.add(AstraStat.applies, AstraStatValues.statusEffect(statusEffect, statusEffectTime));
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {

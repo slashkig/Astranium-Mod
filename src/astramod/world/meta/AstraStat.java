@@ -5,6 +5,8 @@ import mindustry.world.meta.*;
 public class AstraStat {
 	public static final Stat
 		detonation = new Stat("detonation", StatCat.function),
+		effectStack = new Stat("effectStack", StatCat.function),
+		applies = new Stat("applies", StatCat.function),
 		magneticStrength = new Stat("magneticStrength", StatCat.function),
 		bridgeRange = new Stat("bridgeRange", StatCat.function),
 		liquidPressure = new Stat("liquidPressure", StatCat.liquids),
@@ -30,6 +32,8 @@ public class AstraStat {
 		lightningDamage = new Stat("lightningDamage", StatCat.function),
 		damageResistance = new Stat("damageResistance", StatCat.function),
 		wireCost = new Stat("wireCost", StatCat.function),
+		armorIncrease = new Stat("armorIncrease", StatCat.function),
+		armorReduction = new Stat("armorReduction", StatCat.function),
 		parentBlock = new Stat("parentBlock", StatCat.general),
 		parentBlocks = new Stat("parentBlocks", StatCat.general),
 		moduleBlocks = new Stat("moduleBlocks", StatCat.general);

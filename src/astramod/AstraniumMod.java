@@ -17,6 +17,7 @@ public class AstraniumMod extends Mod {
 		EntityRegistry.register();
 		AstraPal.load();
 		AstraItems.load();
+		AstraStatusEffects.load();
 		AstraFluids.load();
 		AstraUnitStance.load();
 		AstraUnitCommand.load();

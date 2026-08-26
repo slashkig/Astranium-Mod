@@ -361,51 +361,56 @@ public class AstraUnitTypes {
 					knockback = 4f;
 					status = StatusEffects.slow;
 					statusDuration = 4f * Time.toSeconds;
+
+					hitColor = backColor = AstraPal.ironBack;
+					frontColor = AstraPal.ironFront;
 				}};
 			}});
 		}};
 
 		achillion = new AstraUnitType("achillion", MechUnit::create) {{
-			health = 500;
-			armor = 5f;
+			health = 600;
+			armor = 4f;
 			hitSize = 13f;
 			fogRadius = 12f;
 			speed = 0.6f;
-			accel = 0.3f;
+			accel = 0.25f;
 			stepSoundVolume = 0.4f;
 
-			immunities.add(StatusEffects.slow);
+			immunities.add(StatusEffects.burning);
 
 			weapons.add(new Weapon("astramod-achillion-weapon") {{
-				reload = 45f;
+				reload = 50f;
 				recoil = 1.8f;
+				inaccuracy = 15f;
 				shoot.shots = 10;
 				shoot.shotDelay = 0f;
-				inaccuracy = 12f;
+				velocityRnd = 0.2f;
 
 				top = false;
 				x = 7.96f;
 				y = 0.34f;
 				shootY = 6.5f;
+				cooldownTime = 30f;
+				heatColor = AstraPal.heat;
 
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 3.5f;
 				ejectEffect = Fx.casing3;
 
-				heatColor = AstraPal.heat;
-				cooldownTime = 30f;
-
-				bullet = new BasicBulletType(12f, 16) {{
+				bullet = new BasicBulletType(6f, 16) {{
 					width = 6f;
-					height = 14;
-					lifetime = 9f;
+					height = 14f;
+					lifetime = 24f;
 
-					pierce = true;
-					pierceCap= 2;
-					knockback = 4f;
-					status = StatusEffects.slow; //Change to "Breached"
+					status = StatusEffects.burning;
 					statusDuration = 4f * Time.toSeconds;
-
+					
+					hitColor = backColor = AstraPal.fireBulletBack;
+					frontColor = AstraPal.fireBulletFront;
+					trailColor = AstraPal.fireBulletTrail;
+					trailWidth = 2f;
+					trailLength = 2;
 					smokeEffect = Fx.shootBigSmoke;
 					shootEffect = Fx.shootBigColor;
 				}};
@@ -464,6 +469,8 @@ public class AstraUnitTypes {
 			accel = 0.18f;
 			rotateSpeed = 2.5f;
 			floorMultiplier = 0.8f;
+			crushFragile = true;
+			crushDamage = 0.4f;
 
 			treadPullOffset = 8;
 			treadFrames = 16;
@@ -480,7 +487,6 @@ public class AstraUnitTypes {
 				shootCone = 2f;
 				recoil = 0.8f;
 				shoot = new ShootAlternate(5.2f);
-				crushFragile = true;
 
 				mirror = false;
 				x = 0f;
@@ -499,6 +505,7 @@ public class AstraUnitTypes {
 					smokeEffect = Fx.shootBigSmoke;
 
 					fragBullets = 1;
+					fragVelocityMin = 0.6f;
 					fragOnHit = false;
 					fragBullet = new BasicBulletType(6f, 18) {{
 						width = 8f;

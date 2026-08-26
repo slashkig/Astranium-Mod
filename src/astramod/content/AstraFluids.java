@@ -3,7 +3,6 @@ package astramod.content;
 import arc.graphics.*;
 import arc.util.Log;
 import mindustry.type.*;
-import mindustry.content.*;
 
 public class AstraFluids {
 	public static Liquid steam, helium, ferrofluid, plasma;
@@ -17,7 +16,7 @@ public class AstraFluids {
 		}};
 
 		ferrofluid = new Liquid("ferrofluid", Color.valueOf("220000")) {{
-			effect = StatusEffects.none; // TODO need to add status effect
+			effect = AstraStatusEffects.magnetized;
 			coolant = true;
 			barColor = Color.valueOf("440202");
 			viscosity = 0.25f;

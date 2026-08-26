@@ -2009,10 +2009,12 @@ public class AstraBlocks {
 
 			effectRange = 12f;
 			effectStrength = 4f;
+			statusEffect = AstraStatusEffects.irradiated;
+			statusEffectTime = 1f * Time.toSeconds;
 			effect = build -> {
 				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
 					unit.damageContinuousPierce(effectStrength / Time.toSeconds);
-					if (unit.hitTime < -1f) unit.hitTime = 1f;
+					unit.apply(statusEffect, statusEffectTime);
 				});
 			};
 
@@ -2033,10 +2035,12 @@ public class AstraBlocks {
 
 			effectRange = 24f;
 			effectStrength = 16f;
+			statusEffect = AstraStatusEffects.irradiated;
+			statusEffectTime = 2f * Time.toSeconds;
 			effect = build -> {
 				Units.nearbyEnemies(build.team, build.x, build.y, effectRange, unit -> {
 					unit.damageContinuousPierce(effectStrength / Time.toSeconds);
-					if (unit.hitTime < -1f) unit.hitTime = 1f;
+					unit.apply(statusEffect, statusEffectTime);
 				});
 			};
 
@@ -3024,6 +3028,8 @@ public class AstraBlocks {
 					splashDamageRadius = 12f;
 					splashDamage = 90f;
 					scaledSplashDamage = true;
+					status = AstraStatusEffects.overcharged;
+					statusDuration = 2f * Time.toSeconds;
 
 					frontColor = AstraPal.crystalFront;
 					backColor = AstraPal.crystalBack;
@@ -3043,8 +3049,8 @@ public class AstraBlocks {
 					lightningLength = 6;
 					lightningDamage = 14;
 
-					//frontColor = AstraPal.surgeFront;
-					//backColor = AstraPal.surgeBack;
+					frontColor = Pal.surgeAmmoFront;
+					backColor = Pal.surgeAmmoBack;
 				}}
 			);
 
@@ -3330,7 +3336,7 @@ public class AstraBlocks {
 			lightningDamage = 36f;
 			lightningLength = 10;
 			status = StatusEffects.shocked;
-			statusDuration = 480f;
+			statusDuration = 8f * Time.toSeconds;
 		}};
 
 		magneticMine = new Mine("magnetic-mine") {{
@@ -3345,6 +3351,8 @@ public class AstraBlocks {
 			explodePower = 30f;
 			knockback = -30f;
 			drawAlpha = 0.65f;
+			status = AstraStatusEffects.magnetized;
+			statusDuration = 6f * Time.toSeconds;
 		}};
 
 		// region TURRETS
@@ -3388,8 +3396,11 @@ public class AstraBlocks {
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 4;
-					pierceCap = 2;
 					collidesAir = false;
+
+					knockback = 2f;
+					status = StatusEffects.slow;
+					statusDuration = 2f * Time.toSeconds;
 
 					frontColor = AstraPal.ironFront;
 					backColor = AstraPal.ironBack;
@@ -3703,10 +3714,8 @@ public class AstraBlocks {
 			consumePower(1.2f);
 
 			plans = Seq.with(
-				new UnitPlan(
-					AstraUnitTypes.dicentra, 18f * Time.toSeconds,
-					ItemStack.with(AstraItems.iron, 15, Items.silicon, 10)
-				)
+				new UnitPlan(AstraUnitTypes.dicentra, 18f * Time.toSeconds, ItemStack.with(AstraItems.iron, 15, Items.silicon, 10)),
+				new UnitPlan(AstraUnitTypes.achillion, 40f * Time.toSeconds, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.graphite, 30))
 			);
 		}};
 
@@ -3722,22 +3731,16 @@ public class AstraBlocks {
 			consumePower(3f);
 
 			plans = Seq.with(
-				new UnitPlan(
-					AstraUnitTypes.aculei, 23f * Time.toSeconds,
-					ItemStack.with(
-						AstraItems.iron, 20,
-						Items.silicon, 20,
-						Items.graphite, 10
-					)
-				),
-				new UnitPlan(
-					AstraUnitTypes.echidna, 50f * Time.toSeconds,
-					ItemStack.with(
-						AstraItems.iron, 65,
-						Items.silicon, 40,
-						Items.graphite, 50
-					)
-				)
+				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.silicon, 20,
+					Items.graphite, 10
+				)),
+				new UnitPlan(AstraUnitTypes.echidna, 50f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 70,
+					Items.silicon, 50,
+					Items.graphite, 65
+				))
 			);
 		}};
 
@@ -3849,6 +3852,36 @@ public class AstraBlocks {
 					ammoMultiplier = 10;
 					frontColor = AstraPal.testPinkDark;
 					backColor = AstraPal.testPink;
+				}},
+				AstraItems.lithium, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.enraged;
+					statusDuration = 10f * Time.toSeconds;
+					reloadMultiplier = 0.05f;
+				}},
+				AstraItems.iron, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.reinforced;
+					statusDuration = 10f * Time.toSeconds;
+					reloadMultiplier = 0.05f;
+				}},
+				AstraItems.steel, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.breached;
+					statusDuration = 10f * Time.toSeconds;
+					reloadMultiplier = 0.05f;
+				}},
+				AstraItems.magnetite, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.magnetized;
+					statusDuration = 10f * Time.toSeconds;
+					reloadMultiplier = 0.05f;
+				}},
+				AstraItems.nuclearRod, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.irradiated;
+					statusDuration = 10f * Time.toSeconds;
+					reloadMultiplier = 0.05f;
+				}},
+				AstraItems.crystals, new BasicBulletType(8f, 1) {{
+					status = AstraStatusEffects.overcharged;
+					statusDuration = 2f * Time.toSeconds;
+					reloadMultiplier = 0.1f;
 				}}
 			);
 
