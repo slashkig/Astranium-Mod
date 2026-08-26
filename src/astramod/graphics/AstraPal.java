@@ -42,15 +42,15 @@ public class AstraPal {
 
 		darkerOutline = Color.valueOf("181818"),
 
-		heavyGunnerFront = Color.valueOf("ffbf75"),
-		heavyGunnerBack = Color.valueOf("d17104"),
-		heavyGunnerTrail = Color.valueOf("994102"),
+		fireBulletFront = Color.valueOf("ffbf75"),
+		fireBulletBack = Color.valueOf("d17104"),
+		fireBulletTrail = Color.valueOf("994102"),
 
 		deflectFront = Color.valueOf("ffe77d"),
-		deflectback = Color.valueOf("e3be07"),
+		deflectBack = Color.valueOf("e3be07"),
 		deflectTrail = Color.valueOf("ba4a00"),
 
-		machineGunHeat = Color.valueOf("f9350f"),
+		heat = Color.valueOf("f9350f"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");

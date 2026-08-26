@@ -3,6 +3,7 @@ package astramod.content;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
+import astramod.graphics.AstraPal;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -26,7 +27,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	public static void load() {
@@ -354,12 +355,59 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing2;
 
 				bullet = new BasicBulletType(5.5f, 20) {{
-					width = 6f;
+					width = 7f;
 					height = 12f;
 					lifetime = 30f;
 					knockback = 4f;
 					status = StatusEffects.slow;
 					statusDuration = 4f * Time.toSeconds;
+				}};
+			}});
+		}};
+
+		achillion = new AstraUnitType("achillion", MechUnit::create) {{
+			health = 500;
+			armor = 5f;
+			hitSize = 13f;
+			fogRadius = 12f;
+			speed = 0.6f;
+			accel = 0.3f;
+			stepSoundVolume = 0.4f;
+
+			immunities.add(StatusEffects.slow);
+
+			weapons.add(new Weapon("astramod-achillion-weapon") {{
+				reload = 45f;
+				recoil = 1.8f;
+				shoot.shots = 10;
+				shoot.shotDelay = 0f;
+				inaccuracy = 12f;
+
+				top = false;
+				x = 7.96f;
+				y = 0.34f;
+				shootY = 6.5f;
+
+				shootSound = Sounds.shootStell;
+				shootSoundVolume = 3.5f;
+				ejectEffect = Fx.casing3;
+
+				heatColor = AstraPal.heat;
+				cooldownTime = 30f;
+
+				bullet = new BasicBulletType(12f, 16) {{
+					width = 6f;
+					height = 14;
+					lifetime = 9f;
+
+					pierce = true;
+					pierceCap= 2;
+					knockback = 4f;
+					status = StatusEffects.slow; //Change to "Breached"
+					statusDuration = 4f * Time.toSeconds;
+
+					smokeEffect = Fx.shootBigSmoke;
+					shootEffect = Fx.shootBigColor;
 				}};
 			}});
 		}};
@@ -432,6 +480,7 @@ public class AstraUnitTypes {
 				shootCone = 2f;
 				recoil = 0.8f;
 				shoot = new ShootAlternate(5.2f);
+				crushFragile = true;
 
 				mirror = false;
 				x = 0f;
@@ -440,20 +489,25 @@ public class AstraUnitTypes {
 				layerOffset = 0.0001f;
 
 				bullet = new BasicBulletType(6f, 18) {{
-					width = 7f;
-					height = 9f;
-					lifetime = 27f;
+					width = 8f;
+					height = 10f;
+					lifetime = 25f;
 					hitSize = 4f;
 					shrinkY = 0f;
+
+					shootSoundVolume = 1.5f;
 					smokeEffect = Fx.shootBigSmoke;
 
 					fragBullets = 1;
 					fragOnHit = false;
 					fragBullet = new BasicBulletType(6f, 18) {{
-						width = 7f;
-						height = 9f;
+						width = 8f;
+						height = 10f;
 						lifetime = 18f;
 						shrinkY = 0f;
+
+						frontColor = AstraPal.deflectFront;
+						backColor = AstraPal.deflectBack;
 					}};
 				}};
 			}});
