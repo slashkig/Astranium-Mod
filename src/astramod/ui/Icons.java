@@ -49,6 +49,7 @@ public final class Icons {
 		for (StatusEffect status : content.statusEffects()) {
 			if (status.name.startsWith("astramod-") && !(status instanceof StatusEffectStack)) {
 				addIcon(status.name, status.name + "|status");
+				status.outline = false;
 			}
 		}
 	}
@@ -78,8 +79,8 @@ public final class Icons {
 			// Generate icon if needed
 			if (split.length > 1) {
 				switch (split[1]) {
-					case "team" -> generateIcon(pixmapRegion, rect, teams.find(t -> t.name == entry.key).color);
-					case "status" -> generateIcon(pixmapRegion, rect, content.statusEffect(name).color, true);
+					case "team" -> generateIcon(pixmapRegion, rect, teams.find(t -> t.name == entry.key).color, true);
+					case "status" -> generateIcon(pixmapRegion, rect, content.statusEffect(name).color, true, true);
 				}
 				extraIcons.put(entry.key, name);
 			}
@@ -105,15 +106,15 @@ public final class Icons {
 		extraIcons.clear();
 	}
 
-	public static void generateIcon(PixmapRegion region, Rect rect, Color color) {
-		generateIcon(region, rect, color, false);
+	public static void generateIcon(PixmapRegion region, Rect rect, Color color, boolean outline) {
+		generateIcon(region, rect, color, outline, false);
 	}
 
-	public static void generateIcon(PixmapRegion region, Rect rect, Color color, boolean expand) {
-		generateIcon(region, rect, color, expand, 3);
+	public static void generateIcon(PixmapRegion region, Rect rect, Color color, boolean outline, boolean expand) {
+		generateIcon(region, rect, color, outline, expand, 3);
 	}
 
-	public static void generateIcon(PixmapRegion region, Rect rect, Color color, boolean expand, int radius) {
+	public static void generateIcon(PixmapRegion region, Rect rect, Color color, boolean outline, boolean expand, int radius) {
 		Pixmap pixmap = region.pixmap;
 		rect.set(region.x, region.y, region.width - 1, region.height - 1);
 		pixmap.each((x, y) -> {
@@ -121,13 +122,15 @@ public final class Icons {
 				pixmap.setRaw(x, y, Color.muli(pixmap.getRaw(x, y), color.rgba()));
 			}
 		});
-		if (expand) {
-			Pixmap expanded = new Pixmap(region.width + radius * 2, region.height + radius * 2);
-			expanded.draw(pixmap, region.x, region.y, region.width, region.height, radius, radius, region.width, region.height, false, true);
-			region.x = radius;
-			region.y = radius;
-			region.pixmap = expanded.outline(Pal.gray, radius);
-		} else region.pixmap = pixmap.outline(Pal.gray, radius);
+		if (outline) {
+			if (expand) {
+				Pixmap expanded = new Pixmap(region.width + radius * 2, region.height + radius * 2);
+				expanded.draw(pixmap, region.x, region.y, region.width, region.height, radius, radius, region.width, region.height, false, true);
+				region.x = radius;
+				region.y = radius;
+				region.pixmap = expanded.outline(Pal.gray, radius);
+			} else region.pixmap = pixmap.outline(Pal.gray, radius);
+		} else region.pixmap = pixmap;
 	}
 
 	// TODO generate fullicons?
