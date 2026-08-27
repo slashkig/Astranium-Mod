@@ -1160,7 +1160,7 @@ public class AstraBlocks {
 		}};
 
 		coalPlant = new GenericCrafter("boiler") {{
-			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 35, Items.metaglass, 30));
+			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 35, Items.silicon, 20));
 			scaledHealth = 50f;
 			size = 2;
 			fogRadius = 2;
@@ -1190,7 +1190,7 @@ public class AstraBlocks {
 				AstraItems.iron, 60,
 				Items.copper, 80,
 				Items.silicon, 45,
-				Items.metaglass, 40
+				Items.graphite, 30
 			));
 			scaledHealth = 45f;
 			size = 3;

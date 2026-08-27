@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.math.Interp;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -397,13 +398,13 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.heat;
 
 				shootSound = Sounds.shootStell;
-				shootSoundVolume = 3.5f;
+				shootSoundVolume = 2f;
 				ejectEffect = Fx.casing3;
 
-				bullet = new BasicBulletType(6f, 16) {{
+				bullet = new BasicBulletType(10f, 16) {{
 					width = 6f;
 					height = 14f;
-					lifetime = 24f;
+					lifetime = 10f;
 
 					status = StatusEffects.burning;
 					statusDuration = 4f * Time.toSeconds;
