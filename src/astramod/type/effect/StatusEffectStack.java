@@ -24,7 +24,7 @@ public class StatusEffectStack extends StatusEffect {
 	}
 
 	public void display(Table table) {
-		AstraStatValues.statusEffect(this, intervalDamageTime).display(table);
+		AstraStatValues.statusEffect(this, maxStackTime).display(table);
 		AstraStatValues.addRow(table, "stat.damage", stackDamage, true);
 	}
 }

@@ -30,6 +30,8 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
+	// TODO Smokec?
+
 	public static void load() {
 		Log.info("Loading units");
 
@@ -190,7 +192,7 @@ public class AstraUnitTypes {
 		// region MODULES
 
 		gatherer = new AstraAnchoredUnitType("gatherer") {{
-			aiController = () -> new AnchoredMinerAI();
+			aiController = AnchoredMinerAI::new;
 			flying = true;
 			canAttack = false;
 			targetPriority = -5f;
@@ -215,7 +217,7 @@ public class AstraUnitTypes {
 		}};
 
 		initiate = new AstraAnchoredUnitType("initiate") {{
-			aiController = () -> new AnchoredSupportAI();
+			aiController = AnchoredSupportAI::new;
 			flying = true;
 			targetPriority = -5f;
 
@@ -261,7 +263,7 @@ public class AstraUnitTypes {
 		}};
 
 		seeker = new AstraAnchoredUnitType("seeker") {{
-			aiController = () -> new AnchoredAttackerAI();
+			aiController = AnchoredAttackerAI::new;
 			flying = true;
 
 			health = 500f;
@@ -299,7 +301,7 @@ public class AstraUnitTypes {
 		}};
 
 		ward = new AstraAnchoredUnitType("warder") {{
-			aiController = () -> new AnchoredShieldAI();
+			aiController = AnchoredShieldAI::new;
 			flying = true;
 			targetPriority = -4f;
 
@@ -494,7 +496,7 @@ public class AstraUnitTypes {
 				shootY = 10f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(6f, 18) {{
+				bullet = new BasicBulletType(6f, 18) {{ // TODO RicochetBulletType?
 					width = 8f;
 					height = 10f;
 					lifetime = 25f;

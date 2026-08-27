@@ -7,7 +7,7 @@ import mindustry.entities.abilities.*;
 import mindustry.gen.*;
 
 public class FollowShieldAI extends FollowAI {
-	public static final ObjectMap<Unit, Seq<Teamc>> targetTracker = new ObjectMap<>();
+	public static final ObjectMap<Unit, Seq<Teamc>> targetTracker = new ObjectMap<>(); // TODO shield AI allocator?
 
 	@Nullable public ShieldArcAbility shieldAbility;
 	public boolean useUnitShield = true;

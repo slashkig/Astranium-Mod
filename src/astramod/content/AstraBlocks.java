@@ -78,8 +78,7 @@ public class AstraBlocks {
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 		dart, viper, ember, ballista,
-		primaryLightAssembler, primaryHeavyAssembler,
-		mechAssembler, tankAssembler, airAssembler, shipAssembler, lightReassembler, heavyReassembler,
+		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipAssembler, lightReassembler, heavyReassembler,
 		omegafactory, uberwall, superRouter, testblaster, ohno;
 
 	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();
@@ -3703,7 +3702,7 @@ public class AstraBlocks {
 
 		// region UNITS
 
-		primaryLightAssembler = new UnitFactory("primary-light-assembler") {{
+		primaryMechAssembler = new UnitFactory("primary-light-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 100,
 				Items.lead, 120,
@@ -3719,7 +3718,7 @@ public class AstraBlocks {
 			);
 		}};
 
-		primaryHeavyAssembler = new UnitFactory("primary-heavy-assembler") {{
+		primaryTankAssembler = new UnitFactory("primary-heavy-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,

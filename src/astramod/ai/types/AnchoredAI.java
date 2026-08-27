@@ -14,6 +14,8 @@ public class AnchoredAI extends AIController {
 	@Override public void init() {
 		if (unit instanceof BuildingTetherc bt && bt.building() != null) {
 			anchor(bt.building());
+		} else {
+			unit.kill();
 		}
 	}
 

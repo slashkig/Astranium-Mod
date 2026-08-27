@@ -21,7 +21,7 @@ import astramod.type.effect.*;
 
 import static mindustry.Vars.content;
 
-public class Icons {
+public final class Icons {
 	private static final StringMap extraIcons = new StringMap();
 
 	public static void load() {
@@ -129,4 +129,6 @@ public class Icons {
 			region.pixmap = expanded.outline(Pal.gray, radius);
 		} else region.pixmap = pixmap.outline(Pal.gray, radius);
 	}
+
+	// TODO generate fullicons?
 }

@@ -26,13 +26,13 @@ public class AstraStatusEffects {
 
 		reinforced = new ArmorStatusEffect("reinforced") {{
 			color = Pal.metalGrayDark;
-			armorModifier = 6f;
+			armorModifier = 2f;
 			init(() -> opposite(breached));
 		}};
 
 		breached = new ArmorStatusEffect("breached") {{
 			color = Pal.negativeStat;
-			armorModifier = -8f;
+			armorModifier = 0f;
 			init(() -> opposite(reinforced));
 		}};
 
@@ -54,7 +54,7 @@ public class AstraStatusEffects {
 			};
 		}};
 
-		irradiated = new ConsStatusEffect("irradiated") {{
+		irradiated = new ConsStatusEffect("irradiated") {{ // TODO HudFragment SideBar health update override
 			color = AstraItems.nuclearRod.color.cpy();
 			damage = 5f / Time.toSeconds;
 			updateEffect = (u, e) -> {

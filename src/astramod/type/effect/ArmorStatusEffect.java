@@ -1,21 +1,23 @@
 package astramod.type.effect;
 
-import arc.math.Mathf;
-import mindustry.gen.Unit;
+import arc.math.*;
+import mindustry.gen.*;
 import mindustry.type.*;
+import mindustry.world.meta.*;
 import astramod.world.meta.*;
 
 public class ArmorStatusEffect extends StatusEffect {
 	public float armorModifier;
+	public boolean modifierAsMult = true;
 
 	public ArmorStatusEffect(String name) {
 		super(name);
 	}
 
-	@Override
-	public void setStats() {
+	@Override public void setStats() {
 		super.setStats();
-		if (armorModifier < 0f) stats.add(AstraStat.armorReduction, -armorModifier);
+		if (modifierAsMult) stats.add(AstraStat.armorMultiplier, armorModifier * 100f, StatUnit.percent);
+		else if (armorModifier < 0f) stats.add(AstraStat.armorReduction, -armorModifier);
 		else stats.add(AstraStat.armorIncrease, armorModifier);
 	}
 
@@ -23,11 +25,16 @@ public class ArmorStatusEffect extends StatusEffect {
 		super.applied(unit, time, extend);
 		if (!extend) {
 			float armorOverride = unit.applyDynamicStatus().armorOverride;
-			unit.statusArmor(Mathf.maxZero((armorOverride > 0f ? armorOverride : unit.armor()) + armorModifier));
+			unit.statusArmor(modifierAsMult ? (armorOverride < 0f ? unit.armor() : armorOverride) * armorModifier :
+				Mathf.maxZero((armorOverride < 0f ? unit.armor() : armorOverride) + armorModifier));
 		}
 	}
 
 	@Override public void onRemoved(Unit unit) {
-		unit.applyDynamicStatus().armorOverride -= armorModifier;
+		if (modifierAsMult) {
+			if (armorModifier == 0f) unit.statusArmor(-1f);
+			else unit.applyDynamicStatus().armorOverride /= armorModifier;
+		}
+		else unit.applyDynamicStatus().armorOverride -= armorModifier;
 	}
 }

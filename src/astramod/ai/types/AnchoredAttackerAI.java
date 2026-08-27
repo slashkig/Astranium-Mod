@@ -12,7 +12,7 @@ public class AnchoredAttackerAI extends AnchoredAI {
 
 	@Override public void updateMovement() {
 		if (target != null) {
-			moveTo(target, unit.range() * 0.8f, 25f);
+			moveTo(Predict.intercept(unit, target, unit.type.weapons.first().bullet), unit.range() * 0.8f, 25f);
 		} else super.updateMovement();
 	}
 
