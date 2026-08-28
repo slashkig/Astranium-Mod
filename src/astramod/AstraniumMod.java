@@ -16,6 +16,7 @@ public class AstraniumMod extends Mod {
 
 	@Override public void loadContent() {
 		EntityRegistry.register();
+		AstraSounds.load();
 		AstraPal.load();
 		AstraItems.load();
 		AstraStatusEffects.load();
@@ -34,7 +35,7 @@ public class AstraniumMod extends Mod {
 		Log.info("Astranium Mod loaded");
 	}
 
-	/*@Override public void init() {
+	@Override public void init() {
 		Displays.init();
-	}*/
+	}
 }

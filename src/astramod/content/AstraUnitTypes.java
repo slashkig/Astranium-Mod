@@ -1,10 +1,8 @@
 package astramod.content;
 
-import arc.math.Interp;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
-import astramod.graphics.AstraPal;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
@@ -19,6 +17,7 @@ import astramod.ai.types.*;
 import astramod.entities.bullet.*;
 import astramod.gen.MechUnit;
 import astramod.gen.PayloadUnit;
+import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 
@@ -355,8 +354,10 @@ public class AstraUnitTypes {
 				x = 7f;
 				y = 0.7f;
 				shootY = 5f;
-				shootSound = Sounds.shootStell;
 				ejectEffect = Fx.casing2;
+
+				shootSound = Sounds.shootStell;
+				shootSoundVolume = 1.8f;
 
 				bullet = new BasicBulletType(5.5f, 20) {{
 					width = 7f;
@@ -397,14 +398,14 @@ public class AstraUnitTypes {
 				shootY = 6.5f;
 				cooldownTime = 30f;
 				heatColor = AstraPal.heat;
-
-				shootSound = Sounds.shootStell;
-				shootSoundVolume = 2f;
 				ejectEffect = Fx.casing3;
 
+				shootSound = Sounds.shootDiffuse;
+				shootSoundVolume = 2f;
+
 				bullet = new BasicBulletType(8f, 16) {{
-					width = 6f;
-					height = 14f;
+					width = 5f;
+					height = 6f;
 					lifetime = 15f;
 
 					status = StatusEffects.burning;
@@ -413,7 +414,7 @@ public class AstraUnitTypes {
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
 					trailColor = AstraPal.fireBulletTrail;
-					trailWidth = 2f;
+					trailWidth = 1.5f;
 					trailLength = 2;
 					smokeEffect = Fx.shootBigSmoke;
 					shootEffect = Fx.shootBigColor;
@@ -424,39 +425,33 @@ public class AstraUnitTypes {
 		// region SONIC MECHS
 
 		zenaida = new AstraUnitType("zenaida", MechUnit::create) {{
-			health = 280; // I need more time to balance this thing
-			armor = 4f;
+			health = 300;
+			armor = 2f;
 			hitSize = 10f;
-			fogRadius = 12f;
+			fogRadius = 8f;
 			speed = 0.8f;
-			accel = 0.3f;
+			accel = 0.4f;
 			stepSoundVolume = 0.4f;
 
 			weapons.add(new Weapon("astramod-zenaida-weapon") {{
 				reload = 30f;
 				recoil = 1.2f;
-
+				velocityRnd = 0.1f;
 				alternate = false;
+
 				top = false;
 				x = 7.5f;
 				y = 0.5f;
 				shootY = 5f;
-				shootSound = Sounds.shootStell; // Change to AstraSounds.sonicShoot
 				heatColor = AstraPal.sonicHeat;
 
-				bullet = new BasicBulletType(6f, 40) {{
-					sprite = "astramod-sonic-shot";
+				shootSound = AstraSounds.shootSonic;
+				shootSoundVolume = 0.4f;
 
+				bullet = new SonicBulletType(6f, 40) {{
 					width = 7f;
 					height = 12f;
-					lifetime = 15f; // temp range, testing purposes
-					knockback = 2f;
-					pierce = true;
-					pierceBuilding = true;
-					pierceArmor = true;
-
-					hitColor = backColor = AstraPal.sonicShotBack;
-					frontColor = AstraPal.sonicShotFront;
+					lifetime = 15f;
 				}};
 			}});
 		}};
@@ -520,8 +515,8 @@ public class AstraUnitTypes {
 			treadFrames = 16;
 			treadRects = new Rect[] { new Rect(-35f, -44f, 18f, 88f) };
 
-			tankMoveVolume *= 0.58f;
 			tankMoveSound = Sounds.tankMove;
+			tankMoveVolume *= 0.58f;
 
 			weapons.add(new Weapon("astramod-echidna-weapon") {{
 				reload = 7f;

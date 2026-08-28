@@ -3713,8 +3713,20 @@ public class AstraBlocks {
 			consumePower(1.2f);
 
 			plans = Seq.with(
-				new UnitPlan(AstraUnitTypes.dicentra, 18f * Time.toSeconds, ItemStack.with(AstraItems.iron, 15, Items.silicon, 10)),
-				new UnitPlan(AstraUnitTypes.achillion, 40f * Time.toSeconds, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.graphite, 30))
+				new UnitPlan(AstraUnitTypes.dicentra, 18f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 15,
+					Items.silicon, 10
+				)),
+				new UnitPlan(AstraUnitTypes.achillion, 40f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 50,
+					Items.silicon, 40,
+					Items.graphite, 30
+				)),
+				new UnitPlan(AstraUnitTypes.zenaida, 20f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.silicon, 10,
+					Items.metaglass, 15
+				))
 			);
 		}};
 
