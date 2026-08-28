@@ -6,6 +6,7 @@ import astramod.ai.*;
 import astramod.content.*;
 import astramod.gen.*;
 import astramod.graphics.*;
+import astramod.ui.Displays;
 import astramod.ui.Icons;
 
 public class AstraniumMod extends Mod {
@@ -31,5 +32,9 @@ public class AstraniumMod extends Mod {
 		Icons.load();
 
 		Log.info("Astranium Mod loaded");
+	}
+
+	@Override public void init() {
+		Displays.init();
 	}
 }
