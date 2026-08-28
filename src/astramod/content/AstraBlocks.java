@@ -248,9 +248,9 @@ public class AstraBlocks {
 		purificationSmelter = new BoostableCrafter("purification-smelter") {{
 			requirements(Category.crafting, ItemStack.with(
 				AstraItems.steel, 125,
-				Items.silicon, 60,
-				Items.graphite, 90,
-				Items.titanium, 100,
+				Items.silicon, 90,
+				Items.graphite, 100,
+				Items.plastanium, 60,
 				AstraItems.lithium, 75
 			));
 			buildCostMultiplier = 1.4f;
@@ -1135,7 +1135,7 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(
 				Items.copper, 75,
 				Items.silicon, 100,
-				Items.phaseFabric, 25,
+				Items.plastanium, 25,
 				AstraItems.lithium, 40
 			));
 			buildCostMultiplier = 1.4f;
@@ -1160,7 +1160,7 @@ public class AstraBlocks {
 		}};
 
 		coalPlant = new GenericCrafter("boiler") {{
-			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 35, Items.silicon, 20));
+			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 30, Items.metaglass, 25));
 			scaledHealth = 50f;
 			size = 2;
 			fogRadius = 2;
@@ -1189,7 +1189,7 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(
 				AstraItems.iron, 60,
 				Items.copper, 80,
-				Items.silicon, 45,
+				Items.metaglass, 45,
 				Items.graphite, 30
 			));
 			scaledHealth = 45f;
@@ -3742,6 +3742,8 @@ public class AstraBlocks {
 				))
 			);
 		}};
+
+		// TODO rapid assembly module
 
 		// region EXTRAS
 
