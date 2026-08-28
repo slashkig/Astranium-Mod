@@ -46,11 +46,15 @@ public class AstraPal {
 		fireBulletBack = Color.valueOf("d17104"),
 		fireBulletTrail = Color.valueOf("994102"),
 
+		sonicShotFront = Color.valueOf("a8e9ff"),
+		sonicShotBack = Color.valueOf("a8e9ff"),
+
 		deflectFront = Color.valueOf("ffe77d"),
 		deflectBack = Color.valueOf("e3be07"),
 		deflectTrail = Color.valueOf("ba4a00"),
 
 		heat = Color.valueOf("f9350f"),
+		sonicHeat = Color.valueOf("92f0fc"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");

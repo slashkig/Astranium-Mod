@@ -29,6 +29,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
 	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	// TODO Smokec?
@@ -401,10 +402,10 @@ public class AstraUnitTypes {
 				shootSoundVolume = 2f;
 				ejectEffect = Fx.casing3;
 
-				bullet = new BasicBulletType(10f, 16) {{
+				bullet = new BasicBulletType(8f, 16) {{
 					width = 6f;
 					height = 14f;
-					lifetime = 10f;
+					lifetime = 15f;
 
 					status = StatusEffects.burning;
 					statusDuration = 4f * Time.toSeconds;
@@ -416,6 +417,46 @@ public class AstraUnitTypes {
 					trailLength = 2;
 					smokeEffect = Fx.shootBigSmoke;
 					shootEffect = Fx.shootBigColor;
+				}};
+			}});
+		}};
+
+		// region SONIC MECHS
+
+		zenaida = new AstraUnitType("zenaida", MechUnit::create) {{
+			health = 280; // I need more time to balance this thing
+			armor = 4f;
+			hitSize = 10f;
+			fogRadius = 12f;
+			speed = 0.8f;
+			accel = 0.3f;
+			stepSoundVolume = 0.4f;
+
+			weapons.add(new Weapon("astramod-zenaida-weapon") {{
+				reload = 30f;
+				recoil = 1.2f;
+
+				alternate = false;
+				top = false;
+				x = 7.5f;
+				y = 0.5f;
+				shootY = 5f;
+				shootSound = Sounds.shootStell; // Change to AstraSounds.sonicShoot
+				heatColor = AstraPal.sonicHeat;
+
+				bullet = new BasicBulletType(6f, 40) {{
+					sprite = "astramod-sonic-shot";
+
+					width = 7f;
+					height = 12f;
+					lifetime = 15f; // temp range, testing purposes
+					knockback = 2f;
+					pierce = true;
+					pierceBuilding = true;
+					pierceArmor = true;
+
+					hitColor = backColor = AstraPal.sonicShotBack;
+					frontColor = AstraPal.sonicShotFront;
 				}};
 			}});
 		}};
