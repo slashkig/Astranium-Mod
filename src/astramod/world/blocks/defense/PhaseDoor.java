@@ -3,9 +3,10 @@ package astramod.world.blocks.defense;
 import arc.graphics.g2d.*;
 import mindustry.graphics.*;
 import mindustry.world.blocks.defense.*;
+import astramod.graphics.*;
 
 public class PhaseDoor extends AutoDoor {
-	public float openAlpha = 0.9f;
+	public float openAlpha = 0.6f;
 
 	public PhaseDoor(String name) {
 		super(name);
@@ -26,10 +27,14 @@ public class PhaseDoor extends AutoDoor {
 	public class PhaseDoorBuild extends AutoDoorBuild {
 		@Override public void draw() {
 			if (open) {
-				Draw.z(Layer.shields);
-				Draw.alpha(openAlpha);
-				Draw.rect(openRegion, x, y);
-				Draw.reset();
+				Draw.draw(Layer.blockOver, () -> {
+					AstraShaders.phase.region = openRegion;
+					AstraShaders.phase.alpha = openAlpha;
+
+					Draw.shader(AstraShaders.phase);
+					Draw.rect(openRegion, x, y);
+					Draw.shader();
+				});
 			} else {
 				Draw.rect(region, x, y);
 			}

@@ -90,7 +90,32 @@ public class AstraFx {
 		Angles.randLenVectors(e.id, 12, e.finpow() * 75f, e.rotation, 25f, (x, y) -> {
 			Fill.circle(e.x + x, e.y + y, 1.2f + e.fin() * 1.5f);
 		});
-	});
+	}),
 
-	// TODO status effect vfx
+	attractMetalParticles = new Effect(60f, e -> {
+		Draw.color(Pal.darkestMetal);
+		Draw.alpha(e.fout());
+
+		Angles.randLenVectors(e.id, 1, 2f + e.foutpow() * 20f, (x, y) -> {
+			Fill.poly(e.x + x, e.y + y, 6, 1.5f);
+		});
+	}) {{ layer += 1f; }},
+
+	radiate = new Effect(30f, e -> {
+		Draw.color(e.color, Color.white, e.fin());
+		Lines.stroke(0.1f + 0.5f * e.fout());
+
+		Angles.randLenVectors(e.id, 1, 2f + e.fin() * 10f, (x, y) -> {
+			Lines.line(e.x, e.y, e.x + x, e.y + y);
+		});
+	}),
+	
+	charged = new Effect(40f, e -> {
+		Draw.color(e.color);
+
+		Angles.randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+			Fill.square(e.x + x, e.y + y, e.fslope() * 1.8f, 45f);
+			Drawf.light(e.x + x, e.y + y, e.fslope() * 4f, e.color, e.fslope() * 0.5f);
+		});
+	});
 }

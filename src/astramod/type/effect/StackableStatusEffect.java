@@ -12,8 +12,13 @@ public class StackableStatusEffect extends StatusEffect {
 		super(name);
 
 		init(() -> {
-			for (StatusEffect effect : tiers) {
-				effect.color = color;
+			int i = 1;
+			for (StatusEffectStack stack : tiers) {
+				if (stack.useParentVisuals) {
+					stack.color = color;
+					stack.effect = effect;
+					stack.effectChance = effectChance * i++;
+				}
 			}
 		});
 	}

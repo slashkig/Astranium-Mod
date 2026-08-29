@@ -36,6 +36,7 @@ public class AstraniumMod extends Mod {
 	}
 
 	@Override public void init() {
+		AstraShaders.init();
 		Displays.init();
 	}
 }

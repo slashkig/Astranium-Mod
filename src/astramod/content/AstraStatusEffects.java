@@ -18,6 +18,8 @@ public class AstraStatusEffects {
 		Log.info("Loading status effects");
 		StatusEffects.slow.show = true;
 
+		// TODO replace the placeholder colors
+
 		enraged = new StatusEffect("enraged") {{
 			color = AstraPal.heat;
 			damageMultiplier = 1.2f;
@@ -38,9 +40,12 @@ public class AstraStatusEffects {
 
 		magnetized = new ConsStatusEffect("magnetized") {{
 			color = AstraItems.magnetite.color.cpy();
+			effect = AstraFx.attractMetalParticles;
+			effectChance = 0.1f;
+
 			speedMultiplier = 0.8f;
 			effectStrength = 30f;
-			effectRange = 3f * Vars.tilesize;
+			effectRange = 4f * Vars.tilesize;
 			effectStat = AstraStat.magneticStrength;
 			effectUnit = AstraStatUnit.percentSecond;
 			updateEffect = (unit, entry) -> {
@@ -54,8 +59,9 @@ public class AstraStatusEffects {
 			};
 		}};
 
-		irradiated = new ConsStatusEffect("irradiated") {{ // TODO HudFragment SideBar health update override
+		irradiated = new ConsStatusEffect("irradiated") {{
 			color = AstraItems.nuclearRod.color.cpy();
+			effect = AstraFx.radiate;
 			damage = 5f / Time.toSeconds;
 			updateEffect = (u, e) -> {
 				u.maxHealth = u.health;
@@ -66,6 +72,8 @@ public class AstraStatusEffects {
 
 		overcharged = new StackableStatusEffect("overcharged") {{
 			color = AstraItems.crystals.color.cpy();
+			effect = AstraFx.charged;
+			effectChance = 0.05f;
 			tiers = new StatusEffectStack[] {
 				new StatusEffectStack("overcharged-1", 100f),
 				new StatusEffectStack("overcharged-2", 250f),
