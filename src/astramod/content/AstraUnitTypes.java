@@ -27,8 +27,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida, oriolus;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion, zenaida, oriolus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	// TODO Smokec?
@@ -48,7 +47,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 120f;
-			armor = 2f;
+			armor = 1f;
 			hitSize = 10f;
 			fogRadius = 0f;
 			itemCapacity = 25;
@@ -95,7 +94,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 180f;
-			armor = 3f;
+			armor = 2f;
 			hitSize = 12f;
 			fogRadius = 0;
 			itemCapacity = 40;
@@ -146,7 +145,7 @@ public class AstraUnitTypes {
 			targetPriority = -2.5f;
 
 			health = 260f;
-			armor = 4f;
+			armor = 3f;
 			hitSize = 15f;
 			fogRadius = 0;
 			itemCapacity = 60;
@@ -187,6 +186,8 @@ public class AstraUnitTypes {
 					buildingDamageMultiplier = 0.01f;
 					homingPower = 0.03f;
 				}};
+
+				extendedStats = false;
 			}});
 		}};
 
@@ -337,7 +338,7 @@ public class AstraUnitTypes {
 
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
 			health = 250;
-			armor = 2f;
+			armor = 1f;
 			hitSize = 10f;
 			fogRadius = 12f;
 			speed = 0.6f;
@@ -347,7 +348,7 @@ public class AstraUnitTypes {
 			immunities.add(StatusEffects.slow);
 
 			weapons.add(new Weapon("astramod-dicentra-weapon") {{
-				reload = 30f;
+				reload = 25f;
 				recoil = 1f;
 
 				top = false;
@@ -375,7 +376,7 @@ public class AstraUnitTypes {
 
 		achillion = new AstraUnitType("achillion", MechUnit::create) {{
 			health = 600;
-			armor = 4f;
+			armor = 3f;
 			hitSize = 13f;
 			fogRadius = 12f;
 			speed = 0.6f;
@@ -388,7 +389,7 @@ public class AstraUnitTypes {
 				reload = 50f;
 				recoil = 1.8f;
 				inaccuracy = 15f;
-				shoot.shots = 10;
+				shoot.shots = 12;
 				shoot.shotDelay = 0f;
 				velocityRnd = 0.2f;
 
@@ -401,15 +402,16 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing3;
 
 				shootSound = Sounds.shootDiffuse;
-				shootSoundVolume = 2f;
+				shootSoundVolume = 1.2f;
 
-				bullet = new BasicBulletType(8f, 16) {{
+				bullet = new BasicBulletType(5f, 16) {{
 					width = 5f;
 					height = 6f;
-					lifetime = 15f;
+					lifetime = 28f;
+					knockback = 0.5f;
 
 					status = StatusEffects.burning;
-					statusDuration = 4f * Time.toSeconds;
+					statusDuration = 6f * Time.toSeconds;
 					
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
@@ -430,10 +432,10 @@ public class AstraUnitTypes {
 			hitSize = 10f;
 			fogRadius = 8f;
 			speed = 0.8f;
-			accel = 0.4f;
+			accel = 0.3f;
 			stepSoundVolume = 0.4f;
 
-			weapons.add(new Weapon("astramod-zenaida-weapon") {{
+			weapons.add(new AstraWeapon("astramod-zenaida-weapon") {{
 				reload = 30f;
 				recoil = 1.2f;
 				alternate = false;
@@ -441,15 +443,16 @@ public class AstraUnitTypes {
 				top = false;
 				x = 7.5f;
 				y = 0.5f;
+				shootX = -0.5f;
 				shootY = 5f;
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
 				shootSoundVolume = 0.4f;
 
-				bullet = new SonicBulletType(6f, 30) {{
+				bullet = new SonicBulletType(6f, 36) {{
 					width = 9f;
-					height = 15f;
+					height = 14f;
 					lifetime = 15f;
 				}};
 			}});
@@ -457,50 +460,38 @@ public class AstraUnitTypes {
 
 		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
 			health = 700;
-			armor = 5f;
+			armor = 4f;
 			hitSize = 17f;
-			fogRadius = 12f;
+			fogRadius = 9f;
 			rotateSpeed = 2.5f;
 			speed = 1f;
-			accel = 0.5f;
+			accel = 0.3f;
 			stepSoundVolume = 0.8f;
 
-			weapons.add(new Weapon("astramod-oriolus-weapon") {{
+			weapons.add(new AstraWeapon("astramod-oriolus-weapon") {{
 				reload = 80f;
 				recoil = 3f;
 				shoot.shots = 3;
-				shoot.shotDelay = 7f;
+				shoot.shotDelay = 6f;
 
+				mirror = false;
 				x = 0f;
 				y = 1f;
-				shootY = 10f;
+				shootY = 9f;
 				rotate = true;
 				rotateSpeed = 2f;
-				mirror = false;
+				rotationLimit = 60f;
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
 				shootSoundVolume = 0.5f;
 
-				bullet = new SonicBulletType(6f, 50) {{
-					sprite = "astramod-sonic-shot-large";
+				bullet = new SonicBulletType(6f, 60) {{
+					width = 11f;
+					height = 16f;
+					lifetime = 18f;
 
-					width = 14f;
-					height = 24f;
-					lifetime = 15f;
-					
 					shootEffect = AstraFx.sonicHit;
-
-					/*fragBullets = 4;
-					fragVelocityMin = 4f;
-					fragOnHit = false;
-
-					fragBullet = new SonicBulletType(6f, 10) {{
-						width = 8f;
-						height = 10f;
-						lifetime = 5f;
-						shrinkY = 0f;
-					}};*/
 				}};
 			}});
 		}};
@@ -509,7 +500,7 @@ public class AstraUnitTypes {
 
 		aculei = new AstraTankUnitType("aculei") {{
 			health = 600;
-			armor = 5f;
+			armor = 4f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 10;
@@ -540,7 +531,6 @@ public class AstraUnitTypes {
 
 				bullet = new BasicBulletType(5f, 11) {{
 					lifetime = 25f;
-					hitSize = 4f;
 					shrinkY = 0f;
 				}};
 			}});
@@ -582,25 +572,17 @@ public class AstraUnitTypes {
 				shootY = 10f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(6f, 18) {{ // TODO RicochetBulletType?
+				bullet = new RicochetBulletType(6f, 18) {{
 					width = 8f;
 					height = 10f;
 					lifetime = 25f;
-					hitSize = 4f;
-					shrinkY = 0f;
 
 					shootSoundVolume = 1.5f;
 					smokeEffect = Fx.shootBigSmoke;
 
-					fragBullets = 1;
-					fragVelocityMin = 0.6f;
 					fragOnHit = false;
-					fragBullet = new BasicBulletType(6f, 14) {{
-						width = 8f;
-						height = 10f;
+					fragBullet = new RicochetBulletType(this) {{
 						lifetime = 18f;
-						shrinkY = 0f;
-
 						frontColor = AstraPal.deflectFront;
 						backColor = AstraPal.deflectBack;
 					}};

@@ -16,6 +16,7 @@ import mindustry.world.*;
 import mindustry.world.meta.*;
 import astramod.entities.bullet.*;
 import astramod.type.effect.*;
+import astramod.ui.*;
 import astramod.world.blocks.defense.*;
 
 import static mindustry.world.meta.StatValues.*;
@@ -113,6 +114,7 @@ public class AstraStatValues {
         return astraAmmo(map, nested, showUnit, null);
     }
 
+	/** An extended ammo display for custom bullet classes. */
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName) {
 		return table -> {
 			StatValues.ammo(map, nested, showUnit, blockName).display(table);
@@ -125,6 +127,11 @@ public class AstraStatValues {
 
 				if (bullet instanceof BoltBulletType bt) {
 					addRow(entry, "stat.armorpenetration", bt.armorPenetration, true);
+				} else if (bullet instanceof SonicBulletType bt) {
+					Displays.replaceLabelText(entry,
+						Core.bundle.format("bullet.damage", bullet.damage),
+						Core.bundle.format("bullet.damage", Strings.autoFixed(bullet.damage * (1f - bt.falloffFactor), 1) + " - " + Strings.autoFixed(bullet.damage, 1))
+					);
 				}
 			}
 		};

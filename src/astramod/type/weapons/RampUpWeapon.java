@@ -3,7 +3,6 @@ package astramod.type.weapons;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.Table;
-import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.entities.*;
@@ -13,7 +12,7 @@ import mindustry.type.*;
 import mindustry.world.meta.*;
 import astramod.world.meta.*;
 
-public class RampUpWeapon extends Weapon {
+public class RampUpWeapon extends AstraWeapon {
 	/** Maximum fraction of reload time that can be reduced by ramp-up. */
 	public float rampupFactor = 0f;
 	/** Maximum fraction of speed that is reduced by ramp-up. */
@@ -30,10 +29,7 @@ public class RampUpWeapon extends Weapon {
 		if (slowdownFactor == -1f) slowdownFactor = rampupFactor;
 	}
 
-	@Override public void addStats(UnitType u, Table t) {
-		if (inaccuracy > 0f) {
-			AstraStatValues.addRowString(t, "[lightgray]@: [white]@ @", Stat.inaccuracy.localized(), (int)inaccuracy, StatUnit.degrees.localized());
-		}
+	@Override public void statReload(UnitType u, Table t) {
 		AstraStatValues.addRowString(t, "[lightgray]@: @[white]@ - @ @",
 			Stat.reload.localized(),
 			mirror ? "2x " : "",
@@ -46,8 +42,6 @@ public class RampUpWeapon extends Weapon {
 			Strings.autoFixed(1f / (Time.toSeconds * shootWarmupSpeed), 2),
 			StatUnit.seconds.localized()
 		);
-
-		StatValues.ammo(ObjectMap.of(u, bullet)).display(t);
 	}
 
 	@Override public void update(Unit unit, WeaponMount mount) {
