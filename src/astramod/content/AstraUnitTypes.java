@@ -28,7 +28,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
 	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida, oriolus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
 
 	// TODO Smokec?
@@ -147,7 +147,7 @@ public class AstraUnitTypes {
 
 			health = 260f;
 			armor = 4f;
-			hitSize = 17f;
+			hitSize = 15f;
 			fogRadius = 0;
 			itemCapacity = 60;
 			payloadCapacity = 4f * tilePayload;
@@ -436,7 +436,6 @@ public class AstraUnitTypes {
 			weapons.add(new Weapon("astramod-zenaida-weapon") {{
 				reload = 30f;
 				recoil = 1.2f;
-				velocityRnd = 0.1f;
 				alternate = false;
 
 				top = false;
@@ -448,10 +447,60 @@ public class AstraUnitTypes {
 				shootSound = AstraSounds.shootSonic;
 				shootSoundVolume = 0.4f;
 
-				bullet = new SonicBulletType(6f, 40) {{
-					width = 7f;
-					height = 12f;
+				bullet = new SonicBulletType(6f, 30) {{
+					width = 9f;
+					height = 15f;
 					lifetime = 15f;
+				}};
+			}});
+		}};
+
+		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
+			health = 700;
+			armor = 5f;
+			hitSize = 17f;
+			fogRadius = 12f;
+			rotateSpeed = 2.5f;
+			speed = 1f;
+			accel = 0.5f;
+			stepSoundVolume = 0.8f;
+
+			weapons.add(new Weapon("astramod-oriolus-weapon") {{
+				reload = 80f;
+				recoil = 3f;
+				shoot.shots = 3;
+				shoot.shotDelay = 7f;
+
+				x = 0f;
+				y = 1f;
+				shootY = 10f;
+				rotate = true;
+				rotateSpeed = 2f;
+				mirror = false;
+				heatColor = AstraPal.sonicHeat;
+
+				shootSound = AstraSounds.shootSonic;
+				shootSoundVolume = 0.5f;
+
+				bullet = new SonicBulletType(6f, 50) {{
+					sprite = "astramod-sonic-shot-large";
+
+					width = 14f;
+					height = 24f;
+					lifetime = 15f;
+					
+					shootEffect = AstraFx.sonicHit;
+
+					/*fragBullets = 4;
+					fragVelocityMin = 4f;
+					fragOnHit = false;
+
+					fragBullet = new SonicBulletType(6f, 10) {{
+						width = 8f;
+						height = 10f;
+						lifetime = 5f;
+						shrinkY = 0f;
+					}};*/
 				}};
 			}});
 		}};
@@ -546,7 +595,7 @@ public class AstraUnitTypes {
 					fragBullets = 1;
 					fragVelocityMin = 0.6f;
 					fragOnHit = false;
-					fragBullet = new BasicBulletType(6f, 18) {{
+					fragBullet = new BasicBulletType(6f, 14) {{
 						width = 8f;
 						height = 10f;
 						lifetime = 18f;

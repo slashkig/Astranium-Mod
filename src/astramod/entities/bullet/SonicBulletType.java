@@ -12,6 +12,7 @@ public class SonicBulletType extends BasicBulletType {
 		pierce = true;
 		pierceBuilding = true;
 		pierceArmor = true;
+		hittable = false;
 		hitColor = backColor = AstraPal.sonicShotBack;
 		frontColor = AstraPal.sonicShotFront;
 		smokeEffect = AstraFx.sonicPulse;
