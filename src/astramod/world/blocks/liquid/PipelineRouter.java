@@ -2,7 +2,6 @@ package astramod.world.blocks.liquid;
 
 import mindustry.content.*;
 import mindustry.world.blocks.liquid.*;
-import mindustry.world.meta.*;
 import arc.math.*;
 import astramod.world.meta.*;
 
@@ -15,7 +14,7 @@ public class PipelineRouter extends LiquidRouter {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+		stats.addPercent(AstraStat.heatCapacity, heatCapacity);
 	}
 
 	public class PipelineRouterBuild extends LiquidRouterBuild {

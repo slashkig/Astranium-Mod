@@ -39,7 +39,7 @@ public class PipelineBridge extends LiquidBridge {
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(AstraStat.bridgeRange, range, StatUnit.blocks);
-		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+		stats.addPercent(AstraStat.heatCapacity, heatCapacity);
 	}
 
 	@Override protected TextureRegion[] icons() {

@@ -6,7 +6,6 @@ import arc.math.Mathf;
 import astramod.world.meta.AstraStat;
 import mindustry.content.Fx;
 import mindustry.world.blocks.liquid.*;
-import mindustry.world.meta.StatUnit;
 
 public class ArmoredPipeline extends ArmoredConduit {
 	public float heatCapacity = 0.5f;
@@ -18,8 +17,8 @@ public class ArmoredPipeline extends ArmoredConduit {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.liquidPressure, liquidPressure * 100, StatUnit.percent);
-		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+		stats.addPercent(AstraStat.liquidPressure, liquidPressure);
+		stats.addPercent(AstraStat.heatCapacity, heatCapacity);
 	}
 
 	@Override public TextureRegion[] icons() {

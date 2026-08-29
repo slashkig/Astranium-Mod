@@ -31,16 +31,16 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 		super.setStats();
 
 		if (byproductLiquid != null) {
-			stats.add(Stat.output, StatValues.liquid(byproductLiquid.liquid, byproductLiquid.amount * 60f, true));
+			stats.add(Stat.output, StatValues.liquid(byproductLiquid.liquid, byproductLiquid.amount * Time.toSeconds, true));
 		}
 
 		if (coolantCapacity > 0f) {
 			stats.add(AstraStat.coolantCapacity, coolantCapacity, StatUnit.liquidUnits);
-			stats.add(AstraStat.coolantBoost, coolantBoost * 100f, StatUnit.percent);
-			stats.add(AstraStat.coolantConsumption, coolantConsumption * 60f, StatUnit.liquidSecond);
+			stats.addPercent(AstraStat.coolantBoost, coolantBoost);
+			stats.add(AstraStat.coolantConsumption, coolantConsumption * Time.toSeconds, StatUnit.liquidSecond);
 		}
 
-		stats.add(AstraStat.rampupTime, 1f / (60f * warmupSpeed), StatUnit.seconds);
+		stats.add(AstraStat.rampupTime, 1f / (warmupSpeed * Time.toSeconds), StatUnit.seconds);
 		stats.add(AstraStat.moduleBlocks, AstraStatValues.blocks(validModules));
 	}
 

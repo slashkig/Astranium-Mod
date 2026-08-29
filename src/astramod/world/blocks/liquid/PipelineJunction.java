@@ -26,13 +26,14 @@ public class PipelineJunction extends LiquidJunction {
 
 	public PipelineJunction(String name) {
 		super(name);
+		update = true;
 	}
 
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(AstraStat.hLiquidCapacity, liquidCapacity, StatUnit.liquidUnits);
 		stats.add(AstraStat.vLiquidCapacity, liquidCapacity, StatUnit.liquidUnits);
-		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+		stats.addPercent(AstraStat.heatCapacity, heatCapacity);
 	}
 
 	@Override public void setBars() {

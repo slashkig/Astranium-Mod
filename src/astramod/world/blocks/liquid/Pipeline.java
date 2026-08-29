@@ -13,7 +13,6 @@ import mindustry.input.Placement;
 import mindustry.world.Block;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.liquid.*;
-import mindustry.world.meta.*;
 import astramod.world.meta.AstraStat;
 
 import static mindustry.Vars.*;
@@ -29,8 +28,8 @@ public class Pipeline extends Conduit {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.liquidPressure, liquidPressure * 100, StatUnit.percent);
-		stats.add(AstraStat.heatCapacity, heatCapacity * 100, StatUnit.percent);
+		stats.addPercent(AstraStat.liquidPressure, liquidPressure);
+		stats.addPercent(AstraStat.heatCapacity, heatCapacity);
 	}
 
 	@Override public TextureRegion[] icons() {
