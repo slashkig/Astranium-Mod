@@ -8,6 +8,7 @@ import mindustry.game.Objectives.*;
 
 import static mindustry.content.TechTree.*;
 import static astramod.content.AstraBlocks.*;
+import static astramod.content.AstraUnitTypes.*;
 
 public class AzirisTechTree {
 	public static final Runnable none = () -> { };
@@ -54,6 +55,11 @@ public class AzirisTechTree {
 						});
 						node(ironSorter, () -> {
 							node(invertedIronSorter);
+						});
+						node(platedContainer, () -> {
+							node(platedVault, research(coreHub, durasteelConveyor), () -> {
+								node(platedCrypt, research(coreNexus, platedDistributor), none);
+							});
 						});
 					});
 					node(durasteelConveyor, () -> {
@@ -216,14 +222,35 @@ public class AzirisTechTree {
 					});
 					node(steamEngine, research(oilPlant, windTurbineLarge), none);
 				});
+				node(lamp);
 				node(windTurbineLarge, research(powerRelay), none);
 			});
 
-			node(dart, research(compactDrill), () -> {
+			node(dart, () -> {
 				node(viper, research(compactBore), () -> {
-
+					// AA
 				});
-				node(ember, research(Items.coal), none);
+				node(ember, research(Items.coal, ironDrill), () -> {
+					node(incendiaryMine, research(castIronMixer), () -> {
+						node(blastMine, research(explosivesRefinery), () -> {
+							node(fragMine, research(plastaniumCompressor), () -> {
+								node(largeFragMine, research(plastaniumFabricator), none);
+							});
+							node(navalMine, research(primaryShipAssembler), none);
+						});
+						node(surgeMine, research(surgeArcFurnace), () -> {
+							node(magneticMine, research(astraniumForge), none);
+						});
+					});
+				});
+				// Ballista will be deeper in the tree when more turrets are added
+				node(ballista, research(largePowerRelay, repulsionGenerator, magnetiteSynthesizer), none);
+				node(mendBeam, research(castIronSmelter, wireRelay), () -> {
+					node(mendDome, research(crystalReactor, largeWireRelay), none);
+				});
+				node(sensorArray, research(powerRelay), () -> {
+					node(advancedSensorArray, research(repulsionGenerator), none);
+				});
 			});
 
 			node(hematiteWall, () -> {
@@ -256,6 +283,18 @@ public class AzirisTechTree {
 								});
 							});
 						});
+					});
+				});
+			});
+
+			node(primaryMechAssembler, research(steamTurbine, castIronSmelter), () -> {
+				node(dicentra, () -> {
+					node(achillion);
+				});
+				node(zenaida);
+				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
+					node(aculei, () -> {
+						node(echidna);
 					});
 				});
 			});
@@ -299,7 +338,9 @@ public class AzirisTechTree {
 					});
 				});
 				nodeProduce(AstraItems.iron, () -> {
-					nodeProduce(AstraItems.steel, none);
+					nodeProduce(AstraItems.steel, () -> {
+						nodeProduce(Items.tungsten, none);
+					});
 				});
 				nodeProduce(Items.coal, () -> {
 					nodeProduce(Items.graphite, () -> {

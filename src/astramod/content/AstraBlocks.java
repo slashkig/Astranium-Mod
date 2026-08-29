@@ -3218,6 +3218,7 @@ public class AstraBlocks {
 			armor = 3;
 
 			consumePower(8f);
+			consumeLiquid(Liquids.hydrogen, 0.1f);
 			range = 160f;
 			healAmount = 600f;
 			reload = 300f;
@@ -3408,6 +3409,7 @@ public class AstraBlocks {
 					width = 10f;
 					height = 12f;
 					ammoMultiplier = 4;
+					rangeChange = 3f * tilesize;
 					reloadMultiplier = 0.75f;
 					collidesAir = false;
 
@@ -3495,7 +3497,7 @@ public class AstraBlocks {
 					reloadMultiplier = 0.9f;
 					homingPower = 0.4f;
 					status = StatusEffects.burning;
-					statusDuration = 4f * 60;
+					statusDuration = 4f * Time.toSeconds;
 					makeFire = true;
 					collidesGround = false;
 
@@ -3544,7 +3546,7 @@ public class AstraBlocks {
 					armorMultiplier = 2f;
 					rangeChange = -12f;
 					status = StatusEffects.burning;
-					statusDuration = 3f * 60;
+					statusDuration = 2f * Time.toSeconds;
 					hittable = false;
 					pierce = true;
 					collidesAir = false;
@@ -3559,7 +3561,7 @@ public class AstraBlocks {
 					lifetime = 18f;
 					armorMultiplier = 1.5f;
 					status = StatusEffects.burning;
-					statusDuration = 10f * 60;
+					statusDuration = 10f * Time.toSeconds;
 					hittable = false;
 					pierce = true;
 					collidesAir = false;
