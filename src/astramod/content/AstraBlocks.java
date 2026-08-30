@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.audio.Sound;
 import arc.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
@@ -77,7 +78,7 @@ public class AstraBlocks {
 		platedContainer, platedVault, platedCrypt,
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
-		dart, viper, ember, ballista,
+		dart, viper, ember, ballista, mortar,
 		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipAssembler, lightReassembler, heavyReassembler,
 		omegafactory, uberwall, superRouter, testblaster, ohno;
 
@@ -3699,6 +3700,154 @@ public class AstraBlocks {
 			shootSound = Sounds.shootSmite;
 
 			extraStats = true;
+			limitRange();
+		}};
+
+		mortar = new AstraTurret("mortar") {{
+			requirements(Category.turret, ItemStack.with(
+				AstraItems.iron, 135,
+				Items.graphite, 100,
+				Items.titanium, 65
+			));
+
+			ammo(
+				AstraItems.iron, new ArtilleryBulletType(3f, 10) {{
+					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					knockback = 1.2f;
+					lifetime = 80f;
+					reloadMultiplier = 0.8f;
+					width = 12f;
+					height = 14f;
+
+					ammoMultiplier = 2;
+					collidesAir = collidesTiles = false;
+
+					fragBullets = 6;
+					fragRandomSpread = 120f;
+
+					splashDamageRadius = 30f * 0.75f;
+					splashDamage = 80f;
+
+					fragBullet = new BasicBulletType(3f, 4) {{
+						lifetime = 20f;
+						width = 6f;
+						height = 8f;
+						shrinkY = 1f;
+						despawnEffect = Fx.hitBulletColor;
+						collidesAir = false;
+
+						damage = 10f;
+
+						frontColor = AstraPal.ironFront;
+						backColor = hitColor = trailColor = AstraPal.ironBack;
+					}};
+
+					frontColor = AstraPal.ironFront;
+					backColor = hitColor = trailColor = AstraPal.ironBack;
+				}},
+
+				Items.graphite, new ArtilleryBulletType(3f, 10) {{
+					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					knockback = 0.8f;
+					lifetime = 80f;
+					width = 12f;
+					height = 14f;
+
+					ammoMultiplier = 2;
+					collidesAir = collidesTiles = false;
+
+					fragBullets = 12;
+					fragRandomSpread = 120f;
+
+					splashDamageRadius = 35f * 0.75f;
+					splashDamage = 60f;
+
+					fragBullet = new BasicBulletType(3f, 4) {{
+						lifetime = 20f;
+						width = 6f;
+						height = 8f;
+						shrinkY = 1f;
+						despawnEffect = Fx.hitBulletColor;
+						collidesAir = false;
+
+						damage = 6f;
+
+						frontColor = Pal.graphiteAmmoFront;
+						backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
+					}};
+
+					frontColor = Pal.graphiteAmmoFront;
+					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
+				}},
+
+				Items.silicon, new ArtilleryBulletType(3f, 10) {{
+					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					knockback = 0.8f;
+					lifetime = 80f;
+					width = 12f;
+					height = 14f;
+
+					ammoMultiplier = 2;
+					collidesAir = collidesTiles = false;
+
+					fragBullets = 3;
+					fragRandomSpread = 120f;
+
+					splashDamageRadius = 30f * 0.75f;
+					splashDamage = 60f;
+
+					homingRange = 50f;
+					homingPower = 0.8f;
+
+					fragBullet = new BasicBulletType(3f, 4) {{
+						lifetime = 20f;
+						width = 6f;
+						height = 8f;
+						shrinkY = 1f;
+						despawnEffect = Fx.hitBulletColor;
+						collidesAir = false;
+
+						damage = 6f;
+						homingRange = 50f;
+						homingPower = 0.8f;
+
+						frontColor = Pal.siliconAmmoFront;
+						backColor = hitColor = trailColor = Pal.siliconAmmoBack;
+					}};
+
+					frontColor = Pal.siliconAmmoFront;
+					backColor = hitColor = trailColor = Pal.siliconAmmoBack;
+				}}
+			);
+
+			drawer = new DrawTurret("astranium-") {{
+				parts.add(new RegionPart("-barrel") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -1f;
+				}});
+			}};
+
+			scaledHealth = 130f;
+			size = 3;
+			range = 320f;
+			minRange = 65f;
+			fogRadiusMultiplier = 0.65f;
+			reload = 120f;
+
+			targetAir = false;
+			rotateSpeed = 6f;
+			inaccuracy = 7f;
+			shootCone = 12f;
+			shoot.shots = 3;
+
+			coolant = consumeCoolant(0.15f);
+
+			recoil = 4f;
+			shootY = 7f;
+			ammoUseEffect = Fx.casing3Double;
+			shootSound = Sounds.shootRipple;
+
 			limitRange();
 		}};
 
