@@ -27,8 +27,9 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class }) UnitType manager, director;
 	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion, zenaida, oriolus;
-	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType aculei, echidna;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida, oriolus;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
+	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType hymeno, aculei, echidna;
 
 	// TODO Smokec?
 
@@ -334,6 +335,31 @@ public class AstraUnitTypes {
 			}});
 		}};
 
+		// region SCOUTS
+
+		hymeno = new AstraTankUnitType("hymeno") {{
+			health = 200;
+			armor = 4f;
+			hitSize = 11f;
+			fogRadius = 35f;
+			itemCapacity = 10;
+
+			speed = 2.5f;
+			accel = 0.2f;
+			rotateSpeed = 3f;
+			floorMultiplier = 0.95f;
+
+			treadPullOffset = 3;
+			treadFrames = 8;
+			treadRects = new Rect[] {
+				new Rect(-18f, -25f, 14, 23),
+				new Rect(-21f, 5f, 14, 23)
+			};
+
+			tankMoveVolume *= 0.3f;
+			tankMoveSound = Sounds.tankMoveSmall;
+		}};
+
 		// region OFFENSIVE MECHS
 
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
@@ -448,7 +474,6 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
-				shootSoundVolume = 0.4f;
 
 				bullet = new SonicBulletType(6f, 36) {{
 					width = 9f;
@@ -484,9 +509,10 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
-				shootSoundVolume = 0.5f;
 
 				bullet = new SonicBulletType(6f, 60) {{
+					sprite = "astramod-sonic-shot-large";
+
 					width = 11f;
 					height = 16f;
 					lifetime = 18f;
