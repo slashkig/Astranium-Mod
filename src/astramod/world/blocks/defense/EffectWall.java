@@ -2,8 +2,10 @@ package astramod.world.blocks.defense;
 
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import arc.math.Mathf;
 import arc.func.*;
 import mindustry.content.*;
+import mindustry.core.Renderer;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
@@ -36,6 +38,7 @@ public class EffectWall extends Wall {
 	@Override public void init() {
 		super.init();
 		clipSize = Math.max(clipSize, effectRange);
+		drawDynamic = true;
 	}
 
 	@Override public void setStats() {
@@ -62,12 +65,12 @@ public class EffectWall extends Wall {
 			effect.get(this);
 		}
 
-		@Override public void drawCached() {
-			super.drawCached();
+		@Override public void draw() {
+			super.draw();
 
-			if (effectAlpha > 0f) {
+			if (effectAlpha > 0f && !Mathf.zero(Renderer.laserOpacity)) {
 				Draw.color(effectColor, effectAlpha);
-				Draw.z(Layer.overlayUI - 0.1f);
+				Draw.z(Layer.effect);
 				Fill.circle(x, y, effectRange);
 				Lines.circle(x, y, effectRange);
 

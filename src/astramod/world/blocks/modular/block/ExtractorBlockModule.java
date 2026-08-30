@@ -6,7 +6,7 @@ import arc.math.geom.Geometry;
 import arc.util.Time;
 import mindustry.type.*;
 import mindustry.world.meta.*;
-import astramod.math.Mathx;
+import astramod.math.MathUtil;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
@@ -36,7 +36,7 @@ public class ExtractorBlockModule extends GenericBlockModule {
 		@Override public void updateTile() {
 			boolean active = false;
 			if (linkedBuild != null) {
-				float amount = Mathx.min(
+				float amount = MathUtil.min(
 					edelta() * extractLiquid.amount,
 					liquidCapacity - liquids.get(extractLiquid.liquid),
 					linkedBuild.liquids.get(extractLiquid.liquid)

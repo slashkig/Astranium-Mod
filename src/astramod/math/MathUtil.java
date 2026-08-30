@@ -8,8 +8,8 @@ import mindustry.world.*;
 
 import static arc.math.Mathf.*;
 
-public final class Mathx {
-	private Mathx() { }
+public final class MathUtil {
+	private MathUtil() { }
 
 	/** 0 if odd, 1 if even. */
 	public static int oddEven(int num) {

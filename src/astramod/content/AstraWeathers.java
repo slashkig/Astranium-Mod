@@ -1,5 +1,6 @@
 package astramod.content;
 
+import java.io.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.util.*;
@@ -10,8 +11,7 @@ import mindustry.io.*;
 import mindustry.type.*;
 import mindustry.type.weather.*;
 import mindustry.world.meta.*;
-import java.io.*;
-import astramod.math.Mathx;
+import astramod.math.MathUtil;
 
 import static mindustry.Vars.*;
 
@@ -186,7 +186,7 @@ public class AstraWeathers {
 				}
 			}
 
-			tempWind = Mathx.elerpDelta(tempWind, 0f, 0.004f);
+			tempWind = MathUtil.elerpDelta(tempWind, 0f, 0.004f);
 			windCounter -= Time.delta;
 
 			if (net.server() && Time.timeSinceMillis(lastNetUpdate) > windUpdateInterval) {

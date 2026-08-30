@@ -15,8 +15,7 @@ import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.world.*;
-import mindustry.world.meta.StatUnit;
-import astramod.entities.Unitsx;
+import astramod.entities.UnitUtil;
 import astramod.graphics.*;
 import astramod.world.meta.*;
 
@@ -62,7 +61,7 @@ public class Mine extends Block {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.damageResistance, 100f * (1f - damageResistFactor), StatUnit.percent);
+		stats.addPercent(AstraStat.damageResistance, (1f - damageResistFactor));
 		stats.add(AstraStat.detonation, AstraStatValues.mine(this, 0));
 	}
 
@@ -153,8 +152,8 @@ public class Mine extends Block {
 			if (knockback != 0) {
 				Units.nearbyEnemies(team, x, y, radius, unit -> {
 					unit.apply(status, statusDuration);
-					if (knockback < 0f) Unitsx.attract(unit, this, -knockback, radius);
-					else Unitsx.knockback(unit, this, knockback, radius);
+					if (knockback < 0f) UnitUtil.attract(unit, this, -knockback, radius);
+					else UnitUtil.knockback(unit, this, knockback, radius);
 				});
 			} else if (status != StatusEffects.none) {
 				Units.nearbyEnemies(team, x, y, radius, unit -> unit.apply(status, statusDuration));

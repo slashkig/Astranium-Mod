@@ -11,8 +11,8 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.PowerGenerator;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
-import astramod.content.AstraBlocks;
-import astramod.math.Mathx;
+import astramod.content.*;
+import astramod.math.MathUtil;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
@@ -44,7 +44,7 @@ public class PowerCoreModule extends PowerGenerator {
 		protected @Nullable Building linkedCore;
 
 		@Override public void updateTile() {
-			productionEfficiency = Mathx.elerpDelta(productionEfficiency, linkedCore == null ? 0f : 1f, warmupSpeed);
+			productionEfficiency = MathUtil.elerpDelta(productionEfficiency, linkedCore == null ? 0f : 1f, warmupSpeed);
 			if (productionEfficiency > 0.01f && Mathf.chanceDelta(effectChance * productionEfficiency)) {
 				generateEffect.at(x + Mathf.range(generateEffectRange), y + Mathf.range(generateEffectRange));
 			}

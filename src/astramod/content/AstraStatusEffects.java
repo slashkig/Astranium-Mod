@@ -54,7 +54,7 @@ public class AstraStatusEffects {
 				float strength = effectStrength * Time.delta / Time.toSeconds;
 				Units.nearby(null, unit.x, unit.y, effectRange, other -> {
 					if (unit != other) {
-						Unitsx.attract(other, unit, strength, effectRange);
+						UnitUtil.attract(other, unit, strength, effectRange);
 						unit.impulse(Tmp.v2.scl(-1f));
 					}
 				});

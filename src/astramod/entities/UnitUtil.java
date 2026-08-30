@@ -5,7 +5,7 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.gen.*;
 
-public final class Unitsx {
+public final class UnitUtil {
 	public static void knockback(Unit unit, Position origin, float knockback, float radius) {
 		applyForce(unit, origin, knockback * 80f * (1f - (unit.dst(origin) / radius)));
 	}

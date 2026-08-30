@@ -3,15 +3,14 @@ package astramod.world.blocks.power;
 import arc.math.*;
 import arc.struct.*;
 import arc.util.*;
-import arc.util.io.Reads;
-import arc.util.io.Writes;
-import mindustry.graphics.Pal;
+import arc.util.io.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.Bar;
 import mindustry.world.Block;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
-import astramod.math.Mathx;
+import astramod.math.MathUtil;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
@@ -77,7 +76,7 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 			float boostFactor = coolantBoost * coolant / coolantCapacity;
 
 			if (efficiency >= 0.9999f && power.status >= 0.99f) {
-				warmup = Mathx.elerpDelta(warmup, 1f, warmupSpeed * timeScale * (1f + boostFactor), 0.0001f);
+				warmup = MathUtil.elerpDelta(warmup, 1f, warmupSpeed * timeScale * (1f + boostFactor), 0.0001f);
 
 				if (timer(timerUse, itemDuration / timeScale)) {
 					consume();

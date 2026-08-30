@@ -2,12 +2,13 @@ package astramod.world.blocks.power;
 
 import arc.math.Mathf;
 import arc.struct.*;
+import arc.util.Time;
 import arc.util.io.*;
 import mindustry.graphics.Pal;
 import mindustry.ui.Bar;
 import mindustry.world.*;
 import mindustry.world.meta.*;
-import astramod.math.Mathx;
+import astramod.math.MathUtil;
 import astramod.world.blocks.modular.*;
 import astramod.world.blocks.production.*;
 import astramod.world.meta.*;
@@ -28,7 +29,7 @@ public class FissionReactor extends ExplodableCrafter implements BaseModularBloc
 	@Override public void setStats() {
 		super.setStats();
 		stats.add(AstraStat.coolantCapacity, coolantCapacity, StatUnit.liquidUnits);
-		stats.add(AstraStat.coolantConsumption, maxCoolantConsumption * 60f, StatUnit.liquidSecond);
+		stats.add(AstraStat.coolantConsumption, maxCoolantConsumption * Time.toSeconds, StatUnit.liquidSecond);
 
 		stats.add(AstraStat.moduleBlocks, AstraStatValues.blocks(validModules));
 	}
@@ -59,7 +60,7 @@ public class FissionReactor extends ExplodableCrafter implements BaseModularBloc
 
 		@Override public void handleCoolant() {
 			float maxUsed = Math.min(coolant, maxCoolantConsumption * edelta());
-			heat -= maxUsed * coolantPower * Mathx.pow2(Mathf.clamp(coolant / coolantThreshhold));
+			heat -= maxUsed * coolantPower * MathUtil.pow2(Mathf.clamp(coolant / coolantThreshhold));
 			coolant -= maxUsed;
 		}
 

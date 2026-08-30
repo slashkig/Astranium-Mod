@@ -106,8 +106,8 @@ public class WireRelay extends PowerBlock {
 	@Override public void init() {
 		super.init();
 		clipSize = Math.max(clipSize, wireRange * tilesize * 2);
-		boundsRect = Mathx.squareRect(-wireRange - (size + 1) / 2, wireRange * 2 + size - 0.01f);
-		sourceRect = Mathx.squareRect(-(size + 1) / 2, size - 1);
+		boundsRect = MathUtil.squareRect(-wireRange - (size + 1) / 2, wireRange * 2 + size - 0.01f);
+		sourceRect = MathUtil.squareRect(-(size + 1) / 2, size - 1);
 	}
 
 	@Override public void load() {
@@ -169,7 +169,7 @@ public class WireRelay extends PowerBlock {
 		if (tile == null) return;
 		tempBuilds.clear();
 
-		float offset = Mathx.oddEven(size) * tilesize / 2;
+		float offset = MathUtil.oddEven(size) * tilesize / 2;
 		Tmp.r1.setCentered(tile.worldx() + offset, tile.worldy() + offset, boundsRect.width * tilesize);
 		var tree = team.data().buildingTree;
 		if (tree != null) {
@@ -397,7 +397,7 @@ public class WireRelay extends PowerBlock {
 		 *  @return Number of wires added. */
 		public int multiWireAdd(Point2 start, Point2 end, boolean connect) {
 			// Check if there's enough resources
-			if (connect && shouldConsumeWire() && !team.items().has(wireCost.item, wireCost.amount * (int)Mathx.dstm(start, end))) return 0;
+			if (connect && shouldConsumeWire() && !team.items().has(wireCost.item, wireCost.amount * (int)MathUtil.dstm(start, end))) return 0;
 
 			configuring = true;
 			int wiresAdded = 0;
@@ -590,11 +590,11 @@ public class WireRelay extends PowerBlock {
 					node.configure(pos());
 					graphs.add(build.power.graph);
 				} else if (noConsume || team.items().has(wireCost.item)) {
-					Tile closest = Mathx.findClosestTile(build, this);
+					Tile closest = MathUtil.findClosestTile(build, this);
 					Tmp.p1.set(closest.x - tile.x - 1, closest.y - tile.y - 1);
 					Tmp.p2.set(findClosestWire(Tmp.p1, true));
 
-					if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y) && (noConsume || team.items().has(wireCost.item, counter.count + wireCost.amount * (int)Mathx.dstm(Tmp.p1, Tmp.p2)))) {
+					if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y) && (noConsume || team.items().has(wireCost.item, counter.count + wireCost.amount * (int)MathUtil.dstm(Tmp.p1, Tmp.p2)))) {
 						counter.count += multiWireAdd(Tmp.p1, Tmp.p2, false);
 						graphs.add(build.power.graph);
 					}
