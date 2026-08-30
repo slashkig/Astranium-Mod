@@ -1,8 +1,8 @@
 package astramod.content;
 
-import arc.util.Log;
+import arc.util.*;
 import arc.graphics.*;
-import arc.struct.Seq;
+import arc.struct.*;
 import mindustry.content.*;
 import mindustry.type.*;
 
@@ -13,7 +13,11 @@ public class AstraItems {
 	public static void load() {
 		Log.info("Loading items");
 
-		testium = new Item("testium", Color.valueOf("ff00ff"));
+		testium = new Item("testium", Color.valueOf("ff00ff")) {
+			@Override public boolean isOnPlanet(@Nullable Planet planet) {
+				return planet == null || planet == Planets.sun;
+			}
+		};
 
 		hematite = new Item("hematite", Color.valueOf("802f0c")) {{
 			hardness = 1;

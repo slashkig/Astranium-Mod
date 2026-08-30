@@ -1,6 +1,7 @@
 package astramod.content;
 
 import arc.math.*;
+import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import mindustry.graphics.*;
@@ -10,6 +11,8 @@ import mindustry.gen.*;
 import astramod.graphics.*;
 
 public class AstraFx {
+	public static final Vec2 tmp = new Vec2();
+
 	public static final Effect
 
 	pulverizePurple = new Effect(40f, e -> {
@@ -92,6 +95,12 @@ public class AstraFx {
 		});
 	}),
 
+	applyShield = new Effect(20f, e -> {
+		Draw.color(e.color);
+		Draw.alpha(e.fslope());
+		Icon.defense.draw(e.x - 4f, e.y - 4f, 8f, 8f);
+	}),
+
 	attractMetalParticles = new Effect(60f, e -> {
 		Draw.color(Pal.darkestMetal);
 		Draw.alpha(e.fout());
@@ -103,19 +112,40 @@ public class AstraFx {
 
 	radiate = new Effect(30f, e -> {
 		Draw.color(e.color, Color.white, e.fin());
-		Lines.stroke(0.1f + 0.5f * e.fout());
+		Lines.stroke(0.2f + 0.8f * e.fout());
+		Mathf.rand.setSeed(e.id);
 
-		Angles.randLenVectors(e.id, 1, 2f + e.fin() * 10f, (x, y) -> {
-			Lines.line(e.x, e.y, e.x + x, e.y + y);
-		});
+		tmp.trns(e.data instanceof Position pos ? pos.angleTo(e.x, e.y) : Mathf.random(360f), Mathf.random(2f + e.fin() * 16f));
+		Lines.line(e.x + tmp.x * 0.5f, e.y + tmp.y * 0.5f, e.x + tmp.x, e.y + tmp.y);
 	}),
-	
+
 	charged = new Effect(40f, e -> {
 		Draw.color(e.color);
 
-		Angles.randLenVectors(e.id, 2, 1f + e.fin() * 2f, (x, y) -> {
+		Angles.randLenVectors(e.id, 2, 1f + e.fin() * 8f, (x, y) -> {
 			Fill.square(e.x + x, e.y + y, e.fslope() * 1.8f, 45f);
 			Drawf.light(e.x + x, e.y + y, e.fslope() * 4f, e.color, e.fslope() * 0.5f);
 		});
+	}),
+
+	overcharged1 = new Effect(20f, e -> {
+		Draw.color(e.color);
+		Lines.stroke(e.fout());
+
+		Lines.circle(e.x, e.y, 2f + 8f * e.fin());
+	}),
+
+	overcharged2 = new Effect(30f, e -> {
+		Draw.color(e.color);
+		Lines.stroke(2f * e.fout());
+
+		Lines.circle(e.x, e.y, 2f + 14f * e.fin());
+	}),
+
+	overcharged3 = new Effect(40f, e -> {
+		Draw.color(e.color);
+		Lines.stroke(3f * e.fout());
+
+		Lines.circle(e.x, e.y, 2f + 20f * e.fin());
 	});
 }

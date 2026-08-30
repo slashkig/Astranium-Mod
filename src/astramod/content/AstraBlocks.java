@@ -3719,7 +3719,7 @@ public class AstraBlocks {
 					AstraItems.iron, 15,
 					Items.silicon, 10
 				)),
-				new UnitPlan(AstraUnitTypes.achillion, 40f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.achillion, 35f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 50,
 					Items.silicon, 40,
 					Items.graphite, 30
@@ -3728,6 +3728,12 @@ public class AstraBlocks {
 					AstraItems.iron, 20,
 					Items.silicon, 10,
 					Items.metaglass, 15
+				)),
+				new UnitPlan(AstraUnitTypes.oriolus, 42f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 60,
+					Items.silicon, 40,
+					Items.metaglass, 25,
+					Items.titanium, 15
 				))
 			);
 		}};
@@ -3759,10 +3765,9 @@ public class AstraBlocks {
 
 		// TODO rapid assembly module
 
-		// region EXTRAS
-
 		omegafactory = new GenericCrafter("omegafactory") {{
 			requirements(Category.crafting, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1500));
+			hideDetails = false;
 			health = 10000000;
 			armor = 100f;
 			size = 3;
@@ -3785,6 +3790,7 @@ public class AstraBlocks {
 				Items.blastCompound, 10,
 				Items.carbide, 10,
 				AstraItems.crystaglass, 10,
+				AstraItems.nuclearRod, 10,
 				Items.phaseFabric, 10,
 				Items.surgeAlloy, 10,
 				AstraItems.aerogel, 10,
@@ -3801,6 +3807,7 @@ public class AstraBlocks {
 
 		uberwall = new EffectWall("uberwall") {{
 			requirements(Category.defense, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 500));
+			hideDetails = false;
 			health = 1000000000;
 			armor = 10000f;
 			size = 2;
@@ -3834,8 +3841,10 @@ public class AstraBlocks {
 
 		superRouter = new SuperRouter("super-router") {{
 			requirements(Category.distribution, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 200));
+			hideDetails = false;
 			health = 1;
 			fogRadius = 10;
+
 			speed = 1000f;
 			routateSpeed = 4f;
 			range = 160f;
@@ -3858,6 +3867,8 @@ public class AstraBlocks {
 
 		testblaster = new ItemTurret("testblaster") {{
 			requirements(Category.turret, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1000));
+			hideDetails = false;
+
 			ammo(
 				AstraItems.testium, new BasicBulletType(10f, 10000000) {{
 					lifetime = 100f;
@@ -3926,6 +3937,7 @@ public class AstraBlocks {
 
 		ohno = new GenericBlock("ohno") {{
 			requirements(Category.logic, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1));
+			hideDetails = false;
 			health = 1;
 			drawer = new DrawVerticalPump() {{ downTime = 0.5f; }
 				@Override public void drawPlan(Block block, BuildPlan plan, Eachable<BuildPlan> list) { block.drawDefaultPlanRegion(plan, list); }

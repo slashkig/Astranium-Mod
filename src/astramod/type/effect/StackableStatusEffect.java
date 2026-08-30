@@ -1,5 +1,6 @@
 package astramod.type.effect;
 
+import arc.graphics.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import astramod.world.meta.*;
@@ -18,6 +19,9 @@ public class StackableStatusEffect extends StatusEffect {
 					stack.color = color;
 					stack.effect = effect;
 					stack.effectChance = effectChance * i++;
+					if (stack.applyColor.equals(Color.white)) {
+						stack.applyColor = color;
+					}
 				}
 			}
 		});
