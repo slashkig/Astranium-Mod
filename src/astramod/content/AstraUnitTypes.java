@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.graphics.Color;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -8,6 +9,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
@@ -17,9 +19,11 @@ import astramod.ai.types.*;
 import astramod.entities.bullet.*;
 import astramod.gen.MechUnit;
 import astramod.gen.PayloadUnit;
+import astramod.gen.ElevationMoveUnit;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
+import mindustry.world.meta.BlockFlag;
 
 import static mindustry.Vars.*;
 
@@ -638,19 +642,22 @@ public class AstraUnitTypes {
 
 		// region DRAGON
 
-		fledge = new AstraUnitType("fledge") {{
+		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
 			hovering = true;
 			canDrown = false;
 			shadowElevation = 0.1f;
 
+			// TODO: fix unit not targeting drills and conveyors
+			targetFlags = new BlockFlag[]{BlockFlag.drill, null};
+
 			drag = 0.06f;
 			speed = 2.3f;
-			rotateSpeed = 5f;
+			rotateSpeed = 6.5f;
 
-			accel = 0.3f;
+			accel = 0.4f;
 			health = 500f;
 			armor = 2f;
-			hitSize = 10f;
+			hitSize = 7f;
 			engineOffset = 6.5f;
 			engineSize = 2f;
 			itemCapacity = 0;
@@ -660,6 +667,41 @@ public class AstraUnitTypes {
 			moveSoundVolume = 0.25f;
 			moveSoundPitchMin = 0.7f;
 			moveSoundPitchMax = 1.5f;
+
+			abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
+				teamColor = true;
+			}});
+
+			parts.add(new HoverPart(){{
+				radius = 7f;
+				phase = 90f;
+				stroke = 2f;
+				layerOffset = -0.001f;
+				color = Color.valueOf("bf92f9");
+			}});
+
+			weapons.add(new Weapon("fledge-weapon"){{
+				shootSound = Sounds.shootSap;
+				top = false;
+				mirror = true;
+				reload = 12f;
+				rotate = true;
+
+				x = 1.2f;
+				y = 0f;
+
+				bullet = new SapBulletType(){{
+					sapStrength = 1f;
+					length = 20f;
+					damage = 30f;
+					shootEffect = Fx.shootSmall;
+					hitColor = color = Color.valueOf("bf92f9");
+					despawnEffect = Fx.none;
+					width = 0.54f;
+					lifetime = 35f;
+					knockback = -1.24f;
+				}};
+			}});
 		}};
 	}
 }
