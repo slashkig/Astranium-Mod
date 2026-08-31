@@ -36,7 +36,7 @@ public class AstraUnitTypes {
 		gatherer, initiate, seeker, ward;
 	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType
 		dicentra, achillion,
-		zenaida, oriolus;
+		zenaida, trexon, oriolus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno,
 		aculei, echidna;
@@ -505,45 +505,101 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
+		trexon = new AstraUnitType("trexon", MechUnit::create) {{
 			health = 700;
-			armor = 4f;
-			hitSize = 17f;
-			fogRadius = 9f;
+			armor = 3f;
+			hitSize = 12f;
+			fogRadius = 8f;
 			itemCapacity = 25;
 
-			speed = 1f;
+			speed = 0.9f;
 			accel = 0.3f;
-			rotateSpeed = 2.5f;
-			stepSoundVolume = 0.8f;
+			stepSoundVolume = 0.4f;
 
-			weapons.add(new AstraWeapon("astramod-oriolus-weapon") {{
-				reload = 80f;
-				recoil = 3f;
-				shoot.shots = 3;
-				shoot.shotDelay = 6f;
+			weapons.add(new AstraWeapon("astramod-trexon-weapon") {{
+				reload = 15f;
+				recoil = 1.2f;
+				alternate = false;
 
-				mirror = false;
-				x = 0f;
-				y = 1f;
-				shootY = 9f;
-				rotate = true;
-				rotateSpeed = 2f;
-				rotationLimit = 60f;
+				top = false;
+				x = 9f;
+				y = 1.25f;
+				shootX = -0.5f;
+				shootY = 5f;
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
 
-				bullet = new SonicBulletType(6f, 60) {{
-					sprite = "astramod-sonic-shot-large";
-
-					width = 11f;
-					height = 16f;
-					lifetime = 18f;
-
-					shootEffect = AstraFx.sonicHit;
+				bullet = new SonicBulletType(6f, 40) {{
+					width = 9f;
+					height = 14f;
+					lifetime = 15f;
 				}};
 			}});
+		}};
+
+		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
+			health = 800;
+			armor = 9f;
+			hitSize = 18f;
+			fogRadius = 9f;
+			itemCapacity = 40;
+
+			speed = 1.0f;
+			accel = 0.3f;
+			rotateSpeed = 2.5f;
+			stepSoundVolume = 1f;
+
+			weapons.add(
+				new AstraWeapon("astramod-oriolus-weapon") {{
+					reload = 100f;
+					recoil = 3f;
+					shoot.shots = 4;
+					shoot.shotDelay = 6f;
+
+					mirror = false;
+					x = 0f;
+					y = 1f;
+					shootY = 9f;
+					rotate = true;
+					rotateSpeed = 2f;
+					rotationLimit = 60f;
+					heatColor = AstraPal.sonicHeat;
+
+					shootSound = AstraSounds.shootSonic;
+
+					bullet = new SonicBulletType(6f, 60) {{
+						sprite = "astramod-sonic-shot-large";
+
+						width = 11f;
+						height = 16f;
+						lifetime = 18f;
+
+						shootEffect = AstraFx.sonicHit;
+					}};
+				}},
+
+				new AstraWeapon("astramod-oriolus-weapon-small") {{
+					reload = 25f;
+					recoil = 1.2f;
+					alternate = false;
+
+					x = 10.25f;
+					y = -1f;
+					shootY = 5f;
+					rotateSpeed = 2f;
+					rotationLimit = 60f;
+					heatColor = AstraPal.sonicHeat;
+
+					shootSound = AstraSounds.shootSonic;
+
+					bullet = new SonicBulletType(6f, 20) {{
+						width = 9f;
+						height = 14f;
+						lifetime = 15f;
+					}};
+				}}
+			);
 		}};
 
 		// region GUNNER TANKS

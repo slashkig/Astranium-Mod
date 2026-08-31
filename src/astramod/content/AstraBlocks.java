@@ -3945,7 +3945,7 @@ public class AstraBlocks {
 
 			upgrades.addAll(
 				new UnitType[]{AstraUnitTypes.dicentra, AstraUnitTypes.achillion},
-				new UnitType[]{AstraUnitTypes.zenaida, AstraUnitTypes.oriolus}
+				new UnitType[]{AstraUnitTypes.zenaida, AstraUnitTypes.trexon}
 			);
 		}};
 
