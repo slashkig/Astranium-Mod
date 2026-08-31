@@ -24,12 +24,18 @@ import astramod.type.weapons.*;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
-	public static @EntityDef({ Unitc.class }) UnitType manager, director;
-	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType overseer;
-	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType zenaida, oriolus;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType dicentra, achillion;
-	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType hymeno, aculei, echidna;
+	public static @EntityDef({ Unitc.class }) UnitType
+		manager, director;
+	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType
+		overseer;
+	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType
+		gatherer, initiate, seeker, ward;
+	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType
+		dicentra, achillion,
+		zenaida, oriolus;
+	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
+		hymeno,
+		aculei, echidna;
 
 	// TODO Smokec?
 
@@ -192,7 +198,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		// region MODULES
+		// region CORE MODULES
 
 		gatherer = new AstraAnchoredUnitType("gatherer") {{
 			aiController = AnchoredMinerAI::new;
@@ -338,16 +344,18 @@ public class AstraUnitTypes {
 		// region SCOUTS
 
 		hymeno = new AstraTankUnitType("hymeno") {{
+			aiController = CowardGroundAI::new;
+
 			health = 200;
-			armor = 4f;
 			hitSize = 11f;
-			fogRadius = 35f;
-			itemCapacity = 10;
+			range = 20f * tilesize;
+			fogRadius = 30f;
+			itemCapacity = 20;
 
 			speed = 2.5f;
 			accel = 0.2f;
 			rotateSpeed = 3f;
-			floorMultiplier = 0.95f;
+			floorMultiplier = 0.85f;
 
 			treadPullOffset = 3;
 			treadFrames = 8;
@@ -356,17 +364,21 @@ public class AstraUnitTypes {
 				new Rect(-21f, 5f, 14, 23)
 			};
 
-			tankMoveVolume *= 0.3f;
 			tankMoveSound = Sounds.tankMoveSmall;
+			tankMoveVolume *= 0.3f;
 		}};
 
 		// region OFFENSIVE MECHS
 
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
+			aiController = RangerGroundAI::new;
+
 			health = 250;
 			armor = 1f;
 			hitSize = 10f;
 			fogRadius = 12f;
+			itemCapacity = 10;
+
 			speed = 0.6f;
 			accel = 0.3f;
 			stepSoundVolume = 0.4f;
@@ -405,6 +417,8 @@ public class AstraUnitTypes {
 			armor = 3f;
 			hitSize = 13f;
 			fogRadius = 12f;
+			itemCapacity = 25;
+
 			speed = 0.6f;
 			accel = 0.25f;
 			stepSoundVolume = 0.4f;
@@ -457,6 +471,8 @@ public class AstraUnitTypes {
 			armor = 2f;
 			hitSize = 10f;
 			fogRadius = 8f;
+			itemCapacity = 10;
+
 			speed = 0.8f;
 			accel = 0.3f;
 			stepSoundVolume = 0.4f;
@@ -488,9 +504,11 @@ public class AstraUnitTypes {
 			armor = 4f;
 			hitSize = 17f;
 			fogRadius = 9f;
-			rotateSpeed = 2.5f;
+			itemCapacity = 25;
+
 			speed = 1f;
 			accel = 0.3f;
+			rotateSpeed = 2.5f;
 			stepSoundVolume = 0.8f;
 
 			weapons.add(new AstraWeapon("astramod-oriolus-weapon") {{
