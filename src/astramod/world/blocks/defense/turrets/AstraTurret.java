@@ -17,7 +17,7 @@ public class AstraTurret extends ItemTurret {
 		super.setStats();
 		if (extraStats) {
 			stats.remove(Stat.ammo);
-			stats.add(Stat.ammo, AstraStatValues.astraAmmo(ammoTypes));
+			stats.add(Stat.ammo, AstraStatValues.astraAmmo(ammoTypes, name));
 		}
 	}
 }

@@ -4,7 +4,7 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
 
-public class CowardGroundAI extends RangerGroundAI {
+public class GroundCowardAI extends GroundRangerAI {
 	public boolean fleeing = false;
 
 	@Override public void updateMovement() {

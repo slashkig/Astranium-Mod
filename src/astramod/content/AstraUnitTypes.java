@@ -344,11 +344,11 @@ public class AstraUnitTypes {
 		// region SCOUTS
 
 		hymeno = new AstraTankUnitType("hymeno") {{
-			aiController = CowardGroundAI::new;
+			aiController = GroundCowardAI::new;
 
 			health = 200;
 			hitSize = 11f;
-			range = 20f * tilesize;
+			range = 24f * tilesize;
 			fogRadius = 30f;
 			itemCapacity = 20;
 
@@ -371,7 +371,7 @@ public class AstraUnitTypes {
 		// region OFFENSIVE MECHS
 
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
-			aiController = RangerGroundAI::new;
+			aiController = GroundRangerAI::new;
 
 			health = 250;
 			armor = 1f;

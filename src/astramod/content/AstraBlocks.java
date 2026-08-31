@@ -3439,8 +3439,8 @@ public class AstraBlocks {
 
 			scaledHealth = 120f;
 			size = 2;
-			range = 140f;
-			fogRadiusMultiplier = 0.4f;
+			range = 19f * tilesize;
+			fogRadiusMultiplier = 0.5f;
 			reload = 30f;
 
 			targetAir = false;
@@ -3681,23 +3681,12 @@ public class AstraBlocks {
 					ammoMultiplier = 2;
 
 					splashDamageRadius = 2.8f * tilesize;
-					splashDamage = 120f;
+					splashDamage = 100f;
 					knockback = 1.5f;
-					reloadMultiplier = 1.2f;
+					reloadMultiplier = 0.7f;
+					inaccuracy = -1f;
 
-					fragBullets = 4;
-					fragRandomSpread = 120f;
-					fragBullet = new BasicBulletType(3f, 6) {{
-						lifetime = 20f;
-						width = 6f;
-						height = 8f;
-						shrinkY = 1f;
-						collidesAir = false;
-
-						frontColor = AstraPal.titaniumFront;
-						backColor = hitColor = AstraPal.titaniumBack;
-						despawnEffect = Fx.hitBulletColor;
-					}};
+					shootPattern = new ShootPattern() {{ shots = 2; shotDelay = 10f; }};
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
@@ -3716,9 +3705,11 @@ public class AstraBlocks {
 			scaledHealth = 130f;
 			size = 3;
 			minRange = 8f * tilesize;
-			range = 30f * tilesize;
+			range = 32f * tilesize;
 			fogRadiusMultiplier = 0.6f;
 			reload = 100f;
+			maxAmmo = 20;
+			consumeAmmoOnce = false;
 
 			targetAir = false;
 			rotateSpeed = 1f;
@@ -3733,6 +3724,7 @@ public class AstraBlocks {
 			ammoUseEffect = Fx.casing3;
 			shootSound = Sounds.shootRipple;
 
+			extraStats = true;
 			limitRange();
 		}};
 

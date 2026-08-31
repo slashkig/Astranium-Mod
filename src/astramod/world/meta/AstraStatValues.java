@@ -6,6 +6,7 @@ import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.bullet.*;
@@ -13,6 +14,7 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
+import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.meta.*;
 import astramod.entities.bullet.*;
 import astramod.type.effect.*;
@@ -124,14 +126,19 @@ public class AstraStatValues {
 			for (int i = 0; i < orderedKeys.size; i++) {
 				BulletType bullet = map.get(orderedKeys.get(i));
 				Table entry = (Table)table.getCells().get(i + offset).get();
+				Block block = Vars.content.block(blockName);
 
 				if (bullet instanceof BoltBulletType bt) {
-					addRow(entry, "stat.armorpenetration", bt.armorPenetration, true);
+					addRow(entry, "bullet.armorpenetration", bt.armorPenetration);
 				} else if (bullet instanceof SonicBulletType bt) {
 					Displays.replaceLabelText(entry,
 						Core.bundle.format("bullet.damage", bullet.damage),
 						Core.bundle.format("bullet.damage", Strings.autoFixed(bullet.damage * (1f - bt.falloffFactor), 1) + " - " + Strings.autoFixed(bullet.damage, 1))
 					);
+				}
+				if (bullet.shootPattern != null && block instanceof Turret t) {
+					int shots = bullet.shootPattern.shots - t.shoot.shots;
+					if (shots != 0) addRow(entry, "bullet.extrashots", shots > 0 ? "+" + shots : shots);
 				}
 			}
 		};
