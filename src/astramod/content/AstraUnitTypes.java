@@ -36,7 +36,8 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno,
 		aculei, echidna;
-	// public static @EntityDef({ Unitc.class, Air})
+	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
+		fledge;
 
 	// TODO Smokec?
 
@@ -633,6 +634,32 @@ public class AstraUnitTypes {
 					}};
 				}};
 			}});
+		}};
+
+		// region DRAGON
+
+		fledge = new AstraUnitType("fledge") {{
+			hovering = true;
+			canDrown = false;
+			shadowElevation = 0.1f;
+
+			drag = 0.09f;
+			speed = 2.3f;
+			rotateSpeed = 5f;
+
+			accel = 0.3f;
+			health = 500f;
+			armor = 0.7f;
+			hitSize = 10f;
+			engineOffset = 7f;
+			engineSize = 2f;
+			itemCapacity = 0;
+			useEngineElevation = false;
+			researchCostMultiplier = 0;
+			moveSound = Sounds.loopExtract;
+			moveSoundVolume = 0.25f;
+			moveSoundPitchMin = 0.7f;
+			moveSoundPitchMax = 1.5f;
 		}};
 	}
 }
