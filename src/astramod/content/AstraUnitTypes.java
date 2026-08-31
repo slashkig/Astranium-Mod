@@ -643,15 +643,15 @@ public class AstraUnitTypes {
 			canDrown = false;
 			shadowElevation = 0.1f;
 
-			drag = 0.09f;
+			drag = 0.06f;
 			speed = 2.3f;
 			rotateSpeed = 5f;
 
 			accel = 0.3f;
 			health = 500f;
-			armor = 0.7f;
+			armor = 2f;
 			hitSize = 10f;
-			engineOffset = 7f;
+			engineOffset = 6.5f;
 			engineSize = 2f;
 			itemCapacity = 0;
 			useEngineElevation = false;
