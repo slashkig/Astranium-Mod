@@ -34,6 +34,7 @@ public class SonicBulletType extends BasicBulletType {
 		super.update(b);
 
 		b.damage = damage * damageMultiplier(b);
+		b.hitSize = hitSize * ((1f - shrinkX) + shrinkX * shrinkInterp.apply(b.fout()));
 	}
 
 	@Override public float damageMultiplier(Bullet b) {

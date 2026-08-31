@@ -2873,7 +2873,7 @@ public class AstraBlocks {
 			extraFogRadius = 40f;
 
 			unitType = AstraUnitTypes.overseer;
-			unitCapModifier = 10;
+			unitCapModifier = 8;
 
 			thrusterLength = 15f;
 		}};
@@ -3740,7 +3740,9 @@ public class AstraBlocks {
 				parts.add(new RegionPart("-barrel") {{
 					progress = PartProgress.recoil;
 					under = true;
-					moveY = -1f;
+					moveY = -3f;
+					layerOffset = -0.005f;
+					turretHeatLayer = Layer.turret - 0.002f;
 				}});
 			}};
 
@@ -3760,7 +3762,7 @@ public class AstraBlocks {
 
 			coolant = consumeCoolant(0.15f);
 
-			recoil = 4f;
+			recoil = 1f;
 			shootY = 7f;
 			drawMinRange = true;
 			ammoUseEffect = Fx.casing3;
@@ -3925,6 +3927,7 @@ public class AstraBlocks {
 			);
 		}};
 
+		// TODO custom reconstructor recipes
 		secondaryMechAssembler = new Reconstructor("secondary-mech-assembler"){{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,

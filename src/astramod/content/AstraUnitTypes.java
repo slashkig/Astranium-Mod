@@ -1,6 +1,5 @@
 package astramod.content;
 
-import arc.graphics.Color;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -17,9 +16,9 @@ import mindustry.type.*;
 import mindustry.type.weapons.*;
 import astramod.ai.types.*;
 import astramod.entities.bullet.*;
+import astramod.gen.ElevationMoveUnit;
 import astramod.gen.MechUnit;
 import astramod.gen.PayloadUnit;
-import astramod.gen.ElevationMoveUnit;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
@@ -372,6 +371,11 @@ public class AstraUnitTypes {
 
 			tankMoveSound = Sounds.tankMoveSmall;
 			tankMoveVolume *= 0.3f;
+
+			// TODO extend this
+			abilities.add(new StatusFieldAbility(StatusEffects.fast, 3f * Time.toSeconds, 2.5f * Time.toSeconds, 4f * tilesize) {{
+				color = StatusEffects.fast.color;
+			}});
 		}};
 
 		// region OFFENSIVE MECHS
@@ -519,28 +523,27 @@ public class AstraUnitTypes {
 			weapons.add(new AstraWeapon("astramod-trexon-weapon") {{
 				reload = 15f;
 				recoil = 1.2f;
-				alternate = false;
 
 				top = false;
 				x = 9f;
 				y = 1.25f;
 				shootX = -0.5f;
 				shootY = 5f;
-				heatColor = AstraPal.sonicHeat;
 
+				heatColor = AstraPal.sonicHeat;
 				shootSound = AstraSounds.shootSonic;
 
 				bullet = new SonicBulletType(6f, 40) {{
 					width = 9f;
 					height = 14f;
-					lifetime = 15f;
+					lifetime = 12f;
 				}};
 			}});
 		}};
 
 		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
-			health = 800;
-			armor = 9f;
+			health = 1200;
+			armor = 7f;
 			hitSize = 18f;
 			fogRadius = 9f;
 			itemCapacity = 40;
@@ -553,7 +556,7 @@ public class AstraUnitTypes {
 			weapons.add(
 				new AstraWeapon("astramod-oriolus-weapon") {{
 					reload = 100f;
-					recoil = 3f;
+					recoil = 2f;
 					shoot.shots = 4;
 					shoot.shotDelay = 6f;
 
@@ -564,21 +567,17 @@ public class AstraUnitTypes {
 					rotate = true;
 					rotateSpeed = 2f;
 					rotationLimit = 60f;
-					heatColor = AstraPal.sonicHeat;
 
+					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
 
-					bullet = new SonicBulletType(6f, 60) {{
-						sprite = "astramod-sonic-shot-large";
-
+					bullet = new SonicBulletType(6f, 50, "astramod-sonic-shot-large") {{
 						width = 11f;
 						height = 16f;
-						lifetime = 18f;
-
+						lifetime = 16f;
 						shootEffect = AstraFx.sonicHit;
 					}};
 				}},
-
 				new AstraWeapon("astramod-oriolus-weapon-small") {{
 					reload = 25f;
 					recoil = 1.2f;
@@ -588,15 +587,16 @@ public class AstraUnitTypes {
 					y = -1f;
 					shootY = 5f;
 					rotateSpeed = 2f;
-					rotationLimit = 60f;
-					heatColor = AstraPal.sonicHeat;
+					rotationLimit = 30f;
 
+					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
 
 					bullet = new SonicBulletType(6f, 20) {{
 						width = 9f;
 						height = 14f;
-						lifetime = 15f;
+						lifetime = 14f;
+						shoot.firstShotDelay = 22f;
 					}};
 				}}
 			);
@@ -699,65 +699,65 @@ public class AstraUnitTypes {
 		// region DRAGON
 
 		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
+			// TODO AI
+			targetFlags = new BlockFlag[] { BlockFlag.drill, null };
 			hovering = true;
 			canDrown = false;
-			shadowElevation = 0.1f;
 
-			// TODO: fix unit not targeting drills and conveyors
-			targetFlags = new BlockFlag[]{BlockFlag.drill, null};
+			health = 100f;
+			hitSize = 7f;
+			fogRadius = 4f;
+			itemCapacity = 5;
 
 			drag = 0.06f;
 			speed = 2.3f;
+			accel = 0.4f;
 			rotateSpeed = 6.5f;
 
-			accel = 0.4f;
-			health = 500f;
-			armor = 2f;
-			hitSize = 7f;
-			engineOffset = 6.5f;
-			engineSize = 2f;
-			itemCapacity = 0;
+			engineSize = 0f;
 			useEngineElevation = false;
-			researchCostMultiplier = 0;
+			shadowElevation = 0.1f;
+
 			moveSound = Sounds.loopExtract;
 			moveSoundVolume = 0.25f;
 			moveSoundPitchMin = 0.7f;
 			moveSoundPitchMax = 1.5f;
 
-			abilities.add(new MoveEffectAbility(0f, -7f, Pal.sapBulletBack, Fx.missileTrailShort, 4f){{
-				teamColor = true;
-			}});
-
-			parts.add(new HoverPart(){{
+			parts.add(new HoverPart() {{
 				radius = 7f;
 				phase = 90f;
 				stroke = 2f;
 				layerOffset = -0.001f;
-				color = Color.valueOf("bf92f9");
+				color = Pal.sapBullet;
 			}});
 
-			weapons.add(new Weapon("fledge-weapon"){{
-				shootSound = Sounds.shootSap;
-				top = false;
-				mirror = true;
-				reload = 12f;
+			weapons.add(new Weapon("fledge-weapon") {{
+				reload = 15f;
 				rotate = true;
 
+				top = false;
+				mirror = true;
 				x = 1.2f;
 				y = 0f;
 
-				bullet = new SapBulletType(){{
-					sapStrength = 1f;
-					length = 20f;
-					damage = 30f;
-					shootEffect = Fx.shootSmall;
-					hitColor = color = Color.valueOf("bf92f9");
-					despawnEffect = Fx.none;
-					width = 0.54f;
+				shootSound = Sounds.shootSap;
+
+				bullet = new SapBulletType() {{
 					lifetime = 35f;
-					knockback = -1.24f;
+					length = 20f;
+					width = 0.5f;
+					damage = 20f;
+					knockback = -0.5f;
+					sapStrength = 0.2f;
+					status = StatusEffects.none;
+
+					hitColor = color = Pal.sapBullet;
+					shootEffect = Fx.shootSmall;
+					despawnEffect = Fx.none;
 				}};
 			}});
+
+			abilities.add(new MoveEffectAbility(0f, -7f, null, Fx.missileTrailShort, 6f) {{ teamColor = true; }});
 		}};
 	}
 }
