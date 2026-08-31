@@ -5,6 +5,7 @@ import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
+import astramod.type.unit.AstraUnitType;
 import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.liquid.*;
@@ -116,8 +117,8 @@ public class AstraBlocks {
 		dart, viper, ember, mortar, ballista,
 
 		// Unit assemblers
-		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipAssembler, lightReassembler,
-		heavyReassembler,
+		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard,
+		secondaryMechAssembler, secondaryAirAssembler, secondaryTankAssembler, secondaryShipyard,
 
 		// Sandbox
 		omegafactory, uberwall, superRouter, testblaster, ohno;
@@ -3863,7 +3864,7 @@ public class AstraBlocks {
 
 		// region UNITS
 
-		primaryMechAssembler = new UnitFactory("primary-light-assembler") {{
+		primaryMechAssembler = new UnitFactory("primary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 100,
 				Items.lead, 120,
@@ -3874,51 +3875,123 @@ public class AstraBlocks {
 			consumePower(1.2f);
 
 			plans = Seq.with(
-				new UnitPlan(AstraUnitTypes.dicentra, 18f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.dicentra, 15f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 15,
 					Items.silicon, 10
 				)),
-				new UnitPlan(AstraUnitTypes.achillion, 35f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 50,
-					Items.silicon, 40,
-					Items.graphite, 30
-				)),
-				new UnitPlan(AstraUnitTypes.zenaida, 20f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.zenaida, 18f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 20,
-					Items.silicon, 10,
-					Items.metaglass, 15
-				)),
-				new UnitPlan(AstraUnitTypes.oriolus, 42f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 60,
-					Items.silicon, 40,
-					Items.metaglass, 25,
-					Items.titanium, 15
+					AstraItems.magnetite, 10,
+					Items.silicon, 20
 				))
 			);
 		}};
 
-		primaryTankAssembler = new UnitFactory("primary-heavy-assembler") {{
+		primaryAirAssembler = new UnitFactory("primary-air-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 100,
+				Items.lead, 120,
+				Items.silicon, 90
+			));
+			regionSuffix = "-air";
+			size = 3;
+			consumePower(1.2f);
+
+			plans = Seq.with(
+				new UnitPlan(AstraUnitTypes.fledge, 18f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 15,
+					Items.silicon, 10,
+					Items.titanium, 30
+				))
+			);
+		}};
+
+		primaryTankAssembler = new UnitFactory("primary-tank-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 130,
+				Items.lead, 150,
+				Items.silicon, 100
+			));
+			regionSuffix = "-tank";
+			size = 5;
+			consumePower(3.5f);
+
+			plans = Seq.with(
+				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.silicon, 20,
+					Items.graphite, 30
+				))
+			);
+		}};
+
+		secondaryMechAssembler = new Reconstructor("secondary-mech-assembler"){{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
 				Items.lead, 200,
 				Items.silicon, 150
 			));
-			regionSuffix = "-heavy";
-			size = 5;
-			consumePower(3f);
+			regionSuffix = "-mech";
+			size = 3;
+			consumePower(5f);
+			consumeItems(ItemStack.with(
+				AstraItems.iron, 40
+				, AstraItems.magnetite, 20
+				, Items.silicon, 40
+			));
 
-			plans = Seq.with(
-				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 20,
-					Items.silicon, 20,
-					Items.graphite, 10
-				)),
-				new UnitPlan(AstraUnitTypes.echidna, 50f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 70,
-					Items.silicon, 50,
-					Items.graphite, 65
-				))
+			constructTime = 15f * Time.toSeconds;
+
+			upgrades.addAll(
+				new UnitType[]{AstraUnitTypes.dicentra, AstraUnitTypes.achillion},
+				new UnitType[]{AstraUnitTypes.zenaida, AstraUnitTypes.oriolus}
+			);
+		}};
+
+		secondaryAirAssembler = new Reconstructor("secondary-air-assembler"){{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 180,
+				AstraItems.lithium, 100,
+				Items.copper, 200,
+				Items.silicon, 150
+			));
+			regionSuffix = "-air";
+			size = 3;
+			consumePower(5f);
+			consumeItems(ItemStack.with(
+				AstraItems.lithium, 20,
+				AstraItems.iron, 40,
+				Items.silicon, 40
+			));
+
+			constructTime = 60f * 15f;
+
+			upgrades.addAll(
+				new UnitType[]{AstraUnitTypes.fledge, UnitTypes.horizon}
+			);
+		}};
+
+		secondaryTankAssembler = new Reconstructor("secondary-tank-assembler"){{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 180,
+				AstraItems.magnetite, 80,
+				Items.lead, 200,
+				Items.silicon, 150
+			));
+			regionSuffix = "-tank";
+			size = 5;
+			consumePower(7f);
+			consumeItems(ItemStack.with(
+				AstraItems.lithium, 60,
+				AstraItems.magnetite, 30,
+				Items.silicon, 60
+			));
+
+			constructTime = 60f * 20f;
+
+			upgrades.addAll(
+				new UnitType[]{AstraUnitTypes.aculei, AstraUnitTypes.echidna}
 			);
 		}};
 

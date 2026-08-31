@@ -236,7 +236,7 @@ public class AzirisTechTree {
 							node(fragMine, research(plastaniumCompressor), () -> {
 								node(largeFragMine, research(plastaniumFabricator), none);
 							});
-							node(navalMine, research(primaryShipAssembler), none);
+							node(navalMine, research(primaryShipyard), none);
 						});
 						node(surgeMine, research(surgeArcFurnace), () -> {
 							node(magneticMine, research(astraniumForge), none);
