@@ -115,7 +115,8 @@ public class AstraFx {
 		Lines.stroke(0.2f + 0.8f * e.fout());
 		Mathf.rand.setSeed(e.id);
 
-		tmp.trns(e.data instanceof Position pos ? pos.angleTo(e.x, e.y) : Mathf.random(360f), Mathf.random(2f + e.fin() * 16f));
+		tmp.trns(e.data instanceof Position pos ? pos.angleTo(e.x, e.y) : Mathf.random(360f),
+			Mathf.random(2f + e.fin() * 16f));
 		Lines.line(e.x + tmp.x * 0.5f, e.y + tmp.y * 0.5f, e.x + tmp.x, e.y + tmp.y);
 	}),
 

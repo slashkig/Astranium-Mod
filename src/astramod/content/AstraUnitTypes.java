@@ -36,6 +36,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno,
 		aculei, echidna;
+	// public static @EntityDef({ Unitc.class, Air})
 
 	// TODO Smokec?
 

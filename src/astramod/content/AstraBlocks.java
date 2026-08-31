@@ -52,33 +52,74 @@ import static mindustry.Vars.*;
 @SuppressWarnings("unused")
 public class AstraBlocks {
 	public static Block
+		// Environment
 		hardstone, hardstoneWall, bedrock, bedrockWall,
-		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium, wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
-		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln, castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender, cryofluidProcessor,
-		plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer, crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer, vacuumChamber, astraniumForge,
+
+		// Ores
+		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium,
+		wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
+
+		// Factories
+		ironFurnace, blastFurnace, castIronPress, hydraulicPress, castIronSmelter, purificationSmelter, castIronKiln,
+		castIronMixer, formulationMixer, hydrogenPlant, magnetiteSynthesizer, explosivesRefinery, cryofluidBlender,
+		cryofluidProcessor, plastaniumCompressor, plastaniumFabricator, steelForge, steelFoundry, ferrofluidMixer,
+		crystaglassKiln, phaseWeaver, phaseLoom, surgeArcFurnace, surgeArcCrucible, enrichmentPlant, plasmaEnergizer,
+		vacuumChamber, astraniumForge,
+
+		// Power
 		wireRelay, largeWireRelay, powerRelay, largePowerRelay, relayTower, centralRelayTower, switchRelay,
 		powerCell, largePowerCell, highCapacityPowerCell, erythronitePowerCell,
 		windTurbine, windTurbineLarge, waterMill, solarCell, solarCellLarge, solarArray,
-		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine, crystalReactor, fissionReactor, fusionReactor,
+		coalPlant, steamTurbine, exothermicReactor, repulsionGenerator, geothermalPlant, oilPlant, steamEngine,
+		crystalReactor, fissionReactor, fusionReactor,
 		coolantPump, thermalSink, nuclearSteamTower, heliumPump, hydrogenBreeder, heliumDiverter,
-		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore, frackingDrill,
-		compactPump, turbinePump, jetstreamPump, tidalPump,
-		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge, platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge,
-		platedThoriumWall, platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, phaseDoor, aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
-		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor, surgeBulkJunction, surgeBulkRouter,
-		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
-		ironUnloader,
+
+		// Drills and Pumps
+		compactDrill, ironDrill, augerDrill, plasmaDrill, excavationDrill, compactBore, ironBore, laserBore, pulseBore,
+		frackingDrill, compactPump, turbinePump, jetstreamPump, tidalPump,
+
+		// Walls
+		hematiteWall, hematiteWallLarge, ironWall, ironWallLarge, ironDoor, platedTitaniumWall, platedTitaniumWallLarge,
+		platedPlastaniumWall, platedPlastaniumWallLarge, steelWall, steelWallLarge, platedThoriumWall,
+		platedThoriumWallLarge, platedSurgeWall, platedSurgeWallLarge, platedPhaseWall, platedPhaseWallLarge, phaseDoor,
+		aerotechWall, aerotechWallLarge, astraniumWall, astraniumWallLarge,
+
+		// Distribution
+		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor,
+		surgeBulkJunction, surgeBulkRouter, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate,
+		ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter,
+		platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter, ironUnloader,
+
+		// Pipes
 		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, tidalPipeline,
 		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
+
+		// Fluid Tanks
 		ironTank, steelTank, crystalTank,
+
+		// Core
 		coreNode, coreHub, coreNexus,
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
-		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule, shieldModule,
+		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule,
+		shieldModule,
+
+		// Storage
 		platedContainer, platedVault, platedCrypt,
+
+		// Utility
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
+
+		// Mines
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
+
+		// Turrets
 		dart, viper, ember, mortar, ballista,
-		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipAssembler, lightReassembler, heavyReassembler,
+
+		// Unit assemblers
+		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipAssembler, lightReassembler,
+		heavyReassembler,
+
+		// Sandbox
 		omegafactory, uberwall, superRouter, testblaster, ohno;
 
 	public static final ObjectSet<Block> cooledBlocks = new ObjectSet<>();

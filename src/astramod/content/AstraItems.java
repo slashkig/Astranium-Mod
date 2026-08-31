@@ -7,7 +7,10 @@ import mindustry.content.*;
 import mindustry.type.*;
 
 public class AstraItems {
-	public static Item testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod, aerogel, astranium;
+	public static Item
+		testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod,
+		aerogel, astranium;
+
 	public final static Seq<Item> azirisItems = new Seq<>();
 
 	public static void load() {

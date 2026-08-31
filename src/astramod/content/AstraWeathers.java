@@ -123,7 +123,9 @@ public class AstraWeathers {
 				}
 			});
 
-			netClient.addPacketHandler("astramod-updateWind", data -> { if (!net.server()) globalWind = Float.parseFloat(data); });
+			netClient.addPacketHandler("astramod-updateWind", data -> {
+				if (!net.server()) globalWind = Float.parseFloat(data);
+			});
 			netClient.addPacketHandler("astramod-changeWind", data -> { if (!net.server()) {
 				int sep = data.indexOf('|');
 				randWind = Float.parseFloat(data.substring(0, sep));
@@ -154,27 +156,38 @@ public class AstraWeathers {
 		}
 
 		public void updateWind() {
-			float targetWind = Mathf.maxZero(envWind() + randWind + windVarMag * (float)Noise.rawNoise(Time.time / Time.toMinutes));
+			float targetWind = Mathf.maxZero(
+				envWind() + randWind + windVarMag * (float)Noise.rawNoise(Time.time / Time.toMinutes)
+			);
 			globalWind = Mathf.equal(globalWind, targetWind) ? targetWind : Mathf.lerpDelta(
 				globalWind, targetWind,
 				(1f + Noise.snoise(windCounter, Time.time, Time.toMinutes, windLerpMag)) / Time.toMinutes
 			);
 
 			if (!net.client()) { // TODO possible weather desync
-				if (globalWind > windBase && !windy.isActive() && envWind() < windBase && Mathf.chanceDelta((globalWind - windBase) / weatherChanceScl)) {
+				if (globalWind > windBase
+				&& !windy.isActive() && envWind() < windBase
+				&& Mathf.chanceDelta((globalWind - windBase) / weatherChanceScl)) {
 					// Calm -> Wind
 					createWindWeather(windy, windCounter * 2f);
 					deltaWind(windBase);
-				} else if (globalWind < windBase && windy.isActive() && tempWind > -0.1f && Mathf.chanceDelta((windBase - globalWind) / weatherChanceScl)) {
+				} else if (globalWind < windBase
+				&& windy.isActive() && tempWind > -0.1f
+				&& Mathf.chanceDelta((windBase - globalWind) / weatherChanceScl)) {
 					// Wind -> Calm
 					fadeWindWeather(windy);
 					deltaWind(-windBase);
-				} else if (globalWind > highWindBase && windy.isActive() && !heavyWind.isActive() && envWind() <= Mathf.clamp(targetWind / 2f, windBase, randMax) && Mathf.chanceDelta((globalWind - highWindBase) / weatherChanceScl)) {
+				} else if (globalWind > highWindBase
+				&& windy.isActive() && !heavyWind.isActive()
+				&& envWind() <= Mathf.clamp(targetWind / 2f, windBase, randMax)
+				&& Mathf.chanceDelta((globalWind - highWindBase) / weatherChanceScl)) {
 					// Wind -> High Wind
 					createWindWeather(heavyWind, Math.max(windy.instance().life(), windCounter));
 					fadeWindWeather(windy);
 					deltaWind(highWindBase - windBase);
-				} else if (globalWind < highWindBase && heavyWind.isActive() && !windy.isActive() && tempWind > -0.1f && Mathf.chanceDelta((highWindBase - globalWind) / weatherChanceScl)) {
+				} else if (globalWind < highWindBase
+				&& heavyWind.isActive() && !windy.isActive() && tempWind > -0.1f
+				&& Mathf.chanceDelta((highWindBase - globalWind) / weatherChanceScl)) {
 					// High Wind -> Wind
 					createWindWeather(windy, Math.max(heavyWind.instance().life(), windCounter) * 2f);
 					fadeWindWeather(heavyWind);
