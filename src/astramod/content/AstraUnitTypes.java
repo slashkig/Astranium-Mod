@@ -15,6 +15,7 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
 import astramod.ai.types.*;
+import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
 import astramod.gen.ElevationMoveUnit;
 import astramod.gen.MechUnit;
@@ -22,7 +23,7 @@ import astramod.gen.PayloadUnit;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
-import mindustry.world.meta.BlockFlag;
+import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
 
 import static mindustry.Vars.*;
 
@@ -350,6 +351,7 @@ public class AstraUnitTypes {
 
 		hymeno = new AstraTankUnitType("hymeno") {{
 			aiController = GroundCowardAI::new;
+			targetPriority = -5f;
 
 			health = 200;
 			hitSize = 11f;
@@ -372,8 +374,7 @@ public class AstraUnitTypes {
 			tankMoveSound = Sounds.tankMoveSmall;
 			tankMoveVolume *= 0.3f;
 
-			// TODO extend this
-			abilities.add(new StatusFieldAbility(StatusEffects.fast, 3f * Time.toSeconds, 2.5f * Time.toSeconds, 4f * tilesize) {{
+			abilities.add(new ApplyStatusFieldAbility(StatusEffects.fast, 3f * Time.toSeconds, 2.5f * Time.toSeconds, 4f * tilesize) {{
 				color = StatusEffects.fast.color;
 			}});
 		}};
@@ -586,8 +587,6 @@ public class AstraUnitTypes {
 					x = 10.25f;
 					y = -1f;
 					shootY = 5f;
-					rotateSpeed = 2f;
-					rotationLimit = 30f;
 
 					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
@@ -600,6 +599,8 @@ public class AstraUnitTypes {
 					}};
 				}}
 			);
+
+			// TODO dash
 		}};
 
 		// region GUNNER TANKS
@@ -699,8 +700,7 @@ public class AstraUnitTypes {
 		// region DRAGON
 
 		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
-			// TODO AI
-			targetFlags = new BlockFlag[] { BlockFlag.drill, null };
+			aiController = () -> new GroundSpecialistAI(b -> b instanceof ConveyorBuild, 100f * tilesize);
 			hovering = true;
 			canDrown = false;
 

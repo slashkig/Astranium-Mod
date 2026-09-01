@@ -39,6 +39,7 @@ public class AstraAnchoredUnitType extends AstraUnitType {
 				commands.add(AstraUnitCommand.anchorShield, AstraUnitCommand.followShield);
 			}
 			if (commands.size > 0) {
+				if (defaultCommand == null) defaultCommand = commands.first();
 				commands.insert(0, AstraUnitCommand.anchorIdle);
 			} else {
 				noCommands = true;
