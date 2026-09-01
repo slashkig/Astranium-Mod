@@ -7,9 +7,10 @@ import mindustry.ai.types.*;
 import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
+import mindustry.world.meta.*;
 
 public class GroundSpecialistAI extends GroundAI {
-	protected static final Vec2 vecOut = new Vec2();
+	protected static final Vec2 moveToVec = new Vec2();
 
 	public Boolf<Building> targetFilter;
 	public float detectionRange = 100f;
@@ -30,11 +31,9 @@ public class GroundSpecialistAI extends GroundAI {
 			boolean withinAttackRange = unit.within(target, engageRange);
 			Building targetBuild = Vars.world.buildWorld(target.x(), target.y());
 
-			vecOut.set(target);
+			moveToVec.set(target);
 
-			if (targetBuild != null
-			&& !unit.type.circleTarget
-			&& unit.within(targetBuild, targetBuild.block.size * Vars.tilesize/2f * 0.9f)) {
+			if (targetBuild != null && !unit.type.circleTarget && unit.within(targetBuild, 0.9f * targetBuild.block.size * Vars.tilesize / 2f)) {
 				move = false;
 			}
 
@@ -48,7 +47,7 @@ public class GroundSpecialistAI extends GroundAI {
 
 					unreachable = result.unreachable;
 					move &= result.move;
-					if (result.move) vecOut.set(result.dest);
+					if (result.move) moveToVec.set(result.dest);
 				}
 
 				if (unit.team.isAI() && unreachable) {
@@ -61,7 +60,7 @@ public class GroundSpecialistAI extends GroundAI {
 				if (unit.type.circleTarget) {
 					circleAttack(unit.type.circleTargetRadius);
 				} else {
-					moveTo(vecOut, withinAttackRange || unit.isFlying() ? engageRange : 0f, unit.isFlying() ? 40f : 100f, false, null, true);
+					moveTo(moveToVec, withinAttackRange || unit.isFlying() ? engageRange : 0f, unit.isFlying() ? 40f : 100f, false, null, true);
 				}
 			}
 
@@ -77,14 +76,9 @@ public class GroundSpecialistAI extends GroundAI {
 	}
 
 	@Override public Teamc findMainTarget(float x, float y, float range, boolean air, boolean ground) {
-		return Units.findEnemyTile(
-			unit.team,
-			x,
-			y,
-			detectionRange,
-			b -> targetFilter.get(b)
-				&& (unit.isFlying()
-				|| !unit.isPathImpassable(World.toTile(b.x), World.toTile(b.y)))
+		return Units.findEnemyTile(unit.team, x, y, detectionRange, b ->
+			targetFilter.get(b) && (unit.isFlying() || !unit.isPathImpassable(World.toTile(b.x), World.toTile(b.y)))
+			|| b.block.flags.contains(BlockFlag.core) && unit.within(b, range * 1.2f)
 		);
 	}
 }

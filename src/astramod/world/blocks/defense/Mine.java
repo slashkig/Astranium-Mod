@@ -1,11 +1,14 @@
 package astramod.world.blocks.defense;
 
+import arc.Core;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.math.geom.*;
+import arc.scene.ui.layout.Table;
 import arc.struct.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
@@ -41,7 +44,7 @@ public class Mine extends Block {
 	public float shotInaccuracy = 0f;
 
 	public float drawAlpha = 1f;
-	public boolean cloaked = false;
+	public boolean cloaked = false; // TODO units can still be commanded to attack this when cloaked
 
 	public Mine(String name) {
 		super(name);
@@ -133,6 +136,12 @@ public class Mine extends Block {
 		@Override public void control(LAccess type, Object p1, double p2, double p3, double p4) {
 			if (type == LAccess.shootp && p2 == 1) triggered();
 			super.control(type, p1, p2, p3, p4);
+		}
+
+		@Override public void display(Table table) {
+			if (cloaked && team != Vars.player.team()) {
+				Vars.world.tileWorld(Core.input.mouseWorldX(), Core.input.mouseWorldY()).display(table);
+			} else super.display(table);
 		}
 
 		public void triggered() {

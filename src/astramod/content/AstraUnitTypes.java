@@ -24,7 +24,6 @@ import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
-import mindustry.world.blocks.storage.CoreBlock;
 
 import static mindustry.Vars.*;
 
@@ -385,7 +384,7 @@ public class AstraUnitTypes {
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
 			aiController = GroundRangerAI::new;
 
-			health = 200;
+			health = 220;
 			armor = 1f;
 			hitSize = 10f;
 			fogRadius = 12f;
@@ -604,7 +603,7 @@ public class AstraUnitTypes {
 				}}
 			);
 
-			// TODO dash
+			abilities.add(new DashAbility(1500f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
 		}};
 
 		// region GUNNER TANKS
@@ -704,11 +703,7 @@ public class AstraUnitTypes {
 		// region DRAGON
 
 		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
-			aiController = () -> new GroundSpecialistAI(
-				b -> b instanceof ConveyorBuild
-				|| b instanceof CoreBlock.CoreBuild,
-				10f * tilesize
-			);
+			aiController = () -> new GroundSpecialistAI(b -> b instanceof ConveyorBuild, 100f * tilesize);
 			hovering = true;
 			canDrown = false;
 

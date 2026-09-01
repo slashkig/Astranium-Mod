@@ -3732,6 +3732,19 @@ public class AstraBlocks {
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
 					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+				}},
+				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
+					width = 12f;
+					height = 14f;
+					ammoMultiplier = 2;
+
+					splashDamageRadius = 4.4f * tilesize;
+					splashDamage = 110f;
+					knockback = 1f;
+
+					frontColor = Pal.blastAmmoFront;
+					backColor = hitColor = trailColor = Pal.blastAmmoBack;
+					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
 				}}
 			);
 
@@ -3916,15 +3929,15 @@ public class AstraBlocks {
 			consumePower(3.5f);
 
 			plans = Seq.with(
+				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 10,
+					AstraItems.magnetite, 10,
+					Items.silicon, 20
+				)),
 				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 20,
 					Items.silicon, 20,
 					Items.graphite, 30
-				)),
-				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 10,
-					AstraItems.magnetite, 20,
-					Items.silicon, 15
 				)),
 				new UnitPlan(AstraUnitTypes.oriolus, 60f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,
@@ -3936,7 +3949,7 @@ public class AstraBlocks {
 		}};
 
 		// TODO custom reconstructor recipes
-		secondaryMechAssembler = new Reconstructor("secondary-mech-assembler"){{
+		secondaryMechAssembler = new Reconstructor("secondary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
@@ -3955,12 +3968,12 @@ public class AstraBlocks {
 			constructTime = 15f * Time.toSeconds;
 
 			upgrades.addAll(
-				new UnitType[]{AstraUnitTypes.dicentra, AstraUnitTypes.achillion},
-				new UnitType[]{AstraUnitTypes.zenaida, AstraUnitTypes.trexon}
+				new UnitType[] { AstraUnitTypes.dicentra, AstraUnitTypes.achillion },
+				new UnitType[] { AstraUnitTypes.zenaida, AstraUnitTypes.trexon }
 			);
 		}};
 
-		secondaryAirAssembler = new Reconstructor("secondary-air-assembler"){{
+		secondaryAirAssembler = new Reconstructor("secondary-air-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.lithium, 100,
@@ -3979,11 +3992,11 @@ public class AstraBlocks {
 			constructTime = 60f * 15f;
 
 			upgrades.addAll(
-				new UnitType[]{AstraUnitTypes.fledge, UnitTypes.horizon}
+				new UnitType[] { AstraUnitTypes.fledge, UnitTypes.horizon }
 			);
 		}};
 
-		secondaryTankAssembler = new Reconstructor("secondary-tank-assembler"){{
+		secondaryTankAssembler = new Reconstructor("secondary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
@@ -4002,7 +4015,7 @@ public class AstraBlocks {
 			constructTime = 60f * 20f;
 
 			upgrades.addAll(
-				new UnitType[]{AstraUnitTypes.aculei, AstraUnitTypes.echidna}
+				new UnitType[] { AstraUnitTypes.aculei, AstraUnitTypes.echidna }
 			);
 		}};
 
