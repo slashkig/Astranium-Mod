@@ -1,0 +1,54 @@
+# Mod's ingame name
+displayName: "Operation: Aziris"
+
+# Mod's internal name
+name: "astramod"
+
+# Authors
+author: "Slashkig, IAmRustee, VoidThreader"
+
+# Main class of the mod
+main: "astramod.AstraniumMod"
+
+# Mod's current version
+version: "0.4.0"
+
+# Mod description
+description:
+  '''
+  [[]#ff0000]Aziris[[]] is a planet of breathtaking
+  beauty and immense value, coveted
+  by many factions for the rare and powerful [[]#bf2851]Erythronite Crystals[[]].
+
+  For centuries, it has remained in the
+  hands of the [[]blue]Sentinels[[]]. Now it is up
+  to you to conquer this planet and
+  seize its resources for yourself.
+
+  -------
+
+  This is a WIP mod that adds a new
+  planet, Aziris, with plenty of new
+  content to explore.
+  There isn't a campaign yet, but all
+  mod content can be checked out in
+  sandbox, and you can join the discord
+  for custom maps (and more!):
+
+  [[]purple]https://discord.gg/2qc4WaCreP [[]]
+
+  Currently unavailable for mobile
+  platforms, sorry :/
+  '''
+
+# Mod's subtitle
+subtitle: "Finally in V8 lmao"
+
+# Minimum game build to run the mod
+minGameVersion: "157"
+
+# It's a java mod, ofc it's true
+java: true
+
+# Self explanatory
+hidden: false
