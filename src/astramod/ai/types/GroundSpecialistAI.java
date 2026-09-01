@@ -32,7 +32,9 @@ public class GroundSpecialistAI extends GroundAI {
 
 			vecOut.set(target);
 
-			if (targetBuild != null && !unit.type.circleTarget && unit.within(targetBuild, targetBuild.block.size * Vars.tilesize/2f * 0.9f)) {
+			if (targetBuild != null
+			&& !unit.type.circleTarget
+			&& unit.within(targetBuild, targetBuild.block.size * Vars.tilesize/2f * 0.9f)) {
 				move = false;
 			}
 
@@ -75,6 +77,14 @@ public class GroundSpecialistAI extends GroundAI {
 	}
 
 	@Override public Teamc findMainTarget(float x, float y, float range, boolean air, boolean ground) {
-		return Units.findEnemyTile(unit.team, x, y, detectionRange, b -> targetFilter.get(b) && (unit.isFlying() || !unit.isPathImpassable(World.toTile(b.x), World.toTile(b.y))));
+		return Units.findEnemyTile(
+			unit.team,
+			x,
+			y,
+			detectionRange,
+			b -> targetFilter.get(b)
+				&& (unit.isFlying()
+				|| !unit.isPathImpassable(World.toTile(b.x), World.toTile(b.y)))
+		);
 	}
 }
