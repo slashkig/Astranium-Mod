@@ -1202,7 +1202,7 @@ public class AstraBlocks {
 		}};
 
 		coalPlant = new GenericCrafter("boiler") {{
-			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 30, Items.metaglass, 25));
+			requirements(Category.power, ItemStack.with(AstraItems.iron, 50, Items.graphite, 20, Items.metaglass, 20));
 			scaledHealth = 50f;
 			size = 2;
 			fogRadius = 2;
@@ -1231,8 +1231,8 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(
 				AstraItems.iron, 60,
 				Items.copper, 80,
-				Items.metaglass, 45,
-				Items.graphite, 30
+				Items.metaglass, 40,
+				Items.graphite, 25
 			));
 			scaledHealth = 45f;
 			size = 3;
@@ -1813,14 +1813,13 @@ public class AstraBlocks {
 		}};
 
 		compactBore = new WallDrill("compact-bore") {{
-			requirements(Category.production, ItemStack.with(AstraItems.hematite, 20, Items.copper, 8));
+			requirements(Category.production, ItemStack.with(AstraItems.hematite, 18, Items.lead, 8));
 			size = 2;
 			fogRadius = 2;
 			hasPower = true;
 			liquidCapacity = 7.5f;
 
 			liquidBoostIntensity = 1.8f;
-			consumePower(0.15f);
 			consumeLiquidBoosts(0.05f, Liquids.water, 1.8f, AstraFluids.ferrofluid, 3f);
 			drillTime = 200f;
 			tier = 2;
@@ -2506,7 +2505,7 @@ public class AstraBlocks {
 		// region FLUIDS
 
 		compactPump = new Pump("compact-pump") {{
-			requirements(Category.liquid, ItemStack.with(AstraItems.hematite, 25, Items.copper, 30, Items.graphite, 20));
+			requirements(Category.liquid, ItemStack.with(AstraItems.hematite, 25, Items.copper, 30, Items.lead, 20));
 			size = 2;
 			fogRadius = 2;
 			hasPower = true;
