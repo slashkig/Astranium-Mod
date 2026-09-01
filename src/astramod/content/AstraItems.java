@@ -12,6 +12,7 @@ public class AstraItems {
 		aerogel, astranium;
 
 	public final static Seq<Item> azirisItems = new Seq<>();
+	public final static Seq<Item> itemSortingOrder = new Seq<>(true);
 
 	public static void load() {
 		Log.info("Loading items");
@@ -91,5 +92,13 @@ public class AstraItems {
 		Items.pyratite.buildable = true;
 		Items.blastCompound.buildable = true;
 		azirisItems.addAll(testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod, aerogel, astranium);
+		itemSortingOrder.addAll(
+			Items.sand, hematite, Items.copper, Items.lead, Items.scrap, Items.coal,
+			iron, Items.metaglass, Items.graphite, Items.silicon, Items.pyratite,
+			lithium, Items.titanium, magnetite,
+			Items.blastCompound, steel, vanadium, Items.thorium, crystals, Items.plastanium,
+			neodymium, Items.tungsten, nuclearRod, crystaglass, Items.phaseFabric, Items.surgeAlloy,
+			aerogel, astranium, testium
+		);
 	}
 }

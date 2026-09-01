@@ -6,7 +6,7 @@ import mindustry.world.meta.Stat;
 import astramod.world.meta.AstraStatValues;
 
 public class AstraTurret extends ItemTurret {
-	public boolean extraStats = false;
+	public boolean extraStats = true;
 
 	public AstraTurret(String name) {
 		super(name);

@@ -3399,14 +3399,14 @@ public class AstraBlocks {
 
 		// region TURRETS
 
-		dart = new ItemTurret("dart") {{
+		dart = new AstraTurret("dart") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			ammo(
 				AstraItems.hematite, new BasicBulletType(3f, 10) {{
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 2;
-					reloadMultiplier = 0.8f;
+					reloadMultiplier = 0.9f;
 					collidesAir = false;
 					fragBullets = 3;
 					fragRandomSpread = 120f;
@@ -3499,7 +3499,7 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		viper = new ItemTurret("aa-rocket") {{
+		viper = new AstraTurret("aa-rocket") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 60, Items.lead, 35));
 			ammo(
 				Items.copper, new MissileBulletType(3.5f, 10) {{
@@ -3768,7 +3768,6 @@ public class AstraBlocks {
 			ammoUseEffect = Fx.casing3;
 			shootSound = Sounds.shootRipple;
 
-			extraStats = true;
 			limitRange();
 		}};
 
@@ -3860,7 +3859,6 @@ public class AstraBlocks {
 			smokeEffect = Fx.shootBigSmoke;
 			shootSound = Sounds.shootSmite;
 
-			extraStats = true;
 			limitRange();
 		}};
 

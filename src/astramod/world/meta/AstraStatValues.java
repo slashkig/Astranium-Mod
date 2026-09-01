@@ -16,6 +16,7 @@ import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.meta.*;
+import astramod.content.*;
 import astramod.entities.bullet.*;
 import astramod.type.effect.*;
 import astramod.ui.*;
@@ -120,7 +121,7 @@ public class AstraStatValues {
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName) {
 		return table -> {
 			StatValues.ammo(map, nested, showUnit, blockName).display(table);
-			var orderedKeys = map.keys().toSeq().sort();
+			Seq<T> orderedKeys = map.keys().toSeq().sort();
 			int offset = table.getCells().size - orderedKeys.size;
 
 			for (int i = 0; i < orderedKeys.size; i++) {
@@ -140,6 +141,14 @@ public class AstraStatValues {
 					int shots = bullet.shootPattern.shots - t.shoot.shots;
 					if (shots != 0) addRow(entry, "bullet.extrashots", shots > 0 ? "+" + shots : shots);
 				}
+			}
+
+			if (map.notEmpty() && map.keys().next() instanceof Item) {
+				var cells = Seq.with(table.getCells());
+				table.getCells().sort(e -> {
+					int index = cells.indexOf(e);
+					return index < offset ? index : (offset + AstraItems.itemSortingOrder.indexOf((Item)orderedKeys.get(index - offset)));
+				});
 			}
 		};
 	}

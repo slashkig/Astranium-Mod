@@ -3,7 +3,6 @@ package astramod.type.effect;
 import arc.math.*;
 import mindustry.gen.*;
 import mindustry.type.*;
-import mindustry.world.meta.*;
 import astramod.world.meta.*;
 
 public class ArmorStatusEffect extends StatusEffect {
@@ -16,7 +15,7 @@ public class ArmorStatusEffect extends StatusEffect {
 
 	@Override public void setStats() {
 		super.setStats();
-		if (modifierAsMult) stats.add(AstraStat.armorMultiplier, armorModifier * 100f, StatUnit.percent);
+		if (modifierAsMult) stats.addMultModifier(AstraStat.armorMultiplier, armorModifier);
 		else if (armorModifier < 0f) stats.add(AstraStat.armorReduction, -armorModifier);
 		else stats.add(AstraStat.armorIncrease, armorModifier);
 	}
