@@ -384,7 +384,7 @@ public class AstraUnitTypes {
 		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
 			aiController = GroundRangerAI::new;
 
-			health = 250;
+			health = 200;
 			armor = 1f;
 			hitSize = 10f;
 			fogRadius = 12f;
@@ -424,8 +424,8 @@ public class AstraUnitTypes {
 		}};
 
 		achillion = new AstraUnitType("achillion", MechUnit::create) {{
-			health = 600;
-			armor = 3f;
+			health = 700;
+			armor = 4f;
 			hitSize = 13f;
 			fogRadius = 12f;
 			itemCapacity = 25;
@@ -478,7 +478,7 @@ public class AstraUnitTypes {
 		// region SONIC MECHS
 
 		zenaida = new AstraUnitType("zenaida", MechUnit::create) {{
-			health = 300;
+			health = 250;
 			armor = 2f;
 			hitSize = 10f;
 			fogRadius = 8f;
@@ -502,7 +502,7 @@ public class AstraUnitTypes {
 
 				shootSound = AstraSounds.shootSonic;
 
-				bullet = new SonicBulletType(6f, 36) {{
+				bullet = new SonicBulletType(6f, 40) {{
 					width = 9f;
 					height = 14f;
 					lifetime = 15f;
@@ -511,8 +511,8 @@ public class AstraUnitTypes {
 		}};
 
 		trexon = new AstraUnitType("trexon", MechUnit::create) {{
-			health = 700;
-			armor = 3f;
+			health = 600;
+			armor = 5f;
 			hitSize = 12f;
 			fogRadius = 8f;
 			itemCapacity = 25;
@@ -527,14 +527,14 @@ public class AstraUnitTypes {
 
 				top = false;
 				x = 9f;
-				y = 1.25f;
+				y = -1.25f;
 				shootX = -0.5f;
 				shootY = 5f;
 
 				heatColor = AstraPal.sonicHeat;
 				shootSound = AstraSounds.shootSonic;
 
-				bullet = new SonicBulletType(6f, 40) {{
+				bullet = new SonicBulletType(6f, 50) {{
 					width = 9f;
 					height = 14f;
 					lifetime = 12f;
@@ -543,8 +543,8 @@ public class AstraUnitTypes {
 		}};
 
 		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
-			health = 1200;
-			armor = 7f;
+			health = 1100;
+			armor = 6f;
 			hitSize = 18f;
 			fogRadius = 9f;
 			itemCapacity = 40;
@@ -572,21 +572,24 @@ public class AstraUnitTypes {
 					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
 
-					bullet = new SonicBulletType(6f, 50, "astramod-sonic-shot-large") {{
+					bullet = new SonicBulletType(6f, 60, "astramod-sonic-shot-large") {{
 						width = 11f;
-						height = 16f;
-						lifetime = 16f;
+						height = 18f;
+						lifetime = 18f;
 						shootEffect = AstraFx.sonicHit;
 					}};
 				}},
-				new AstraWeapon("astramod-oriolus-weapon-small") {{
-					reload = 25f;
+				new AstraWeapon("astramod-oriolus-mount") {{
+					reload = 20f;
 					recoil = 1.2f;
 					alternate = false;
 
 					x = 10.25f;
-					y = -1f;
+					y = 0.25f;
 					shootY = 5f;
+					rotate = true;
+					rotateSpeed = 2f;
+					rotationLimit = 90f;
 
 					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;

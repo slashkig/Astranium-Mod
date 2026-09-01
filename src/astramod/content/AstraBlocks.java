@@ -3921,6 +3921,17 @@ public class AstraBlocks {
 					AstraItems.iron, 20,
 					Items.silicon, 20,
 					Items.graphite, 30
+				)),
+				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 10,
+					AstraItems.magnetite, 20,
+					Items.silicon, 15
+				)),
+				new UnitPlan(AstraUnitTypes.oriolus, 60f * Time.toSeconds, ItemStack.with(
+					AstraItems.steel, 60,
+					AstraItems.magnetite, 40,
+					Items.silicon, 150,
+					Items.titanium, 200
 				))
 			);
 		}};
