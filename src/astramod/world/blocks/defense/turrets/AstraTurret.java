@@ -16,8 +16,7 @@ public class AstraTurret extends ItemTurret {
 	@Override public void setStats() {
 		super.setStats();
 		if (extraStats) {
-			stats.remove(Stat.ammo);
-			stats.add(Stat.ammo, AstraStatValues.astraAmmo(ammoTypes, name));
+			stats.replace(Stat.ammo, AstraStatValues.astraAmmo(ammoTypes, name));
 		}
 	}
 }

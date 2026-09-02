@@ -603,7 +603,7 @@ public class AstraUnitTypes {
 				}}
 			);
 
-			abilities.add(new DashAbility(1500f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
+			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
 		}};
 
 		// region GUNNER TANKS

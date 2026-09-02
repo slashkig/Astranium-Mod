@@ -129,7 +129,7 @@ public class AstraStatValues {
 				Table entry = (Table)table.getCells().get(i + offset).get();
 				Block block = Vars.content.block(blockName);
 
-				if (bullet instanceof BoltBulletType bt) {
+				if (bullet instanceof BoltBulletType bt && bt.armorPenetration > 0f) {
 					addRow(entry, "bullet.armorpenetration", bt.armorPenetration);
 				} else if (bullet instanceof SonicBulletType bt) {
 					Displays.replaceLabelText(entry,
@@ -153,6 +153,7 @@ public class AstraStatValues {
 		};
 	}
 
+	// TODO duplicate code?
 	public static StatValue mine(Mine mine, int indent) {
 		return table -> {
 			table.row();

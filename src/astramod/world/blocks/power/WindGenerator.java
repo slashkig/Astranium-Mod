@@ -15,8 +15,7 @@ public class WindGenerator extends PowerGenerator {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.remove(generationType);
-		stats.add(generationType, AstraStatValues.numberRange(0f, powerProduction * 60f, StatUnit.powerSecond));
+		stats.replace(generationType, AstraStatValues.numberRange(0f, powerProduction * 60f, StatUnit.powerSecond));
 	}
 
 	public AstraWeathers.WindLogic windManager() {

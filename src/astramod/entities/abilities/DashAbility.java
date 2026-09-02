@@ -3,6 +3,7 @@ package astramod.entities.abilities;
 import arc.Core;
 import arc.graphics.g2d.*;
 import arc.math.geom.*;
+import arc.scene.ui.layout.Table;
 import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
@@ -13,22 +14,31 @@ import mindustry.graphics.*;
 import mindustry.input.Binding;
 
 public class DashAbility extends Ability {
-	public float boostForce = 200f;
+	public float speedBoost = 1f;
 	public float duration = 20f;
 	public float cooldown = 100f;
 	public Effect boostEffect = Fx.none;
 	public boolean drawBar = true;
 	public Rect barRect = new Rect(0f, 4f, 24f, 3f);
 
-	public DashAbility(float boostForce, float duration, float cooldown) {
-		this.boostForce = boostForce;
+	public DashAbility(float speedBoost, float duration, float cooldown) {
+		this.speedBoost = speedBoost;
 		this.duration = duration;
 		this.cooldown = cooldown;
 	}
 
+	@Override public void addStats(Table t) {
+		super.addStats(t);
+		t.add(abilityStat("tiles", Strings.autoFixed(speedBoost * duration / Vars.tilesize, 2)));
+		t.row();
+		t.add(abilityStat("duration", duration / Time.toSeconds));
+		t.row();
+		t.add(abilityStat("cooldown", cooldown / Time.toSeconds));
+	}
+
 	@Override public void update(Unit unit) {
 		if (data < 0f) {
-			unit.impulse(Tmp.v1.trns(unit.rotation(), boostForce * Time.delta));
+			unit.vel.add(Tmp.v1.trns(unit.rotation(), speedBoost * unit.type.accel * Time.delta));
 		} else if (data >= cooldown && Vars.player.unit() == unit && Core.input.keyDown(Binding.boost)) {
 			activate(unit);
 		}

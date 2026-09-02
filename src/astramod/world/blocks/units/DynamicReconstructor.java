@@ -25,7 +25,12 @@ public class DynamicReconstructor extends Reconstructor {
 		}));
 	}
 
-	public void initCapacities() {
+	@Override public void init() {
+		recipes.forEach(e -> upgrades.add(new UnitType[] { e.key, e.value.unit }));
+		super.init();
+	}
+
+	@Override public void initCapacities() {
 		capacities = new int[Vars.content.items().size];
 		itemCapacity = 10;
 		for (UnitPlan plan : recipes.values()) {
@@ -57,7 +62,6 @@ public class DynamicReconstructor extends Reconstructor {
 						t.table(info -> {
 							info.add(recipe.key.localizedName).left();
 							info.row();
-							info.add(Strings.autoFixed(plan.time / Time.toSeconds, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray);
 						}).left();
 
 						t.table(req -> {
@@ -77,8 +81,9 @@ public class DynamicReconstructor extends Reconstructor {
 						t.image(Icon.right).color(Pal.darkishGray).size(40).pad(10f);
 						t.image(plan.unit.uiIcon).size(40).pad(10f).right().scaling(Scaling.fit).with(i -> StatValues.withTooltip(i, plan.unit));
 						t.table(info -> {
-							info.add(plan.unit.localizedName).right();
+							info.add(plan.unit.localizedName).left();
 							info.row();
+							info.add(Strings.autoFixed(plan.time / Time.toSeconds, 1) + " " + Core.bundle.get("unit.seconds")).color(Color.lightGray).left();
 						}).pad(10).right();
 					}).fill().padBottom(5);
 				} else {
