@@ -1,38 +1,36 @@
 package astramod.content;
 
-import arc.util.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
 import arc.struct.*;
-import astramod.type.unit.AstraUnitType;
-import mindustry.world.*;
-import mindustry.world.blocks.environment.*;
-import mindustry.world.blocks.liquid.*;
-import mindustry.world.blocks.power.*;
-import mindustry.world.blocks.production.*;
-import mindustry.world.blocks.distribution.*;
-import mindustry.world.blocks.defense.*;
-import mindustry.world.blocks.defense.turrets.*;
-import mindustry.world.blocks.storage.*;
-import mindustry.world.draw.*;
-import mindustry.world.meta.*;
+import arc.util.*;
+import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
-import mindustry.entities.part.DrawPart.*;
+import mindustry.entities.part.DrawPart.PartProgress;
 import mindustry.entities.pattern.*;
 import mindustry.entities.units.*;
-import mindustry.graphics.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.content.*;
+import mindustry.world.*;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.defense.turrets.*;
+import mindustry.world.blocks.distribution.*;
+import mindustry.world.blocks.environment.*;
+import mindustry.world.blocks.liquid.*;
+import mindustry.world.blocks.power.*;
+import mindustry.world.blocks.production.*;
+import mindustry.world.blocks.units.*;
+import mindustry.world.blocks.units.UnitFactory.UnitPlan;
+import mindustry.world.draw.*;
+import mindustry.world.meta.*;
 import astramod.entities.bullet.*;
 import astramod.entities.part.*;
 import astramod.graphics.*;
-import astramod.world.draw.*;
-import astramod.world.meta.*;
 import astramod.world.blocks.GenericBlock;
 import astramod.world.blocks.defense.*;
 import astramod.world.blocks.defense.turrets.*;
@@ -45,7 +43,9 @@ import astramod.world.blocks.modular.core.*;
 import astramod.world.blocks.power.*;
 import astramod.world.blocks.production.*;
 import astramod.world.blocks.storage.*;
-import mindustry.world.blocks.units.*;
+import astramod.world.blocks.units.*;
+import astramod.world.draw.*;
+import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -3893,27 +3893,8 @@ public class AstraBlocks {
 				)),
 				new UnitPlan(AstraUnitTypes.zenaida, 18f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 20,
-					AstraItems.magnetite, 10,
+					Items.metaglass, 15,
 					Items.silicon, 20
-				))
-			);
-		}};
-
-		primaryAirAssembler = new UnitFactory("primary-air-assembler") {{
-			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 100,
-				Items.lead, 120,
-				Items.silicon, 90
-			));
-			regionSuffix = "-air";
-			size = 3;
-			consumePower(1.2f);
-
-			plans = Seq.with(
-				new UnitPlan(AstraUnitTypes.fledge, 18f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 15,
-					Items.silicon, 10,
-					Items.titanium, 30
 				))
 			);
 		}};
@@ -3935,11 +3916,11 @@ public class AstraBlocks {
 					Items.silicon, 20
 				)),
 				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 20,
+					AstraItems.iron, 25,
 					Items.silicon, 20,
 					Items.graphite, 30
 				)),
-				new UnitPlan(AstraUnitTypes.oriolus, 60f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.oriolus, 90f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,
 					AstraItems.magnetite, 40,
 					Items.silicon, 150,
@@ -3948,8 +3929,26 @@ public class AstraBlocks {
 			);
 		}};
 
-		// TODO custom reconstructor recipes
-		secondaryMechAssembler = new Reconstructor("secondary-mech-assembler") {{
+		primaryAirAssembler = new UnitFactory("primary-air-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 100,
+				Items.lead, 120,
+				Items.silicon, 90
+			));
+			regionSuffix = "-air";
+			size = 3;
+			consumePower(1.2f);
+
+			plans = Seq.with(
+				new UnitPlan(AstraUnitTypes.fledge, 18f * Time.toSeconds, ItemStack.with(
+					Items.copper, 25,
+					Items.silicon, 20,
+					Items.titanium, 15
+				))
+			);
+		}};
+
+		secondaryMechAssembler = new DynamicReconstructor("secondary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
@@ -3959,44 +3958,22 @@ public class AstraBlocks {
 			regionSuffix = "-mech";
 			size = 3;
 			consumePower(5f);
-			consumeItems(ItemStack.with(
-				AstraItems.iron, 40
-				, AstraItems.magnetite, 20
-				, Items.silicon, 40
-			));
 
-			constructTime = 15f * Time.toSeconds;
-
-			upgrades.addAll(
-				new UnitType[] { AstraUnitTypes.dicentra, AstraUnitTypes.achillion },
-				new UnitType[] { AstraUnitTypes.zenaida, AstraUnitTypes.trexon }
+			recipes.putAll(
+				AstraUnitTypes.dicentra, new UnitPlan(AstraUnitTypes.achillion, 16f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 35,
+					Items.silicon, 30,
+					Items.graphite, 20
+				)),
+				AstraUnitTypes.zenaida, new UnitPlan(AstraUnitTypes.trexon, 20f * Time.toSeconds, ItemStack.with(
+					Items.metaglass, 35,
+					Items.silicon, 30,
+					Items.titanium, 20
+				))
 			);
 		}};
 
-		secondaryAirAssembler = new Reconstructor("secondary-air-assembler") {{
-			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 180,
-				AstraItems.lithium, 100,
-				Items.copper, 200,
-				Items.silicon, 150
-			));
-			regionSuffix = "-air";
-			size = 3;
-			consumePower(5f);
-			consumeItems(ItemStack.with(
-				AstraItems.lithium, 20,
-				AstraItems.iron, 40,
-				Items.silicon, 40
-			));
-
-			constructTime = 60f * 15f;
-
-			upgrades.addAll(
-				new UnitType[] { AstraUnitTypes.fledge, UnitTypes.horizon }
-			);
-		}};
-
-		secondaryTankAssembler = new Reconstructor("secondary-tank-assembler") {{
+		secondaryTankAssembler = new DynamicReconstructor("secondary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 80,
@@ -4006,16 +3983,32 @@ public class AstraBlocks {
 			regionSuffix = "-tank";
 			size = 5;
 			consumePower(7f);
-			consumeItems(ItemStack.with(
-				AstraItems.lithium, 60,
-				AstraItems.magnetite, 30,
-				Items.silicon, 60
+
+			recipes.putAll(
+				AstraUnitTypes.aculei, new UnitPlan(AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 50,
+					Items.silicon, 30,
+					Items.graphite, 40
+				))
+			);
+		}};
+
+		secondaryAirAssembler = new DynamicReconstructor("secondary-air-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 180,
+				AstraItems.lithium, 100,
+				Items.copper, 200,
+				Items.silicon, 150
 			));
+			regionSuffix = "-air";
+			size = 3;
+			consumePower(5f);
 
-			constructTime = 60f * 20f;
-
-			upgrades.addAll(
-				new UnitType[] { AstraUnitTypes.aculei, AstraUnitTypes.echidna }
+			recipes.putAll(
+				AstraUnitTypes.fledge, new UnitPlan(UnitTypes.horizon, 20f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 40,
+					Items.silicon, 40
+				))
 			);
 		}};
 
