@@ -8,7 +8,8 @@ import mindustry.type.*;
 
 public class AstraItems {
 	public static Item
-		testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod,
+		testium,
+		hematite, bismuth, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod,
 		aerogel, astranium;
 
 	public final static Seq<Item> azirisItems = new Seq<>();
@@ -29,6 +30,12 @@ public class AstraItems {
 			UnitTypes.mono.mineItems.add(this);
 			UnitTypes.poly.mineItems.add(this);
 			UnitTypes.mega.mineItems.add(this);
+		}};
+
+		bismuth = new Item("bismuth", Color.valueOf("2596be")) {{
+			cost = 0.6f;
+			charge = 0.3f;
+			radioactivity = 0.001f;
 		}};
 
 		iron = new Item("iron", Color.valueOf("404059")) {{

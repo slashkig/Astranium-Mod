@@ -111,7 +111,7 @@ public class AzirisTechTree {
 						node(tidalPump, research(tidalPipeline), none);
 					});
 				});
-				node(crudePipeline, research(hematiteConveyor), () -> {
+				node(ripplePipeline, research(hematiteConveyor), () -> {
 					node(wavePipeline, research(ironConveyor), () -> {
 						node(jetPipeline, research(durasteelConveyor), () -> {
 							node(crystalPipeline, research(platedSteelConveyor), () -> {
@@ -210,7 +210,7 @@ public class AzirisTechTree {
 					});
 					node(geothermalPlant, research(turbinePump, castIronKiln), none);
 				});
-				node(steamTurbine, research(coalPlant, crudePipeline), () -> {
+				node(steamTurbine, research(coalPlant, ripplePipeline), () -> {
 					node(exothermicReactor, research(castIronMixer, ironBore), () -> {
 						node(crystalReactor, research(steamEngine, laserBore), none);
 					});

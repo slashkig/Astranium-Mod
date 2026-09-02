@@ -87,13 +87,15 @@ public class AstraBlocks {
 
 		// Distribution
 		hematiteConveyor, ironConveyor, durasteelConveyor, platedSteelConveyor, bulkConveyor, surgeBulkConveyor,
-		surgeBulkJunction, surgeBulkRouter, ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate,
-		ironUnderflowGate, ironSorter, invertedIronSorter, platedJunction, platedBridge, platedRouter,
-		platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter, ironUnloader,
+		surgeBulkJunction, surgeBulkRouter,
+		hematiteJunction, hematiteRouter,
+		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
+		platedJunction, platedBridge, platedRouter,platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
+		ironUnloader,
 
 		// Pipes
-		crudePipeline, wavePipeline, jetPipeline, crystalPipeline, tidalPipeline,
-		waveJunction, waveBridge, waveRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
+		ripplePipeline, wavePipeline, jetPipeline, crystalPipeline, tidalPipeline,
+		rippleJunction, rippleRouter, waveJunction, waveBridge, waveRouter, jetJunction, jetRouter, crystalJunction, crystalBridge, crystalRouter, tidalJunction, tidalRouter,
 
 		// Fluid Tanks
 		ironTank, steelTank, crystalTank,
@@ -2292,6 +2294,24 @@ public class AstraBlocks {
 
 		// region DISTRIBUTION
 
+		hematiteJunction = new Junction("hematite-junction") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 2));
+			health = 50;
+			fogRadius = 1;
+			buildCostMultiplier = 3f;
+			speed = 16f;
+			capacity = 4;
+
+			((Conveyor)hematiteConveyor).junctionReplacement = this;
+		}};
+
+		hematiteRouter = new Router("hematite-router") {{
+			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 3));
+			health = 100;
+			fogRadius = 2;
+			buildCostMultiplier = 3f;
+		}};
+
 		ironJunction = new Junction("iron-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
@@ -2300,7 +2320,6 @@ public class AstraBlocks {
 			speed = 12f;
 			capacity = 4;
 
-			((Conveyor)hematiteConveyor).junctionReplacement = this;
 			((Conveyor)ironConveyor).junctionReplacement = this;
 		}};
 
@@ -2365,7 +2384,7 @@ public class AstraBlocks {
 			invert = true;
 		}};
 
-		ironUnloader = new AstraDirectionalUnloader("module-unloader") {{
+		ironUnloader = new AstraDirectionalUnloader("iron-unloader") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 20, Items.silicon, 15));
 			health = 100;
 		}};
@@ -2591,7 +2610,7 @@ public class AstraBlocks {
 			squareSprite = false;
 		}};
 
-		crudePipeline = new Pipeline("ripple-pipeline") {{
+		ripplePipeline = new Pipeline("ripple-pipeline") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 1, Items.lead, 1));
 			health = 50;
 			fogRadius = 1;
@@ -2647,6 +2666,23 @@ public class AstraBlocks {
 			heatCapacity = 3.2f;
 		}};
 
+		rippleRouter = new PipelineRouter("ripple-router") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 2, Items.lead, 2));
+			health = 80;
+			fogRadius = 1;
+			heatCapacity = 0.6f;
+			liquidCapacity = 12f;
+		}};
+
+		rippleJunction = new PipelineJunction("ripple-junction") {{
+			requirements(Category.liquid, ItemStack.with(Items.copper, 2, Items.lead, 2));
+			health = 80;
+			fogRadius = 1;
+			heatCapacity = 0.6f;
+
+			((Conduit)ripplePipeline).junctionReplacement = this;
+		}};
+
 		waveJunction = new PipelineJunction("wave-junction") {{
 			requirements(Category.liquid, ItemStack.with(Items.copper, 6, Items.metaglass, 4, Items.graphite, 2));
 			health = 140;
@@ -2655,7 +2691,6 @@ public class AstraBlocks {
 			liquidPressure = 1.02f;
 			heatCapacity = 1f;
 
-			((Conduit)crudePipeline).junctionReplacement = this;
 			((Conduit)wavePipeline).junctionReplacement = this;
 			((Pipeline)jetPipeline).fallbackJunction = this;
 		}};
@@ -2670,7 +2705,6 @@ public class AstraBlocks {
 			range = 4;
 			hasPower = false;
 
-			((Conduit)crudePipeline).bridgeReplacement = this;
 			((Conduit)wavePipeline).bridgeReplacement = this;
 			((Pipeline)jetPipeline).fallbackBridge = this;
 		}};
@@ -2684,6 +2718,28 @@ public class AstraBlocks {
 			heatCapacity = 1f;
 		}};
 
+		jetJunction = new PipelineJunction("jet-junction") {{
+			requirements(Category.liquid, ItemStack.with(Items.metaglass, 6, Items.titanium, 4, AstraItems.magnetite, 2));
+			buildCostMultiplier = 1.5f;
+			health = 220;
+			fogRadius = 1;
+			liquidCapacity = 20f;
+			liquidPressure = 1.05f;
+			heatCapacity = 1.5f;
+
+			((Conduit)jetPipeline).junctionReplacement = this;
+		}};
+
+		jetRouter = new PipelineRouter("jet-router") {{
+			requirements(Category.liquid, ItemStack.with(Items.metaglass, 4, Items.titanium, 4, AstraItems.magnetite, 4));
+			buildCostMultiplier = 1.5f;
+			health = 220;
+			fogRadius = 1;
+			liquidCapacity = 20f;
+			liquidPressure = 1.05f;
+			heatCapacity = 1.5f;
+		}};
+
 		crystalJunction = new PipelineJunction("crystal-junction") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.crystaglass, 6, Items.thorium, 2, Items.plastanium, 4));
 			buildCostMultiplier = 1.6f;
@@ -2695,7 +2751,6 @@ public class AstraBlocks {
 			heatCapacity = 2.4f;
 			leaks = false;
 
-			((Conduit)jetPipeline).junctionReplacement = this;
 			((Conduit)crystalPipeline).junctionReplacement = this;
 		}};
 
@@ -2774,7 +2829,7 @@ public class AstraBlocks {
 			heatCapacity = 3.2f;
 		}};
 
-		ironTank = new PipelineRouter("iron-container") {{
+		ironTank = new PipelineRouter("iron-tank") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.iron, 60, Items.copper, 90, Items.metaglass, 50));
 			scaledHealth = 60f;
 			size = 2;
