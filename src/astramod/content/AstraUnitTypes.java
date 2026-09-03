@@ -518,7 +518,7 @@ public class AstraUnitTypes {
 			fogRadius = 8f;
 			itemCapacity = 25;
 
-			speed = 0.9f;
+			speed = 1.1f;
 			accel = 0.3f;
 			stepSoundVolume = 0.4f;
 
@@ -550,7 +550,7 @@ public class AstraUnitTypes {
 			fogRadius = 9f;
 			itemCapacity = 40;
 
-			speed = 1.0f;
+			speed = 1f;
 			accel = 0.3f;
 			rotateSpeed = 2.5f;
 			stepSoundVolume = 1f;
@@ -636,7 +636,7 @@ public class AstraUnitTypes {
 
 				mirror = false;
 				x = 0f;
-				y = -0.75f;
+				y = 0f;
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
@@ -703,48 +703,50 @@ public class AstraUnitTypes {
 
 		// region RANGER TANKS
 
-		arbalest = new AstraTankUnitType("arbalest") {
-			{
-				health = 400;
-				armor = 2f;
-				hitSize = 12f;
-				fogRadius = 10f;
-				itemCapacity = 20;
+		arbalest = new AstraTankUnitType("arbalest") {{
+			health = 350;
+			armor = 3f;
+			hitSize = 13f;
+			fogRadius = 10f;
+			itemCapacity = 20;
 
-				speed = 1.3f;
-				accel = 0.2f;
+			speed = 0.9f;
+			accel = 0.2f;
+			rotateSpeed = 1.5f;
+			floorMultiplier = 0.95f;
+
+			treadPullOffset = 3;
+			treadRects = new Rect[]{ new Rect(-25f, -28f, 16, 56) };
+
+			tankMoveVolume *= 0.4f;
+			tankMoveSound = Sounds.tankMoveSmall;
+
+			weapons.add(new Weapon("astramod-arbalest-weapon") {{
+				reload = 180f;
+				inaccuracy = 0f;
+				rotate = true;
 				rotateSpeed = 3f;
-				floorMultiplier = 0.95f;
+				recoil = 1.5f;
 
-				treadPullOffset = 3;
-				treadRects = new Rect[]{ new Rect(-25f, -28f, 16, 56) };
+				mirror = false;
+				x = 0f;
+				y = 0f;
+				shootY = 5.5f;
+				layerOffset = 0.0001f;
 
-				tankMoveVolume *= 0.4f;
-				tankMoveSound = Sounds.tankMoveSmall;
+				shootSound = AstraSounds.shootSniperSmall; // sound needs some work
 
-				weapons.add(new Weapon("astramod-arbalest-weapon") {{
-					reload = 180f;
-					inaccuracy = 0f;
-					rotate = true;
-					rotateSpeed = 3f;
-					recoil = 1.5f;
+				bullet = new BasicBulletType(11f, 70) {{
+					width = 6f;
+					height = 16f;
+					lifetime = 18f;
+					shrinkY = 0f;
 
-					mirror = false;
-					x = 0f;
-					y = -0.75f;
-					shootY = 5.5f;
-					layerOffset = 0.0001f;
-
-					shootSound = AstraSounds.shootSniperSmall; //sound needs some work
-
-					bullet = new BasicBulletType(11f, 80) {{
-						width = 6f;
-						height = 16f;
-						lifetime = 25f;
-						shrinkY = 0f;
-					}};
-				}});
-			}};
+					smokeEffect = Fx.shootSmallSmoke;
+					shootEffect = Fx.shootSmallColor;
+				}};
+			}});
+		}};
 
 		// region DRAGON
 
