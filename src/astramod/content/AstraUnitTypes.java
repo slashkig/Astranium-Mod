@@ -39,7 +39,8 @@ public class AstraUnitTypes {
 		zenaida, trexon, oriolus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno,
-		aculei, echidna;
+		aculei, echidna,
+		arbalest;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
 
@@ -699,6 +700,51 @@ public class AstraUnitTypes {
 				}};
 			}});
 		}};
+
+		// region RANGER TANKS
+
+		arbalest = new AstraTankUnitType("arbalest") {
+			{
+				health = 400;
+				armor = 2f;
+				hitSize = 12f;
+				fogRadius = 10f;
+				itemCapacity = 20;
+
+				speed = 1.3f;
+				accel = 0.2f;
+				rotateSpeed = 3f;
+				floorMultiplier = 0.95f;
+
+				treadPullOffset = 3;
+				treadRects = new Rect[]{ new Rect(-25f, -28f, 16, 56) };
+
+				tankMoveVolume *= 0.4f;
+				tankMoveSound = Sounds.tankMoveSmall;
+
+				weapons.add(new Weapon("astramod-arbalest-weapon") {{
+					reload = 180f;
+					inaccuracy = 0f;
+					rotate = true;
+					rotateSpeed = 3f;
+					recoil = 1.5f;
+
+					mirror = false;
+					x = 0f;
+					y = -0.75f;
+					shootY = 5.5f;
+					layerOffset = 0.0001f;
+
+					shootSound = AstraSounds.shootSniperSmall; //sound needs some work
+
+					bullet = new BasicBulletType(11f, 80) {{
+						width = 6f;
+						height = 16f;
+						lifetime = 25f;
+						shrinkY = 0f;
+					}};
+				}});
+			}};
 
 		// region DRAGON
 
