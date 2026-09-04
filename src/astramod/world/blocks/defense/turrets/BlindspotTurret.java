@@ -1,6 +1,7 @@
 package astramod.world.blocks.defense.turrets;
 
 import mindustry.entities.*;
+import mindustry.game.Team;
 import mindustry.gen.*;
 
 public class BlindspotTurret extends AstraTurret {
@@ -10,7 +11,7 @@ public class BlindspotTurret extends AstraTurret {
 
 	public class BlindspotTurretBuild extends ItemTurretBuild {
 		@Override protected boolean validateTarget() {
-			return super.validateTarget() && !within(target, minRange());
+			return controlled() || logicControlled() || !Units.invalidateTarget(target, canHeal() ? Team.derelict : team, x, y) && !within(target, minRange());
 		}
 
 		@Override protected Posc findEnemy(float range) {

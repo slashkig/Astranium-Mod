@@ -585,17 +585,16 @@ public class WireRelay extends PowerBlock {
 			boolean noConsume = !shouldConsumeWire();
 
 			Block.tempBuilds.each(b -> !graphs.contains(b.power.graph), build -> {
-
 				if (build instanceof PowerNodeBuild node && node.power.links.size < ((PowerNode)node.block).maxNodes) {
 					node.configure(pos());
 					graphs.add(build.power.graph);
 				} else if (noConsume || team.items().has(wireCost.item)) {
 					Tile closest = MathUtil.findClosestTile(build, this);
 					Tmp.p1.set(closest.x - tile.x - 1, closest.y - tile.y - 1);
-					Tmp.p2.set(findClosestWire(Tmp.p1, true));
+					Point2 end = findClosestWire(Tmp.p1, true);
 
-					if (boundsRect.contains(Tmp.p1.x, Tmp.p1.y) && (noConsume || team.items().has(wireCost.item, counter.count + wireCost.amount * (int)MathUtil.dstm(Tmp.p1, Tmp.p2)))) {
-						counter.count += multiWireAdd(Tmp.p1, Tmp.p2, false);
+					if (end != null && boundsRect.contains(Tmp.p1.x, Tmp.p1.y) && (noConsume || team.items().has(wireCost.item, counter.count + wireCost.amount * (int)MathUtil.dstm(Tmp.p1, end)))) {
+						counter.count += multiWireAdd(Tmp.p1, end, false);
 						graphs.add(build.power.graph);
 					}
 				}

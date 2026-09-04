@@ -88,7 +88,7 @@ public class AstraWeathers {
 		public static final long windUpdateInterval = 1000;
 		protected long lastNetUpdate;
 
-		public float setupRandMin = 0.2f, setupRandMax = 0.6f, setupCounterMin = 2.5f, setupCounterMax = 5f;
+		public float setupRandMin = 0.4f, setupRandMax = 0.6f, setupCounterMin = 5f, setupCounterMax = 8f;
 
 		public float counterMin = 1f, counterMax = 4f;
 		public float randMin = -0.5f, randMax = 1f;

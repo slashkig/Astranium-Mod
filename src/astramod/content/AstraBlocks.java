@@ -1818,7 +1818,6 @@ public class AstraBlocks {
 			requirements(Category.production, ItemStack.with(AstraItems.hematite, 18, Items.lead, 8));
 			size = 2;
 			fogRadius = 2;
-			hasPower = true;
 			liquidCapacity = 7.5f;
 
 			liquidBoostIntensity = 1.8f;
@@ -3456,7 +3455,7 @@ public class AstraBlocks {
 		dart = new AstraTurret("dart") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			ammo(
-				AstraItems.hematite, new BasicBulletType(3f, 10) {{
+				AstraItems.hematite, new BasicBulletType(3f, 8) {{
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 2;
@@ -3479,7 +3478,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
 				}},
-				Items.lead, new BasicBulletType(3f, 18) {{
+				Items.lead, new BasicBulletType(3f, 14) {{
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 3;
@@ -3488,20 +3487,20 @@ public class AstraBlocks {
 					frontColor = AstraPal.leadFront;
 					backColor = AstraPal.leadBack;
 				}},
-				AstraItems.iron, new BasicBulletType(3f, 22) {{
+				AstraItems.iron, new BasicBulletType(3f, 18) {{
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 4;
 					collidesAir = false;
 
-					knockback = 2f;
+					knockback = 1f;
 					status = StatusEffects.slow;
-					statusDuration = 2f * Time.toSeconds;
+					statusDuration = 1f * Time.toSeconds;
 
 					frontColor = AstraPal.ironFront;
 					backColor = AstraPal.ironBack;
 				}},
-				Items.graphite, new BasicBulletType(4f, 32) {{
+				Items.graphite, new BasicBulletType(4f, 24) {{
 					width = 10f;
 					height = 12f;
 					ammoMultiplier = 4;
@@ -3512,11 +3511,11 @@ public class AstraBlocks {
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = Pal.graphiteAmmoBack;
 				}},
-				Items.silicon, new BasicBulletType(3.5f, 24) {{
+				Items.silicon, new BasicBulletType(3.5f, 20) {{
 					width = 9f;
 					height = 11f;
 					ammoMultiplier = 5;
-					reloadMultiplier = 1.4f;
+					reloadMultiplier = 1.2f;
 					homingPower = 0.15f;
 					collidesAir = false;
 
@@ -3974,7 +3973,7 @@ public class AstraBlocks {
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 10,
-					AstraItems.magnetite, 10,
+					Items.copper, 15,
 					Items.silicon, 20
 				)),
 				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
@@ -4030,12 +4029,6 @@ public class AstraBlocks {
 					Items.metaglass, 35,
 					Items.silicon, 30,
 					Items.titanium, 20
-				)),
-				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
-					AstraItems.steel, 60,
-					AstraItems.magnetite, 45,
-					Items.silicon, 90,
-					Items.titanium, 50
 				))
 			);
 		}};
@@ -4056,6 +4049,12 @@ public class AstraBlocks {
 					AstraItems.iron, 50,
 					Items.silicon, 30,
 					Items.graphite, 40
+				)),
+				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
+					AstraItems.steel, 60,
+					AstraItems.magnetite, 45,
+					Items.silicon, 90,
+					Items.titanium, 50
 				))
 			);
 		}};
