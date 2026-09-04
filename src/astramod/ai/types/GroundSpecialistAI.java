@@ -35,7 +35,8 @@ public class GroundSpecialistAI extends GroundAI {
 
 			moveToVec.set(moveTarget);
 
-			if (targetBuild != null && !unit.type.circleTarget && unit.within(targetBuild, 0.9f * targetBuild.block.size * Vars.tilesize / 2f)) {
+			if (targetBuild != null && !unit.type.circleTarget && unit.within(targetBuild,
+			0.9f * targetBuild.block.size * Vars.tilesize / 2f)) {
 				move = false;
 			}
 
@@ -63,11 +64,17 @@ public class GroundSpecialistAI extends GroundAI {
 				if (unit.type.circleTarget) {
 					circleAttack(unit.type.circleTargetRadius);
 				} else {
-					moveTo(moveToVec, withinAttackRange || unit.isFlying() ? engageRange : 0f, unit.isFlying() ? 40f : 100f, false, null, true);
+					moveTo(moveToVec, withinAttackRange || unit.isFlying() ? engageRange : 0f,
+					unit.isFlying() ? 40f : 100f,
+					false, null, true);
 				}
 			}
 
-			if (unit.isFlying() && move && !(unit.type.circleTarget && !unit.type.omniMovement) && !withinAttackRange) {
+			if (unit.isFlying()
+			&& move
+			&& !(unit.type.circleTarget
+			&& !unit.type.omniMovement)
+			&& !withinAttackRange) {
 				unit.lookAt(moveTarget);
 			} else {
 				faceTarget();
