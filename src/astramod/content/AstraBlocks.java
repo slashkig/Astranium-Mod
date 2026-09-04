@@ -1032,6 +1032,7 @@ public class AstraBlocks {
 				AstraItems.steel, 500,
 				AstraItems.crystals, 300
 			));
+			autolink = false;
 			buildCostMultiplier = 1.6f;
 			scaledHealth = 100f;
 			armor = 12f;
@@ -4049,6 +4050,11 @@ public class AstraBlocks {
 					AstraItems.iron, 50,
 					Items.silicon, 30,
 					Items.graphite, 40
+				)),
+				AstraUnitTypes.arbalest, new UnitPlan(AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 60,
+					AstraItems.lithium, 40,
+					Items.silicon, 30
 				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,

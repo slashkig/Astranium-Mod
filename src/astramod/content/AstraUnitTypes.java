@@ -40,7 +40,7 @@ public class AstraUnitTypes {
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno,
 		aculei, echidna,
-		arbalest;
+		arbalest, bartizan;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
 
@@ -727,7 +727,7 @@ public class AstraUnitTypes {
 			weapons.add(new Weapon("astramod-arbalest-weapon") {{
 				reload = 120f;
 				rotate = true;
-				rotateSpeed = 1.2f;
+				rotateSpeed = 1.5f;
 				recoil = 1.5f;
 
 				mirror = false;
@@ -744,9 +744,83 @@ public class AstraUnitTypes {
 					lifetime = 22f;
 					shrinkY = 0f;
 					collidesAir = false;
+					ejectEffect = Fx.casing3;
 
 					smokeEffect = Fx.shootSmallSmoke;
 					shootEffect = Fx.shootSmallColor;
+				}};
+			}});
+		}};
+
+		bartizan = new AstraTankUnitType("bartizan") {{
+			health = 900;
+			armor = 5f;
+			hitSize = 21f;
+			fogRadius = 15f;
+			itemCapacity = 20;
+
+			speed = 0.7f;
+			accel = 0.17f;
+			rotateSpeed = 1.5f;
+			floorMultiplier = 0.8f;
+
+			treadPullOffset = 8;
+			treadFrames = 16;
+			treadRects = new Rect[] { new Rect(-36f, -44f, 22, 88) };
+
+			tankMoveSound = Sounds.tankMove;
+			tankMoveVolume *= 0.58f;
+
+			weapons.add(new Weapon("astramod-bartizan-weapon") {{
+				reload = 110f;
+				inaccuracy = 0f;
+				rotate = true;
+				rotateSpeed = 1.8f;
+				recoil = 4f;
+				shake = 2f;
+				ejectEffect = Fx.casing4;
+				shootSound = Sounds.shootArtillery;
+				targetAir = false;
+
+				mirror = false;
+				x = 0f;
+				y = 0f;
+				shootY = 7f;
+				layerOffset = 0.0001f;
+
+				bullet = new ArtilleryBulletType(4f, 20, "shell") {{
+					width = height = 18f;
+					lifetime = 60f;
+
+					collides = true;
+					collidesTiles = true;
+					splashDamageRadius = 30f;
+					splashDamage = 70f;
+
+					shootSoundVolume = 1.5f;
+					hitEffect = Fx.blastExplosion;
+					shootEffect = Fx.shootBigColor;
+					smokeEffect = Fx.shootBigSmoke;
+					frontColor = Pal.blastAmmoFront;
+					backColor = trailColor = Pal.blastAmmoBack;
+					trailLength = 15;
+					trailScl = 3f;
+
+					fragBullets = 12;
+					fragRandomSpread = 100f;
+					fragBullet = new BasicBulletType(4f, 6) {{
+						lifetime = 20f;
+						width = 6f;
+						height = 8f;
+						shrinkY = 1f;
+						collidesAir = false;
+						pierce = true;
+						pierceCap = 2;
+
+						frontColor = Pal.blastAmmoFront;
+						backColor = trailColor = Pal.blastAmmoBack;
+						despawnEffect = Fx.hitBulletColor;
+					}};
 				}};
 			}});
 		}};
