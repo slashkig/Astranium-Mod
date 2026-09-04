@@ -2,6 +2,7 @@ package astramod.ai.types;
 
 import arc.func.*;
 import arc.math.geom.*;
+import arc.util.*;
 import mindustry.Vars;
 import mindustry.ai.types.*;
 import mindustry.core.*;
@@ -14,6 +15,7 @@ public class GroundSpecialistAI extends GroundAI {
 
 	public Boolf<Building> targetFilter;
 	public float detectionRange = 100f;
+	@Nullable protected Teamc moveTarget;
 
 	public GroundSpecialistAI(Boolf<Building> targetFilter, float detectionRange) {
 		this.targetFilter = targetFilter;
@@ -25,13 +27,13 @@ public class GroundSpecialistAI extends GroundAI {
 	}
 
 	@Override public void updateMovement() {
-		if (target != null) {
+		if (moveTarget != null) {
 			boolean move = true;
 			float engageRange = unit.range() * 0.9f;
-			boolean withinAttackRange = unit.within(target, engageRange);
-			Building targetBuild = Vars.world.buildWorld(target.x(), target.y());
+			boolean withinAttackRange = unit.within(moveTarget, engageRange);
+			Building targetBuild = Vars.world.buildWorld(moveTarget.x(), moveTarget.y());
 
-			moveToVec.set(target);
+			moveToVec.set(moveTarget);
 
 			if (targetBuild != null && !unit.type.circleTarget && unit.within(targetBuild, 0.9f * targetBuild.block.size * Vars.tilesize / 2f)) {
 				move = false;
@@ -42,8 +44,9 @@ public class GroundSpecialistAI extends GroundAI {
 
 				if (withinAttackRange) {
 					move = true;
+					target = moveTarget;
 				} else {
-					var result = Vars.controlPath.getPathPosition(unit, new Vec2(target.x(), target.y()));
+					var result = Vars.controlPath.getPathPosition(unit, new Vec2(moveTarget.x(), moveTarget.y()));
 
 					unreachable = result.unreachable;
 					move &= result.move;
@@ -65,7 +68,7 @@ public class GroundSpecialistAI extends GroundAI {
 			}
 
 			if (unit.isFlying() && move && !(unit.type.circleTarget && !unit.type.omniMovement) && !withinAttackRange) {
-				unit.lookAt(target);
+				unit.lookAt(moveTarget);
 			} else {
 				faceTarget();
 			}
@@ -76,9 +79,10 @@ public class GroundSpecialistAI extends GroundAI {
 	}
 
 	@Override public Teamc findMainTarget(float x, float y, float range, boolean air, boolean ground) {
-		return Units.findEnemyTile(unit.team, x, y, detectionRange, b ->
+		moveTarget = Units.findEnemyTile(unit.team, x, y, detectionRange, b ->
 			targetFilter.get(b) && (unit.isFlying() || !unit.isPathImpassable(World.toTile(b.x), World.toTile(b.y)))
-			|| b.block.flags.contains(BlockFlag.core) && unit.within(b, range * 1.2f)
+			|| b.block.flags.contains(BlockFlag.core) && unit.within(b, range + Vars.tilesize * 2f)
 		);
+		return moveTarget != null && unit.within(moveTarget, range) ? moveTarget : findTarget(x, y, range, air, ground);
 	}
 }

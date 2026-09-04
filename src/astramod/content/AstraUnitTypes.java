@@ -704,11 +704,14 @@ public class AstraUnitTypes {
 		// region RANGER TANKS
 
 		arbalest = new AstraTankUnitType("arbalest") {{
-			health = 350;
-			armor = 3f;
+			aiController = GroundRangerAI::new;
+			targetAir = false;
+
+			health = 320;
+			armor = 1f;
 			hitSize = 13f;
-			fogRadius = 10f;
-			itemCapacity = 20;
+			fogRadius = 12f;
+			itemCapacity = 10;
 
 			speed = 0.9f;
 			accel = 0.2f;
@@ -716,16 +719,15 @@ public class AstraUnitTypes {
 			floorMultiplier = 0.95f;
 
 			treadPullOffset = 3;
-			treadRects = new Rect[]{ new Rect(-25f, -28f, 16, 56) };
+			treadRects = new Rect[] { new Rect(-25f, -28f, 16f, 56f) };
 
-			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
+			tankMoveVolume *= 0.4f;
 
 			weapons.add(new Weapon("astramod-arbalest-weapon") {{
-				reload = 180f;
-				inaccuracy = 0f;
+				reload = 120f;
 				rotate = true;
-				rotateSpeed = 3f;
+				rotateSpeed = 1.2f;
 				recoil = 1.5f;
 
 				mirror = false;
@@ -736,11 +738,12 @@ public class AstraUnitTypes {
 
 				shootSound = AstraSounds.shootSniperSmall; // sound needs some work
 
-				bullet = new BasicBulletType(11f, 70) {{
-					width = 6f;
-					height = 16f;
-					lifetime = 18f;
+				bullet = new BasicBulletType(9f, 60) {{
+					width = 4f;
+					height = 10f;
+					lifetime = 22f;
 					shrinkY = 0f;
+					collidesAir = false;
 
 					smokeEffect = Fx.shootSmallSmoke;
 					shootEffect = Fx.shootSmallColor;

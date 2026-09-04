@@ -44,6 +44,9 @@ public class AzirisTechTree {
 			});
 
 			node(hematiteConveyor, () -> {
+				node(hematiteJunction, () -> {
+					node(hematiteRouter);
+				});
 				node(ironConveyor, () -> {
 					node(ironJunction, () -> {
 						node(ironBridge);
@@ -124,11 +127,17 @@ public class AzirisTechTree {
 								});
 								node(crystalRouter, research(waveRouter), none);
 							});
+							node(jetJunction, () -> {
+								node(jetRouter);
+							});
 						});
 						node(waveJunction, () -> {
+							node(waveRouter);
 							node(waveBridge);
 						});
-						node(waveRouter);
+					});
+					node(rippleJunction, () -> {
+						node(rippleRouter);
 					});
 				});
 				node(ironTank, research(wavePipeline), () -> {
@@ -291,11 +300,20 @@ public class AzirisTechTree {
 				node(dicentra, () -> {
 					node(achillion);
 				});
-				node(zenaida);
+				node(zenaida, () -> {
+					node(trexon, () -> {
+						node(oriolus);
+					});
+				});
 				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
+					node(hymeno);
 					node(aculei, () -> {
 						node(echidna);
 					});
+					node(arbalest);
+				});
+				node(primaryAirAssembler, research(), () -> {
+					node(fledge);
 				});
 			});
 

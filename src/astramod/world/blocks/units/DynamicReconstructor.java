@@ -2,6 +2,7 @@ package astramod.world.blocks.units;
 
 import arc.Core;
 import arc.graphics.*;
+import arc.graphics.g2d.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
@@ -11,7 +12,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.blocks.units.*;
 import mindustry.world.blocks.units.UnitFactory.UnitPlan;
-import mindustry.world.consumers.ConsumeItemDynamic;
+import mindustry.world.consumers.*;
 import mindustry.world.meta.*;
 
 public class DynamicReconstructor extends Reconstructor {
@@ -20,7 +21,7 @@ public class DynamicReconstructor extends Reconstructor {
 	public DynamicReconstructor(String name) {
 		super(name);
 		consume(new ConsumeItemDynamic((DynamicReconstructorBuild b) -> {
-			UnitPlan plan = recipes.get(b.unit());
+			UnitPlan plan = b.currentPlan();
 			return plan != null ? plan.requirements : ItemStack.empty;
 		}));
 	}
@@ -104,9 +105,60 @@ public class DynamicReconstructor extends Reconstructor {
 	}
 
 	public class DynamicReconstructorBuild extends ReconstructorBuild {
+		@Override public void draw() {
+			Draw.rect(region, x, y);
+
+			boolean fallback = true;
+			for (int i = 0; i < 4; i++) {
+				if (blends(i) && i != rotation) {
+					Draw.rect(inRegion, x, y, (i * 90f) - 180f);
+					fallback = false;
+				}
+			}
+			if (fallback) Draw.rect(inRegion, x, y, rotdeg());
+
+			Draw.rect(outRegion, x, y, rotdeg());
+
+			if (constructing() && hasArrived()) {
+				Draw.draw(Layer.blockOver, () -> {
+					float fraction = progress / currentPlan().time;
+					Draw.alpha(1f - fraction);
+					Draw.rect(payload.unit.type.fullIcon, x, y, payload.rotation() - 90f);
+					Draw.reset();
+					Drawf.construct(this, upgrade(payload.unit.type), payload.rotation() - 90f, fraction, speedScl, time);
+				});
+			}else{
+				Draw.z(Layer.blockOver);
+				drawPayload();
+			}
+
+			Draw.z(Layer.blockOver + 0.1f);
+			Draw.rect(topRegion, x, y);
+		}
+
+		@Override public void updateTile(){
+			if (constructing()) constructTime = currentPlan().time;
+			super.updateTile();
+		}
+
+		@Override public boolean acceptItem(Building source, Item item) {
+			UnitPlan currentPlan = currentPlan();
+			return currentPlan != null && items.get(item) < getMaximumAccepted(item) && Structs.contains(currentPlan.requirements, stack -> stack.item == item);
+		}
+
 		@Override public UnitType upgrade(UnitType type) {
+			if (type == null) return null;
 			UnitPlan plan = recipes.get(type);
 			return plan != null ? plan.unit : null;
+		}
+
+		@Override public float fraction() {
+			UnitPlan plan = currentPlan();
+			return plan != null ? progress / plan.time : 0f;
+		}
+
+		public UnitPlan currentPlan() {
+			return payload != null ? recipes.get(payload.unit.type) : null;
 		}
 	}
 }

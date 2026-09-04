@@ -3706,7 +3706,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootFlame;
 		}};
 
-		mortar = new AstraTurret("mortar") {{
+		mortar = new BlindspotTurret("mortar") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.iron, 120,
 				Items.graphite, 90,
@@ -3721,8 +3721,10 @@ public class AstraBlocks {
 					ammoMultiplier = 2;
 
 					splashDamageRadius = 3.2f * tilesize;
-					splashDamage = 75f;
+					splashDamage = 80f;
 					knockback = 5f;
+					status = StatusEffects.slow;
+					statusDuration = 0.5f * Time.toSeconds;
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
@@ -3733,11 +3735,11 @@ public class AstraBlocks {
 					height = 14f;
 					ammoMultiplier = 2;
 
-					splashDamageRadius = 2.4f * tilesize;
+					splashDamageRadius = 2.8f * tilesize;
 					splashDamage = 90f;
 					knockback = 2f;
 					minRangeChange = 3f * tilesize;
-					rangeChange = 4f * tilesize;
+					rangeChange = 5f * tilesize;
 					reloadMultiplier = 0.8f;
 
 					frontColor = Pal.graphiteAmmoFront;
@@ -3776,7 +3778,7 @@ public class AstraBlocks {
 					height = 14f;
 					ammoMultiplier = 2;
 
-					splashDamageRadius = 2.8f * tilesize;
+					splashDamageRadius = 3f * tilesize;
 					splashDamage = 100f;
 					knockback = 1.5f;
 					reloadMultiplier = 0.7f;
@@ -3794,7 +3796,7 @@ public class AstraBlocks {
 					ammoMultiplier = 2;
 
 					splashDamageRadius = 4.4f * tilesize;
-					splashDamage = 110f;
+					splashDamage = 120f;
 					knockback = 1f;
 
 					frontColor = Pal.blastAmmoFront;
@@ -3823,6 +3825,11 @@ public class AstraBlocks {
 			consumeAmmoOnce = false;
 
 			targetAir = false;
+			targetInterval = 60f;
+			unitSort = (u, x, y) -> {
+				ItemTurretBuild t = (ItemTurretBuild)world.buildWorld(x, y);
+				return u.range() + (t.hasAmmo() ? Units.count(u.x, u.y, t.peekAmmo().splashDamageRadius * 1.7f, unit -> unit.team != t.team) : 0f);
+			};
 			rotateSpeed = 1f;
 			inaccuracy = 5f;
 			shootCone = 10f;
@@ -3973,13 +3980,12 @@ public class AstraBlocks {
 				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 25,
 					Items.silicon, 20,
-					Items.graphite, 30
+					Items.lead, 30
 				)),
-				new UnitPlan(AstraUnitTypes.oriolus, 90f * Time.toSeconds, ItemStack.with(
-					AstraItems.steel, 60,
-					AstraItems.magnetite, 40,
-					Items.silicon, 150,
-					Items.titanium, 200
+				new UnitPlan(AstraUnitTypes.arbalest, 26f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.silicon, 20,
+					Items.graphite, 15
 				))
 			);
 		}};
@@ -4024,6 +4030,12 @@ public class AstraBlocks {
 					Items.metaglass, 35,
 					Items.silicon, 30,
 					Items.titanium, 20
+				)),
+				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
+					AstraItems.steel, 60,
+					AstraItems.magnetite, 45,
+					Items.silicon, 90,
+					Items.titanium, 50
 				))
 			);
 		}};
