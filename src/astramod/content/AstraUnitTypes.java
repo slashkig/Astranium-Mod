@@ -38,9 +38,10 @@ public class AstraUnitTypes {
 		dicentra, achillion,
 		zenaida, trexon, oriolus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
-		hymeno,
+		hymeno, vitex,
 		aculei, echidna,
-		arbalest, bartizan;
+		arbalest, bartizan,
+		superBartizan;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
 
@@ -345,38 +346,6 @@ public class AstraUnitTypes {
 				angle = 120f;
 				radius = 10f;
 				width = 5f;
-			}});
-		}};
-
-		// region SCOUTS
-
-		hymeno = new AstraTankUnitType("hymeno") {{
-			aiController = GroundCowardAI::new;
-			targetPriority = -5f;
-
-			health = 200;
-			hitSize = 11f;
-			range = 24f * tilesize;
-			fogRadius = 30f;
-			itemCapacity = 20;
-
-			speed = 2.5f;
-			accel = 0.2f;
-			rotateSpeed = 3f;
-			floorMultiplier = 0.85f;
-
-			treadPullOffset = 3;
-			treadFrames = 8;
-			treadRects = new Rect[] {
-				new Rect(-18f, -25f, 14, 23),
-				new Rect(-21f, 5f, 14, 23)
-			};
-
-			tankMoveSound = Sounds.tankMoveSmall;
-			tankMoveVolume *= 0.3f;
-
-			abilities.add(new ApplyStatusFieldAbility(StatusEffects.fast, 3f * Time.toSeconds, 2.5f * Time.toSeconds, 4f * tilesize) {{
-				color = StatusEffects.fast.color;
 			}});
 		}};
 
@@ -825,6 +794,92 @@ public class AstraUnitTypes {
 			}});
 		}};
 
+		// region SUPPORT TANKS
+
+		hymeno = new AstraTankUnitType("hymeno") {{
+			aiController = GroundCowardAI::new;
+			targetPriority = -5f;
+
+			health = 200;
+			hitSize = 11f;
+			range = 24f * tilesize;
+			fogRadius = 30f;
+			itemCapacity = 20;
+
+			speed = 2.5f;
+			accel = 0.2f;
+			rotateSpeed = 3f;
+			floorMultiplier = 0.85f;
+
+			treadPullOffset = 3;
+			treadFrames = 8;
+			treadRects = new Rect[] {
+				new Rect(-21f, 5f, 14, 23),
+				new Rect(-18f, -25f, 14, 23)
+			};
+
+			tankMoveSound = Sounds.tankMoveSmall;
+			tankMoveVolume *= 0.3f;
+
+			abilities.add(new ApplyStatusFieldAbility(StatusEffects.fast, 3f * Time.toSeconds, 2.5f * Time.toSeconds, 4f * tilesize) {{
+				color = StatusEffects.fast.color;
+			}});
+		}};
+
+		vitex = new AstraTankUnitType("vitex") {{
+			health = 1200;
+			armor = 5f;
+			hitSize = 20f;
+			fogRadius = 12f;
+			itemCapacity = 20;
+
+			speed = 0.9f;
+			accel = 0.2f;
+			rotateSpeed = 2.0f;
+			floorMultiplier = 0.6f;
+
+			treadPullOffset = 8;
+			treadFrames = 16;
+			treadRects = new Rect[] {
+				new Rect(-37f, 3f, 26, 41),
+				new Rect(-37f, -44f, 26, 41)
+			};
+
+			tankMoveSound = Sounds.tankMove;
+			tankMoveVolume *= 0.58f;
+
+			abilities.add(new ShieldRegenFieldAbility(20f, 60f, 2.5f * Time.toSeconds, 10f * tilesize));
+
+			weapons.add(
+				new RepairBeamWeapon("astramod-vitex-repair-turret"){{
+					x = 0;
+					y = 5.75f;
+					shootY = 1.5f;
+					beamWidth = 0.6f;
+					repairSpeed = 1f;
+					mirror = false;
+					targetBuildings = true;
+
+					bullet = new BulletType(){{
+						maxRange = 20f * tilesize;
+					}};
+				}},
+				new RepairBeamWeapon("astramod-vitex-repair-turret"){{
+					x = 0;
+					y = -5.75f;
+					shootY = 1.5f;
+					beamWidth = 0.6f;
+					repairSpeed = 1f;
+					mirror = false;
+					targetBuildings = true;
+
+					bullet = new BulletType(){{
+						maxRange = 20f * tilesize;
+					}};
+				}}
+			);
+		}};
+
 		// region DRAGON
 
 		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
@@ -886,6 +941,83 @@ public class AstraUnitTypes {
 			}});
 
 			abilities.add(new MoveEffectAbility(0f, -7f, null, Fx.missileTrailShort, 6f) {{ teamColor = true; }});
+		}};
+
+		// region SANDBOX EXCLUSIVE
+
+		superBartizan = new AstraTankUnitType("super-bart") {{
+			outlineColor = AstraPal.siegeMachineOutline;
+			health = 10000000;
+			armor = 1000f;
+			hitSize = 21f;
+			fogRadius = 100f;
+			itemCapacity = 1000;
+
+			speed = 0.7f;
+			accel = 0.17f;
+			rotateSpeed = 1.5f;
+			floorMultiplier = 0.8f;
+
+			treadPullOffset = 8;
+			treadFrames = 16;
+			treadRects = new Rect[] { new Rect(-36f, -44f, 22, 88) };
+
+			tankMoveSound = Sounds.tankMove;
+			tankMoveVolume *= 0.58f;
+
+			weapons.add(new Weapon("astramod-super-bart-weapon") {{
+				reload = 240f;
+				inaccuracy = 0f;
+				rotate = true;
+				rotateSpeed = 1.8f;
+				recoil = 4f;
+				shake = 2f;
+				ejectEffect = Fx.casing4;
+				shootSound = Sounds.shootArtillery;
+				targetAir = true;
+
+				mirror = false;
+				x = 0f;
+				y = 0f;
+				shootY = 7f;
+				layerOffset = 0.0001f;
+
+				bullet = new ArtilleryBulletType(4f, 10000000, "shell") {{
+					width = height = 25f;
+					lifetime = 200f;
+
+					collides = true;
+					collidesTiles = true;
+					splashDamageRadius = 100f;
+					splashDamage = 10000000;
+					collidesAir = true;
+
+					shootSoundVolume = 1.5f;
+					hitEffect = Fx.reactorExplosion;
+					shootEffect = Fx.shootBigColor;
+					smokeEffect = Fx.shootBigSmoke;
+					frontColor = Pal.sapBullet;
+					backColor = trailColor = Pal.sapBulletBack;
+					trailLength = 15;
+					trailScl = 3f;
+
+					fragBullets = 12;
+					fragRandomSpread = 100f;
+					fragBullet = new BasicBulletType(4f, 6) {{
+						lifetime = 20f;
+						width = 6f;
+						height = 8f;
+						shrinkY = 1f;
+						collidesAir = true;
+						pierce = true;
+						pierceCap = 2;
+
+						frontColor = Pal.blastAmmoFront;
+						backColor = trailColor = Pal.blastAmmoBack;
+						despawnEffect = Fx.hitBulletColor;
+					}};
+				}};
+			}});
 		}};
 	}
 }

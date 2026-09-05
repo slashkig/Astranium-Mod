@@ -4056,6 +4056,11 @@ public class AstraBlocks {
 					AstraItems.lithium, 40,
 					Items.silicon, 30
 				)),
+				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 70,
+					Items.silicon, 50,
+					Items.titanium, 40
+				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,
 					AstraItems.magnetite, 45,
