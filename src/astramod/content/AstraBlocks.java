@@ -974,6 +974,7 @@ public class AstraBlocks {
 		largeWireRelay = new WireRelay("large-cable-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 60, AstraItems.steel, 30, Items.titanium, 20));
 			buildCostMultiplier = 1.3f;
+			armor = 3f;
 			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 5;
@@ -996,6 +997,7 @@ public class AstraBlocks {
 			requirements(Category.power, ItemStack.with(Items.copper, 50, Items.silicon, 25, AstraItems.steel, 20));
 			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
+			armor = 2f;
 			size = 3;
 			fogRadius = 3;
 			maxNodes = 5;
@@ -1015,6 +1017,7 @@ public class AstraBlocks {
 			));
 			buildCostMultiplier = 1.6f;
 			scaledHealth = 60f;
+			armor = 5f;
 			size = 3;
 			fogRadius = 3;
 			maxNodes = 2;
@@ -1032,7 +1035,6 @@ public class AstraBlocks {
 				AstraItems.steel, 500,
 				AstraItems.crystals, 300
 			));
-			autolink = false;
 			buildCostMultiplier = 1.6f;
 			scaledHealth = 100f;
 			armor = 12f;
@@ -1040,6 +1042,7 @@ public class AstraBlocks {
 			fogRadius = 4;
 			maxNodes = 4;
 			laserRange = 500f;
+			autolink = false;
 
 			consumePowerBuffered(100000);
 
@@ -2307,7 +2310,7 @@ public class AstraBlocks {
 
 		hematiteRouter = new Router("hematite-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 3));
-			health = 100;
+			health = 60;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
@@ -2315,6 +2318,7 @@ public class AstraBlocks {
 		ironJunction = new Junction("iron-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2));
 			health = 70;
+			armor = 1f;
 			fogRadius = 1;
 			buildCostMultiplier = 3f;
 			speed = 12f;
@@ -2326,6 +2330,7 @@ public class AstraBlocks {
 		ironBridge = new AstraItemBridge("iron-bridge") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 6, Items.lead, 6));
 			health = 70;
+			armor = 1f;
 			fogRadius = 2;
 			fadeIn = moveArrows = false;
 			range = 4;
@@ -2341,6 +2346,7 @@ public class AstraBlocks {
 		ironRouter = new Router("iron-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 3));
 			health = 100;
+			armor = 1f;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
@@ -2357,6 +2363,7 @@ public class AstraBlocks {
 		ironOverflowGate = new OverflowGate("iron-overflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
+			armor = 1f;
 			fogRadius = 2;
 			buildCostMultiplier = 2f;
 		}};
@@ -2364,6 +2371,7 @@ public class AstraBlocks {
 		ironUnderflowGate = new OverflowGate("iron-underflow-gate") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.lead, 2));
 			health = 70;
+			armor = 1f;
 			fogRadius = 2;
 			buildCostMultiplier = 2f;
 			invert = true;
@@ -2372,6 +2380,7 @@ public class AstraBlocks {
 		ironSorter = new Sorter("iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.copper, 3));
 			health = 70;
+			armor = 1f;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 		}};
@@ -2379,6 +2388,7 @@ public class AstraBlocks {
 		invertedIronSorter = new Sorter("inverted-iron-sorter") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 2, Items.copper, 3));
 			health = 70;
+			armor = 1f;
 			fogRadius = 2;
 			buildCostMultiplier = 3f;
 			invert = true;
@@ -2387,6 +2397,7 @@ public class AstraBlocks {
 		ironUnloader = new AstraDirectionalUnloader("iron-unloader") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.iron, 20, Items.silicon, 15));
 			health = 100;
+			armor = 1f;
 		}};
 
 		platedJunction = new Junction("plated-junction") {{
@@ -2494,7 +2505,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 4, Items.phaseFabric, 2));
 			buildCostMultiplier = 3f;
 			health = 360;
-			armor = 3f;
+			armor = 4f;
 			fogRadius = 2;
 			speed = 0f;
 			capacity = 25;
@@ -2506,7 +2517,7 @@ public class AstraBlocks {
 			requirements(Category.distribution, ItemStack.with(Items.surgeAlloy, 10, AstraItems.neodymium, 8, Items.silicon, 16));
 			buildCostMultiplier = 2.5f;
 			health = 680;
-			armor = 4f;
+			armor = 5f;
 			fogRadius = 3;
 			itemCapacity = 20;
 			speed = 12.5f;
@@ -2832,6 +2843,7 @@ public class AstraBlocks {
 		ironTank = new PipelineRouter("iron-tank") {{
 			requirements(Category.liquid, ItemStack.with(AstraItems.iron, 60, Items.copper, 90, Items.metaglass, 50));
 			scaledHealth = 60f;
+			armor = 1f;
 			size = 2;
 			fogRadius = 2;
 			solid = true;
@@ -3469,6 +3481,7 @@ public class AstraBlocks {
 						width = 6f;
 						height = 8f;
 						shrinkY = 1f;
+						armorMultiplier = 2f;
 						despawnEffect = Fx.none;
 						collidesAir = false;
 
@@ -3496,7 +3509,7 @@ public class AstraBlocks {
 
 					knockback = 1f;
 					status = StatusEffects.slow;
-					statusDuration = 1f * Time.toSeconds;
+					statusDuration = 0.5f * Time.toSeconds;
 
 					frontColor = AstraPal.ironFront;
 					backColor = AstraPal.ironBack;
@@ -3706,6 +3719,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootFlame;
 		}};
 
+		// TODO permanent name for mortar
 		mortar = new BlindspotTurret("mortar") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.iron, 120,
@@ -3940,9 +3954,9 @@ public class AstraBlocks {
 
 		primaryMechAssembler = new UnitFactory("primary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 100,
-				Items.lead, 120,
-				Items.silicon, 90
+				AstraItems.iron, 90,
+				Items.lead, 100,
+				Items.silicon, 75
 			));
 			regionSuffix = "-mech";
 			size = 3;
@@ -3963,9 +3977,9 @@ public class AstraBlocks {
 
 		primaryTankAssembler = new UnitFactory("primary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 130,
-				Items.lead, 150,
-				Items.silicon, 100
+				AstraItems.iron, 100,
+				AstraItems.magnetite, 50,
+				Items.silicon, 80
 			));
 			regionSuffix = "-tank";
 			size = 5;
@@ -3992,9 +4006,9 @@ public class AstraBlocks {
 
 		primaryAirAssembler = new UnitFactory("primary-air-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 100,
-				Items.lead, 120,
-				Items.silicon, 90
+				AstraItems.iron, 90,
+				Items.lead, 110,
+				Items.silicon, 80
 			));
 			regionSuffix = "-air";
 			size = 3;
@@ -4009,12 +4023,14 @@ public class AstraBlocks {
 			);
 		}};
 
+		// TODO rapid assembly module
+
 		secondaryMechAssembler = new DynamicReconstructor("secondary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 180,
-				AstraItems.magnetite, 80,
-				Items.lead, 200,
-				Items.silicon, 150
+				AstraItems.iron, 140,
+				Items.graphite, 90,
+				Items.lead, 150,
+				Items.silicon, 100
 			));
 			regionSuffix = "-mech";
 			size = 3;
@@ -4037,15 +4053,20 @@ public class AstraBlocks {
 		secondaryTankAssembler = new DynamicReconstructor("secondary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 180,
-				AstraItems.magnetite, 80,
-				Items.lead, 200,
-				Items.silicon, 150
+				AstraItems.magnetite, 90,
+				Items.graphite, 120,
+				Items.silicon, 110
 			));
 			regionSuffix = "-tank";
 			size = 5;
 			consumePower(7f);
 
 			recipes.putAll(
+				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 40,
+					Items.silicon, 30,
+					Items.copper, 50
+				)),
 				AstraUnitTypes.aculei, new UnitPlan(AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 50,
 					Items.silicon, 30,
@@ -4055,11 +4076,6 @@ public class AstraBlocks {
 					AstraItems.iron, 60,
 					AstraItems.lithium, 40,
 					Items.silicon, 30
-				)),
-				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 70,
-					Items.silicon, 50,
-					Items.titanium, 40
 				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,
@@ -4089,7 +4105,7 @@ public class AstraBlocks {
 			);
 		}};
 
-		// TODO rapid assembly module
+		// region EXTRAS
 
 		omegafactory = new GenericCrafter("omegafactory") {{
 			requirements(Category.crafting, BuildVisibility.sandboxOnly, ItemStack.with(AstraItems.testium, 1500));

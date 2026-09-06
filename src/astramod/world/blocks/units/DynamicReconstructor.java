@@ -21,8 +21,15 @@ public class DynamicReconstructor extends Reconstructor {
 	public DynamicReconstructor(String name) {
 		super(name);
 		consume(new ConsumeItemDynamic((DynamicReconstructorBuild b) -> {
-			UnitPlan plan = b.currentPlan();
-			return plan != null ? plan.requirements : ItemStack.empty;
+			if (b.payload != null) {
+				UnitPlan plan = recipes.get(b.payload.unit.type);
+				if (plan != null) return plan.requirements;
+				else {
+					UnitType[] upgrade = upgrades.find(u -> u[1] == b.payload.unit.type);
+					if (upgrade != null) return recipes.get(upgrade[0]).requirements;
+				}
+			}
+			return ItemStack.empty;
 		}));
 	}
 

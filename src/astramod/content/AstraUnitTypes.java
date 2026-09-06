@@ -383,9 +383,9 @@ public class AstraUnitTypes {
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
-					knockback = 4f;
+					knockback = 2f;
 					status = StatusEffects.slow;
-					statusDuration = 4f * Time.toSeconds;
+					statusDuration = 0.5f * Time.toSeconds;
 
 					hitColor = backColor = AstraPal.ironBack;
 					frontColor = AstraPal.ironFront;
@@ -398,7 +398,7 @@ public class AstraUnitTypes {
 			armor = 4f;
 			hitSize = 13f;
 			fogRadius = 12f;
-			itemCapacity = 25;
+			itemCapacity = 20;
 
 			speed = 0.6f;
 			accel = 0.25f;
@@ -429,7 +429,7 @@ public class AstraUnitTypes {
 					width = 5f;
 					height = 6f;
 					lifetime = 28f;
-					knockback = 0.5f;
+					knockback = 0.4f;
 
 					status = StatusEffects.burning;
 					statusDuration = 6f * Time.toSeconds;
@@ -485,7 +485,7 @@ public class AstraUnitTypes {
 			armor = 5f;
 			hitSize = 12f;
 			fogRadius = 8f;
-			itemCapacity = 25;
+			itemCapacity = 20;
 
 			speed = 1.1f;
 			accel = 0.3f;
@@ -517,12 +517,14 @@ public class AstraUnitTypes {
 			armor = 6f;
 			hitSize = 18f;
 			fogRadius = 9f;
-			itemCapacity = 40;
+			itemCapacity = 30;
 
 			speed = 1f;
 			accel = 0.3f;
 			rotateSpeed = 2.5f;
 			stepSoundVolume = 1f;
+
+			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
 
 			weapons.add(
 				new AstraWeapon("astramod-oriolus-weapon") {{
@@ -572,8 +574,6 @@ public class AstraUnitTypes {
 					}};
 				}}
 			);
-
-			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
 		}};
 
 		// region GUNNER TANKS
@@ -583,7 +583,7 @@ public class AstraUnitTypes {
 			armor = 4f;
 			hitSize = 12f;
 			fogRadius = 10f;
-			itemCapacity = 10;
+			itemCapacity = 12;
 
 			speed = 1.2f;
 			accel = 0.2f;
@@ -621,7 +621,7 @@ public class AstraUnitTypes {
 			armor = 7f;
 			hitSize = 21f;
 			fogRadius = 12f;
-			itemCapacity = 20;
+			itemCapacity = 25;
 
 			speed = 0.8f;
 			accel = 0.18f;
@@ -677,10 +677,10 @@ public class AstraUnitTypes {
 			targetAir = false;
 
 			health = 320;
-			armor = 1f;
+			armor = 2f;
 			hitSize = 13f;
 			fogRadius = 12f;
-			itemCapacity = 10;
+			itemCapacity = 12;
 
 			speed = 0.9f;
 			accel = 0.2f;
@@ -722,72 +722,77 @@ public class AstraUnitTypes {
 		}};
 
 		bartizan = new AstraTankUnitType("bartizan") {{
-			health = 900;
-			armor = 5f;
+			aiController = GroundRangerAI::new;
+			targetAir = false;
+
+			health = 1000;
+			armor = 4f;
 			hitSize = 21f;
 			fogRadius = 15f;
-			itemCapacity = 20;
+			itemCapacity = 25;
 
 			speed = 0.7f;
 			accel = 0.17f;
-			rotateSpeed = 1.5f;
-			floorMultiplier = 0.8f;
+			rotateSpeed = 1.4f;
+			floorMultiplier = 0.85f;
 
 			treadPullOffset = 8;
 			treadFrames = 16;
-			treadRects = new Rect[] { new Rect(-36f, -44f, 22, 88) };
+			treadRects = new Rect[] { new Rect(-36f, -44f, 22f, 88f) };
 
 			tankMoveSound = Sounds.tankMove;
 			tankMoveVolume *= 0.58f;
 
 			weapons.add(new Weapon("astramod-bartizan-weapon") {{
-				reload = 110f;
-				inaccuracy = 0f;
+				reload = 140f;
 				rotate = true;
-				rotateSpeed = 1.8f;
+				rotateSpeed = 1.2f;
 				recoil = 4f;
 				shake = 2f;
-				ejectEffect = Fx.casing4;
-				shootSound = Sounds.shootArtillery;
-				targetAir = false;
 
 				mirror = false;
 				x = 0f;
 				y = 0f;
 				shootY = 7f;
 				layerOffset = 0.0001f;
+				ejectEffect = Fx.casing4;
+				shootSound = Sounds.shootArtillery;
 
-				bullet = new ArtilleryBulletType(4f, 20, "shell") {{
-					width = height = 18f;
-					lifetime = 60f;
+				bullet = new ArtilleryBulletType(4f, 25, "shell") {{
+					width = height = 15f;
+					lifetime = 55f;
+					shoot.firstShotDelay = 10f;
 
+					splashDamageRadius = 2f * tilesize;
+					splashDamage = 40f;
 					collides = true;
 					collidesTiles = true;
-					splashDamageRadius = 30f;
-					splashDamage = 70f;
 
-					shootSoundVolume = 1.5f;
-					hitEffect = Fx.blastExplosion;
-					shootEffect = Fx.shootBigColor;
-					smokeEffect = Fx.shootBigSmoke;
 					frontColor = Pal.blastAmmoFront;
 					backColor = trailColor = Pal.blastAmmoBack;
 					trailLength = 15;
 					trailScl = 3f;
+					hitEffect = Fx.blastExplosion;
+					shootEffect = Fx.shootBigColor;
+					smokeEffect = Fx.shootBigSmoke;
+					shootSoundVolume = 1.5f;
 
-					fragBullets = 12;
+					fragBullets = 10;
 					fragRandomSpread = 100f;
 					fragBullet = new BasicBulletType(4f, 6) {{
 						lifetime = 20f;
 						width = 6f;
 						height = 8f;
-						shrinkY = 1f;
+						armorMultiplier = 1.5f;
+						shrinkY = 0.8f;
+						hitSize = 2f;
+
 						collidesAir = false;
 						pierce = true;
 						pierceCap = 2;
 
 						frontColor = Pal.blastAmmoFront;
-						backColor = trailColor = Pal.blastAmmoBack;
+						backColor = Pal.blastAmmoBack;
 						despawnEffect = Fx.hitBulletColor;
 					}};
 				}};
@@ -827,55 +832,51 @@ public class AstraUnitTypes {
 		}};
 
 		vitex = new AstraTankUnitType("vitex") {{
-			health = 1200;
-			armor = 5f;
+			aiController = GroundRangerAI::new;
+
+			health = 800;
+			armor = 2f;
 			hitSize = 20f;
-			fogRadius = 12f;
+			range = 16f * tilesize;
+			fogRadius = 18f;
 			itemCapacity = 20;
 
-			speed = 0.9f;
+			speed = 1.8f;
 			accel = 0.2f;
 			rotateSpeed = 2.0f;
-			floorMultiplier = 0.6f;
+			floorMultiplier = 0.75f;
+
+			buildSpeed = 0.2f;
+			buildBeamOffset = 10f;
 
 			treadPullOffset = 8;
 			treadFrames = 16;
 			treadRects = new Rect[] {
-				new Rect(-37f, 3f, 26, 41),
-				new Rect(-37f, -44f, 26, 41)
+				new Rect(-37f, 3f, 26f, 41f),
+				new Rect(-37f, -44f, 26f, 41f)
 			};
 
 			tankMoveSound = Sounds.tankMove;
 			tankMoveVolume *= 0.58f;
 
-			abilities.add(new ShieldRegenFieldAbility(20f, 60f, 2.5f * Time.toSeconds, 10f * tilesize));
+			abilities.add(new ShieldRegenFieldAbility(15f, 60f, 4f * Time.toSeconds, 6f * tilesize));
 
-			weapons.add(
-				new RepairBeamWeapon("astramod-vitex-repair-turret"){{
+			weapons.add(new RepairBeamWeapon("astramod-vitex-repair-turret") {{
 					x = 0;
 					y = 5.75f;
-					shootY = 1.5f;
-					beamWidth = 0.6f;
-					repairSpeed = 1f;
-					mirror = false;
+					shootY = 3f;
+					beamWidth = 0.4f;
+					repairSpeed = 40f / Time.toSeconds;
 					targetBuildings = true;
 
-					bullet = new BulletType(){{
-						maxRange = 20f * tilesize;
+					bullet = new BulletType() {{
+						maxRange = 8f * tilesize;
 					}};
-				}},
-				new RepairBeamWeapon("astramod-vitex-repair-turret"){{
-					x = 0;
-					y = -5.75f;
-					shootY = 1.5f;
-					beamWidth = 0.6f;
-					repairSpeed = 1f;
-					mirror = false;
-					targetBuildings = true;
-
-					bullet = new BulletType(){{
-						maxRange = 20f * tilesize;
-					}};
+				}
+				@Override public void flip() {
+					y *= -1f;
+					shoot = shoot.copy();
+					display = false;
 				}}
 			);
 		}};
@@ -914,6 +915,8 @@ public class AstraUnitTypes {
 				color = Pal.sapBullet;
 			}});
 
+			abilities.add(new MoveEffectAbility(0f, -7f, null, Fx.missileTrailShort, 6f) {{ teamColor = true; }});
+
 			weapons.add(new Weapon("fledge-weapon") {{
 				reload = 15f;
 				rotate = true;
@@ -939,11 +942,9 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}});
-
-			abilities.add(new MoveEffectAbility(0f, -7f, null, Fx.missileTrailShort, 6f) {{ teamColor = true; }});
 		}};
 
-		// region SANDBOX EXCLUSIVE
+		// region EXTRAS
 
 		superBartizan = new AstraTankUnitType("super-bart") {{
 			outlineColor = AstraPal.siegeMachineOutline;
@@ -953,28 +954,26 @@ public class AstraUnitTypes {
 			fogRadius = 100f;
 			itemCapacity = 1000;
 
-			speed = 0.7f;
-			accel = 0.17f;
-			rotateSpeed = 1.5f;
-			floorMultiplier = 0.8f;
+			speed = 5f;
+			accel = 1f;
+			rotateSpeed = 10f;
+			floorMultiplier = 0f;
 
 			treadPullOffset = 8;
 			treadFrames = 16;
-			treadRects = new Rect[] { new Rect(-36f, -44f, 22, 88) };
+			treadRects = new Rect[] { new Rect(-36f, -44f, 22f, 88f) };
 
 			tankMoveSound = Sounds.tankMove;
 			tankMoveVolume *= 0.58f;
 
 			weapons.add(new Weapon("astramod-super-bart-weapon") {{
-				reload = 240f;
-				inaccuracy = 0f;
+				reload = 10f;
 				rotate = true;
-				rotateSpeed = 1.8f;
-				recoil = 4f;
-				shake = 2f;
+				rotateSpeed = 10f;
+				recoil = 1f;
+				shake = 1f;
 				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootArtillery;
-				targetAir = true;
 
 				mirror = false;
 				x = 0f;
@@ -982,40 +981,25 @@ public class AstraUnitTypes {
 				shootY = 7f;
 				layerOffset = 0.0001f;
 
-				bullet = new ArtilleryBulletType(4f, 10000000, "shell") {{
+				bullet = new ArtilleryBulletType(10f, 10000000, "shell") {{
 					width = height = 25f;
-					lifetime = 200f;
+					lifetime = 100f;
 
 					collides = true;
+					collidesAir = true;
 					collidesTiles = true;
 					splashDamageRadius = 100f;
 					splashDamage = 10000000;
-					collidesAir = true;
 
+					shootSound = Sounds.shootMissile;
 					shootSoundVolume = 1.5f;
 					hitEffect = Fx.reactorExplosion;
 					shootEffect = Fx.shootBigColor;
 					smokeEffect = Fx.shootBigSmoke;
-					frontColor = Pal.sapBullet;
-					backColor = trailColor = Pal.sapBulletBack;
+					frontColor = AstraPal.testPinkDark;
+					backColor = trailColor = AstraPal.testPink;
 					trailLength = 15;
 					trailScl = 3f;
-
-					fragBullets = 12;
-					fragRandomSpread = 100f;
-					fragBullet = new BasicBulletType(4f, 6) {{
-						lifetime = 20f;
-						width = 6f;
-						height = 8f;
-						shrinkY = 1f;
-						collidesAir = true;
-						pierce = true;
-						pierceCap = 2;
-
-						frontColor = Pal.blastAmmoFront;
-						backColor = trailColor = Pal.blastAmmoBack;
-						despawnEffect = Fx.hitBulletColor;
-					}};
 				}};
 			}});
 		}};

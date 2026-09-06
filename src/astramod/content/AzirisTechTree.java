@@ -306,11 +306,15 @@ public class AzirisTechTree {
 					});
 				});
 				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
-					node(hymeno);
+					node(hymeno, () -> {
+						node(vitex);
+					});
 					node(aculei, () -> {
 						node(echidna);
 					});
-					node(arbalest);
+					node(arbalest, () -> {
+						node(bartizan);
+					});
 				});
 				node(primaryAirAssembler, research(), () -> {
 					node(fledge);
