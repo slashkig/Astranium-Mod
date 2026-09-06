@@ -54,6 +54,10 @@ public class AstraPal {
 		deflectBack = Color.valueOf("e3be07"),
 		deflectTrail = Color.valueOf("ba4a00"),
 
+		crystalLazerBack = Color.valueOf("bf2851"),
+		crystalLazerLight = Color.valueOf("ffabc1"),
+		crystalShoot = Color.valueOf("fc235d"),
+
 		heat = Color.valueOf("f9350f"),
 		sonicHeat = Color.valueOf("92f0fc"),
 

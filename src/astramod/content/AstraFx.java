@@ -10,6 +10,11 @@ import mindustry.entities.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.lineAngle;
+import static arc.graphics.g2d.Lines.stroke;
+import static arc.math.Angles.randLenVectors;
+
 public class AstraFx {
 	public static final Vec2 tmp = new Vec2();
 
@@ -148,5 +153,40 @@ public class AstraFx {
 		Lines.stroke(3f * e.fout());
 
 		Lines.circle(e.x, e.y, 2f + 20f * e.fin());
+	}),
+	hitCrystal = new Effect(8, e -> {
+		color(AstraPal.crystalFront, AstraPal.crystalShoot, e.fin());
+		stroke(0.5f + e.fout());
+		Lines.circle(e.x, e.y, e.fin() * 5f);
+
+		Drawf.light(e.x, e.y, 23f, Pal.heal, e.fout() * 0.7f);
+	}),
+	shootCrystal = new Effect(8, e -> {
+		color(AstraPal.crystalShoot);
+		float w = 1f + 5 * e.fout();
+		Drawf.tri(e.x, e.y, w, 17f * e.fout(), e.rotation);
+		Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
+	}),
+	alnitakLaserCharge = new Effect(38f, e -> {
+		color(AstraPal.crystalLazerLight);
+
+		randLenVectors(e.id, 14, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
+			lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 1f);
+		});
+	}),
+	alnitakLaserChargeBegin = new Effect(60f, e -> {
+		float margin = 1f - Mathf.curve(e.fin(), 0.9f);
+		float fin = Math.min(margin, e.fin());
+
+		color(AstraPal.crystalRed);
+		Fill.circle(e.x, e.y, fin * 3f);
+
+		color();
+		Fill.circle(e.x, e.y, fin * 2f);
+	}),
+	crystalShockwave = new Effect(9f, 80f, e -> {
+		color(AstraPal.crystalFront, AstraPal.crystalBack, e.fin());
+		stroke(e.fout() * 2f + 0.2f);
+		Lines.circle(e.x, e.y, e.fin() * 22f);
 	});
 }

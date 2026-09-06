@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.graphics.Color;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -8,6 +9,8 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -41,6 +44,7 @@ public class AstraUnitTypes {
 		hymeno, vitex,
 		aculei, echidna,
 		arbalest, bartizan,
+		meissa, alnitak,
 		superBartizan;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
@@ -834,8 +838,8 @@ public class AstraUnitTypes {
 		vitex = new AstraTankUnitType("vitex") {{
 			aiController = GroundRangerAI::new;
 
-			health = 800;
-			armor = 2f;
+			health = 1000;
+			armor = 5f;
 			hitSize = 20f;
 			range = 16f * tilesize;
 			fogRadius = 18f;
@@ -879,6 +883,145 @@ public class AstraUnitTypes {
 					display = false;
 				}}
 			);
+		}};
+
+		// region ENERGY TANKS
+
+		meissa = new AstraTankUnitType("meissa") {{
+			health = 500;
+			armor = 4f;
+			hitSize = 12f;
+			fogRadius = 10f;
+			itemCapacity = 12;
+
+			speed = 1.2f;
+			accel = 0.2f;
+			rotateSpeed = 3f;
+			floorMultiplier = 0.95f;
+
+			treadPullOffset = 3;
+			treadRects = new Rect[] { new Rect(-24f, -28f, 20f, 56f) };
+
+			tankMoveVolume *= 0.4f;
+			tankMoveSound = Sounds.tankMoveSmall;
+
+			weapons.add(new Weapon("astramod-meissa-weapon") {{
+				reload = 50f;
+				inaccuracy = 0f;
+				rotate = true;
+				rotateSpeed = 2.5f;
+				recoil = 1f;
+
+				mirror = false;
+				x = 0f;
+				y = 0f;
+				shootY = 5.5f;
+				layerOffset = 0.0001f;
+				heatColor = AstraPal.crystalGlow;
+				cooldownTime = 15f;
+
+				shootSound = Sounds.shootMissilePlasma;
+
+				bullet = new MissileBulletType(3.9f, 20){{
+					shoot = new ShootHelix(){{
+						mag = 1f;
+						scl = 5f;
+					}};
+					lifetime = 30f;
+					keepVelocity = false;
+					shootEffect = AstraFx.shootCrystal;
+					smokeEffect = AstraFx.hitCrystal;
+					splashDamage = 10f;
+					splashDamageRadius = 10f;
+
+					lightColor = AstraPal.crystalGlow;
+					lightRadius = 40f;
+					lightOpacity = 0.7f;
+
+					frontColor = AstraPal.crystalFront;
+					backColor = trailColor = AstraPal.crystalBack;
+					hitSound = despawnSound = Sounds.explosion;
+					trailWidth = 2f;
+					trailLength = 10;
+
+					despawnEffect = Fx.none;
+					hitEffect = new ExplosionEffect(){{
+						lifetime = 10f;
+						waveStroke = 2f;
+						waveColor = AstraPal.crystalBack;
+						sparkColor = AstraPal.crystalFront;
+						waveRad = 12f;
+						smokeSize = 0f;
+						smokeSizeBase = 0f;
+						sparks = 9;
+						sparkRad = 35f;
+						sparkLen = 4f;
+						sparkStroke = 1.5f;
+					}};
+				}};
+			}});
+		}};
+
+		alnitak = new AstraTankUnitType("alnitak") {{
+			health = 1500;
+			armor = 11f;
+			hitSize = 21f;
+			fogRadius = 12f;
+			itemCapacity = 25;
+
+			speed = 0.8f;
+			accel = 0.18f;
+			rotateSpeed = 2.5f;
+			floorMultiplier = 0.8f;
+			crushFragile = true;
+			crushDamage = 0.4f;
+
+			treadPullOffset = 8;
+			treadFrames = 16;
+			treadRects = new Rect[] { new Rect(-43f, -44f, 34f, 88f) };
+
+			tankMoveSound = Sounds.tankMove;
+			tankMoveVolume *= 0.58f;
+
+			weapons.add(new Weapon("astramod-alnitak-weapon") {{
+				shoot.firstShotDelay = 40f;
+				shoot.shots = 2;
+				shoot.shotDelay = 16f;
+
+				mirror = false;
+				shootY = -1.75f;
+				x = 0f;
+				y = 0f;
+				rotateSpeed = 2f;
+				reload = 120f;
+				recoil = 4f;
+				shootSound = Sounds.shootLancer;
+				shadow = 20f;
+				rotate = true;
+
+				heatColor = AstraPal.crystalGlow;
+				cooldownTime = 100f;
+
+				shootStatusDuration = Time.toSeconds;
+				shootStatus = StatusEffects.unmoving;
+
+				bullet = new LaserBulletType(){{
+					damage = 70f;
+					recoil = 0f;
+					sideAngle = 315f;
+					sideWidth = 1f;
+					sideLength = 60f;
+					width = 25f;
+					length = 150f;
+
+					status = AstraStatusEffects.overcharged;
+					statusDuration = Time.toSeconds;
+
+					colors = new Color[]{AstraPal.crystalLazerBack.cpy().a(0.4f), AstraPal.crystalRed, AstraPal.crystalLazerLight};
+					chargeEffect = new MultiEffect(AstraFx.alnitakLaserCharge, AstraFx.alnitakLaserChargeBegin);
+					shootEffect = AstraFx.crystalShockwave;
+				}};
+			}});
 		}};
 
 		// region DRAGON
