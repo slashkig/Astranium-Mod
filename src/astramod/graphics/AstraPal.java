@@ -47,6 +47,9 @@ public class AstraPal {
 		fireBulletBack = Color.valueOf("d17104"),
 		fireBulletTrail = Color.valueOf("994102"),
 
+		missileOrange = Color.valueOf("de8067"),
+		missileOrangeBack = Color.valueOf("c82c01"),
+
 		sonicShotFront = Color.valueOf("a8e9ff"),
 		sonicShotBack = Color.valueOf("a8e9ff"),
 

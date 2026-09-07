@@ -39,7 +39,8 @@ public class AstraUnitTypes {
 		gatherer, initiate, seeker, ward;
 	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType
 		dicentra, achillion,
-		zenaida, trexon, oriolus;
+		zenaida, trexon, oriolus,
+		legion, decanus;
 	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
 		hymeno, vitex,
 		aculei, echidna,
@@ -578,6 +579,122 @@ public class AstraUnitTypes {
 					}};
 				}}
 			);
+		}};
+
+		// region ROCKET MECHS
+
+		legion = new AstraUnitType("legion", MechUnit::create) {{
+			aiController = GroundRangerAI::new;
+			health = 220;
+			armor = 3f;
+			hitSize = 10f;
+			fogRadius = 8f;
+			itemCapacity = 10;
+
+			speed = 0.5f;
+			accel = 0.3f;
+			stepSoundVolume = 0.4f;
+			canBoost = true;
+			engineOffset = 4.5f;
+			engineSize = 3.5f;
+			boostMultiplier = 1.7f;
+
+			weapons.add(new AstraWeapon("astramod-legion-rocket-mount") {{
+				reload = 110f;
+				recoil = 3f;
+				alternate = false;
+				mirror = false;
+				rotate = false;
+				shoot.firstShotDelay = 20f;
+
+				x = -6.75f;
+				y = 0.75f;
+				shootY = 5f;
+				heatColor = AstraPal.heat;
+				cooldownTime = 90f;
+
+				shootSound = Sounds.shootMissile;
+				shootSoundVolume = 2f;
+				ejectEffect = Fx.casing4;
+				shootSound = Sounds.shootMissileShort;
+				bullet = new MissileBulletType(3f, 15, "missile"){{
+					recoil = 6f;
+					keepVelocity = false;
+					width = 8f;
+					height = 10f;
+					shrinkY = 0f;
+					drag = -0.003f;
+					homingRange = 50f;
+					splashDamageRadius = 30f;
+					splashDamage = 40f;
+					lifetime = 55f;
+					frontColor = AstraPal.missileOrange;
+					backColor = trailColor = AstraPal.missileOrangeBack;
+					hitEffect = despawnEffect = Fx.blastExplosion;
+					trailWidth = 2f;
+					trailLength = 10;
+
+					weaveMag = 0f;
+				}};
+			}});
+		}};
+
+		decanus = new AstraUnitType("decanus", MechUnit::create) {{
+			health = 650;
+			armor = 5f;
+			hitSize = 12f;
+			fogRadius = 8f;
+			itemCapacity = 20;
+
+			speed = 0.4f;
+			accel = 0.3f;
+			stepSoundVolume = 0.4f;
+
+			canBoost = true;
+			engineOffset = 6.5f;
+			engineSize = 5f;
+			boostMultiplier = 1.8f;
+
+			weapons.add(new AstraWeapon("astramod-decanus-weapon") {{
+				reload = 130f;
+				recoil = 2f;
+				shoot.shots = 4;
+				shoot.shotDelay = 6f;
+				inaccuracy = 6f;
+
+				alternate = false;
+				top = false;
+				x = 9.25f;
+				y = 0.25f;
+				shootY = 5.75f;
+				heatColor = AstraPal.heat;
+				cooldownTime = 120f;
+
+				shootSound = Sounds.shootMissile;
+				shootSoundVolume = 2f;
+				ejectEffect = Fx.casing4;
+				shootSound = Sounds.shootMissileShort;
+
+				bullet = new MissileBulletType(4f, 15, "missile"){{
+					recoil = 1f;
+					keepVelocity = false;
+					width = 8f;
+					height = 14f;
+					shrinkY = 0f;
+					drag = -0.003f;
+					homingRange = 30f;
+					splashDamageRadius = 25f;
+					splashDamage = 30f;
+					lifetime = 35f;
+					frontColor = AstraPal.missileOrange;
+					backColor = trailColor = AstraPal.missileOrangeBack;
+					hitEffect = despawnEffect = Fx.blastExplosion;
+					trailWidth = 2f;
+					trailLength = 10;
+
+					weaveMag = 0f;
+				}};
+			}});
 		}};
 
 		// region GUNNER TANKS
