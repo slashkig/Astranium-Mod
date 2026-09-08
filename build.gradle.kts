@@ -68,6 +68,14 @@ fun entity(module: String): String {
 	return "com.github.GglLfr.EntityAnno$module:$entVersion"
 }
 
+fun mindustryDir(from: File): File {
+	var current = from
+	while (current.name != "Mindustry") {
+		current = current.parentFile ?: throw GradleException("Could not find Mindustry directory.")
+	}
+	return current
+}
+
 allprojects {
 	apply(plugin = "java")
 	sourceSets["main"].java.setSrcDirs(listOf(layout.projectDirectory.dir("src"), layout.projectDirectory.dir("build/generated/source/kapt/main")))
@@ -197,7 +205,7 @@ project(":") {
 	val runGame = tasks.register<Exec>("runGame") {
 		dependsOn(copyJar)
 
-		commandLine(layout.projectDirectory.dir("../../..").file("Mindustry.exe").asFile.absolutePath)
+		commandLine(mindustryDir(layout.projectDirectory.asFile).resolve("Mindustry.exe").absolutePath)
 	}
 
 	val jar = tasks.named<Jar>("jar") {
