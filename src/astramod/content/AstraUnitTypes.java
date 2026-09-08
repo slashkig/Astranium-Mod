@@ -1,6 +1,5 @@
 package astramod.content;
 
-import arc.graphics.Color;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -9,8 +8,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.ExplosionEffect;
-import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -486,7 +484,7 @@ public class AstraUnitTypes {
 		}};
 
 		trexon = new AstraUnitType("trexon", MechUnit::create) {{
-			health = 600;
+			health = 640;
 			armor = 5f;
 			hitSize = 12f;
 			fogRadius = 8f;
@@ -586,9 +584,9 @@ public class AstraUnitTypes {
 		legion = new AstraUnitType("legion", MechUnit::create) {{
 			aiController = GroundRangerAI::new;
 			health = 220;
-			armor = 3f;
+			armor = 1f;
 			hitSize = 10f;
-			fogRadius = 8f;
+			fogRadius = 10f;
 			itemCapacity = 10;
 
 			speed = 0.5f;
@@ -600,13 +598,14 @@ public class AstraUnitTypes {
 			boostMultiplier = 1.7f;
 
 			weapons.add(new AstraWeapon("astramod-legion-rocket-mount") {{
-				reload = 110f;
-				recoil = 3f;
-				alternate = false;
-				mirror = false;
-				rotate = false;
+				reload = 100f;
+				rotate = true;
+				rotationLimit = 30f;
+				inaccuracy = 4f;
+				velocityRnd = 0.15f;
 				shoot.firstShotDelay = 20f;
 
+				mirror = false;
 				x = -6.75f;
 				y = 0.75f;
 				shootY = 5f;
@@ -615,35 +614,34 @@ public class AstraUnitTypes {
 
 				shootSound = Sounds.shootMissile;
 				shootSoundVolume = 2f;
-				ejectEffect = Fx.casing4;
-				shootSound = Sounds.shootMissileShort;
-				bullet = new MissileBulletType(3f, 15, "missile"){{
-					recoil = 6f;
-					keepVelocity = false;
-					width = 8f;
+
+				bullet = new MissileBulletType(3f, 10) {{
+					lifetime = 42f;
 					height = 10f;
-					shrinkY = 0f;
+					splashDamageRadius = 1.8f * tilesize;
+					splashDamage = 40;
+
+					recoil = 4f;
+					keepVelocity = false;
+					homingPower = 0f;
 					drag = -0.003f;
-					homingRange = 50f;
-					splashDamageRadius = 30f;
-					splashDamage = 40f;
-					lifetime = 55f;
+					weaveMag = 3f;
+					weaveScale = 4f;
+
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
 					hitEffect = despawnEffect = Fx.blastExplosion;
-					trailWidth = 2f;
-					trailLength = 10;
-
-					weaveMag = 0f;
+					trailChance = 0f;
+					trailInterval = 3f;
 				}};
 			}});
 		}};
 
 		decanus = new AstraUnitType("decanus", MechUnit::create) {{
-			health = 650;
-			armor = 5f;
+			health = 680;
+			armor = 3f;
 			hitSize = 12f;
-			fogRadius = 8f;
+			fogRadius = 12f;
 			itemCapacity = 20;
 
 			speed = 0.4f;
@@ -656,13 +654,20 @@ public class AstraUnitTypes {
 			boostMultiplier = 1.8f;
 
 			weapons.add(new AstraWeapon("astramod-decanus-weapon") {{
-				reload = 130f;
-				recoil = 2f;
-				shoot.shots = 4;
-				shoot.shotDelay = 6f;
+				reload = 180f;
+				recoil = 1.4f;
 				inaccuracy = 6f;
-
+				velocityRnd = 0.2f;
 				alternate = false;
+				shoot = new ShootPattern() {{
+						shots = 4;
+						shotDelay = 6f;
+					}
+					public void flip() {
+						firstShotDelay = shotDelay * (shots + 1);
+					};
+				};
+
 				top = false;
 				x = 9.25f;
 				y = 0.25f;
@@ -670,29 +675,26 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.heat;
 				cooldownTime = 120f;
 
-				shootSound = Sounds.shootMissile;
-				shootSoundVolume = 2f;
-				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootMissileShort;
+				shootSoundVolume = 1.2f;
 
-				bullet = new MissileBulletType(4f, 15, "missile"){{
-					recoil = 1f;
+				bullet = new MissileBulletType(4f, 8) {{
+					lifetime = 32f;
+					width = 6f;
+					splashDamageRadius = 1f * tilesize;
+					splashDamage = 24;
+
+					recoil = 0.6f;
 					keepVelocity = false;
-					width = 8f;
-					height = 14f;
-					shrinkY = 0f;
+					homingPower = 0f;
 					drag = -0.003f;
-					homingRange = 30f;
-					splashDamageRadius = 25f;
-					splashDamage = 30f;
-					lifetime = 35f;
+
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = despawnEffect = Fx.blastExplosion;
-					trailWidth = 2f;
-					trailLength = 10;
-
-					weaveMag = 0f;
+					hitEffect = despawnEffect = Fx.flakExplosion;
+					trailChance = 0f;
+					trailInterval = 4f;
+					trailParam = 1.6f;
 				}};
 			}});
 		}};
@@ -714,8 +716,8 @@ public class AstraUnitTypes {
 			treadPullOffset = 3;
 			treadRects = new Rect[] { new Rect(-21f, -28f, 15f, 56f) };
 
-			tankMoveVolume *= 0.4f;
 			tankMoveSound = Sounds.tankMoveSmall;
+			tankMoveVolume *= 0.4f;
 
 			weapons.add(new Weapon("astramod-aculei-weapon") {{
 				reload = 8f;
@@ -1006,7 +1008,7 @@ public class AstraUnitTypes {
 
 		meissa = new AstraTankUnitType("meissa") {{
 			health = 500;
-			armor = 4f;
+			armor = 3f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 12;
@@ -1024,10 +1026,10 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-meissa-weapon") {{
 				reload = 50f;
-				inaccuracy = 0f;
 				rotate = true;
-				rotateSpeed = 2.5f;
+				rotateSpeed = 2f;
 				recoil = 1f;
+				shoot = new ShootHelix() {{ mag = 1f; scl = 5f; }};
 
 				mirror = false;
 				x = 0f;
@@ -1039,30 +1041,22 @@ public class AstraUnitTypes {
 
 				shootSound = Sounds.shootMissilePlasma;
 
-				bullet = new MissileBulletType(3.9f, 20){{
-					shoot = new ShootHelix(){{
-						mag = 1f;
-						scl = 5f;
-					}};
+				bullet = new EnergyBulletType(3.8f, 20, "missile") {{
 					lifetime = 30f;
-					keepVelocity = false;
-					shootEffect = AstraFx.shootCrystal;
-					smokeEffect = AstraFx.hitCrystal;
-					splashDamage = 10f;
-					splashDamageRadius = 10f;
+					pierceCap = 2;
 
 					lightColor = AstraPal.crystalGlow;
 					lightRadius = 40f;
-					lightOpacity = 0.7f;
 
 					frontColor = AstraPal.crystalFront;
 					backColor = trailColor = AstraPal.crystalBack;
-					hitSound = despawnSound = Sounds.explosion;
+					shootEffect = AstraFx.shootCrystal;
+					smokeEffect = AstraFx.hitCrystal;
+					despawnEffect = Fx.none;
 					trailWidth = 2f;
 					trailLength = 10;
 
-					despawnEffect = Fx.none;
-					hitEffect = new ExplosionEffect(){{
+					hitEffect = new ExplosionEffect() {{
 						lifetime = 10f;
 						waveStroke = 2f;
 						waveColor = AstraPal.crystalBack;
@@ -1080,8 +1074,8 @@ public class AstraUnitTypes {
 		}};
 
 		alnitak = new AstraTankUnitType("alnitak") {{
-			health = 1500;
-			armor = 11f;
+			health = 1200;
+			armor = 6f;
 			hitSize = 21f;
 			fogRadius = 12f;
 			itemCapacity = 25;
@@ -1100,43 +1094,50 @@ public class AstraUnitTypes {
 			tankMoveSound = Sounds.tankMove;
 			tankMoveVolume *= 0.58f;
 
+			abilities.add(new ShieldRegenAbility(20f, 250f, 5f * Time.toSeconds));
+
 			weapons.add(new Weapon("astramod-alnitak-weapon") {{
-				shoot.firstShotDelay = 40f;
-				shoot.shots = 2;
-				shoot.shotDelay = 16f;
+				reload = 90f;
+				rotate = true;
+				rotateSpeed = 2f;
+				recoil = 2f;
+				shoot.firstShotDelay = 30f;
 
 				mirror = false;
 				shootY = -1.75f;
 				x = 0f;
 				y = 0f;
-				rotateSpeed = 2f;
-				reload = 120f;
-				recoil = 4f;
-				shootSound = Sounds.shootLancer;
-				shadow = 20f;
-				rotate = true;
-
 				heatColor = AstraPal.crystalGlow;
 				cooldownTime = 100f;
+				parentizeEffects = true;
 
-				shootStatusDuration = Time.toSeconds;
-				shootStatus = StatusEffects.unmoving;
+				shootSound = Sounds.shootNavanax;
+				shootSoundVolume = 0.5f;
 
-				bullet = new LaserBulletType(){{
-					damage = 70f;
-					recoil = 0f;
-					sideAngle = 315f;
-					sideWidth = 1f;
-					sideLength = 60f;
-					width = 25f;
-					length = 150f;
+				bullet = new EnergyBulletType(4f, 40) {{
+					lifetime = 35f;
+					pierceCap = 4;
 
-					status = AstraStatusEffects.overcharged;
-					statusDuration = Time.toSeconds;
+					lightColor = AstraPal.crystalGlow;
+					lightRadius = 50f;
+					lightOpacity = 0.7f;
 
-					colors = new Color[]{AstraPal.crystalLazerBack.cpy().a(0.4f), AstraPal.crystalRed, AstraPal.crystalLazerLight};
-					chargeEffect = new MultiEffect(AstraFx.alnitakLaserCharge, AstraFx.alnitakLaserChargeBegin);
+					frontColor = AstraPal.crystalFront;
+					backColor = trailColor = AstraPal.crystalBack;
 					shootEffect = AstraFx.crystalShockwave;
+					chargeEffect = AstraFx.crystalCharge;
+					trailWidth = 2.4f;
+					trailLength = 10;
+
+					bulletInterval = 4f;
+					intervalDelay = 10f;
+					intervalBullet = new LightningBulletType() {{
+						lightning = 1;
+						lightningLength = 4;
+						lightningDamage = 5f;
+						lightningColor = AstraPal.crystalBack;
+						hitEffect = Fx.hitLancerLow;
+					}};
 				}};
 			}});
 		}};

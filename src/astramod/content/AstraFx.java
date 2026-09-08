@@ -167,14 +167,14 @@ public class AstraFx {
 		Drawf.tri(e.x, e.y, w, 17f * e.fout(), e.rotation);
 		Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
 	}),
-	alnitakLaserCharge = new Effect(38f, e -> {
+	crystalCharge = new Effect(30f, e -> {
 		color(AstraPal.crystalLazerLight);
 
 		randLenVectors(e.id, 14, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
 			lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 1f);
 		});
 	}),
-	alnitakLaserChargeBegin = new Effect(60f, e -> {
+	crystalChargeBall = new Effect(60f, e -> {
 		float margin = 1f - Mathf.curve(e.fin(), 0.9f);
 		float fin = Math.min(margin, e.fin());
 
