@@ -1041,7 +1041,8 @@ public class AstraUnitTypes {
 
 				shootSound = Sounds.shootMissilePlasma;
 
-				bullet = new EnergyBulletType(3.8f, 20, "missile") {{
+				bullet = new EnergyBulletType(3.8f, 20, "circle-bullet") {{
+					width = height = 6f;
 					lifetime = 30f;
 					pierceCap = 2;
 
@@ -1053,8 +1054,8 @@ public class AstraUnitTypes {
 					shootEffect = AstraFx.shootCrystal;
 					smokeEffect = AstraFx.hitCrystal;
 					despawnEffect = Fx.none;
-					trailWidth = 2f;
-					trailLength = 10;
+					trailWidth = 1.5f;
+					trailLength = 8;
 
 					hitEffect = new ExplosionEffect() {{
 						lifetime = 10f;
@@ -1214,11 +1215,13 @@ public class AstraUnitTypes {
 			hitSize = 21f;
 			fogRadius = 100f;
 			itemCapacity = 1000;
+			useUnitCap = false;
 
 			speed = 5f;
 			accel = 1f;
 			rotateSpeed = 10f;
 			floorMultiplier = 0f;
+			canDrown = false;
 
 			treadPullOffset = 8;
 			treadFrames = 16;

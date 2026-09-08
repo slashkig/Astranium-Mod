@@ -3965,12 +3965,18 @@ public class AstraBlocks {
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.dicentra, 15f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 15,
-					Items.silicon, 10
+					Items.silicon, 10,
+					Items.lead, 10
+				)),
+				new UnitPlan(AstraUnitTypes.zenaida, 16f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 15,
+					Items.pyratite, 10,
+					Items.silicon, 15
 				)),
 				new UnitPlan(AstraUnitTypes.zenaida, 18f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 20,
 					Items.metaglass, 15,
-					Items.silicon, 20
+					Items.silicon, 10
 				))
 			);
 		}};
@@ -3987,14 +3993,19 @@ public class AstraBlocks {
 
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 10,
-					Items.copper, 15,
-					Items.silicon, 20
+					AstraItems.iron, 15,
+					Items.copper, 20,
+					Items.silicon, 25
 				)),
-				new UnitPlan(AstraUnitTypes.aculei, 23f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.aculei, 22f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 25,
 					Items.silicon, 20,
-					Items.lead, 30
+					Items.lead, 25
+				)),
+				new UnitPlan(AstraUnitTypes.meissa, 24f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 20,
+					Items.silicon, 20,
+					Items.copper, 30
 				)),
 				new UnitPlan(AstraUnitTypes.arbalest, 26f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 20,
@@ -4042,6 +4053,11 @@ public class AstraBlocks {
 					Items.silicon, 30,
 					Items.graphite, 20
 				)),
+				AstraUnitTypes.legion, new UnitPlan(AstraUnitTypes.decanus, 18f * Time.toSeconds, ItemStack.with(
+					Items.graphite, 30,
+					Items.silicon, 30,
+					Items.pyratite, 25
+				)),
 				AstraUnitTypes.zenaida, new UnitPlan(AstraUnitTypes.trexon, 20f * Time.toSeconds, ItemStack.with(
 					Items.metaglass, 35,
 					Items.silicon, 30,
@@ -4064,16 +4080,21 @@ public class AstraBlocks {
 			recipes.putAll(
 				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 40,
-					Items.silicon, 30,
-					Items.copper, 50
+					Items.silicon, 35,
+					Items.copper, 45
 				)),
 				AstraUnitTypes.aculei, new UnitPlan(AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 50,
 					Items.silicon, 30,
 					Items.graphite, 40
 				)),
+				AstraUnitTypes.meissa, new UnitPlan(AstraUnitTypes.alnitak, 23f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 45,
+					Items.silicon, 30,
+					Items.metaglass, 35
+				)),
 				AstraUnitTypes.arbalest, new UnitPlan(AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 60,
+					AstraItems.iron, 45,
 					AstraItems.lithium, 40,
 					Items.silicon, 30
 				)),

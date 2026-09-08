@@ -6,7 +6,6 @@ import mindustry.gen.*;
 public class EnergyBulletType extends BasicBulletType {
 	public EnergyBulletType(float speed, float damage, String bulletSprite) {
 		super(speed, damage, bulletSprite);
-		width = height = 8f;
 		keepVelocity = false;
 		hittable = false;
 		pierce = pierceBuilding = true;
@@ -17,7 +16,9 @@ public class EnergyBulletType extends BasicBulletType {
 	}
 
 	public EnergyBulletType(float speed, float damage) {
-		this(speed, damage, "circle-bullet");
+		this(speed, damage, "large-orb");
+		width = height = 10f;
+		hitSize = 6f;
 	}
 
 	@Override public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
