@@ -4,6 +4,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
+import mindustry.entities.effect.ExplosionEffect;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -188,5 +189,34 @@ public class AstraFx {
 		color(AstraPal.crystalFront, AstraPal.crystalBack, e.fin());
 		stroke(e.fout() * 2f + 0.2f);
 		Lines.circle(e.x, e.y, e.fin() * 22f);
-	});
+	}),
+
+
+
+	crystalBurstSmall = new ExplosionEffect() {{
+		lifetime = 8f;
+		waveStroke = 1f;
+		waveColor = AstraPal.crystalBack;
+		sparkColor = AstraPal.crystalFront;
+		waveRad = 12f;
+		smokeSize = 0f;
+		smokeSizeBase = 0f;
+		sparks = 6;
+		sparkRad = 20f;
+		sparkLen = 2f;
+		sparkStroke = 1.5f;
+	}},
+	crystalBurstLarge = new ExplosionEffect() {{
+		lifetime = 15f;
+		waveStroke = 6f;
+		waveColor = AstraPal.crystalBack;
+		sparkColor = AstraPal.crystalFront;
+		waveRad = 25f;
+		smokeSize = 0f;
+		smokeSizeBase = 0f;
+		sparks = 12;
+		sparkRad = 40f;
+		sparkLen = 4f;
+		sparkStroke = 1.5f;
+	}};
 }

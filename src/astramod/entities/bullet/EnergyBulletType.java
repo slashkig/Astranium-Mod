@@ -1,5 +1,6 @@
 package astramod.entities.bullet;
 
+import astramod.graphics.AstraPal;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 
@@ -12,6 +13,9 @@ public class EnergyBulletType extends BasicBulletType {
 		shrinkY = 0f;
 		trailChance = 0.2f;
 		lightOpacity = 0.6f;
+		lightningColor = AstraPal.crystalFront;
+		frontColor = AstraPal.crystalFront;
+		backColor = AstraPal.crystalBack;
 		hitSound = despawnSound = Sounds.explosion;
 	}
 

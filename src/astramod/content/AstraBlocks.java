@@ -4088,7 +4088,7 @@ public class AstraBlocks {
 					Items.silicon, 30,
 					Items.graphite, 40
 				)),
-				AstraUnitTypes.meissa, new UnitPlan(AstraUnitTypes.alnitak, 23f * Time.toSeconds, ItemStack.with(
+				AstraUnitTypes.meissa, new UnitPlan(AstraUnitTypes.saiph, 23f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 45,
 					Items.silicon, 30,
 					Items.metaglass, 35
