@@ -3812,6 +3812,7 @@ public class AstraBlocks {
 					splashDamageRadius = 4.4f * tilesize;
 					splashDamage = 120f;
 					knockback = 1f;
+					status = StatusEffects.blasted;
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
@@ -3858,6 +3859,8 @@ public class AstraBlocks {
 
 			limitRange();
 		}};
+
+		// TODO Dual Flak
 
 		ballista = new AstraTurret("ballista") {{
 			requirements(Category.turret, ItemStack.with(
@@ -3968,7 +3971,7 @@ public class AstraBlocks {
 					Items.silicon, 10,
 					Items.lead, 10
 				)),
-				new UnitPlan(AstraUnitTypes.zenaida, 16f * Time.toSeconds, ItemStack.with(
+				new UnitPlan(AstraUnitTypes.legion, 16f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 15,
 					Items.pyratite, 10,
 					Items.silicon, 15

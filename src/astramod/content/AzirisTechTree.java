@@ -300,6 +300,9 @@ public class AzirisTechTree {
 				node(dicentra, () -> {
 					node(achillion);
 				});
+				node(legion, () -> {
+					node(decanus);
+				});
 				node(zenaida, () -> {
 					node(trexon, () -> {
 						node(oriolus);
@@ -314,6 +317,9 @@ public class AzirisTechTree {
 					});
 					node(arbalest, () -> {
 						node(bartizan);
+					});
+					node(meissa, () -> {
+						node(saiph);
 					});
 				});
 				node(primaryAirAssembler, research(), () -> {

@@ -4,17 +4,13 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import mindustry.entities.effect.ExplosionEffect;
+import mindustry.entities.effect.*;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
-
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.lineAngle;
-import static arc.graphics.g2d.Lines.stroke;
-import static arc.math.Angles.randLenVectors;
 
 public class AstraFx {
 	public static final Vec2 tmp = new Vec2();
@@ -155,43 +151,46 @@ public class AstraFx {
 
 		Lines.circle(e.x, e.y, 2f + 20f * e.fin());
 	}),
+
 	hitCrystal = new Effect(8, e -> {
-		color(AstraPal.crystalFront, AstraPal.crystalShoot, e.fin());
-		stroke(0.5f + e.fout());
+		Draw.color(AstraPal.crystalFront, AstraPal.crystalShoot, e.fin());
+		Lines.stroke(0.5f + e.fout());
 		Lines.circle(e.x, e.y, e.fin() * 5f);
 
 		Drawf.light(e.x, e.y, 23f, Pal.heal, e.fout() * 0.7f);
 	}),
+
 	shootCrystal = new Effect(8, e -> {
-		color(AstraPal.crystalShoot);
+		Draw.color(AstraPal.crystalShoot);
 		float w = 1f + 5 * e.fout();
 		Drawf.tri(e.x, e.y, w, 17f * e.fout(), e.rotation);
 		Drawf.tri(e.x, e.y, w, 4f * e.fout(), e.rotation + 180f);
 	}),
-	crystalCharge = new Effect(30f, e -> {
-		color(AstraPal.crystalLazerLight);
 
-		randLenVectors(e.id, 14, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
-			lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 1f);
+	crystalCharge = new Effect(30f, e -> {
+		Draw.color(AstraPal.crystalLazerLight);
+
+		Angles.randLenVectors(e.id, 14, 1f + 20f * e.fout(), e.rotation, 120f, (x, y) -> {
+			Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 3f + 1f);
 		});
 	}),
+
 	crystalChargeBall = new Effect(60f, e -> {
 		float margin = 1f - Mathf.curve(e.fin(), 0.9f);
 		float fin = Math.min(margin, e.fin());
 
-		color(AstraPal.crystalRed);
+		Draw.color(AstraPal.crystalRed);
 		Fill.circle(e.x, e.y, fin * 3f);
 
-		color();
+		Draw.color();
 		Fill.circle(e.x, e.y, fin * 2f);
 	}),
+
 	crystalShockwave = new Effect(9f, 80f, e -> {
-		color(AstraPal.crystalFront, AstraPal.crystalBack, e.fin());
-		stroke(e.fout() * 2f + 0.2f);
+		Draw.color(AstraPal.crystalFront, AstraPal.crystalBack, e.fin());
+		Lines.stroke(e.fout() * 2f + 0.2f);
 		Lines.circle(e.x, e.y, e.fin() * 22f);
 	}),
-
-
 
 	crystalBurstSmall = new ExplosionEffect() {{
 		lifetime = 8f;
@@ -206,6 +205,7 @@ public class AstraFx {
 		sparkLen = 2f;
 		sparkStroke = 1.5f;
 	}},
+
 	crystalBurstLarge = new ExplosionEffect() {{
 		lifetime = 15f;
 		waveStroke = 6f;
@@ -219,4 +219,13 @@ public class AstraFx {
 		sparkLen = 4f;
 		sparkStroke = 1.5f;
 	}};
+
+	public static ExplosionEffect dynamicExplosion(BasicBulletType b) {
+		return new ExplosionEffect() {{
+			waveRad = b.splashDamageRadius;
+			smokeRad = sparkRad = b.splashDamageRadius * 1.5f;
+			waveColor = b.frontColor;
+			sparkColor = b.backColor;
+		}};
+	}
 }
