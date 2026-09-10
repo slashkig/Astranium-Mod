@@ -1,13 +1,19 @@
 package astramod.content;
 
+import arc.graphics.Color;
+import arc.graphics.g2d.Lines;
+import arc.math.Interp;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
+import mindustry.entities.Effect;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.WaveEffect;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -25,6 +31,8 @@ import astramod.type.unit.*;
 import astramod.type.weapons.*;
 import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
 
+import static arc.graphics.g2d.Draw.color;
+import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
@@ -44,6 +52,8 @@ public class AstraUnitTypes {
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
+	public static @EntityDef({Unitc.class, Legsc.class}) UnitType
+		baeri;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
 
@@ -1203,6 +1213,67 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}});
+		}};
+
+		baeri = new AstraUnitType("baeri", LegsUnit::create) {{ // This is a test
+			speed = 0.72f;
+			drag = 0.11f;
+			hitSize = 9f;
+			rotateSpeed = 3f;
+			health = 680;
+			armor = 4f;
+			legStraightness = 0.3f;
+			stepShake = 0f;
+			stepSound = Sounds.walkerStepTiny;
+			stepSoundVolume = 0.4f;
+
+			legCount = 4;
+			legLength = 8f;
+			lockLegBase = true;
+			legContinuousMove = true;
+			legBaseOffset = 1f;
+			legMaxLength = 2f;
+			legMinLength = 0.8f;
+			legLengthScl = 0.96f;
+			legForwardScl = 1f;
+			legGroupSize = 2;
+			rippleScale = 0.2f;
+
+			legMoveSpace = 2f;
+			allowLegStep = true;
+			hovering = true;
+			legPhysicsLayer = false;
+
+			shadowElevation = 0.1f;
+			groundLayer = Layer.legUnit - 1f;
+			targetAir = false;
+			researchCostMultiplier = 0f;
+
+			weapons.add(new Weapon("astramod-baeri-puncher"){{
+				reload = 30;
+				recoil = 1.4f;
+				inaccuracy = 6f;
+				velocityRnd = 0.2f;
+				x = 0f;
+				y = 0f;
+				bullet = new RicochetBulletType(6f, 14) {{
+					width = 8f;
+					height = 10f;
+					lifetime = 20f;
+					x = 7f;
+					y = -0.25f;
+					shootSoundVolume = 1.5f;
+					smokeEffect = Fx.shootBigSmoke;
+
+					fragOnHit = false;
+					fragBullet = new RicochetBulletType(this) {{
+						lifetime = 18f;
+						frontColor = AstraPal.deflectFront;
+						backColor = AstraPal.deflectBack;
+					}};
+				}};
+			}});
+
 		}};
 
 		// region EXTRAS
