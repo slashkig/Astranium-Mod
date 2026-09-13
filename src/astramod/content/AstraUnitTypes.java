@@ -24,6 +24,7 @@ import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
 import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -383,7 +384,7 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 1.8f;
 
-				bullet = new BasicBulletType(5f, 20) {{
+				bullet = new BasicBulletType(5f, 18) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
@@ -430,7 +431,7 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootDiffuse;
 				shootSoundVolume = 1.2f;
 
-				bullet = new BasicBulletType(4.5f, 16) {{
+				bullet = new BasicBulletType(4.5f, 14) {{
 					width = 5f;
 					height = 6f;
 					lifetime = 28f;
@@ -460,7 +461,7 @@ public class AstraUnitTypes {
 			fogRadius = 8f;
 			itemCapacity = 10;
 
-			speed = 0.8f;
+			speed = 0.7f;
 			accel = 0.3f;
 			stepSoundVolume = 0.4f;
 
@@ -493,7 +494,7 @@ public class AstraUnitTypes {
 			fogRadius = 8f;
 			itemCapacity = 20;
 
-			speed = 1.1f;
+			speed = 1f;
 			accel = 0.3f;
 			stepSoundVolume = 0.4f;
 
@@ -585,7 +586,9 @@ public class AstraUnitTypes {
 		// region ROCKET MECHS
 
 		legion = new AstraUnitType("legion", MechUnit::create) {{
+			// TODO rocketeer AI
 			aiController = GroundRangerAI::new;
+
 			health = 220;
 			armor = 1f;
 			hitSize = 10f;
@@ -599,6 +602,7 @@ public class AstraUnitTypes {
 			engineOffset = 4.5f;
 			engineSize = 3.5f;
 			boostMultiplier = 1.7f;
+			knockbackMultiplier = 1.4f;
 
 			weapons.add(new AstraWeapon("astramod-legion-rocket-mount") {{
 				reload = 100f;
@@ -704,6 +708,82 @@ public class AstraUnitTypes {
 					trailParam = 1.6f;
 				}};
 			}});
+		}};
+
+		// region STEALTH MECHS
+		
+		baeri = new AstraUnitType("baeri", LegsUnit::create) {{
+			aiController = () -> new GroundSpecialistAI(b -> b.block.flags.contains(BlockFlag.factory), 40f * tilesize);
+			targetAir = false;
+			hovering = true;
+
+			health = 220;
+			armor = 2f;
+			hitSize = 9f;
+			range = 25f;
+			maxRange = 15f;
+			fogRadius = 8f;
+			itemCapacity = 5;
+
+			allowLegStep = true;
+			legPhysicsLayer = false;
+			speed = 0.9f;
+			drag = 0.11f;
+			rotateSpeed = 3f;
+			knockbackMultiplier = 0.5f;
+
+			lockLegBase = true;
+			legContinuousMove = true;
+			legLength = 8f;
+			legMoveSpace = 2f;
+			legStraightness = 0.3f;
+			legBaseOffset = 1f;
+			legMaxLength = 2f;
+			legMinLength = 0.8f;
+			legLengthScl = 0.96f;
+			legForwardScl = 1f;
+			rippleScale = 0.2f;
+
+			shadowElevation = 0.1f;
+			groundLayer = Layer.legUnit - 1f;
+			stepShake = 0f;
+			stepSound = Sounds.walkerStepTiny;
+			stepSoundVolume = 0.4f;
+
+			weapons.add(
+				new Weapon("astramod-baeri-puncher") {{
+					reload = 15f;
+					shootCone = 45f;
+					recoil = -3f;
+
+					top = false;
+					x = 7f;
+					y = -0.25f;
+					shootY = 9f;
+					shootSound = Sounds.none;
+
+					bullet = new MeleeBulletType(25) {{
+						hitSize = 6f;
+						rangeOverride = 15f;
+						armorMultiplier = 0.5f;
+					}};
+				}},
+				new Weapon() {{
+					controllable = aiControllable = false;
+					useAttackRange = false;
+					shootOnDeath = true;
+					mirror = false;
+					x = shootY = 0f;
+
+					shootSound = Sounds.explosionCrawler;
+					shootSoundVolume = 0.4f;
+
+					bullet = new ExplosionBulletType(50f, 4f * tilesize) {{
+						buildingDamageMultiplier = 0.75f;
+						shieldDamageMultiplier = 1.5f;
+					}};
+				}}
+			);
 		}};
 
 		// region GUNNER TANKS
@@ -1138,11 +1218,11 @@ public class AstraUnitTypes {
 					intervalDelay = 6f;
 					intervalBullets = 2;
 					intervalBullet = new LightningBulletType() {{
-						damage = 5f;
+						damage = 2f;
 						collides = false;
 						lightningLength = 4;
 						lightningColor = AstraPal.crystalBack;
-						hitEffect = Fx.hitLancerLow;
+						despawnEffect = hitEffect = Fx.none;
 					}};
 				}};
 			}});
@@ -1210,67 +1290,6 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}});
-		}};
-
-		baeri = new AstraUnitType("baeri", LegsUnit::create) {{ // This is a test
-			speed = 0.72f;
-			drag = 0.11f;
-			hitSize = 9f;
-			rotateSpeed = 3f;
-			health = 680;
-			armor = 4f;
-			legStraightness = 0.3f;
-			stepShake = 0f;
-			stepSound = Sounds.walkerStepTiny;
-			stepSoundVolume = 0.4f;
-
-			legCount = 4;
-			legLength = 8f;
-			lockLegBase = true;
-			legContinuousMove = true;
-			legBaseOffset = 1f;
-			legMaxLength = 2f;
-			legMinLength = 0.8f;
-			legLengthScl = 0.96f;
-			legForwardScl = 1f;
-			legGroupSize = 2;
-			rippleScale = 0.2f;
-
-			legMoveSpace = 2f;
-			allowLegStep = true;
-			hovering = true;
-			legPhysicsLayer = false;
-
-			shadowElevation = 0.1f;
-			groundLayer = Layer.legUnit - 1f;
-			targetAir = false;
-			researchCostMultiplier = 0f;
-
-			weapons.add(new Weapon("astramod-baeri-puncher"){{
-				reload = 30;
-				recoil = 1.4f;
-				inaccuracy = 6f;
-				velocityRnd = 0.2f;
-				x = 0f;
-				y = 0f;
-				bullet = new RicochetBulletType(6f, 14) {{
-					width = 8f;
-					height = 10f;
-					lifetime = 20f;
-					x = 7f;
-					y = -0.25f;
-					shootSoundVolume = 1.5f;
-					smokeEffect = Fx.shootBigSmoke;
-
-					fragOnHit = false;
-					fragBullet = new RicochetBulletType(this) {{
-						lifetime = 18f;
-						frontColor = AstraPal.deflectFront;
-						backColor = AstraPal.deflectBack;
-					}};
-				}};
-			}});
-
 		}};
 
 		// region EXTRAS

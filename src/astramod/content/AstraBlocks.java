@@ -3778,7 +3778,7 @@ public class AstraBlocks {
 
 					splashDamageRadius = 2.8f * tilesize;
 					splashDamage = 90f;
-					knockback = 2f;
+					knockback = 3f;
 					minRangeChange = 3f * tilesize;
 					rangeChange = 5f * tilesize;
 					reloadMultiplier = 0.8f;
@@ -3821,7 +3821,7 @@ public class AstraBlocks {
 
 					splashDamageRadius = 3f * tilesize;
 					splashDamage = 100f;
-					knockback = 1.5f;
+					knockback = 2f;
 					reloadMultiplier = 0.7f;
 					inaccuracy = -1f;
 
@@ -3838,7 +3838,7 @@ public class AstraBlocks {
 
 					splashDamageRadius = 4.4f * tilesize;
 					splashDamage = 120f;
-					knockback = 1f;
+					knockback = 2.5f;
 					status = StatusEffects.blasted;
 
 					frontColor = Pal.blastAmmoFront;
@@ -4005,6 +4005,11 @@ public class AstraBlocks {
 					AstraItems.iron, 20,
 					Items.metaglass, 15,
 					Items.silicon, 10
+				)),
+				new UnitPlan(AstraUnitTypes.baeri, 16f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 10,
+					Items.silicon, 10,
+					Items.graphite, 5
 				))
 			);
 		}};

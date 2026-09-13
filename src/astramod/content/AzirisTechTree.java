@@ -308,6 +308,9 @@ public class AzirisTechTree {
 						node(oriolus);
 					});
 				});
+				node(baeri, () -> {
+					// T2
+				});
 				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
 					node(hymeno, () -> {
 						node(vitex);
