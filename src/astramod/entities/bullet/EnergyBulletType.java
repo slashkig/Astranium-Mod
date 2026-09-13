@@ -16,6 +16,7 @@ public class EnergyBulletType extends BasicBulletType {
 		keepVelocity = false;
 		hittable = false;
 		pierce = pierceBuilding = true;
+		laserBullet = true;
 		shrinkY = 0f;
 		trailChance = 0.2f;
 		lightOpacity = 0.6f;
@@ -31,14 +32,6 @@ public class EnergyBulletType extends BasicBulletType {
 	@Override public void hit(Bullet b, float x, float y, boolean createFrags) {
 		if (b.collided.size == 0) firstHitEffect.at(x, y, b.rotation(), hitColor);
 		super.hit(b, x, y, createFrags);
-	}
-
-	@Override public void hitTile(Bullet b, Building build, float x, float y, float initialHealth, boolean direct) {
-		super.hitTile(b, build, x, y, initialHealth, direct);
-		if (!b.hit && build.team != b.team && direct && build.isInsulated()) {
-			b.hit = true;
-			b.remove();
-		}
 	}
 
 	@Override public void removed(Bullet b) {

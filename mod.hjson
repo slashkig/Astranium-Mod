@@ -22,6 +22,6 @@ There isn't a campaign yet, but all mod content can be checked out in sandbox, a
 Currently unavailable for mobile platforms, sorry :/
 '''
 subtitle: "Finally in V8!"
-minGameVersion: "157"
+minGameVersion: "160"
 java: true
 hidden: false

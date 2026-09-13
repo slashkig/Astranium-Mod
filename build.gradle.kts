@@ -78,7 +78,7 @@ fun mindustryDir(from: File): File {
 
 allprojects {
 	apply(plugin = "java")
-	sourceSets["main"].java.setSrcDirs(listOf(layout.projectDirectory.dir("src"), layout.projectDirectory.dir("build/generated/source/kapt/main")))
+	sourceSets["main"].java.setSrcDirs(listOf(layout.projectDirectory.dir("src"), layout.projectDirectory.dir("build/generated/sources/annotationProcessor/java/main")))
 
 	dependencies {
 		abstract class TrimSources : TransformAction<TransformParameters.None> {
@@ -187,7 +187,7 @@ project(":") {
 	dependencies {
 		// Use the entity generation annotation processor.
 		compileOnly(entity(":entity"))
-		add("kapt", entity(":entity"))
+		annotationProcessor(entity(":entity"))
 
 		compileOnly(mindustry())
 	}

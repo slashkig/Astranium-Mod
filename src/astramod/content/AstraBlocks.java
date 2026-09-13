@@ -1248,6 +1248,8 @@ public class AstraBlocks {
 			consumeLiquid(AstraFluids.steam, 8f / 60f);
 			powerProduction = 4.5f;
 
+			explosionShake = 1f;
+
 			drawer = new DrawMultiIntegrated(4,
 				new DrawBlurSpin("-rotator", 6f),
 				new DrawRegion("-edge"),
@@ -1283,7 +1285,13 @@ public class AstraBlocks {
 			itemDuration = 80f;
 			powerProduction = 11f;
 			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
+
 			explodeOnFull = true;
+			explosionShake = 2f;
+			explosionScorchSize = 3;
+			explosionFireballs = 8;
+			explosionIgnitionChance = 0.5f;
+			explosionPuddleLiquid = Liquids.water;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -1404,6 +1412,7 @@ public class AstraBlocks {
 			powerProduction = 31f;
 			warmupSpeed = 0.01f;
 
+			explosionShake = 3f;
 			ambientSound = Sounds.loopMachine;
 
 			drawer = new DrawMulti(
@@ -1444,6 +1453,11 @@ public class AstraBlocks {
 			consumeItem(targetItem = AstraItems.crystals);
 			itemDuration = 1200f;
 			powerProduction = 1.25f;
+
+			explosionRadius = 5;
+			explosionDamage = 500;
+			explosionScorchSize = 3;
+			explodeSound = Sounds.blockExplodeElectricBig;
 
 			drawer = new DrawMultiIntegrated(1,
 				new DrawCrystal(),
@@ -1487,6 +1501,9 @@ public class AstraBlocks {
 			explosionRadius = 30;
 			explosionDamage = 10000;
 			explosionShake = 10f;
+			explosionScorchSize = 9;
+			explosionIgnitionChance = 0.6f;
+			explosionFireballs = 20;
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -2336,6 +2353,7 @@ public class AstraBlocks {
 			range = 4;
 			speed = 40f;
 			bufferCapacity = 14;
+			noAcceptDisabled = true;
 
 			arrowSpacing = 6f;
 			bridgeWidth = 8f;
@@ -2425,6 +2443,7 @@ public class AstraBlocks {
 			bufferSpeed = 2f;
 			itemCapacity = 20;
 			bufferCapacity = 22;
+			noAcceptDisabled = true;
 
 			arrowSpacing = 6f;
 			bridgeWidth = 8f;
@@ -2460,6 +2479,7 @@ public class AstraBlocks {
 			armor = 2f;
 			fogRadius = 2;
 			buildCostMultiplier = 2.2f;
+			maxConsecutive = 3;
 		}};
 
 		platedUnderflowGate = new OverflowGate("plated-underflow-gate") {{
@@ -2470,6 +2490,7 @@ public class AstraBlocks {
 			fogRadius = 2;
 			buildCostMultiplier = 2.2f;
 			invert = true;
+			maxConsecutive = 3;
 		}};
 
 		platedSorter = new Sorter("plated-sorter") {{
@@ -2484,6 +2505,7 @@ public class AstraBlocks {
 			armor = 2f;
 			fogRadius = 2;
 			buildCostMultiplier = 2f;
+			maxConsecutive = 3;
 		}};
 
 		invertedPlatedSorter = new Sorter("inverted-plated-sorter") {{
@@ -2499,6 +2521,7 @@ public class AstraBlocks {
 			fogRadius = 2;
 			buildCostMultiplier = 2f;
 			invert = true;
+			maxConsecutive = 3;
 		}};
 
 		surgeBulkJunction = new Junction("surge-bulk-junction") {{
@@ -2715,6 +2738,7 @@ public class AstraBlocks {
 			heatCapacity = 1f;
 			range = 4;
 			hasPower = false;
+			noAcceptDisabled = true;
 
 			((Conduit)wavePipeline).bridgeReplacement = this;
 			((Pipeline)jetPipeline).fallbackBridge = this;
@@ -2781,6 +2805,7 @@ public class AstraBlocks {
 			heatCapacity = 2.4f;
 			range = 7;
 			hasPower = false;
+			noAcceptDisabled = true;
 
 			((Conduit)jetPipeline).bridgeReplacement = this;
 			((Conduit)crystalPipeline).bridgeReplacement = this;
@@ -3510,6 +3535,7 @@ public class AstraBlocks {
 					knockback = 1f;
 					status = StatusEffects.slow;
 					statusDuration = 0.5f * Time.toSeconds;
+					statusChance = 0.2f;
 
 					frontColor = AstraPal.ironFront;
 					backColor = AstraPal.ironBack;
@@ -3738,7 +3764,8 @@ public class AstraBlocks {
 					splashDamage = 80f;
 					knockback = 5f;
 					status = StatusEffects.slow;
-					statusDuration = 0.5f * Time.toSeconds;
+					statusDuration = 1f * Time.toSeconds;
+					statusChance = 0.5f;
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
@@ -3841,10 +3868,7 @@ public class AstraBlocks {
 
 			targetAir = false;
 			targetInterval = 60f;
-			unitSort = (u, x, y) -> {
-				ItemTurretBuild t = (ItemTurretBuild)world.buildWorld(x, y);
-				return u.range() + (t.hasAmmo() ? Units.count(u.x, u.y, t.peekAmmo().splashDamageRadius * 1.7f, unit -> unit.team != t.team) : 0f);
-			};
+			unitSort = UnitSorts.grouped;
 			rotateSpeed = 1f;
 			inaccuracy = 5f;
 			shootCone = 10f;
@@ -3935,6 +3959,7 @@ public class AstraBlocks {
 			rotateSpeed = 1.5f;
 			shootCone = 2f;
 			targetUnderBlocks = false;
+			unitSort = UnitSorts.mostArmor;
 
 			consumePower(4f);
 			coolant = consumeCoolant(0.3f);

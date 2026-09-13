@@ -1,19 +1,13 @@
 package astramod.content;
 
-import arc.graphics.Color;
-import arc.graphics.g2d.Lines;
-import arc.math.Interp;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
-import mindustry.entities.Effect;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.WaveEffect;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -31,8 +25,6 @@ import astramod.type.unit.*;
 import astramod.type.weapons.*;
 import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
 
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.stroke;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
@@ -106,7 +98,7 @@ public class AstraUnitTypes {
 					height = 6f;
 					lifetime = 35f;
 					scaleKeepVelocity = true;
-					buildingDamageMultiplier = 0.01f;
+					buildingDamageMultiplier = 0f;
 					homingPower = 0.03f;
 				}};
 			}});
@@ -156,7 +148,7 @@ public class AstraUnitTypes {
 					height = 5f;
 					lifetime = 37.5f;
 					scaleKeepVelocity = true;
-					buildingDamageMultiplier = 0.01f;
+					buildingDamageMultiplier = 0f;
 					homingPower = 0.03f;
 				}};
 			}});
@@ -210,7 +202,7 @@ public class AstraUnitTypes {
 				bullet = new TeamLaserBoltBulletType(6.5f, 15) {{
 					lifetime = 34f;
 					scaleKeepVelocity = true;
-					buildingDamageMultiplier = 0.01f;
+					buildingDamageMultiplier = 0f;
 					homingPower = 0.03f;
 				}};
 
@@ -391,13 +383,14 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 1.8f;
 
-				bullet = new BasicBulletType(5.5f, 20) {{
+				bullet = new BasicBulletType(5f, 20) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
 					knockback = 2f;
 					status = StatusEffects.slow;
 					statusDuration = 0.5f * Time.toSeconds;
+					statusChance = 0.2f;
 
 					hitColor = backColor = AstraPal.ironBack;
 					frontColor = AstraPal.ironFront;
@@ -437,14 +430,15 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootDiffuse;
 				shootSoundVolume = 1.2f;
 
-				bullet = new BasicBulletType(5f, 16) {{
+				bullet = new BasicBulletType(4.5f, 16) {{
 					width = 5f;
 					height = 6f;
 					lifetime = 28f;
 					knockback = 0.4f;
 
 					status = StatusEffects.burning;
-					statusDuration = 6f * Time.toSeconds;
+					statusDuration = 8f * Time.toSeconds;
+					statusChance = 0.4f;
 					
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
@@ -725,6 +719,7 @@ public class AstraUnitTypes {
 			accel = 0.2f;
 			rotateSpeed = 3f;
 			floorMultiplier = 0.95f;
+			knockbackMultiplier = 0.6f;
 
 			treadPullOffset = 3;
 			treadRects = new Rect[] { new Rect(-21f, -28f, 15f, 56f) };
@@ -763,6 +758,7 @@ public class AstraUnitTypes {
 			accel = 0.18f;
 			rotateSpeed = 2.5f;
 			floorMultiplier = 0.8f;
+			knockbackMultiplier = 0.6f;
 			crushFragile = true;
 			crushDamage = 0.4f;
 
@@ -1168,6 +1164,7 @@ public class AstraUnitTypes {
 			speed = 2.3f;
 			accel = 0.4f;
 			rotateSpeed = 6.5f;
+			knockbackMultiplier = 2f;
 
 			engineSize = 0f;
 			useEngineElevation = false;

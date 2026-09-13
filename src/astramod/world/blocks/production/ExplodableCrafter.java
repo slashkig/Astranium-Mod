@@ -5,18 +5,22 @@ import arc.audio.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.math.*;
+import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
 import mindustry.content.*;
 import mindustry.entities.*;
-import mindustry.entities.effect.MultiEffect;
+import mindustry.entities.effect.*;
+import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.type.*;
 import mindustry.ui.*;
-import mindustry.world.Tile;
+import mindustry.world.*;
+import mindustry.world.blocks.ConstructBlock;
 import mindustry.world.blocks.production.*;
+import mindustry.world.meta.*;
 import astramod.world.blocks.modular.HeatedBuild;
 import astramod.world.meta.*;
 
@@ -42,6 +46,17 @@ public class ExplodableCrafter extends GenericCrafter {
 	public Effect explodeEffect = new MultiEffect(Fx.titanExplosion, Fx.titanSmoke);
 	public Sound explodeSound = Sounds.explosionReactor;
 	public float explosionShake = 6f, explosionShakeDuration = 16f;
+	public boolean explosionBreaksProps = true;
+	/** Size of scorch effect on the ground after explosion. Value from 1-9. < 1 to disable. */
+	public int explosionScorchSize = 0;
+	/** Chance for each tile in the explosion radius to catch on fire. */
+	public float explosionIgnitionChance = 0f;
+	/** If true, the ignition chance decreases with distance. */
+	public boolean explosionScaleIgnitionChance = true;
+	/** The speed at which ignition spreads. */
+	public float explosionSpeed = 0.4f;
+	/** Extra number of fireballs spawned from explosions. */
+	public int explosionFireballs = 0;
 
 	public TextureRegion topRegion;
 	public TextureRegion lightsRegion;
@@ -64,7 +79,18 @@ public class ExplodableCrafter extends GenericCrafter {
 
 	@Override public void setStats() {
 		super.setStats();
+
 		stats.add(AstraStat.heatSpeed, 6000f * heating, AstraStatUnit.percentSecond);
+		stats.add(Stat.meltdownTime, table -> {
+			float avg = craftTime / Time.toSeconds;
+			float val = 30f * heating * itemCapacity * avg;
+			float time = itemCapacity * avg * (1f - Mathf.sqrt(1f - 1f / val));
+			if (val > 1f) {
+				table.add(Strings.autoFixed(time, 2) + " " + StatUnit.seconds.localized() + " " + Core.bundle.format("bar.whenfull"));
+			} else {
+				table.add(Core.bundle.format("bar.nevermelts"));
+			}
+		});
 	}
 
 	@Override public void setBars() {
@@ -136,16 +162,50 @@ public class ExplodableCrafter extends GenericCrafter {
 			super.onDestroyed();
 
 			if (state.rules.reactorExplosions && warmup >= explosionMinWarmup && (items.get(hazardItem) >= 5 || heat >= 0.5f)) {
-				if (explosionDamage > 0) {
-					Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
-				}
+				onExplosion();
+			}
+		}
 
-				explodeEffect.at(this);
-				explodeSound.at(this);
+		public void onExplosion() {
+			if (explosionDamage > 0) {
+				Damage.damage(x, y, explosionRadius * tilesize, explosionDamage);
+			}
 
-				if(explosionShake > 0) {
-					Effect.shake(explosionShake, explosionShakeDuration, this);
+			if (explosionIgnitionChance > 0 || explosionBreaksProps) {
+				Geometry.circle(tileX(), tileY(), explosionRadius, (tx, ty) -> {
+					Tile t = world.tile(tx, ty);
+					float dst = Mathf.dst(tileX(), tileY(), tx, ty);
+
+					// Create fires
+					if (explosionIgnitionChance > 0 && Mathf.chance(explosionIgnitionChance * (explosionScaleIgnitionChance ? 1f - Mathf.sqrt(dst / explosionRadius) : 1f))) {
+						Time.run(dst / explosionSpeed, () -> {
+							Fires.create(t);
+						});
+					}
+
+					// Break boulders
+					if (explosionBreaksProps && t != null && t.block().unitMoveBreakable) {
+						ConstructBlock.deconstructFinish(t, t.block(), null);
+					}
+				});
+			}
+
+			if (explosionFireballs > 0) {
+				int amount = Mathf.random(1, explosionFireballs);
+				for(int i = 0; i < amount; i++){
+					Bullets.fireball.createNet(Team.derelict, x, y, Mathf.random(360f), -1f, Mathf.random(0.5f, 1f), 1);
 				}
+			}
+
+			explodeEffect.at(this);
+			explodeSound.at(this);
+
+			if (explosionShake > 0) {
+				Effect.shake(explosionShake, explosionShakeDuration, this);
+			}
+
+			if (explosionScorchSize > 0) {
+				Effect.scorch(x, y, explosionScorchSize);
 			}
 		}
 

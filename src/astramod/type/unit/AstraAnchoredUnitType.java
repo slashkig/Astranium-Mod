@@ -16,6 +16,7 @@ public class AstraAnchoredUnitType extends AstraUnitType {
 		super(name, BuildingTetherUnit::create);
 		controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 		useUnitCap = false;
+		allowedInPayloads = false;
 		playerControllable = false;
 		logicControllable = false;
 		controlSelectGlobal = false;
