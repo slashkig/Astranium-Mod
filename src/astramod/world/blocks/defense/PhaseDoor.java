@@ -1,6 +1,7 @@
 package astramod.world.blocks.defense;
 
 import arc.graphics.g2d.*;
+import mindustry.Vars;
 import mindustry.graphics.*;
 import mindustry.world.blocks.defense.*;
 import astramod.graphics.*;
@@ -27,14 +28,20 @@ public class PhaseDoor extends AutoDoor {
 	public class PhaseDoorBuild extends AutoDoorBuild {
 		@Override public void draw() {
 			if (open) {
-				Draw.draw(Layer.blockOver, () -> {
-					AstraShaders.phase.region = openRegion;
-					AstraShaders.phase.alpha = openAlpha;
+				if (Vars.renderer.animateShields) {
+					Draw.draw(Layer.blockOver, () -> {
+						AstraShaders.phase.region = openRegion;
+						AstraShaders.phase.alpha = openAlpha;
 
-					Draw.shader(AstraShaders.phase);
+						Draw.shader(AstraShaders.phase);
+						Draw.rect(openRegion, x, y);
+						Draw.shader();
+					});
+				} else {
+					Draw.alpha(openAlpha);
 					Draw.rect(openRegion, x, y);
-					Draw.shader();
-				});
+					Draw.reset();
+				}
 			} else {
 				Draw.rect(region, x, y);
 			}

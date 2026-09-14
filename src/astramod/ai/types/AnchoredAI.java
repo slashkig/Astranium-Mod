@@ -26,8 +26,12 @@ public class AnchoredAI extends AIController {
 		}
 	}
 
+	@Override public void updateUnit() {
+		if (anchor != null) super.updateUnit();
+	}
+
 	@Override public void updateMovement() {
-		if (anchor != null && unit.dst(anchor) > Vars.tilesize) {
+		if (unit.dst(anchor) > Vars.tilesize) {
 			moveTo(anchor, 1f);
 		}
 	}

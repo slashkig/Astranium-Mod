@@ -2761,6 +2761,7 @@ public class AstraBlocks {
 			liquidCapacity = 20f;
 			liquidPressure = 1.05f;
 			heatCapacity = 1.5f;
+			leaks = false;
 
 			((Conduit)jetPipeline).junctionReplacement = this;
 		}};
