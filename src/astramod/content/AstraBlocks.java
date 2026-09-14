@@ -116,7 +116,7 @@ public class AstraBlocks {
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 
 		// Turrets
-		dart, viper, ember, mortar, ballista,
+		dart, viper, ember, mortar, ballista, monsoon,
 
 		// Unit assemblers
 		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard,
@@ -3977,6 +3977,50 @@ public class AstraBlocks {
 			shootSound = Sounds.shootSmite;
 
 			limitRange();
+		}};
+
+		monsoon = new LiquidTurret("monsoon") {{
+			requirements(Category.turret, ItemStack.with(
+				AstraItems.iron, 200
+			));
+
+			ammo(
+				Liquids.water, new LiquidBulletType(Liquids.water){{
+					lifetime = 49f;
+					speed = 4f;
+					knockback = 1.7f;
+					puddleSize = 8f;
+					orbSize = 4f;
+					drag = 0.001f;
+					ammoMultiplier = 0.4f;
+					statusDuration = 60f * 4f;
+					damage = 0.2f;
+					layer = Layer.bullet - 2f;
+				}}
+			);
+
+			drawer = new DrawTurret("astranium-") {{
+				parts.add(new RegionPart("-barrel") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -1f;
+					layerOffset = -0.005f;
+				}});
+				parts.add(new RegionPart("-barrel-liquid") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -1f;
+					layerOffset = -0.005f;
+				}});
+				parts.add(new RegionPart("-barrel-top") {{
+					progress = PartProgress.recoil;
+					under = true;
+					moveY = -1f;
+					layerOffset = -0.005f;
+				}});
+			}};
+
+			size = 3;
 		}};
 
 		// region UNITS
