@@ -3896,6 +3896,26 @@ public class AstraBlocks {
 				AstraItems.magnetite, 50f
 			));
 
+			scaledHealth = 240f;
+			armor = 3f;
+			size = 3;
+			reload = 2f;
+			float r = range = 150f;
+			liquidCapacity = 100f;
+			rotateSpeed = 360f;
+
+			inaccuracy = 20f;
+			shootCone = 60f;
+			velocityRnd = 0.05f;
+			shoot = new ShootAlternate(4f);
+			shoot.shots = 4;
+			recoil = 0f;
+
+			shootEffect = Fx.shootLiquid;
+			shootSound = Sounds.none;
+			loopSound = Sounds.shootSublimate;
+			flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
+
 			ammo(
 				Liquids.water, new LiquidBulletType(Liquids.water){{
 					lifetime = 29f;
@@ -3905,7 +3925,7 @@ public class AstraBlocks {
 					orbSize = 4f;
 					drag = 0.001f;
 					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 4f;
+					statusDuration = 60f * 5f;
 					layer = Layer.bullet - 2f;
 				}},
 				Liquids.slag, new LiquidBulletType(Liquids.slag){{
@@ -3916,7 +3936,7 @@ public class AstraBlocks {
 					orbSize = 3.3f;
 					drag = 0.001f;
 					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 4f;
+					statusDuration = 60f * 10f;
 					damage = 6.7f;
 					layer = Layer.bullet - 2f;
 				}},
@@ -3928,7 +3948,7 @@ public class AstraBlocks {
 					orbSize = 3.3f;
 					drag = 0.001f;
 					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 4f;
+					statusDuration = 60f * 5f;
 					layer = Layer.bullet - 2f;
 				}},
 				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
@@ -3939,10 +3959,44 @@ public class AstraBlocks {
 					orbSize = 3.3f;
 					drag = 0.001f;
 					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 4f;
+					statusDuration = 60f * 5f;
 					damage = 0.5f;
 					layer = Layer.bullet - 2f;
-				}}
+				}},
+				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.0f;
+					puddleSize = 10f;
+					orbSize = 3.3f;
+					drag = 0.001f;
+					ammoMultiplier = 0.4f;
+					status = StatusEffects.burning;
+					statusDuration = 60f * 4f;
+					damage = 2f;
+					layer = Layer.bullet - 2f;
+				}},
+				AstraFluids.ferrofluid, new LiquidBulletType(AstraFluids.ferrofluid){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.5f;
+					puddleSize = 10f;
+					orbSize = 3.3f;
+					drag = 0.001f;
+					ammoMultiplier = 0.4f;
+					status = AstraStatusEffects.magnetized;
+					statusDuration = 60f * 0.5f;
+					layer = Layer.bullet - 2f;
+				}},
+				//Liquids.hydrogen, new ContinuousFlameBulletType(){{
+				//	damage = 40f;
+				//	length = r;
+				//	ammoMultiplier = 1.2f;
+				//	knockback = 1f;
+				//	pierceCap = 3;
+				//	buildingDamageMultiplier = 0.4f;
+				//	timescaleDamage = true;
+				//}}
 			);
 
 			drawer = new DrawTurret("astranium-"){{
@@ -3955,25 +4009,6 @@ public class AstraBlocks {
 					);
 				}});
 			}};
-
-			scaledHealth = 240f;
-			armor = 3f;
-			size = 3;
-			reload = 2f;
-			range = 150f;
-			liquidCapacity = 100f;
-			rotateSpeed = 360f;
-
-			inaccuracy = 30f;
-			shootCone = 70f;
-			velocityRnd = 0.05f;
-			shoot = new ShootAlternate(4f);
-			shoot.shots = 4;
-
-			shootEffect = Fx.shootLiquid;
-			shootSound = Sounds.none;
-			loopSound = Sounds.shootSublimate;
-			flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
 		}};
 
 		ballista = new AstraTurret("ballista") {{
