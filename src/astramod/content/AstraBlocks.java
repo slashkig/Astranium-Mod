@@ -3987,7 +3987,7 @@ public class AstraBlocks {
 					status = AstraStatusEffects.magnetized;
 					statusDuration = 60f * 0.5f;
 					layer = Layer.bullet - 2f;
-				}},
+				}}//,
 				//Liquids.hydrogen, new ContinuousFlameBulletType(){{
 				//	damage = 40f;
 				//	length = r;
