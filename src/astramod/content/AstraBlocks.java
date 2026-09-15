@@ -10,7 +10,6 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.effect.*;
 import mindustry.entities.part.*;
-import mindustry.entities.part.DrawPart.PartProgress;
 import mindustry.entities.pattern.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
@@ -3924,6 +3923,7 @@ public class AstraBlocks {
 					puddleSize = 45f;
 					orbSize = 4f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					statusDuration = 60f * 5f;
 					layer = Layer.bullet - 2f;
@@ -3935,6 +3935,7 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					orbSize = 3.3f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					statusDuration = 60f * 10f;
 					damage = 6.7f;
@@ -3947,6 +3948,7 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					orbSize = 3.3f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					statusDuration = 60f * 5f;
 					layer = Layer.bullet - 2f;
@@ -3958,18 +3960,19 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					orbSize = 3.3f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					statusDuration = 60f * 5f;
 					damage = 0.5f;
 					layer = Layer.bullet - 2f;
 				}},
 				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam){{
-					lifetime = 29f;
+					lifetime = boilTime = 29f;
 					speed = 6f;
 					knockback = 1.0f;
-					puddleSize = 10f;
 					orbSize = 3.3f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					status = StatusEffects.burning;
 					statusDuration = 60f * 4f;
@@ -3983,20 +3986,12 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					orbSize = 3.3f;
 					drag = 0.001f;
+
 					ammoMultiplier = 0.4f;
 					status = AstraStatusEffects.magnetized;
 					statusDuration = 60f * 0.5f;
 					layer = Layer.bullet - 2f;
-				}}//,
-				//Liquids.hydrogen, new ContinuousFlameBulletType(){{
-				//	damage = 40f;
-				//	length = r;
-				//	ammoMultiplier = 1.2f;
-				//	knockback = 1f;
-				//	pierceCap = 3;
-				//	buildingDamageMultiplier = 0.4f;
-				//	timescaleDamage = true;
-				//}}
+				}}
 			);
 
 			drawer = new DrawTurret("astranium-"){{
