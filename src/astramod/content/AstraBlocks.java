@@ -3887,111 +3887,66 @@ public class AstraBlocks {
 
 		// TODO Dual Flak
 
-		monsoon = new LiquidTurret("monsoon") {{
+		monsoon = new LiquidTurret("monsoon"){{
 			requirements(Category.turret, ItemStack.with(
-				AstraItems.iron, 180,
+				AstraItems.iron, 300,
+				Items.titanium, 220,
+				Items.lead, 100,
 				Items.metaglass, 120,
-				Items.titanium, 150,
-				AstraItems.magnetite, 100
+				AstraItems.magnetite, 50f
 			));
 
 			ammo(
-				Liquids.water, new LiquidBulletType(Liquids.water) {{
-					damage = 1f;
-					speed = 5f;
-					lifetime = 36f;
-
-					ammoMultiplier = 0.4f;
-					reloadMultiplier = 1.2f;
-					rangeChange = 20f;
-					knockback = 2f;
-					statusDuration = 3f * Time.toSeconds;
-
+				Liquids.water, new LiquidBulletType(Liquids.water){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.7f;
+					puddleSize = 45f;
+					orbSize = 4f;
 					drag = 0.001f;
-					orbSize = 3f;
-					puddleSize = 8f;
+					ammoMultiplier = 0.4f;
+					statusDuration = 60f * 4f;
 					layer = Layer.bullet - 2f;
 				}},
-				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam) {{
-					damage = 6f;
-					speed = 3f;
-					lifetime = 40f;
-					boilTime = 60f;
-
-					ammoMultiplier = 0.4f;
-					reloadMultiplier = 1.4f;
-					rangeChange = -40f;
-					knockback = 0f;
-					inaccuracy = 4f;
-
+				Liquids.slag, new LiquidBulletType(Liquids.slag){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.4f;
+					puddleSize = 10f;
+					orbSize = 3.3f;
 					drag = 0.001f;
-					orbSize = 2f;
+					ammoMultiplier = 0.4f;
+					statusDuration = 60f * 4f;
+					damage = 6.7f;
 					layer = Layer.bullet - 2f;
 				}},
-				Liquids.oil, new LiquidBulletType(Liquids.oil) {{
+				Liquids.oil, new LiquidBulletType(Liquids.oil){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.4f;
+					puddleSize = 10f;
+					orbSize = 3.3f;
+					drag = 0.001f;
+					ammoMultiplier = 0.4f;
+					statusDuration = 60f * 4f;
+					layer = Layer.bullet - 2f;
+				}},
+				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
+					lifetime = 29f;
+					speed = 6f;
+					knockback = 1.4f;
+					puddleSize = 10f;
+					orbSize = 3.3f;
+					drag = 0.001f;
+					ammoMultiplier = 0.4f;
+					statusDuration = 60f * 4f;
 					damage = 0.5f;
-					speed = 4f;
-					lifetime = 40f;
-
-					ammoMultiplier = 0.4f;
-					knockback = 1f;
-					statusDuration = 3f * Time.toSeconds;
-
-					drag = 0.0025f;
-					orbSize = 4f;
-					puddleSize = 7f;
-					layer = Layer.bullet - 2f;
-				}},
-				Liquids.slag, new LiquidBulletType(Liquids.slag) {{
-					damage = 8f;
-					speed = 4f;
-					lifetime = 40f;
-
-					ammoMultiplier = 0.8f;
-					reloadMultiplier = 0.8f;
-					armorMultiplier = 0.6f;
-					knockback = 0.5f;
-					statusDuration = 2f * Time.toSeconds;
-					statusChance = 0.5f;
-
-					drag = 0.0025f;
-					orbSize = 4f;
-					puddleSize = 6f;
-				}},
-				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid) {{
-					damage = 2f;
-					speed = 4.5f;
-					lifetime = 36f;
-
-					ammoMultiplier = 0.4f;
-					knockback = 1.6f;
-					statusDuration = 2f * Time.toSeconds;
-					statusChance = 0.5f;
-
-					drag = 0.001f;
-					orbSize = 4f;
-					puddleSize = 8f;
-				}},
-				AstraFluids.ferrofluid, new LiquidBulletType(AstraFluids.ferrofluid) {{
-					damage = 0.5f;
-					speed = 4.5f;
-					lifetime = 36f;
-
-					ammoMultiplier = 0.4f;
-					knockback = 1.6f;
-					statusDuration = 2f * Time.toSeconds;
-					statusChance = 0.5f;
-
-					drag = 0.001f;
-					orbSize = 3f;
-					puddleSize = 8f;
 					layer = Layer.bullet - 2f;
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-") {{
+			drawer = new DrawTurret("astranium-"){{
 				parts.add(new RegionPart("-barrel") {{
-					progress = PartProgress.recoil;
 					under = true;
 					moveY = -1f;
 					children = Seq.with(
@@ -4001,19 +3956,23 @@ public class AstraBlocks {
 				}});
 			}};
 
-			shoot = new ShootAlternate(3f) {{ shots = 2; shotDelay = 1.5f; firstShotDelay = 4f; }};
-			scaledHealth = 160f;
+			scaledHealth = 240f;
+			armor = 3f;
 			size = 3;
-			reload = 4f;
-			range = 160f;
-			liquidCapacity = 50f;
+			reload = 2f;
+			range = 150f;
+			liquidCapacity = 100f;
+			rotateSpeed = 360f;
 
-			inaccuracy = 2f;
-			shootCone = 30f;
-			velocityRnd = 0.15f;
+			inaccuracy = 30f;
+			shootCone = 70f;
+			velocityRnd = 0.05f;
+			shoot = new ShootAlternate(4f);
+			shoot.shots = 4;
 
-			recoil = 0f;
 			shootEffect = Fx.shootLiquid;
+			shootSound = Sounds.none;
+			loopSound = Sounds.shootSublimate;
 			flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
 		}};
 
