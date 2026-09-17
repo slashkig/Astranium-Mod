@@ -1,12 +1,16 @@
 package astramod.content;
 
 import arc.graphics.*;
+import arc.struct.*;
 import arc.util.Log;
+import mindustry.content.*;
 import mindustry.type.*;
 
 public class AstraFluids {
 	public static Liquid steam, helium, ferrofluid, plasma;
-	
+
+	public final static Seq<Liquid> liquidSortingOrder = new Seq<>(true);
+
 	public static void load() {
 		Log.info("Loading fluids");
 
@@ -39,5 +43,10 @@ public class AstraFluids {
 			explosiveness = 0.5f;
 			lightColor = Color.valueOf("d8bfd8").a(0.5f);
 		}};
+
+		liquidSortingOrder.addAll(
+			Liquids.water, Liquids.arkycite, steam, Liquids.ozone, Liquids.hydrogen, Liquids.oil, Liquids.nitrogen,
+			Liquids.cryofluid, ferrofluid, Liquids.slag, Liquids.neoplasm, Liquids.cyanogen, helium, plasma
+		);
 	}
 }

@@ -1,47 +1,20 @@
 package astramod.world.blocks.defense;
 
 import arc.Core;
-import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.math.*;
 import arc.math.geom.*;
 import arc.scene.ui.layout.Table;
 import arc.struct.*;
-import arc.util.*;
 import mindustry.Vars;
-import mindustry.content.*;
-import mindustry.entities.*;
-import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
-import mindustry.graphics.*;
 import mindustry.logic.*;
-import mindustry.type.*;
 import mindustry.world.*;
-import astramod.entities.UnitUtil;
 import astramod.graphics.*;
 import astramod.world.meta.*;
 
-import static mindustry.Vars.*;
-
 public class Mine extends Block {
-	public float explodePower = 50f;
-	public float explodeRadius = 2.5f;
-	public float explodeFire = 0f;
-	public float knockback = 0f;
 	public float damageResistFactor = 0.5f;
-
-	public StatusEffect status = StatusEffects.none;
-	public float statusDuration = 240f;
-
-	public int numLightning = 0;
-	public float lightningDamage;
-	public int lightningLength;
-	public Color lightningColor = Pal.surge;
-
-	public @Nullable BulletType bullet;
-	public int shots = 0;
-	public float shotInaccuracy = 0f;
 
 	public float drawAlpha = 1f;
 	public boolean cloaked = false; // TODO units can still be commanded to attack this when cloaked
@@ -55,6 +28,7 @@ public class Mine extends Block {
 		underBullets = true;
 		squareSprite = false;
 		hasShadow = false;
+		destroyBulletSameTeam = true;
 	}
 
 	@Override public void init() {
@@ -65,7 +39,7 @@ public class Mine extends Block {
 	@Override public void setStats() {
 		super.setStats();
 		stats.addPercent(AstraStat.damageResistance, (1f - damageResistFactor));
-		stats.add(AstraStat.detonation, AstraStatValues.mine(this, 0));
+		stats.add(AstraStat.detonation, AstraStatValues.astraAmmo(ObjectMap.of(this, destroyBullet)));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -78,7 +52,7 @@ public class Mine extends Block {
 		}
 
 		for (Point2 edge : Edges.getEdges(size)) {
-			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof LandMineBuild) return false;
+			if (Vars.world.build(tile.x + edge.x, tile.y + edge.y) instanceof LandMineBuild) return false;
 		}
 		return true;
 	}
@@ -106,12 +80,12 @@ public class Mine extends Block {
 	}
 
 	@Override public int minimapColor(Tile tile) {
-		return (!cloaked || tile.team() == player.team() ? AstraPal.teamFaded[tile.team().id] : tile.floor().mapColor).rgba();
+		return (!cloaked || tile.team() == Vars.player.team() ? AstraPal.teamFaded[tile.team().id] : tile.floor().mapColor).rgba();
 	}
 
 	public class LandMineBuild extends Building {
 		@Override public void draw() {
-			if (!cloaked || team == player.team()) {
+			if (!cloaked || team == Vars.player.team()) {
 				Draw.alpha(drawAlpha);
 				super.draw();
 				Draw.reset();
@@ -121,7 +95,7 @@ public class Mine extends Block {
 		@Override public void drawCracks() { }
 
 		@Override public void unitOn(Unit unit) {
-			if (enabled && unit.team != team) triggered();
+			if (enabled && unit.team != team) kill();
 		}
 
 		@Override public void damage(float damage) {
@@ -129,12 +103,12 @@ public class Mine extends Block {
 		}
 
 		@Override public void control(LAccess type, double p1, double p2, double p3, double p4) {
-			if (type == LAccess.shoot && p3 == 1) triggered();
+			if (type == LAccess.shoot && p3 == 1) kill();
 			super.control(type, p1, p2, p3, p4);
 		}
 
 		@Override public void control(LAccess type, Object p1, double p2, double p3, double p4) {
-			if (type == LAccess.shootp && p2 == 1) triggered();
+			if (type == LAccess.shootp && p2 == 1) kill();
 			super.control(type, p1, p2, p3, p4);
 		}
 
@@ -142,39 +116,6 @@ public class Mine extends Block {
 			if (cloaked && team != Vars.player.team()) {
 				Vars.world.tileWorld(Core.input.mouseWorldX(), Core.input.mouseWorldY()).display(table);
 			} else super.display(table);
-		}
-
-		public void triggered() {
-			for (int i = 0; i < numLightning; i++) {
-				Lightning.create(team, lightningColor, lightningDamage, x, y, Mathf.random(360f), lightningLength);
-			}
-
-			if (bullet != null) {
-				for(int i = 0; i < shots; i++){
-					bullet.create(this, x, y, (360f / shots) * i + Mathf.random(shotInaccuracy));
-				}
-			}
-
-			Damage.dynamicExplosion(x, y, explodeFire, explodePower, 0f, explodeRadius, true, true, team);
-
-			float radius = explodeRadius * tilesize;
-			if (knockback != 0) {
-				Units.nearbyEnemies(team, x, y, radius, unit -> {
-					unit.apply(status, statusDuration);
-					if (knockback < 0f) UnitUtil.attract(unit, this, -knockback, radius);
-					else UnitUtil.knockback(unit, this, knockback, radius);
-				});
-			} else if (status != StatusEffects.none) {
-				Units.nearbyEnemies(team, x, y, radius, unit -> unit.apply(status, statusDuration));
-			}
-
-			kill();
-		}
-
-		@Override public void onDestroyed() {
-			if (createRubble && !floor().solid) {
-				Effect.rubble(x, y, size);
-			}
 		}
 	}
 }

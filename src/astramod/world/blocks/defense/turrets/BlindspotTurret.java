@@ -4,9 +4,10 @@ import mindustry.entities.*;
 import mindustry.game.Team;
 import mindustry.gen.*;
 
-public class BlindspotTurret extends AstraTurret {
+public class BlindspotTurret extends AstraItemTurret {
 	public BlindspotTurret(String name) {
 		super(name);
+		drawMinRange = true;
 	}
 
 	public class BlindspotTurretBuild extends ItemTurretBuild {

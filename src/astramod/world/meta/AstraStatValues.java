@@ -2,15 +2,12 @@ package astramod.world.meta;
 
 import arc.Core;
 import arc.graphics.*;
-import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
 import mindustry.Vars;
-import mindustry.content.*;
 import mindustry.ctype.*;
 import mindustry.entities.bullet.*;
-import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
@@ -20,7 +17,6 @@ import astramod.content.*;
 import astramod.entities.bullet.*;
 import astramod.type.effect.*;
 import astramod.ui.*;
-import astramod.world.blocks.defense.*;
 
 import static mindustry.world.meta.StatValues.*;
 
@@ -76,9 +72,14 @@ public class AstraStatValues {
 	}
 
 	public static StatValue statusEffect(StatusEffect effect, float time) {
-		return table -> addRowString(table, "@[stat]@[lightgray] ~ [white]@[lightgray] @",
+		return statusEffect(effect, time, false);
+	}
+
+	public static StatValue statusEffect(StatusEffect effect, float time, boolean timeStatColor) {
+		return table -> addRowString(table, "@[stat]@[lightgray] ~ [@]@[lightgray] @",
 			(effect.hasEmoji() ? effect.emoji() + " " : ""),
 			effect.localizedName,
+			timeStatColor ? "stat" : "white",
 			Strings.autoFixed(time / Time.toSeconds, 1),
 			Core.bundle.get("unit.seconds")
 		);
@@ -121,21 +122,28 @@ public class AstraStatValues {
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName) {
 		return table -> {
 			StatValues.ammo(map, nested, showUnit, blockName).display(table);
-			Seq<T> orderedKeys = map.keys().toSeq().sort();
+			var orderedKeys = map.keys().toSeq().sort();
 			int offset = table.getCells().size - orderedKeys.size;
+			Block block = Vars.content.block(blockName);
 
 			for (int i = 0; i < orderedKeys.size; i++) {
 				BulletType bullet = map.get(orderedKeys.get(i));
 				Table entry = (Table)table.getCells().get(i + offset).get();
-				Block block = Vars.content.block(blockName);
 
-				if (bullet instanceof BoltBulletType bt && bt.armorPenetration > 0f) {
-					addRow(entry, "bullet.armorpenetration", bt.armorPenetration);
+				if (bullet instanceof BoltBulletType bt) {
+					if (bt.armorPenetration > 0f) addRow(entry, "bullet.armorpenetration", bt.armorPenetration);
 				} else if (bullet instanceof SonicBulletType bt) {
 					Displays.replaceLabelText(entry,
 						Core.bundle.format("bullet.damage", bullet.damage),
 						Core.bundle.format("bullet.damage", Strings.autoFixed(bullet.damage * (1f - bt.falloffFactor), 1) + " - " + Strings.autoFixed(bullet.damage, 1))
 					);
+				} else if (bullet instanceof MagneticBulletType bt) {
+					statusEffect(AstraStatusEffects.magnetized, bt.magnetizedDuration, true).display(entry);
+					addRow(entry, "bullet.magnetism", bt.magneticStrength);
+				}
+
+				if (bullet.pierceDamageFactor > 0f) {
+					addRow(entry, "bullet.piercedamagefactor", 100f * bullet.pierceDamageFactor);
 				}
 				if (bullet.shootPattern != null && block instanceof Turret t) {
 					int shots = bullet.shootPattern.shots - t.shoot.shots;
@@ -143,73 +151,24 @@ public class AstraStatValues {
 				}
 			}
 
-			if (map.notEmpty() && map.keys().next() instanceof Item) {
-				var cells = Seq.with(table.getCells());
-				table.getCells().sort(e -> {
-					int index = cells.indexOf(e);
-					return index < offset ? index : (offset + AstraItems.itemSortingOrder.indexOf((Item)orderedKeys.get(index - offset)));
-				});
+			if (map.notEmpty()) {
+				T key = orderedKeys.first();
+				if (key instanceof Item) {
+					sortCells(table, AstraItems.itemSortingOrder, orderedKeys, offset);
+				} else if (key instanceof Liquid) {
+					sortCells(table, AstraFluids.liquidSortingOrder, orderedKeys, offset);
+				}
 			}
 		};
 	}
 
-	// TODO duplicate code?
-	public static StatValue mine(Mine mine, int indent) {
-		return table -> {
-			table.row();
-
-			table.table(Styles.grayPanel, bt -> {
-				bt.left().top().defaults().padRight(3).left();
-				bt.table(title -> {
-					title.image(mine.uiIcon).size(3 * 8).padRight(4).right().scaling(Scaling.fit).top();
-					title.add(mine.localizedName).padRight(10).left().top();
-				});
-
-				if(mine.explodePower > 0) {
-					addRow(bt, "bullet.damage", Mathf.floor(mine.explodePower / 11f) * mine.explodePower / 2f);
-				}
-
-				addRow(bt, "stat.tileradius", mine.explodeRadius, true);
-
-				if (mine.knockback > 0) {
-					addRow(bt, "bullet.knockback", mine.knockback);
-				} else if (mine.knockback < 0) {
-					addRow(bt, "stat.magneticstrength", -mine.knockback, true);
-				}
-		
-				if (mine.explodeFire > 0) {
-					addRow(bt, "stat.incendivity", mine.explodeFire, true);
-				}
-
-				if (mine.numLightning > 0) {
-					addRow(bt, "stat.lightningcount", mine.numLightning, false);
-					addRow(bt, "stat.lightningdamage", (int)mine.lightningDamage, false);
-				}
-
-				if (mine.status != StatusEffects.none) {
-					statusEffect(mine.status, mine.statusDuration).display(bt);
-				}
-
-				if (mine.bullet != null) {
-					bt.row();
-
-					Table fc = new Table();
-					astraAmmo(ObjectMap.of(mine, mine.bullet), true, false).display(fc);
-					Collapser coll = new Collapser(fc, true);
-					coll.setDuration(0.1f);
-
-					bt.table(ft -> {
-						ft.left().defaults().left();
-
-						ft.add(Core.bundle.format("bullet.frags", mine.shots));
-						ft.button(Icon.downOpen, Styles.emptyi, () -> coll.toggle(false)).update(i -> i.getStyle().imageUp = (!coll.isCollapsed() ? Icon.upOpen : Icon.downOpen)).size(8).padLeft(16f).expandX();
-					});
-					bt.row();
-					bt.add(coll);
-				}
-			}).padLeft(indent * 5).padTop(5).padBottom(5).growX().margin(10);
-			table.row();
-		};
+	@SuppressWarnings("unchecked")
+	public static <T extends UnlockableContent> void sortCells(Table table, Seq<T> order, Seq<? extends UnlockableContent> orderedKeys, int offset) {
+		var cells = Seq.with(table.getCells());
+		table.getCells().sort(e -> {
+			int index = cells.indexOf(e);
+			return index < offset ? index : (offset + order.indexOf((T)orderedKeys.get(index - offset)));
+		});
 	}
 
 	public static StatValue numberRange(float low, float high, StatUnit unit) {
@@ -234,8 +193,10 @@ public class AstraStatValues {
 		return table -> {
 			table.row().table(t -> {
 				blocks.each(b -> {
-					block(b, Strings.format("block.@.name", b.name)).display(t);
-					t.row();
+					if (!b.isHidden()) {
+						block(b, Strings.format("block.@.name", b.name)).display(t);
+						t.row();
+					}
 				});
 			});
 		};

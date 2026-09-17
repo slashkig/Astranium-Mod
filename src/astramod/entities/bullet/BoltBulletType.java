@@ -1,10 +1,9 @@
 package astramod.entities.bullet;
 
 import arc.graphics.*;
-import astramod.content.AstraFx;
-import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
+import astramod.content.*;
 
 public class BoltBulletType extends BasicBulletType {
 	public float armorPenetration = 0f;

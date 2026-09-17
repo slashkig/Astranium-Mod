@@ -768,21 +768,10 @@ public class AstraUnitTypes {
 						armorMultiplier = 0.5f;
 					}};
 				}},
-				new Weapon() {{
-					controllable = aiControllable = false;
-					useAttackRange = false;
-					shootOnDeath = true;
-					mirror = false;
-					x = shootY = 0f;
-
-					shootSound = Sounds.explosionCrawler;
-					shootSoundVolume = 0.4f;
-
-					bullet = new ExplosionBulletType(50f, 4f * tilesize) {{
-						buildingDamageMultiplier = 0.75f;
-						shieldDamageMultiplier = 1.5f;
-					}};
-				}}
+				new DeathWeapon(new ExplosionBulletType(50f, 4f * tilesize) {{
+					buildingDamageMultiplier = 0.75f;
+					shieldDamageMultiplier = 1.5f;
+				}})
 			);
 		}};
 

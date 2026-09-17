@@ -3396,13 +3396,15 @@ public class AstraBlocks {
 		}};
 
 		navalMine = new Mine("naval-mine") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 12, Items.blastCompound, 18));
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 15, Items.blastCompound, 15));
 			size = 2;
 			health = 140;
+			armor = 1;
 			placeableLiquid = requiresWater = true;
 
-			explodePower = 80f;
 			damageResistFactor = 0.75f;
+			destroyBullet = new ExplosionBulletType(800f, 2.5f * tilesize);
+			destroyBullet.armorMultiplier = 0.5f;
 
 			cloaked = true;
 			createRubble = false;
@@ -3410,87 +3412,89 @@ public class AstraBlocks {
 		}};
 
 		incendiaryMine = new Mine("incendiary-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 18));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 8));
 
-			explodeRadius = 2f;
-			explodePower = 40f;
-			knockback = 1.5f;
-			explodeFire = 30f;
-			status = StatusEffects.burning;
+			destroyBullet = new ExplosionBulletType(60f, 2f * tilesize) {{
+				knockback = 1f;
+				makeFire = true;
+				incendAmount = 10;
+				status = StatusEffects.burning;
+				statusDuration = 4f * Time.toSeconds;
+			}};
 		}};
 
 		blastMine = new Mine("blast-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 18));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 8));
 
-			explodeRadius = 3f;
-			explodePower = 70f;
-			knockback = 8f;
-			explodeFire = 5f;
-			status = StatusEffects.blasted;
+			destroyBullet = new ExplosionBulletType(300f, 3.2f * tilesize) {{
+				knockback = 3f;
+				status = StatusEffects.blasted;
+			}};
 		}};
 
 		fragMine = new Mine("frag-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 8, Items.blastCompound, 10, Items.plastanium, 8));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 6, Items.plastanium, 8));
 
-			explodeRadius = 1.5f;
-			explodePower = 30f;
-			knockback = 5f;
-			shots = 8;
-			shotInaccuracy = 10f;
-			bullet = new BasicBulletType(4f, 20) {{
-				lifetime = 10f;
-				width = 5f;
-				height = 6f;
-				pierceCap = 3;
-				backColor = Pal.plastaniumBack;
-				frontColor = Pal.plastaniumFront;
+			destroyBullet = new ExplosionBulletType(100f, 1.5f * tilesize) {{
+				knockback = 1f;
+				fragBullets = 8;
+				fragSpread = 45f;
+				fragRandomSpread = 10f;
+				fragBullet = new BasicBulletType(4f, 16) {{
+					lifetime = 10f;
+					width = 5f;
+					height = 6f;
+					pierceCap = 3;
+					backColor = Pal.plastaniumBack;
+					frontColor = Pal.plastaniumFront;
+				}};
 			}};
 		}};
 
 		largeFragMine = new Mine("frag-mine-large") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 24, Items.blastCompound, 28, Items.plastanium, 32));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 15, Items.blastCompound, 15, Items.plastanium, 20));
 			size = 2;
-			health = 100;
+			health = 200;
 
-			explodeRadius = 2f;
-			explodePower = 45f;
-			knockback = 6f;
-			shots = 32;
-			shotInaccuracy = 10f;
-			bullet = ((Mine)fragMine).bullet;
+			destroyBullet = new ExplosionBulletType(250f, 2f * tilesize) {{
+				knockback = 2f;
+				fragBullets = 32;
+				fragSpread = 11.25f;
+				fragRandomSpread = 5f;
+				fragBullet = fragMine.destroyBullet.fragBullet;
+			}};
 		}};
 
 		surgeMine = new Mine("surge-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 18));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 8));
 
-			explodeRadius = 1f;
-			explodePower = 25f;
-			numLightning = 10;
-			lightningDamage = 36f;
-			lightningLength = 10;
-			status = StatusEffects.shocked;
-			statusDuration = 8f * Time.toSeconds;
+			destroyBullet = new ExplosionBulletType(20f, 1f * tilesize) {{
+				lightning = 10;
+				lightningDamage = 30f;
+				lightningLength = 10;
+				status = StatusEffects.shocked;
+			}};
 		}};
 
 		magneticMine = new Mine("magnetic-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 12, AstraItems.astranium, 8, AstraItems.vanadium, 6));
-			buildCostMultiplier = 2.5f;
+			requirements(Category.effect, ItemStack.with(Items.silicon, 15, AstraItems.astranium, 6, AstraItems.vanadium, 6));
+			buildCostMultiplier = 3f;
 			size = 2;
-			health = 120;
-			armor = 1;
+			health = 300;
+			armor = 2;
 
 			cloaked = true;
-			explodeRadius = 8f;
-			explodePower = 30f;
-			knockback = -30f;
 			drawAlpha = 0.65f;
-			status = AstraStatusEffects.magnetized;
-			statusDuration = 6f * Time.toSeconds;
+			destroyBullet = new MagneticBulletType(50f, 8f * tilesize) {{
+				magneticStrength = 30f;
+				status = StatusEffects.slow;
+				statusDuration = magnetizedDuration = 8f * Time.toSeconds;
+			}};
 		}};
 
 		// region TURRETS
 
-		dart = new AstraTurret("dart") {{
+		dart = new AstraItemTurret("dart") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			ammo(
 				AstraItems.hematite, new BasicBulletType(3f, 8) {{
@@ -3564,13 +3568,7 @@ public class AstraBlocks {
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-") {{
-				parts.add(new RegionPart("-barrel") {{
-					progress = PartProgress.recoil;
-					under = true;
-					moveY = -1f;
-				}});
-			}};
+			addBarrelPart(true, -1f);
 
 			scaledHealth = 120f;
 			size = 2;
@@ -3592,7 +3590,7 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		viper = new AstraTurret("aa-rocket") {{
+		viper = new AstraItemTurret("aa-rocket") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 60, Items.lead, 35));
 			ammo(
 				Items.copper, new MissileBulletType(3.5f, 10) {{
@@ -3641,12 +3639,7 @@ public class AstraBlocks {
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-") {{
-				parts.add(new RegionPart("-barrel") {{
-					progress = PartProgress.recoil;
-					moveY = -1f;
-				}});
-			}};
+			addBarrelPart();
 
 			scaledHealth = 150f;
 			size = 2;
@@ -3671,6 +3664,8 @@ public class AstraBlocks {
 
 		ember = new ItemTurret("ember") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.iron, 80, Items.lead, 50, Items.graphite, 40));
+			buildCostMultiplier = 1.2f;
+
 			ammo(
 				Items.coal, new BulletType(3f, 12) {{
 					ammoMultiplier = 6;
@@ -3745,7 +3740,6 @@ public class AstraBlocks {
 			shootSound = Sounds.shootFlame;
 		}};
 
-		// TODO permanent name for mortar
 		mortar = new BlindspotTurret("mortar") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.iron, 120,
@@ -3753,6 +3747,7 @@ public class AstraBlocks {
 				Items.lead, 100,
 				Items.silicon, 50
 			));
+			buildCostMultiplier = 1.2f;
 
 			ammo(
 				AstraItems.iron, new ArtilleryBulletType(3f, 10) {{
@@ -3847,15 +3842,13 @@ public class AstraBlocks {
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-") {{
-				parts.add(new RegionPart("-barrel") {{
-					progress = PartProgress.recoil;
-					under = true;
-					moveY = -3f;
-					layerOffset = -0.005f;
-					turretHeatLayer = Layer.turret - 0.002f;
-				}});
-			}};
+			addParts(new RegionPart("-barrel") {{
+				progress = PartProgress.recoil;
+				under = true;
+				moveY = -3f;
+				layerOffset = -0.005f;
+				turretHeatLayer = Layer.turret - 0.002f;
+			}});
 
 			scaledHealth = 130f;
 			size = 3;
@@ -3877,7 +3870,6 @@ public class AstraBlocks {
 
 			recoil = 1f;
 			shootY = 7f;
-			drawMinRange = true;
 			ammoUseEffect = Fx.casing3;
 			shootSound = Sounds.shootRipple;
 
@@ -3886,127 +3878,115 @@ public class AstraBlocks {
 
 		// TODO Dual Flak
 
-		monsoon = new LiquidTurret("monsoon"){{
+		monsoon = new AstraLiquidTurret("monsoon") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.iron, 300,
 				Items.titanium, 220,
 				Items.lead, 100,
 				Items.metaglass, 120,
-				AstraItems.magnetite, 50f
+				AstraItems.magnetite, 50
 			));
-
-			scaledHealth = 240f;
-			armor = 3f;
-			size = 3;
-			reload = 2f;
-			float r = range = 150f;
-			liquidCapacity = 100f;
-			rotateSpeed = 360f;
-
-			inaccuracy = 20f;
-			shootCone = 60f;
-			velocityRnd = 0.05f;
-			shoot = new ShootAlternate(4f);
-			shoot.shots = 4;
-			recoil = 0f;
-
-			shootEffect = Fx.shootLiquid;
-			shootSound = Sounds.none;
-			loopSound = Sounds.shootSublimate;
-			flags = EnumSet.of(BlockFlag.turret, BlockFlag.extinguisher);
+			buildCostMultiplier = 1.3f;
 
 			ammo(
-				Liquids.water, new LiquidBulletType(Liquids.water){{
-					lifetime = 29f;
+				Liquids.water, new LiquidBulletType(Liquids.water) {{
 					speed = 6f;
-					knockback = 1.7f;
-					puddleSize = 45f;
+					lifetime = 25f;
+					knockback = 2f;
+					statusDuration = 5f * Time.toSeconds;
+
+					drag = 0.001f;
 					orbSize = 4f;
-					drag = 0.001f;
-
-					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 5f;
+					puddleSize = 45f;
 					layer = Layer.bullet - 2f;
 				}},
-				Liquids.slag, new LiquidBulletType(Liquids.slag){{
-					lifetime = 29f;
-					speed = 6f;
-					knockback = 1.4f;
-					puddleSize = 10f;
-					orbSize = 3.3f;
-					drag = 0.001f;
-
-					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 10f;
+				Liquids.slag, new LiquidBulletType(Liquids.slag) {{
 					damage = 6.7f;
-					layer = Layer.bullet - 2f;
-				}},
-				Liquids.oil, new LiquidBulletType(Liquids.oil){{
-					lifetime = 29f;
-					speed = 6f;
+					speed = 5f;
+					lifetime = 30f;
+					reloadMultiplier = 0.6f;
+					armorMultiplier = 0.5f;
 					knockback = 1.4f;
+					statusDuration = 5f * Time.toSeconds;
+
+					drag = 0.003f;
+					orbSize = 3.3f;
+					puddleSize = 10f;
+				}},
+				Liquids.oil, new LiquidBulletType(Liquids.oil) {{
+					speed = 5f;
+					lifetime = 30f;
+					knockback = 1.4f;
+					statusDuration = 5f * Time.toSeconds;
+
+					drag = 0.003f;
 					puddleSize = 10f;
 					orbSize = 3.3f;
-					drag = 0.001f;
-
-					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 5f;
 					layer = Layer.bullet - 2f;
 				}},
-				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid){{
-					lifetime = 29f;
-					speed = 6f;
+				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid) {{
+					damage = 1f;
+					speed = 5f;
+					lifetime = 30f;
 					knockback = 1.4f;
+					statusDuration = 5f * Time.toSeconds;
+
+					drag = 0.002f;
+					orbSize = 3.3f;
 					puddleSize = 10f;
-					orbSize = 3.3f;
-					drag = 0.001f;
+				}},
+				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam) {{
+					damage = 4f;
+					speed = 6f;
+					lifetime = boilTime = 25f;
+					reloadMultiplier = 1.2f;
 
-					ammoMultiplier = 0.4f;
-					statusDuration = 60f * 5f;
-					damage = 0.5f;
+					drag = 0.002f;
+					orbSize = 2.3f;
 					layer = Layer.bullet - 2f;
 				}},
-				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam){{
-					lifetime = boilTime = 29f;
+				AstraFluids.ferrofluid, new LiquidBulletType(AstraFluids.ferrofluid) {{
 					speed = 6f;
-					knockback = 1.0f;
-					orbSize = 3.3f;
-					drag = 0.001f;
-
-					ammoMultiplier = 0.4f;
-					status = StatusEffects.burning;
-					statusDuration = 60f * 4f;
-					damage = 2f;
-					layer = Layer.bullet - 2f;
-				}},
-				AstraFluids.ferrofluid, new LiquidBulletType(AstraFluids.ferrofluid){{
-					lifetime = 29f;
-					speed = 6f;
+					lifetime = 25f;
 					knockback = 1.5f;
-					puddleSize = 10f;
-					orbSize = 3.3f;
-					drag = 0.001f;
+					statusDuration = 5f * Time.toSeconds;
 
-					ammoMultiplier = 0.4f;
-					status = AstraStatusEffects.magnetized;
-					statusDuration = 60f * 0.5f;
+					drag = 0.002f;
+					orbSize = 3.3f;
+					puddleSize = 10f;
 					layer = Layer.bullet - 2f;
 				}}
 			);
 
-			drawer = new DrawTurret("astranium-"){{
-				parts.add(new RegionPart("-barrel") {{
-					under = true;
-					moveY = -1f;
-					children = Seq.with(
-						new LiquidPart("-barrel-liquid") {{ under = true; }},
-						new RegionPart("-barrel-top") {{ outline = false; }}
-					);
-				}});
-			}};
+			addParts(new RegionPart("-barrel") {{
+				under = true;
+				moveY = -1f;
+				children = Seq.with(
+					new LiquidPart("-barrel-liquid") {{ under = true; }},
+					new RegionPart("-barrel-top") {{ outline = false; }}
+				);
+			}});
+
+			scaledHealth = 240f;
+			armor = 3f;
+			size = 3;
+			range = 150f;
+			reload = 2f;
+			fogRadiusMultiplier = 0.4f;
+			shoot = new ShootAlternate(4f);
+			shoot.shots = 4;
+			liquidCapacity = 100f;
+			consumeAmmoOnce = false;
+
+			inaccuracy = 20f;
+			shootCone = 60f;
+			velocityRnd = 0.05f;
+			recoil = 0f;
+
+			loopSound = Sounds.shootSublimate;
 		}};
 
-		ballista = new AstraTurret("ballista") {{
+		ballista = new AstraItemTurret("ballista") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.steel, 200,
 				Items.copper, 250,
@@ -4014,7 +3994,7 @@ public class AstraBlocks {
 				Items.graphite, 180,
 				Items.titanium, 125
 			));
-			buildCostMultiplier = 1.4f;
+			buildCostMultiplier = 1.5f;
 
 			ammo(
 				AstraItems.iron, new BoltBulletType(10f, 150) {{
