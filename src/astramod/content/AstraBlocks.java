@@ -4091,7 +4091,6 @@ public class AstraBlocks {
 			shake = 1.5f;
 
 			ammoUseEffect = Fx.casing3;
-			shootEffect = new MultiEffect(Fx.shootBigColor, Fx.colorSparkBig);
 			smokeEffect = Fx.shootBigSmoke;
 			shootSound = Sounds.shootSmite;
 

@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.math.Interp;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -8,6 +9,7 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -46,7 +48,7 @@ public class AstraUnitTypes {
 		meissa, saiph,
 		superBartizan;
 	public static @EntityDef({Unitc.class, Legsc.class}) UnitType
-		baeri;
+		baeri, vorhies;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
 
@@ -723,26 +725,24 @@ public class AstraUnitTypes {
 			range = 25f;
 			maxRange = 15f;
 			fogRadius = 8f;
+			rotateSpeed = 4f;
 			itemCapacity = 5;
-
 			allowLegStep = true;
 			legPhysicsLayer = false;
 			speed = 0.9f;
 			drag = 0.11f;
-			rotateSpeed = 3f;
 			knockbackMultiplier = 0.5f;
 
+			legCount = 4;
+			legLength = 9f;
+			legForwardScl = 0.6f;
+			legMoveSpace = 1.6f;
+			legBaseOffset = 1f;
 			lockLegBase = true;
 			legContinuousMove = true;
-			legLength = 8f;
-			legMoveSpace = 2f;
-			legStraightness = 0.3f;
-			legBaseOffset = 1f;
-			legMaxLength = 2f;
-			legMinLength = 0.8f;
+
 			legLengthScl = 0.96f;
-			legForwardScl = 1f;
-			rippleScale = 0.2f;
+			rippleScale = 0.5f;
 
 			shadowElevation = 0.1f;
 			groundLayer = Layer.legUnit - 1f;
@@ -762,8 +762,8 @@ public class AstraUnitTypes {
 					shootY = 9f;
 					shootSound = Sounds.none;
 
-					bullet = new MeleeBulletType(25) {{
-						hitSize = 6f;
+					bullet = new MeleeBulletType(30) {{
+						hitSize = 8f;
 						rangeOverride = 15f;
 						armorMultiplier = 0.5f;
 					}};
@@ -786,16 +786,128 @@ public class AstraUnitTypes {
 			);
 		}};
 
+		vorhies = new AstraUnitType("vorhies", LegsUnit::create) {{
+			targetAir = false;
+			hovering = true;
+
+			health = 600;
+			armor = 5f;
+			hitSize = 14f;
+			range = 25f;
+			maxRange = 15f * tilesize;
+			fogRadius = 16f;
+			itemCapacity = 20;
+			speed = 0.7f;
+			rotateSpeed = 4f;
+			immunities.add(StatusEffects.burning);
+
+			stepSound = Sounds.walkerStepSmall;
+
+			legCount = 6;
+			legGroupSize = 3;
+			legLength = 14f;
+			lockLegBase = true;
+			legContinuousMove = true;
+			legExtension = -3f;
+			legBaseOffset = 5f;
+			legMaxLength = 1.1f;
+			legMinLength = 0.2f;
+			legLengthScl = 0.95f;
+			legForwardScl = 0.9f;
+
+			legMoveSpace = 1f;
+
+			shadowElevation = 0.2f;
+			groundLayer = Layer.legUnit - 1f;
+
+			weapons.add(
+				new Weapon("astramod-vorhies-smoke-cannon") {{
+					range = 15f * tilesize;
+					reload = 600f;
+					recoil = 3f;
+					x = -7.5f;
+					y = -1f;
+					shootY = 2.75f;
+					mirror = false;
+
+					rotate = true;
+					rotateSpeed = 2f;
+					rotationLimit = 60f;
+					cooldownTime = 60f;
+
+					shootSound = Sounds.shootMerui;
+					shootSoundVolume = 1.4f;
+					bullet = new ArtilleryBulletType(3f, 5){{
+						shootEffect = Fx.shootSmallSmoke;
+						status = StatusEffects.slow; //change it to somethin else
+						statusDuration = 180f;
+
+						lifetime = 46f;
+						width = height = 14f;
+						splashDamageRadius = 150f;
+						splashDamage = 5f;
+
+						trailLength = 25;
+						trailWidth = 2.5f;
+						trailEffect = Fx.none;
+						trailColor = backColor;
+						trailEffect = Fx.smoke;
+						trailRotation = true;
+						trailInterval = 2f;
+						trailInterp = Interp.slope;
+
+						backColor = trailColor = AstraPal.magnetBack;
+						frontColor = hitColor = AstraPal.magnetFront;
+						hitEffect = despawnEffect = new MultiEffect(AstraFx.smokeScreen(15f, AstraPal.magnetFront), Fx.hitSquaresColor);
+
+						shrinkX = 0.6f;
+						shrinkY = 0.2f;
+					}};
+				}},
+				new Weapon("astramod-vorhies-flame-fang") {{
+					range = 4f * tilesize;
+					reload = 16f;
+					recoil = 3f;
+					x = 2.25f;
+					y = 5.5f;
+					shootY = 3f;
+					shootX = -0.75f;
+					layerOffset = -0.002f;
+
+					heatColor = AstraPal.heat;
+					cooldownTime = 60f;
+					rotate = false;
+
+					shootSound = Sounds.shootFlame;
+					bullet = new BulletType(4.2f, 45f){{
+						hitSize = 7f;
+						lifetime = 15f;
+						pierce = true;
+						pierceBuilding = true;
+						pierceCap = 2;
+						range = 32f;
+						statusDuration = 60f * 5;
+						shootEffect = Fx.shootPyraFlame;
+						hitEffect = Fx.hitFlameSmall;
+						despawnEffect = Fx.none;
+						status = StatusEffects.burning;
+						keepVelocity = false;
+						hittable = false;
+					}};
+				}}
+			);
+		}};
+
 		// region GUNNER TANKS
 
 		aculei = new AstraTankUnitType("aculei") {{
-			health = 600;
-			armor = 4f;
+			health = 800;
+			armor = 5f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 12;
 
-			speed = 1.2f;
+			speed = 1f;
 			accel = 0.2f;
 			rotateSpeed = 3f;
 			floorMultiplier = 0.95f;
@@ -809,7 +921,7 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-aculei-weapon") {{
 				reload = 8f;
-				inaccuracy = 6f;
+				inaccuracy = 12f;
 				rotate = true;
 				rotateSpeed = 2.5f;
 				recoil = 0.8f;
@@ -820,15 +932,15 @@ public class AstraUnitTypes {
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
-				bullet = new BasicBulletType(5f, 11) {{
-					lifetime = 22f;
+				bullet = new BasicBulletType(5f, 10) {{
+					lifetime = 18f;
 					shrinkY = 0f;
 				}};
 			}});
 		}};
 
 		echidna = new AstraTankUnitType("echidna") {{
-			health = 1700;
+			health = 2000;
 			armor = 8f;
 			hitSize = 21f;
 			fogRadius = 12f;
@@ -838,7 +950,7 @@ public class AstraUnitTypes {
 			accel = 0.18f;
 			rotateSpeed = 2.5f;
 			floorMultiplier = 0.8f;
-			knockbackMultiplier = 0.6f;
+			knockbackMultiplier = 0.5f;
 			crushFragile = true;
 			crushDamage = 0.4f;
 
@@ -851,7 +963,7 @@ public class AstraUnitTypes {
 
 			weapons.add(new Weapon("astramod-echidna-weapon") {{
 				reload = 7f;
-				inaccuracy = 10f;
+				inaccuracy = 12f;
 				rotate = true;
 				rotateSpeed = 2f;
 				shootCone = 2f;
@@ -864,10 +976,10 @@ public class AstraUnitTypes {
 				shootY = 10f;
 				layerOffset = 0.0001f;
 
-				bullet = new RicochetBulletType(6f, 14) {{
+				bullet = new RicochetBulletType(6f, 11) {{
 					width = 8f;
 					height = 10f;
-					lifetime = 20f;
+					lifetime = 18f;
 
 					shootSoundVolume = 1.5f;
 					smokeEffect = Fx.shootBigSmoke;
@@ -888,7 +1000,7 @@ public class AstraUnitTypes {
 			aiController = GroundRangerAI::new;
 			targetAir = false;
 
-			health = 320;
+			health = 300;
 			armor = 2f;
 			hitSize = 13f;
 			fogRadius = 12f;
@@ -937,7 +1049,7 @@ public class AstraUnitTypes {
 			aiController = GroundRangerAI::new;
 			targetAir = false;
 
-			health = 1000;
+			health = 800;
 			armor = 4f;
 			hitSize = 21f;
 			fogRadius = 15f;
@@ -992,7 +1104,7 @@ public class AstraUnitTypes {
 
 					fragBullets = 10;
 					fragRandomSpread = 100f;
-					fragBullet = new BasicBulletType(4f, 6) {{
+					fragBullet = new BasicBulletType(4f, 8) {{
 						lifetime = 20f;
 						width = 6f;
 						height = 8f;
@@ -1002,7 +1114,7 @@ public class AstraUnitTypes {
 
 						collidesAir = false;
 						pierce = true;
-						pierceCap = 2;
+						pierceCap = 3;
 
 						frontColor = Pal.blastAmmoFront;
 						backColor = Pal.blastAmmoBack;
@@ -1047,8 +1159,8 @@ public class AstraUnitTypes {
 		vitex = new AstraTankUnitType("vitex") {{
 			aiController = GroundRangerAI::new;
 
-			health = 1000;
-			armor = 5f;
+			health = 850;
+			armor = 6f;
 			hitSize = 20f;
 			range = 16f * tilesize;
 			fogRadius = 18f;
@@ -1078,7 +1190,7 @@ public class AstraUnitTypes {
 					x = 0;
 					y = 5.75f;
 					shootY = 3f;
-					beamWidth = 0.4f;
+					beamWidth = 0.6f;
 					repairSpeed = 40f / Time.toSeconds;
 					targetBuildings = true;
 
@@ -1098,7 +1210,7 @@ public class AstraUnitTypes {
 
 		meissa = new AstraTankUnitType("meissa") {{
 			health = 500;
-			armor = 3f;
+			armor = 4f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 12;
@@ -1119,7 +1231,7 @@ public class AstraUnitTypes {
 				rotate = true;
 				rotateSpeed = 2.2f;
 				recoil = 1f;
-				shoot = new ShootHelix() {{ mag = 1.8f; scl = 2f; }};
+				shoot = new ShootHelix() {{ mag = 2f; scl = 2f; }};
 
 				mirror = false;
 				x = 0f;
@@ -1131,7 +1243,7 @@ public class AstraUnitTypes {
 
 				shootSound = Sounds.shootMissilePlasma;
 
-				bullet = new EnergyBulletType(3.8f, 20, "circle-bullet") {{
+				bullet = new EnergyBulletType(3.8f, 28, "circle-bullet") {{
 					width = height = 6f;
 					lifetime = 30f;
 					pierceCap = 2;
@@ -1143,7 +1255,7 @@ public class AstraUnitTypes {
 					backColor = trailColor = AstraPal.crystalBack;
 					shootEffect = AstraFx.shootCrystal;
 					smokeEffect = AstraFx.hitCrystal;
-					despawnEffect = hitEffect = AstraFx.crystalBurstSmall;
+					despawnEffect = hitEffect = AstraFx.dynamicBurstSmall(this);
 					trailWidth = 1.5f;
 					trailLength = 8;
 				}};
@@ -1151,8 +1263,8 @@ public class AstraUnitTypes {
 		}};
 
 		saiph = new AstraTankUnitType("saiph") {{
-			health = 1300;
-			armor = 6f;
+			health = 1200;
+			armor = 7f;
 			hitSize = 21f;
 			fogRadius = 12f;
 			itemCapacity = 25;
@@ -1174,7 +1286,7 @@ public class AstraUnitTypes {
 			abilities.add(new ShieldRegenAbility(20f, 250f, 4f * Time.toSeconds));
 
 			weapons.add(new Weapon("astramod-saiph-weapon") {{
-				reload = 90f;
+				reload = 100f;
 				rotate = true;
 				rotateSpeed = 2f;
 				recoil = 2f;
@@ -1191,11 +1303,11 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootNavanax;
 				shootSoundVolume = 0.8f;
 
-				bullet = new EnergyBulletType(4.5f, 30) {{
-					lifetime = 30f;
+				bullet = new EnergyBulletType(4.5f, 55) {{
+					lifetime = 35f;
 					pierceCap = 3;
 
-					lightning = 1;
+					lightning = 2;
 					lightningLength = 7;
 					lightningDamage = 10;
 
@@ -1207,11 +1319,13 @@ public class AstraUnitTypes {
 					backColor = trailColor = AstraPal.crystalBack;
 					chargeEffect = AstraFx.crystalCharge;
 					shootEffect = AstraFx.crystalShockwave;
-					hitEffect = AstraFx.crystalBurstSmall;
-					despawnEffect = AstraFx.crystalBurstLarge;
+					hitEffect = AstraFx.dynamicBurstSmall(this);
+					despawnEffect = AstraFx.dynamicBurstLarge(this);
 					despawnOnRemove = true;
 					despawnSound = hitSound = Sounds.explosionDull;
-					trailWidth = 2.4f;
+
+					height = width = 12f;
+					trailWidth = 3f;
 					trailLength = 12;
 
 					bulletInterval = 4f;

@@ -18,7 +18,6 @@ public class EnergyBulletType extends BasicBulletType {
 		pierce = pierceBuilding = true;
 		laserBullet = true;
 		shrinkY = 0f;
-		trailChance = 0.2f;
 		lightOpacity = 0.6f;
 		hitSound = despawnSound = Sounds.explosion;
 	}

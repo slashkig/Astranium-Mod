@@ -1,6 +1,7 @@
 package astramod.entities.bullet;
 
 import arc.graphics.*;
+import astramod.content.AstraFx;
 import mindustry.content.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
@@ -16,7 +17,8 @@ public class BoltBulletType extends BasicBulletType {
 		pierce = true;
 		pierceBuilding = true;
 		impact = true;
-		hitEffect = Fx.colorSpark;
+		hitEffect = AstraFx.boltPierce(this, 8f, 15, 9);
+		shootEffect = AstraFx.railgunShoot(this, 13f, 15f, 14f, 20f);
 	}
 
 	public BoltBulletType(float speed, float damage) {
@@ -28,10 +30,10 @@ public class BoltBulletType extends BasicBulletType {
 	}
 
 	public void setColor(Color light, Color dark) {
-		frontColor = Color.white;
-		backColor = light;
+		frontColor = light;
+		backColor = dark;
 		hitColor = trailColor = dark;
-		hitEffect = despawnEffect = Fx.hitBulletColor;
+		despawnEffect = AstraFx.dynamicBurstSmall(dark, light);
 	}
 
 	@Override public void hitEntity(Bullet b, Hitboxc entity, float health) {
