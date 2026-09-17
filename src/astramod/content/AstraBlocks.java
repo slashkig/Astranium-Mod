@@ -49,7 +49,6 @@ import astramod.world.meta.*;
 import static mindustry.Vars.*;
 
 // TODO new sound library
-@SuppressWarnings("unused")
 public class AstraBlocks {
 	public static Block
 		// Environment
@@ -3286,7 +3285,8 @@ public class AstraBlocks {
 			itemCapacity = 7500;
 		}};
 
-		lamp = new LightBlock("lamp") {{ // TODO resprite this to be 1x1!!
+		// TODO resprite this to be 1x1!!
+		lamp = new LightBlock("lamp") {{
 				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
 					AstraItems.iron, 20,
 					Items.metaglass, 20,

@@ -16,6 +16,8 @@ import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.type.weapons.*;
+import mindustry.world.blocks.defense.*;
+import mindustry.world.blocks.distribution.*;
 import astramod.ai.types.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
@@ -25,8 +27,6 @@ import astramod.gen.PayloadUnit;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
-import mindustry.world.blocks.distribution.Conveyor.ConveyorBuild;
-import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -51,8 +51,6 @@ public class AstraUnitTypes {
 		baeri, vorhies;
 	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
 		fledge;
-
-	// TODO Smokec?
 
 	public static void load() {
 		Log.info("Loading units");
@@ -533,6 +531,7 @@ public class AstraUnitTypes {
 			rotateSpeed = 2.5f;
 			stepSoundVolume = 1f;
 
+			// TODO make AI able to use dash
 			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
 
 			weapons.add(
@@ -715,7 +714,7 @@ public class AstraUnitTypes {
 		// region STEALTH MECHS
 		
 		baeri = new AstraUnitType("baeri", LegsUnit::create) {{
-			aiController = () -> new GroundSpecialistAI(b -> b.block.flags.contains(BlockFlag.factory), 40f * tilesize);
+			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Radar, 80f * tilesize);
 			targetAir = false;
 			hovering = true;
 
@@ -775,6 +774,7 @@ public class AstraUnitTypes {
 			);
 		}};
 
+		// TODO smoke grenade
 		vorhies = new AstraUnitType("vorhies", LegsUnit::create) {{
 			targetAir = false;
 			hovering = true;
@@ -826,7 +826,7 @@ public class AstraUnitTypes {
 
 					shootSound = Sounds.shootMerui;
 					shootSoundVolume = 1.4f;
-					bullet = new ArtilleryBulletType(3f, 5){{
+					bullet = new ArtilleryBulletType(3f, 5) {{
 						shootEffect = Fx.shootSmallSmoke;
 						status = StatusEffects.slow; //change it to somethin else
 						statusDuration = 180f;
@@ -868,7 +868,7 @@ public class AstraUnitTypes {
 					rotate = false;
 
 					shootSound = Sounds.shootFlame;
-					bullet = new BulletType(4.2f, 45f){{
+					bullet = new BulletType(4.2f, 45f) {{
 						hitSize = 7f;
 						lifetime = 15f;
 						pierce = true;
@@ -1334,7 +1334,7 @@ public class AstraUnitTypes {
 		// region DRAGON
 
 		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
-			aiController = () -> new GroundSpecialistAI(b -> b instanceof ConveyorBuild, 100f * tilesize);
+			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Conveyor, 100f * tilesize);
 			hovering = true;
 			canDrown = false;
 

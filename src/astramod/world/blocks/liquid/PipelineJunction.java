@@ -69,6 +69,7 @@ public class PipelineJunction extends LiquidJunction {
 		}
 	}
 
+	// TODO fix junction chaining
 	public class PipelineJunctionBuild extends LiquidJunctionBuild {
 		@Override public Building create(Block block, Team team) {
 			Building build = super.create(block, team);

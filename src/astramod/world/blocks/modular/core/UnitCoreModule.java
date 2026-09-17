@@ -42,6 +42,11 @@ public class UnitCoreModule extends GenericCoreModule {
 		group = BlockGroup.transportation;
 	}
 
+	@Override public void postInit() {
+		super.postInit();
+		spawnedUnit.shownPlanets.addAll(shownPlanets);
+	}
+
 	@Override public void setStats() {
 		super.setStats();
 

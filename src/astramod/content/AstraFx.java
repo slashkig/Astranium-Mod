@@ -4,7 +4,6 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import astramod.entities.bullet.BoltBulletType;
 import mindustry.entities.effect.*;
 import mindustry.graphics.*;
 import mindustry.content.*;
@@ -12,12 +11,6 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
-
-import static arc.graphics.g2d.Draw.alpha;
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.lineAngle;
-import static arc.graphics.g2d.Lines.stroke;
-import static arc.math.Angles.randLenVectors;
 
 public class AstraFx {
 	public static final Vec2 tmp = new Vec2();
@@ -111,7 +104,7 @@ public class AstraFx {
 	}),
 
 	attractMetalParticles = new Effect(60f, e -> {
-		Draw.color(Pal.darkestMetal);
+		Draw.color(AstraFluids.ferrofluid.color);
 		Draw.alpha(e.fout());
 
 		Angles.randLenVectors(e.id, 1, 2f + e.foutpow() * 20f, (x, y) -> {
@@ -206,12 +199,12 @@ public class AstraFx {
 		effect.sparkLen = sparkLen;
 		effect.sparkStroke = sparkStroke;
 	}
+
 	public static void setWave(ExplosionEffect effect, Color waveColor, float waveLife, float radius, float stroke) {
-		effect.waveColor = waveColor;
+		setWave(effect, waveColor, radius, stroke);
 		effect.waveLife = waveLife;
-		effect.waveRad = radius;
-		effect.waveStroke = stroke;
 	}
+
 	public static void setWave(ExplosionEffect effect, Color waveColor, float radius, float stroke) {
 		effect.waveColor = waveColor;
 		effect.waveRad = radius;
@@ -227,32 +220,28 @@ public class AstraFx {
 			setSparks(this, b.frontColor, 6, 15f, 3f, 3f);
 		}};
 	}
-	public static ExplosionEffect dynamicBurstSmall(Color waveColor, Color sparkColor) {
+
+	public static ExplosionEffect dynamicBurstSmall(Color wave, Color spark) {
 		return new ExplosionEffect() {{
 			lifetime = 9f;
 			smokeSize = 0f;
 			smokeSizeBase = 0f;
-			setWave(this, waveColor, 8f, 12f, 6f);
-			setSparks(this, sparkColor, 6, 15f, 3f, 3f);
+			setWave(this, wave, 8f, 12f, 6f);
+			setSparks(this, spark, 6, 15f, 3f, 3f);
 		}};
 	}
 
 	public static ExplosionEffect dynamicBurstLarge(BasicBulletType b) {
-		return new ExplosionEffect() {{
-			lifetime = 15f;
-			smokeSize = 0f;
-			smokeSizeBase = 0f;
-			setWave(this, b.backColor, 12f, 25f, 12f);
-			setSparks(this, b.frontColor, 12, 30, 5, 6);
-		}};
+		return dynamicBurstLarge(b.backColor, b.frontColor);
 	}
-	public static ExplosionEffect dynamicBurstLarge(Color waveColor, Color sparkColor) {
+
+	public static ExplosionEffect dynamicBurstLarge(Color wave, Color spark) {
 		return new ExplosionEffect() {{
 			lifetime = 15f;
 			smokeSize = 0f;
 			smokeSizeBase = 0f;
-			setWave(this, waveColor, 12f, 25f, 12f);
-			setSparks(this, sparkColor, 12, 30, 5, 6);
+			setWave(this, wave, 12f, 25f, 12f);
+			setSparks(this, spark, 12, 30, 5, 6);
 		}};
 	}
 
@@ -271,14 +260,14 @@ public class AstraFx {
 			float baseLifetime = 80f + intensity * 11f;
 			b.lifetime = 50f + intensity * 65f;
 
-			color(smokeColor);
-			alpha(0.8f);
-			for(int i = 0; i < 4; i++){
+			Draw.color(smokeColor);
+			Draw.alpha(0.8f);
+			for (int i = 0; i < 4; i++) {
 				Fx.rand.setSeed(b.id * 2 + i);
 				float lenScl = Fx.rand.random(0.4f, 1f);
 				int fi = i;
 				b.scaled(b.lifetime * lenScl, e -> {
-					randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), smokeRad * intensity, (x, y, in, out) -> {
+					Angles.randLenVectors(e.id + fi - 1, e.fin(Interp.pow10Out), (int)(2.9f * intensity), smokeRad * intensity, (x, y, in, out) -> {
 						float fout = e.fout(Interp.pow5Out) * Fx.rand.random(0.5f, 1f);
 						float rad = fout * ((2f + intensity) * 2.35f);
 
@@ -291,7 +280,7 @@ public class AstraFx {
 			b.scaled(baseLifetime, e -> {
 				Draw.color(AstraPal.magnetBack, AstraPal.magnetFront, e.fin());
 				e.scaled(5 + intensity * 2f, i -> {
-					stroke((3.1f + intensity/5f) * i.fout());
+					Lines.stroke((3.1f + intensity / 5f) * i.fout());
 					Lines.circle(e.x, e.y, (3f + i.fin() * 14f) * intensity);
 					Drawf.light(e.x, e.y, i.fin() * 14f * 2f * intensity, Color.white, 0.9f * e.fout());
 				});
@@ -299,58 +288,45 @@ public class AstraFx {
 		});
 	}
 
-	public static Effect boltPierce(BoltBulletType bolt, float boltWaveWidth, float boltWaveLen, int sparkCount) {
+	public static Effect boltPierce(BasicBulletType bolt, float boltWaveWidth, float boltWaveLen, int sparkCount) {
 		return new Effect(24f, e -> {
 			e.scaled(10f, b -> {
-				color(bolt.frontColor, bolt.frontColor, b.fin());
-				stroke(b.fout() * 3f + 0.2f);
+				Draw.color(bolt.frontColor, bolt.frontColor, b.fin());
+				Lines.stroke(b.fout() * 3f + 0.2f);
 				Lines.circle(b.x, b.y, b.fin() * 20f);
 			});
 
-			color(bolt.backColor);
+			Draw.color(bolt.backColor);
 
-			for(int i : Mathf.signs){
+			for (int i : Mathf.signs) {
 				Drawf.tri(e.x, e.y, boltWaveWidth * e.fout(), boltWaveLen, e.rotation + 90f * i);
 			}
-			color(bolt.frontColor, e.color, e.fin());
-			stroke(e.fout() * 1.3f + 0.7f);
+			Draw.color(bolt.frontColor, e.color, e.fin());
+			Lines.stroke(e.fout() * 1.3f + 0.7f);
 
-			randLenVectors(e.id, sparkCount, 41f * e.fin(), e.rotation, 10f, (x, y) -> {
-				lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 10f + 0.5f);
+			Angles.randLenVectors(e.id, sparkCount, 41f * e.fin(), e.rotation, 10f, (x, y) -> {
+				Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), e.fslope() * 10f + 0.5f);
 			});
 		});
 	}
-	public static Effect railgunShoot(BoltBulletType bolt, float widthSide, float lenSide, float widthFront, float lenFront) {
+
+	public static Effect railgunShoot(BasicBulletType bolt, float width, float len) {
+		return railgunShoot(bolt, width, len, width, len);
+	}
+
+	public static Effect railgunShoot(BasicBulletType bolt, float widthSide, float lenSide, float widthFront, float lenFront) {
 		return new Effect(24f, e -> {
 			e.scaled(10f, b -> {
-				color(Color.white, bolt.backColor, b.fin());
-				stroke(b.fout() * 3f + 0.2f);
+				Draw.color(Color.white, bolt.backColor, b.fin());
+				Lines.stroke(b.fout() * 3f + 0.2f);
 				Lines.circle(b.x, b.y, b.fin() * 50f);
 			});
 
-			color(bolt.backColor);
+			Draw.color(bolt.backColor);
 
-			for(int i : Mathf.signs){
+			for (int i : Mathf.signs) {
 				Drawf.tri(e.x, e.y, widthSide * e.fout(), lenSide, e.rotation + 90f * i);
 				Drawf.tri(e.x, e.y, widthFront * e.fout(), lenFront, e.rotation + 20f * i);
-			}
-
-			Drawf.light(e.x, e.y, 180f, bolt.backColor, 0.9f * e.fout());
-		});
-	}
-	public static Effect railgunShoot(BoltBulletType bolt, float width, float len) {
-		return new Effect(24f, e -> {
-			e.scaled(10f, b -> {
-				color(Color.white, bolt.backColor, b.fin());
-				stroke(b.fout() * 3f + 0.2f);
-				Lines.circle(b.x, b.y, b.fin() * 50f);
-			});
-
-			color(bolt.backColor);
-
-			for(int i : Mathf.signs){
-				Drawf.tri(e.x, e.y, width * e.fout(), len, e.rotation + 90f * i);
-				Drawf.tri(e.x, e.y, width * e.fout(), len, e.rotation + 20f * i);
 			}
 
 			Drawf.light(e.x, e.y, 180f, bolt.backColor, 0.9f * e.fout());

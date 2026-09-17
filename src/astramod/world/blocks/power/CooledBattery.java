@@ -18,6 +18,7 @@ import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.power.*;
+import mindustry.world.meta.*;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
@@ -79,7 +80,9 @@ public class CooledBattery extends Battery implements BaseModularBlock {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.unstableSpeed, 6000f * unstableSpeed, AstraStatUnit.percentSecond);
+		stats.add(Stat.meltdownTime, t -> {
+			AstraStatValues.addRowString(t, "@ @ @", Strings.autoFixed(1f / (unstableSpeed * Time.toSeconds), 2), StatUnit.seconds.localized(), Core.bundle.format("bar.whencharged"));
+		});
 		stats.add(AstraStat.moduleBlocks, AstraStatValues.blocks(validModules));
 	}
 
