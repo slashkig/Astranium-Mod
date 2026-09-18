@@ -8,6 +8,7 @@ import arc.struct.*;
 import mindustry.Vars;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import mindustry.logic.*;
 import mindustry.world.*;
 import astramod.graphics.*;
@@ -86,10 +87,15 @@ public class Mine extends Block {
 	public class LandMineBuild extends Building {
 		@Override public void draw() {
 			if (!cloaked || team == Vars.player.team()) {
-				Draw.alpha(drawAlpha);
-				super.draw();
-				Draw.reset();
+				if (requiresWater) Drawf.underwater(this::drawMine);
+				else drawMine();
 			}
+		}
+
+		public void drawMine() {
+			Draw.alpha(drawAlpha);
+			super.draw();
+			Draw.alpha(1f);
 		}
 
 		@Override public void drawCracks() { }
