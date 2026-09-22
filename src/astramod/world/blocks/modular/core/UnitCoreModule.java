@@ -72,14 +72,17 @@ public class UnitCoreModule extends GenericCoreModule {
 	@Override public void setBars() {
 		super.setBars();
 
-		addBar("units", (UnitCoreModuleBuild e) -> {
-			return new Bar(
-				() -> Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(spawnedUnit.name), e.unitCount(), numUnits),
-				() -> Pal.power,
-				() -> (float)e.unitCount() / numUnits
-			);
-		});
-		addBar("progress", (UnitCoreModuleBuild b) -> new Bar("bar.progress", Pal.ammo, () -> b.buildProgress));
+		addBar("units", (UnitCoreModuleBuild e) -> new Bar(
+			() -> Core.bundle.format("bar.unitcap", Fonts.getUnicodeStr(spawnedUnit.name), e.unitCount(), numUnits),
+			() -> Pal.power,
+			() -> (float)e.unitCount() / numUnits
+		));
+
+		addBar("progress", (UnitCoreModuleBuild b) -> new Bar(
+			() -> Core.bundle.format("bar.progress", Strings.autoFixed(b.buildProgress * 100f, 0)),
+			() -> Pal.ammo,
+			() -> b.buildProgress
+		));
 	}
 
 	@Override public void drawPlace(int x, int y, int rotation, boolean valid) {
