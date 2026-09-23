@@ -1,7 +1,7 @@
 package astramod.type.unit;
 
+import mindustry.gen.TankUnit;
 import mindustry.world.meta.Env;
-import astramod.gen.TankUnit;
 
 public class AstraTankUnitType extends AstraUnitType {
 	public AstraTankUnitType(String name) {

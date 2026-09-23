@@ -1,6 +1,6 @@
 package astramod.content;
 
-import arc.math.Interp;
+import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
 import arc.util.*;
@@ -9,7 +9,6 @@ import mindustry.ai.types.*;
 import mindustry.content.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
-import mindustry.entities.effect.MultiEffect;
 import mindustry.entities.part.*;
 import mindustry.entities.pattern.*;
 import mindustry.gen.*;
@@ -21,9 +20,7 @@ import mindustry.world.blocks.distribution.*;
 import astramod.ai.types.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
-import astramod.gen.ElevationMoveUnit;
-import astramod.gen.MechUnit;
-import astramod.gen.PayloadUnit;
+import astramod.gen.*;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
@@ -31,25 +28,23 @@ import astramod.type.weapons.*;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
-	public static @EntityDef({ Unitc.class }) UnitType
-		manager, director;
-	public static @EntityDef({ Unitc.class, Payloadc.class }) UnitType
-		overseer;
+	public static UnitType
+		manager, director, overseer;
 	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType
 		gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Mechc.class }) UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, Mechc.class }) UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
-	public static @EntityDef({ Unitc.class, Tankc.class	}) UnitType
+	public static UnitType
 		hymeno, vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
-	public static @EntityDef({Unitc.class, Legsc.class}) UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, Legsc.class }) UnitType
 		baeri, vorhies;
-	public static @EntityDef({ Unitc.class, ElevationMovec.class }) UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) UnitType
 		fledge;
 
 	public static void load() {
@@ -356,7 +351,7 @@ public class AstraUnitTypes {
 
 		// region OFFENSIVE MECHS
 
-		dicentra = new AstraUnitType("dicentra", MechUnit::create) {{
+		dicentra = new AstraUnitType("dicentra", MechConcealUnit::create) {{
 			aiController = GroundRangerAI::new;
 
 			health = 220;
@@ -389,6 +384,7 @@ public class AstraUnitTypes {
 					height = 12f;
 					lifetime = 30f;
 					knockback = 2f;
+
 					status = StatusEffects.slow;
 					statusDuration = 0.5f * Time.toSeconds;
 					statusChance = 0.2f;
@@ -399,7 +395,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		achillion = new AstraUnitType("achillion", MechUnit::create) {{
+		achillion = new AstraUnitType("achillion", MechConcealUnit::create) {{
 			health = 700;
 			armor = 4f;
 			hitSize = 13f;
@@ -454,7 +450,7 @@ public class AstraUnitTypes {
 
 		// region SONIC MECHS
 
-		zenaida = new AstraUnitType("zenaida", MechUnit::create) {{
+		zenaida = new AstraUnitType("zenaida", MechConcealUnit::create) {{
 			health = 250;
 			armor = 2f;
 			hitSize = 10f;
@@ -487,7 +483,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		trexon = new AstraUnitType("trexon", MechUnit::create) {{
+		trexon = new AstraUnitType("trexon", MechConcealUnit::create) {{
 			health = 640;
 			armor = 5f;
 			hitSize = 12f;
@@ -519,7 +515,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		oriolus = new AstraUnitType("oriolus", MechUnit::create) {{
+		oriolus = new AstraUnitType("oriolus", MechConcealUnit::create) {{
 			health = 1100;
 			armor = 6f;
 			hitSize = 18f;
@@ -563,13 +559,13 @@ public class AstraUnitTypes {
 					reload = 20f;
 					recoil = 1.2f;
 					alternate = false;
+					rotate = true;
+					rotateSpeed = 2f;
+					rotationLimit = 90f;
 
 					x = 10.25f;
 					y = 0.25f;
 					shootY = 5f;
-					rotate = true;
-					rotateSpeed = 2f;
-					rotationLimit = 90f;
 
 					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
@@ -586,7 +582,7 @@ public class AstraUnitTypes {
 
 		// region ROCKET MECHS
 
-		legion = new AstraUnitType("legion", MechUnit::create) {{
+		legion = new AstraUnitType("legion", MechConcealUnit::create) {{
 			// TODO rocketeer AI
 			aiController = GroundRangerAI::new;
 
@@ -602,6 +598,7 @@ public class AstraUnitTypes {
 			canBoost = true;
 			engineOffset = 4.5f;
 			engineSize = 3.5f;
+			engineColor = AstraPal.missileOrange;
 			boostMultiplier = 1.7f;
 			knockbackMultiplier = 1.4f;
 
@@ -647,7 +644,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		decanus = new AstraUnitType("decanus", MechUnit::create) {{
+		decanus = new AstraUnitType("decanus", MechConcealUnit::create) {{
 			health = 680;
 			armor = 3f;
 			hitSize = 12f;
@@ -661,6 +658,7 @@ public class AstraUnitTypes {
 			canBoost = true;
 			engineOffset = 6.5f;
 			engineSize = 5f;
+			engineColor = AstraPal.missileOrange;
 			boostMultiplier = 1.8f;
 
 			weapons.add(new AstraWeapon("astramod-decanus-weapon") {{
@@ -713,38 +711,41 @@ public class AstraUnitTypes {
 
 		// region STEALTH MECHS
 		
-		baeri = new AstraUnitType("baeri", LegsUnit::create) {{
+		baeri = new AstraUnitType("baeri", LegsConcealUnit::create) {{
 			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Radar, 80f * tilesize);
 			targetAir = false;
 			hovering = true;
 
 			health = 220;
 			armor = 2f;
-			hitSize = 9f;
+			hitSize = 10f;
 			range = 25f;
 			maxRange = 15f;
 			fogRadius = 8f;
 			rotateSpeed = 4f;
 			itemCapacity = 5;
+
 			allowLegStep = true;
 			legPhysicsLayer = false;
 			speed = 0.9f;
 			drag = 0.11f;
 			knockbackMultiplier = 0.5f;
 
+			immunities.add(StatusEffects.burning);
+
+			lockLegBase = true;
+			legContinuousMove = true;
 			legCount = 4;
 			legLength = 9f;
+			legLengthScl = 0.96f;
 			legForwardScl = 0.6f;
 			legMoveSpace = 1.6f;
 			legBaseOffset = 1f;
-			lockLegBase = true;
-			legContinuousMove = true;
 
-			legLengthScl = 0.96f;
-			rippleScale = 0.5f;
 
 			shadowElevation = 0.1f;
 			groundLayer = Layer.legUnit - 1f;
+			rippleScale = 0.5f;
 			stepShake = 0f;
 			stepSound = Sounds.walkerStepTiny;
 			stepSoundVolume = 0.4f;
@@ -774,114 +775,108 @@ public class AstraUnitTypes {
 			);
 		}};
 
-		// TODO smoke grenade
-		vorhies = new AstraUnitType("vorhies", LegsUnit::create) {{
+		vorhies = new AstraUnitType("vorhies", LegsConcealUnit::create) {{
 			targetAir = false;
 			hovering = true;
 
 			health = 600;
-			armor = 5f;
+			armor = 4f;
 			hitSize = 14f;
-			range = 25f;
-			maxRange = 15f * tilesize;
-			fogRadius = 16f;
-			itemCapacity = 20;
-			speed = 0.7f;
+			fogRadius = 10f;
+			itemCapacity = 15;
+
+			speed = 0.8f;
 			rotateSpeed = 4f;
+
 			immunities.add(StatusEffects.burning);
 
-			stepSound = Sounds.walkerStepSmall;
-
+			lockLegBase = true;
+			legContinuousMove = true;
 			legCount = 6;
 			legGroupSize = 3;
 			legLength = 14f;
-			lockLegBase = true;
-			legContinuousMove = true;
-			legExtension = -3f;
-			legBaseOffset = 5f;
-			legMaxLength = 1.1f;
-			legMinLength = 0.2f;
 			legLengthScl = 0.95f;
 			legForwardScl = 0.9f;
-
+			legMinLength = 0.2f;
+			legMaxLength = 1.1f;
+			legExtension = -3f;
 			legMoveSpace = 1f;
+			legBaseOffset = 5f;
 
 			shadowElevation = 0.2f;
 			groundLayer = Layer.legUnit - 1f;
+			stepSound = Sounds.walkerStepSmall;
 
 			weapons.add(
-				new Weapon("astramod-vorhies-smoke-cannon") {{
-					range = 15f * tilesize;
+				new Weapon("astramod-vorhies-flame-fang") {{
+					reload = 16f;
+					recoil = 3f;
+
+					x = 2.25f;
+					y = 5.5f;
+					shootX = -0.75f;
+					shootY = 3f;
+					layerOffset = -0.002f;
+					heatColor = AstraPal.heat;
+					cooldownTime = 60f;
+
+					shootSound = Sounds.shootFlame;
+
+					bullet = new BulletType(4f, 45) {{
+						hitSize = 7f;
+						lifetime = 15f;
+						pierce = pierceBuilding = true;
+						pierceCap = 2;
+						armorMultiplier = 0.5f;
+
+						status = StatusEffects.burning;
+						statusDuration = 5f * Time.toSeconds;
+
+						keepVelocity = false;
+						hittable = false;
+
+						shootEffect = Fx.shootPyraFlame;
+						hitEffect = Fx.hitFlameSmall;
+						despawnEffect = Fx.none;
+					}};
+				}},
+				new AstraWeapon("astramod-vorhies-smoke-cannon") {{
 					reload = 600f;
 					recoil = 3f;
-					x = -7.5f;
-					y = -1f;
-					shootY = 2.75f;
-					mirror = false;
-
 					rotate = true;
 					rotateSpeed = 2f;
 					rotationLimit = 60f;
+
+					mirror = false;
+					useAttackRange = false;
+					x = -7.5f;
+					y = -1f;
+					shootY = 2.75f;
 					cooldownTime = 60f;
 
 					shootSound = Sounds.shootMerui;
 					shootSoundVolume = 1.4f;
-					bullet = new ArtilleryBulletType(3f, 5) {{
-						shootEffect = Fx.shootSmallSmoke;
-						status = StatusEffects.slow; //change it to somethin else
-						statusDuration = 180f;
 
-						lifetime = 46f;
-						width = height = 14f;
-						splashDamageRadius = 150f;
-						splashDamage = 5f;
-
-						trailLength = 25;
-						trailWidth = 2.5f;
-						trailEffect = Fx.none;
-						trailColor = backColor;
-						trailEffect = Fx.smoke;
-						trailRotation = true;
-						trailInterval = 2f;
-						trailInterp = Interp.slope;
+					bullet = new ArtilleryBulletType(2f, 0) {{
+						lifetime = 40f;
+						width = height = 8f;
 
 						backColor = trailColor = AstraPal.magnetBack;
 						frontColor = hitColor = AstraPal.magnetFront;
-						hitEffect = despawnEffect = new MultiEffect(AstraFx.smokeScreen(15f, AstraPal.magnetFront), Fx.hitSquaresColor);
+						trailInterval = 6f;
+						trailInterp = Interp.slope;
+						shootEffect = Fx.shootSmallSmoke;
+						hitEffect = despawnEffect = Fx.hitSquaresColor;
 
-						shrinkX = 0.6f;
-						shrinkY = 0.2f;
-					}};
-				}},
-				new Weapon("astramod-vorhies-flame-fang") {{
-					range = 4f * tilesize;
-					reload = 16f;
-					recoil = 3f;
-					x = 2.25f;
-					y = 5.5f;
-					shootY = 3f;
-					shootX = -0.75f;
-					layerOffset = -0.002f;
-
-					heatColor = AstraPal.heat;
-					cooldownTime = 60f;
-					rotate = false;
-
-					shootSound = Sounds.shootFlame;
-					bullet = new BulletType(4.2f, 45f) {{
-						hitSize = 7f;
-						lifetime = 15f;
-						pierce = true;
-						pierceBuilding = true;
-						pierceCap = 2;
-						range = 32f;
-						statusDuration = 60f * 5;
-						shootEffect = Fx.shootPyraFlame;
-						hitEffect = Fx.hitFlameSmall;
-						despawnEffect = Fx.none;
-						status = StatusEffects.burning;
-						keepVelocity = false;
-						hittable = false;
+						fragBullets = 1;
+						fragBullet = new AOEBulletType(5f * Time.toSeconds) {{
+							effect = u -> {
+								if (u instanceof Concealc c) c.concealment(12f);
+							};
+							splashDamageRadius = 5f * tilesize;
+							collidesTeam = true;
+							shootEffect = AstraFx.smokeScreen(5f, AstraPal.magnetFront);
+						}};
 					}};
 				}}
 			);
@@ -1094,12 +1089,12 @@ public class AstraUnitTypes {
 					fragBullets = 10;
 					fragRandomSpread = 100f;
 					fragBullet = new BasicBulletType(4f, 8) {{
+						hitSize = 2f;
 						lifetime = 20f;
 						width = 6f;
 						height = 8f;
 						armorMultiplier = 1.5f;
 						shrinkY = 0.8f;
-						hitSize = 2f;
 
 						collidesAir = false;
 						pierce = true;
@@ -1333,7 +1328,7 @@ public class AstraUnitTypes {
 
 		// region DRAGON
 
-		fledge = new AstraUnitType("fledge", ElevationMoveUnit::create) {{
+		fledge = new AstraUnitType("fledge", ElevationMoveConcealUnit::create) {{
 			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Conveyor, 100f * tilesize);
 			hovering = true;
 			canDrown = false;

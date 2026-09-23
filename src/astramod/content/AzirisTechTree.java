@@ -309,7 +309,7 @@ public class AzirisTechTree {
 					});
 				});
 				node(baeri, () -> {
-					// T2
+					node(vorhies);
 				});
 				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
 					node(hymeno, () -> {

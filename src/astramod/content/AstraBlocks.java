@@ -4287,6 +4287,11 @@ public class AstraBlocks {
 					Items.metaglass, 35,
 					Items.silicon, 30,
 					Items.titanium, 20
+				)),
+				AstraUnitTypes.vorhies, new UnitPlan(AstraUnitTypes.baeri, 19f * Time.toSeconds, ItemStack.with(
+					Items.silicon, 30,
+					Items.pyratite, 20,
+					Items.graphite, 30
 				))
 			);
 		}};
@@ -4320,7 +4325,7 @@ public class AstraBlocks {
 				)),
 				AstraUnitTypes.arbalest, new UnitPlan(AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 45,
-					AstraItems.lithium, 40,
+					AstraItems.magnetite, 40,
 					Items.silicon, 30
 				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
