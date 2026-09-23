@@ -16,8 +16,8 @@ public class BoltBulletType extends BasicBulletType {
 		pierce = true;
 		pierceBuilding = true;
 		impact = true;
-		hitEffect = AstraFx.boltPierce(this, 8f, 15, 9);
-		shootEffect = AstraFx.railgunShoot(this, 13f, 15f, 14f, 20f);
+		hitEffect = AstraFx.boltPierce(this, 8f, 13f, 20f, 9);
+		shootEffect = AstraFx.railgunShoot(this, 7f, 12f, 12f, 20f);
 	}
 
 	public BoltBulletType(float speed, float damage) {
@@ -32,7 +32,7 @@ public class BoltBulletType extends BasicBulletType {
 		frontColor = light;
 		backColor = dark;
 		hitColor = trailColor = dark;
-		despawnEffect = AstraFx.dynamicBurstSmall(dark, light);
+		despawnEffect = AstraFx.dynamicBurst(light, dark, false);
 	}
 
 	@Override public void hitEntity(Bullet b, Hitboxc entity, float health) {

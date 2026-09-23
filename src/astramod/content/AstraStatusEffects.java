@@ -4,6 +4,7 @@ import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.entities.effect.MultiEffect;
 import mindustry.graphics.*;
 import mindustry.type.*;
 import astramod.entities.*;
@@ -75,13 +76,27 @@ public class AstraStatusEffects {
 		}};
 
 		overcharged = new StackableStatusEffect("overcharged") {{
-			color = AstraItems.crystals.color.cpy();
-			effect = AstraFx.charged;
-			effectChance = 0.05f;
+			color = AstraPal.crystalFront;
+			parentizeApplyEffect = true;
 			tiers = new StatusEffectStack[] {
-				new StatusEffectStack("overcharged-1", 100f) {{ applyEffect = AstraFx.overcharged1; }},
-				new StatusEffectStack("overcharged-2", 250f) {{ applyEffect = AstraFx.overcharged2; }},
-				new StatusEffectStack("overcharged-3", 600f) {{ applyEffect = AstraFx.overcharged3; }}
+				new StatusEffectStack("overcharged-1", 100f) {{
+					effect = AstraFx.charged1;
+					effectChance = 0.05f;
+					parentizeApplyEffect = true;
+					applyEffect = AstraFx.overcharged1;
+				}},
+				new StatusEffectStack("overcharged-2", 250f) {{
+					effect = AstraFx.charged2;
+					effectChance = 0.1f;
+					applyEffect = AstraFx.overcharged2;
+					parentizeApplyEffect = true;
+				}},
+				new StatusEffectStack("overcharged-3", 600f) {{
+					effect = new MultiEffect(AstraFx.charged3, Fx.lightning);
+					effectChance = 0.15f;
+					applyEffect = AstraFx.overcharged3;
+					parentizeApplyEffect = true;
+				}}
 			};
 		}};
 	}

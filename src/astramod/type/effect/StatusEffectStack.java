@@ -10,9 +10,8 @@ import astramod.world.meta.*;
 public class StatusEffectStack extends StatusEffect {
 	public float stackDamage;
 	public Cons<Unit> stackEffect = u -> u.damage(stackDamage);
-
 	public float maxStackTime = 10f * Time.toSeconds;
-	public boolean useParentVisuals = true;
+	public boolean useParentVisuals = false;
 
 	public StatusEffectStack(String name) {
 		super(name);

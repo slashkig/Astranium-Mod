@@ -3681,7 +3681,7 @@ public class AstraBlocks {
 					pierce = true;
 					collidesAir = false;
 
-					shootEffect = AstraFx.shootWideFlame;
+					shootEffect = AstraFx.emberCoalFlame;
 					hitEffect = Fx.hitFlameSmall;
 					despawnEffect = Fx.none;
 				}},
@@ -3696,7 +3696,7 @@ public class AstraBlocks {
 					pierce = true;
 					collidesAir = false;
 
-					shootEffect = AstraFx.shootMediumFlame;
+					shootEffect = AstraFx.emberPyraFlame;
 					hitEffect = Fx.hitFlameSmall;
 					despawnEffect = Fx.none;
 				}}
@@ -3759,12 +3759,13 @@ public class AstraBlocks {
 					splashDamage = 80f;
 					knockback = 5f;
 					status = StatusEffects.slow;
-					statusDuration = 1f * Time.toSeconds;
+					statusDuration = Time.toSeconds;
 					statusChance = 0.5f;
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
-					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					shootEffect = AstraFx.mortarShoot(this);
 				}},
 				Items.graphite, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3780,7 +3781,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
-					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					shootEffect = AstraFx.mortarShoot(this);
 				}},
 				Items.metaglass, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3807,7 +3809,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
-					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					hitEffect = AstraFx.dynamicExplosion(this, true);
+					shootEffect = AstraFx.mortarShoot(this);
 				}},
 				Items.titanium, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3824,7 +3827,8 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
-					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					shootEffect = AstraFx.mortarShoot(this);
 				}},
 				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3838,7 +3842,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
-					hitEffect = new MultiEffect(Fx.flakExplosion, Fx.shockwave);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					shootEffect = AstraFx.mortarShoot(this);
 				}}
 			);
 
