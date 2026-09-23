@@ -114,7 +114,7 @@ public class AstraBlocks {
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 
 		// Turrets
-		dart, viper, ember, mortar, monsoon, ballista,
+		dart, viper, ember, mortar, bolt, monsoon, ballista,
 
 		// Unit assemblers
 		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard,
@@ -3876,7 +3876,100 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		// TODO Dual Flak
+		bolt = new ItemTurret("bolt") {{
+			requirements(Category.turret, ItemStack.with(
+				AstraItems.steel, 200,
+				Items.copper, 300,
+				Items.titanium, 250,
+				AstraItems.magnetite, 120
+			));
+
+			scaledHealth = 180f;
+			armor = 6f;
+			size = 3;
+
+			reload = 8f;
+			recoil = 0f;
+			maxAmmo = 60;
+			inaccuracy = 5f;
+			range = 22f * tilesize;
+			fogRadiusMultiplier = 0.45f;
+			rotateSpeed = 6f;
+			coolant = consumeCoolant(0.15f);
+
+			shoot = new ShootAlternate(10f);
+			shootSound = Sounds.shootCyclone;
+			ammoUseEffect = Fx.casing2;
+
+			ammo(
+				AstraItems.iron, new BasicBulletType(6f, 28f){{
+					width = 7f;
+					height = 16f;
+					lifetime = 30f;
+
+					ammoMultiplier = 2;
+					reloadMultiplier = 0.8f;
+					status = StatusEffects.slow;
+					statusDuration = Time.toSeconds;
+					statusChance = 0.3f;
+
+					hitEffect = despawnEffect = Fx.hitBulletColor;
+					hitColor = backColor = trailColor = AstraPal.ironBack;
+					frontColor = AstraPal.ironFront;
+				}},
+				AstraItems.steel, new BasicBulletType(7f, 70f){{
+					width = 7f;
+					height = 16f;
+					lifetime = 32f;
+					ammoMultiplier = 2;
+					pierce = true;
+					pierceCap = 10;
+					rangeChange = 20f;
+
+					hitEffect = despawnEffect = Fx.hitBulletColor;
+					hitColor = backColor = trailColor = AstraPal.steelBack;
+					frontColor = AstraPal.steelFront;
+				}},
+				AstraItems.neodymium, new BasicBulletType(6f, 46f){{
+					width = 7f;
+					height = 16f;
+					lifetime = 33f;
+					ammoMultiplier = 2;
+					pierce = true;
+					pierceCap = 4;
+
+					hitEffect = despawnEffect = Fx.hitBulletColor;
+					hitColor = backColor = trailColor = AstraPal.neoBack;
+					frontColor = AstraPal.neoFront;
+				}},
+				Items.blastCompound, new BasicBulletType(6f, 30f){{
+					width = 7f;
+					height = 16f;
+					lifetime = 30f;
+					ammoMultiplier = 2;
+					splashDamage = 20f;
+					splashDamageRadius = 2.4f * tilesize;
+					rangeChange = -15f;
+
+					hitEffect = despawnEffect = Fx.hitBulletColor;
+					hitColor = backColor = trailColor = Pal.blastAmmoBack;
+					frontColor = Pal.blastAmmoFront;
+				}}
+			);
+
+			recoils = 2;
+			drawer = new DrawTurret("astranium-"){{
+				for (int i = 0; i < 2; i++){
+					int f = i; // Java throws an error if i isn't reassigned
+					parts.add(new RegionPart("-barrel-" + (i == 0 ? "l" : "r")){{
+						progress = PartProgress.recoil;
+						recoilIndex = f;
+						moveY = -2.0f;
+						under = true;
+					}});
+				}
+			}};
+		}};
 
 		monsoon = new AstraLiquidTurret("monsoon") {{
 			requirements(Category.turret, ItemStack.with(
