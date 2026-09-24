@@ -292,22 +292,29 @@ public class AstraFx {
 	public static Effect dynamicExplosion(BasicBulletType b) {
 		return dynamicExplosion(b, 10, 13, false);
 	}
+
 	public static Effect dynamicExplosion(BasicBulletType b, boolean squareBits) {
 		return dynamicExplosion(b, 10, 13, squareBits);
 	}
 
 	public static Effect dynamicExplosion(BasicBulletType b, int bitDensity, int smokeDensity, boolean squareBits) {
+		return dynamicExplosion(b, 6f, bitDensity, smokeDensity, squareBits);
+	}
+
+	public static Effect dynamicExplosion(BasicBulletType b, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
 		return new Effect ( 15f, e -> {
 			e.scaled(12f, i -> {
 				Draw.color(b.frontColor, b.backColor, e.fin());
-				Lines.stroke(6f * i.fout());
+				Lines.stroke(circleSize * i.fout());
 				Lines.circle(e.x, e.y, 2f + i.fin() * b.splashDamageRadius);
 			});
 
-			Draw.color(Color.gray, e.fin());
-			Angles.randLenVectors(e.id, smokeDensity, b.splashDamageRadius * 1.2f * e.finpow(), (x, y) -> {
-				Fill.circle(e.x + x, e.y + y, e.fout() * 6f + 0.5f);
-			});
+			if (smokeDensity > 0) {
+				Draw.color(Color.gray, e.fin());
+				Angles.randLenVectors(e.id, smokeDensity, b.splashDamageRadius * 1.2f * e.finpow(), (x, y) -> {
+					Fill.circle(e.x + x, e.y + y, circleSize * e.fout() + 0.5f);
+				});
+			}
 
 			if (squareBits) {
 				Mathf.rand.setSeed(e.id);
@@ -330,11 +337,13 @@ public class AstraFx {
 	public static Effect dynamicBurst(BasicBulletType b, boolean isLarge) {
 		return dynamicBurst(b.frontColor, b.backColor, isLarge);
 	}
+
 	public static Effect dynamicBurst(Color lightClr, Color darkClr, boolean isLarge) {
 		float rad = isLarge ? 25f : 12;
 		int bitDensity = isLarge ? 12 : 6;
 		return dynamicBurst(lightClr, darkClr, rad, bitDensity);
 	}
+
 	public static Effect dynamicExplosionMassive(Color lightClr, Color darkClr) {
 		return dynamicBurst(lightClr, darkClr, 35f, 18);
 	}
@@ -414,6 +423,7 @@ public class AstraFx {
 	public static Effect railgunShoot(BasicBulletType bolt, float width, float len) {
 		return railgunShoot(bolt, width, len, width, len);
 	}
+
 	public static Effect railgunShoot(BasicBulletType bolt, float widthSide, float lenSide, float widthFront, float lenFront) {
 		return new Effect(24f, e -> {
 			e.scaled(24f, b -> {
@@ -445,10 +455,10 @@ public class AstraFx {
 		});
 	}
 
-
 	public static Effect mortarShoot(ArtilleryBulletType b) {
 		return mortarShoot(b, 20, 7, 22f, 20f, true);
 	}
+
 	public static Effect mortarShoot(ArtilleryBulletType b, int smokeDensity, int squareDensity, float smokeRange, float muzzleFlareLen, boolean withShockwave) {
 		return new Effect(35f, e -> {
 			Draw.color(Pal.lightOrange, Color.gray, e.fin());

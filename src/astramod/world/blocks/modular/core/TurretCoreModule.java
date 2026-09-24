@@ -1,7 +1,7 @@
 package astramod.world.blocks.modular.core;
 
 import arc.Core;
-import arc.graphics.g2d.Draw;
+import arc.graphics.g2d.*;
 import arc.math.geom.*;
 import arc.util.*;
 import arc.util.io.*;
@@ -12,16 +12,16 @@ import mindustry.graphics.*;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
-import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
-import astramod.content.AstraBlocks;
+import astramod.content.*;
+import astramod.world.blocks.defense.turrets.AstraItemTurret;
 import astramod.world.blocks.modular.*;
 import astramod.world.draw.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class TurretCoreModule extends ItemTurret {
+public class TurretCoreModule extends AstraItemTurret {
 	private Item[] ammoPriority;
 
 	public TurretCoreModule(String name) {

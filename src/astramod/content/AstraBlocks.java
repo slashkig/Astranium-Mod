@@ -3105,94 +3105,65 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.5f;
 
 			ammo(
-				Items.graphite, new ArtilleryBulletType(3.6f, 40) {{
-					width = 12f;
-					height = 15f;
-					ammoMultiplier = 1;
+				Items.graphite, new ImpactBulletType(3.6f, 40) {{
 					knockback = 0.5f;
-					collidesAir = true;
-					collidesTiles = false;
-					splashDamageRadius = 8f;
-					splashDamage = 40f;
-					scaledSplashDamage = true;
+					buildingDamageMultiplier = 0.4f;
 
 					frontColor = AstraPal.graphiteFront;
 					backColor = AstraPal.graphiteBack;
 				}},
-				Items.titanium, new ArtilleryBulletType(3.6f, 60) {{
-					width = 12f;
-					height = 15f;
-					ammoMultiplier = 1;
-					knockback = 0.8f;
-					collidesAir = true;
-					collidesTiles = false;
-					splashDamageRadius = 8f;
-					splashDamage = 60f;
-					scaledSplashDamage = true;
+				Items.titanium, new ImpactBulletType(3.6f, 60) {{
+					rangeChange = 1.5f * tilesize;
+					buildingDamageMultiplier = 0.4f;
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = AstraPal.titaniumBack;
 				}},
-				Items.plastanium, new ArtilleryBulletType(3.6f, 72) {{
-					width = 12f;
-					height = 15f;
-					ammoMultiplier = 1;
-					rangeChange = 24f;
-					knockback = 1f;
-					collidesAir = true;
-					collidesTiles = false;
-					splashDamageRadius = 8f;
-					splashDamage = 72f;
-					scaledSplashDamage = true;
+				Items.plastanium, new ImpactBulletType(3.6f, 72) {{
+					knockback = 2f;
+					rangeChange = 3f * tilesize;
+					buildingDamageMultiplier = 0.4f;
 
 					frontColor = Pal.plastaniumFront;
 					backColor = Pal.plastaniumBack;
 				}},
-				AstraItems.crystals, new ArtilleryBulletType(3.6f, 90) {{
-					width = 12f;
-					height = 15f;
-					ammoMultiplier = 1;
-					rangeChange = 16f;
-					knockback = 4f;
-					collidesAir = true;
-					collidesTiles = false;
-					splashDamageRadius = 12f;
-					splashDamage = 90f;
-					scaledSplashDamage = true;
+				AstraItems.crystals, new ImpactBulletType(3.6f, 90) {{
+					knockback = 3f;
+					splashDamageRadius = 1.5f * tilesize;
+					rangeChange = 2f * tilesize;
+					buildingDamageMultiplier = 0.4f;
 					status = AstraStatusEffects.overcharged;
 					statusDuration = 2f * Time.toSeconds;
+					statusChance = 0.5f;
 
 					frontColor = AstraPal.crystalFront;
 					backColor = AstraPal.crystalBack;
 				}},
-				Items.surgeAlloy, new ArtilleryBulletType(3.6f, 100) {{
-					width = 12f;
-					height = 15f;
-					ammoMultiplier = 1;
-					rangeChange = 40f;
-					knockback = 1f;
-					collidesAir = true;
-					collidesTiles = false;
-					splashDamageRadius = 8f;
-					splashDamage = 100f;
-					scaledSplashDamage = true;
+				Items.surgeAlloy, new ImpactBulletType(4f, 100) {{
+					knockback = 4f;
+					rangeChange = 5f * tilesize;
+					buildingDamageMultiplier = 0.4f;
 					lightning = 3;
 					lightningLength = 6;
 					lightningDamage = 14;
 
 					frontColor = Pal.surgeAmmoFront;
 					backColor = Pal.surgeAmmoBack;
+				}},
+				AstraItems.astranium, new ImpactBulletType(4f, 180) {{
+					knockback = 6f;
+					splashDamageRadius = 1.5f * tilesize;
+					rangeChange = 8f * tilesize;
+					buildingDamageMultiplier = 0.4f;
+					status = AstraStatusEffects.magnetized;
+					statusDuration = 10f * Time.toSeconds;
+
+					frontColor = AstraItems.astranium.color;
+					backColor = frontColor.cpy().lerp(AstraPal.siegeMachineOutline, 0.5f);
 				}}
 			);
 
-			drawer = new DrawTeamTurret() {{
-					parts.add(new RegionPart("-barrel") {{
-						progress = PartProgress.recoil;
-						under = true;
-						moveY = -2f;
-					}});
-				}
-
+			drawer = new DrawTeamTurret() {
 				@Override public void drawHeat(Turret block, TurretBuild build) {
 					if (build.heat > 0.00001f && ((TurretCoreModuleBuild)build).getCurrentAmmo() == AstraItems.crystals) {
 						Drawf.additive(heat, AstraPal.crystalRed.write(Tmp.c1).a(build.heat), build.x + build.recoilOffset.x, build.y + build.recoilOffset.y, build.drawrot(), Layer.turretHeat);
@@ -3200,21 +3171,24 @@ public class AstraBlocks {
 					else super.drawHeat(block, build);
 				}
 			};
+			addBarrelPart(true, -2f);
 
-			scaledHealth = 140f;
-			armor = 2f;
+			scaledHealth = 150f;
+			armor = 5;
 			size = 3;
-			shootY = 7f;
-			recoil = 2f;
+			range = 37.5f * tilesize;
 			reload = 60f;
+
+			unitSort = UnitSorts.strongest;
 			rotateSpeed = 2f;
 			shootCone = 2f;
-			inaccuracy = 1f;
-			range = 300f;
 
+			recoil = 2f;
+			shootY = 7f;
 			shootSound = Sounds.shootArtillery;
 
 			limitRange();
+			colorHitEffects();
 		}};
 
 		rtgModule = new PowerCoreModule("module-rtg") {{
@@ -3538,8 +3512,8 @@ public class AstraBlocks {
 
 					knockback = 1f;
 					status = StatusEffects.slow;
-					statusDuration = 0.5f * Time.toSeconds;
-					statusChance = 0.2f;
+					statusDuration = 1.5f * Time.toSeconds;
+					statusChance = 0.1f;
 
 					frontColor = AstraPal.ironFront;
 					backColor = AstraPal.ironBack;
@@ -3588,6 +3562,7 @@ public class AstraBlocks {
 			ammoUseEffect = Fx.casing2;
 
 			limitRange();
+			colorHitEffects();
 		}};
 
 		viper = new AstraItemTurret("aa-rocket") {{
@@ -3599,6 +3574,9 @@ public class AstraBlocks {
 					ammoMultiplier = 3;
 					homingPower = 0.15f;
 					collidesGround = false;
+
+					frontColor = Pal.copperAmmoFront;
+					backColor = trailColor = Pal.copperAmmoBack;
 				}},
 				Items.silicon, new MissileBulletType(4f, 15) {{
 					width = 7f;
@@ -3609,7 +3587,7 @@ public class AstraBlocks {
 					collidesGround = false;
 
 					frontColor = Pal.siliconAmmoFront;
-					backColor = Pal.siliconAmmoBack;
+					backColor = trailColor = Pal.siliconAmmoBack;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 20) {{
 					width = 6f;
@@ -3617,11 +3595,13 @@ public class AstraBlocks {
 					ammoMultiplier = 5;
 					homingPower = 0.35f;
 					status = StatusEffects.burning;
+					statusDuration = 6f * Time.toSeconds;
+					statusChance = 0.5f;
 					makeFire = true;
 					collidesGround = false;
 
-					frontColor = Pal.lightishOrange;
-					backColor = Pal.lightOrange;
+					frontColor = AstraPal.fireBulletFront;
+					backColor = trailColor = AstraPal.fireBulletBack;
 				}},
 				AstraItems.lithium, new MissileBulletType(4f, 30) {{
 					width = 7f;
@@ -3635,7 +3615,7 @@ public class AstraBlocks {
 					collidesGround = false;
 
 					frontColor = AstraPal.lithiumFront;
-					backColor = AstraPal.lithiumBack;
+					backColor = trailColor = AstraPal.lithiumBack;
 				}}
 			);
 
@@ -3643,7 +3623,7 @@ public class AstraBlocks {
 
 			scaledHealth = 150f;
 			size = 2;
-			range = 224f;
+			range = 28f * tilesize;
 			fogRadiusMultiplier = 0.4f;
 			reload = 30f;
 			shoot = new ShootAlternate(6.5f) {{ shots = 2; shotDelay = 4f; }};
@@ -3660,6 +3640,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootMissile;
 
 			limitRange();
+			colorHitEffects();
 		}};
 
 		ember = new ItemTurret("ember") {{
@@ -3668,15 +3649,16 @@ public class AstraBlocks {
 
 			ammo(
 				Items.coal, new BulletType(3f, 12) {{
-					ammoMultiplier = 6;
+					ammoMultiplier = 5;
 					hitSize = 7f;
 					lifetime = 22f;
+
 					inaccuracy = 5f;
 					reloadMultiplier = 0.75f;
-					armorMultiplier = 2f;
-					rangeChange = -12f;
+					rangeChange = -2f * tilesize;
 					status = StatusEffects.burning;
-					statusDuration = 2f * Time.toSeconds;
+					statusDuration = 4f * Time.toSeconds;
+
 					hittable = false;
 					pierce = true;
 					collidesAir = false;
@@ -3689,9 +3671,10 @@ public class AstraBlocks {
 					ammoMultiplier = 10;
 					hitSize = 8f;
 					lifetime = 18f;
-					armorMultiplier = 1.5f;
+
 					status = StatusEffects.burning;
 					statusDuration = 10f * Time.toSeconds;
+
 					hittable = false;
 					pierce = true;
 					collidesAir = false;
@@ -3718,8 +3701,9 @@ public class AstraBlocks {
 			}};
 
 			scaledHealth = 160f;
+			armor = 3;
 			size = 2;
-			range = 80f;
+			range = 10f * tilesize;
 			fogRadiusMultiplier = 0.5f;
 			reload = 3f;
 			maxAmmo = 80;
@@ -3759,8 +3743,8 @@ public class AstraBlocks {
 					splashDamage = 80f;
 					knockback = 5f;
 					status = StatusEffects.slow;
-					statusDuration = Time.toSeconds;
-					statusChance = 0.5f;
+					statusDuration = 2.5f * Time.toSeconds;
+					statusChance = 0.4f;
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
@@ -3835,7 +3819,7 @@ public class AstraBlocks {
 					height = 14f;
 					ammoMultiplier = 2;
 
-					splashDamageRadius = 4.4f * tilesize;
+					splashDamageRadius = 5f * tilesize;
 					splashDamage = 120f;
 					knockback = 2.5f;
 					status = StatusEffects.blasted;
@@ -3855,7 +3839,8 @@ public class AstraBlocks {
 				turretHeatLayer = Layer.turret - 0.002f;
 			}});
 
-			scaledHealth = 130f;
+			scaledHealth = 100f;
+			armor = 2;
 			size = 3;
 			minRange = 8f * tilesize;
 			range = 32f * tilesize;
@@ -3881,99 +3866,129 @@ public class AstraBlocks {
 			limitRange();
 		}};
 
-		bolt = new ItemTurret("bolt") {{
+		bolt = new AstraItemTurret("bolt") {{
 			requirements(Category.turret, ItemStack.with(
-				AstraItems.steel, 200,
-				Items.copper, 300,
-				Items.titanium, 250,
-				AstraItems.magnetite, 120
+				AstraItems.iron, 160,
+				Items.lead, 200,
+				Items.titanium, 100,
+				Items.graphite, 175
 			));
 
-			scaledHealth = 180f;
-			armor = 6f;
-			size = 3;
-
-			reload = 8f;
-			recoil = 0f;
-			maxAmmo = 60;
-			inaccuracy = 5f;
-			range = 22f * tilesize;
-			fogRadiusMultiplier = 0.45f;
-			rotateSpeed = 6f;
-			coolant = consumeCoolant(0.15f);
-
-			shoot = new ShootAlternate(10f);
-			shootSound = Sounds.shootCyclone;
-			ammoUseEffect = Fx.casing2;
-
 			ammo(
-				AstraItems.iron, new BasicBulletType(6f, 28f){{
-					width = 7f;
-					height = 16f;
-					lifetime = 30f;
+				Items.scrap, new BasicBulletType(4f, 20) {{
+					width = 6f;
+					height = 10f;
+					ammoMultiplier = 3;
+					armorMultiplier = 1.8f;
 
-					ammoMultiplier = 2;
-					reloadMultiplier = 0.8f;
-					status = StatusEffects.slow;
-					statusDuration = Time.toSeconds;
+					frontColor = Pal.scrapAmmoFront;
+					backColor = Pal.scrapAmmoBack;
+				}},
+				Items.graphite, new BasicBulletType(5f, 40) {{
+					width = 7f;
+					height = 14f;
+					ammoMultiplier = 4;
+
+					armorMultiplier = 1.4f;
+					rangeChange = 2.5f * tilesize;
+					reloadMultiplier = 0.7f;
+
+					frontColor = Pal.graphiteAmmoFront;
+					backColor = Pal.graphiteAmmoBack;
+				}},
+				Items.silicon, new BasicBulletType(4.5f, 28) {{
+					width = 6f;
+					height = 12f;
+					ammoMultiplier = 5;
+
+					reloadMultiplier = 1.25f;
+					homingPower = 0.18f;
+
+					frontColor = Pal.siliconAmmoFront;
+					backColor = Pal.siliconAmmoBack;
+				}},
+				Items.pyratite, new BasicBulletType(4.5f, 36) {{
+					width = 6f;
+					height = 11f;
+					ammoMultiplier = 4;
+
+					status = StatusEffects.burning;
+					statusDuration = 4f * Time.toSeconds;
 					statusChance = 0.3f;
 
-					hitEffect = despawnEffect = Fx.hitBulletColor;
-					hitColor = backColor = trailColor = AstraPal.ironBack;
-					frontColor = AstraPal.ironFront;
+					frontColor = AstraPal.fireBulletFront;
+					backColor = AstraPal.fireBulletBack;
+					trailColor = AstraPal.fireBulletTrail;
+					trailWidth = 1.5f;
+					trailLength = 3;
 				}},
-				AstraItems.steel, new BasicBulletType(7f, 70f){{
-					width = 7f;
-					height = 16f;
-					lifetime = 32f;
-					ammoMultiplier = 2;
-					pierce = true;
-					pierceCap = 10;
-					rangeChange = 20f;
+				Items.blastCompound, new FlakBulletType(4.5f, 6) {{
+					width = 4.5f;
+					height = 10f;
+					ammoMultiplier = 4;
+					collidesGround = true;
 
-					hitEffect = despawnEffect = Fx.hitBulletColor;
-					hitColor = backColor = trailColor = AstraPal.steelBack;
-					frontColor = AstraPal.steelFront;
-				}},
-				AstraItems.neodymium, new BasicBulletType(6f, 46f){{
-					width = 7f;
-					height = 16f;
-					lifetime = 33f;
-					ammoMultiplier = 2;
-					pierce = true;
-					pierceCap = 4;
+					splashDamage = 46f;
+					splashDamageRadius = 3.6f * tilesize;
+					explodeRange = 4f * tilesize;
+					rangeChange = -2f * tilesize;
+					status = StatusEffects.blasted;
 
-					hitEffect = despawnEffect = Fx.hitBulletColor;
-					hitColor = backColor = trailColor = AstraPal.neoBack;
-					frontColor = AstraPal.neoFront;
-				}},
-				Items.blastCompound, new BasicBulletType(6f, 30f){{
-					width = 7f;
-					height = 16f;
-					lifetime = 30f;
-					ammoMultiplier = 2;
-					splashDamage = 20f;
-					splashDamageRadius = 2.4f * tilesize;
-					rangeChange = -15f;
-
-					hitEffect = despawnEffect = Fx.hitBulletColor;
-					hitColor = backColor = trailColor = Pal.blastAmmoBack;
 					frontColor = Pal.blastAmmoFront;
+					backColor = hitColor = Pal.blastAmmoBack;
+					hitEffect = despawnEffect = AstraFx.dynamicExplosion(this, 2f, 4, 0, false);
+				}},
+				Items.plastanium, new FlakBulletType(4.5f, 18) {{
+					width = 5f;
+					height = 11f;
+					ammoMultiplier = 4;
+					collidesGround = true;
+
+					splashDamageRadius = -1f;
+					splashDamage = 0f;
+					explodeRange = 5f * tilesize;
+					explodeDelay = 10f;
+					armorMultiplier = 0.75f;
+
+					fragBullets = 6;
+					fragBullet = new BasicBulletType(3f, 14) {{
+						lifetime = 18f;
+						armorMultiplier = 0.75f;
+						shrinkY = 0.8f;
+						frontColor = Pal.plastaniumFront;
+						backColor = hitColor = Pal.plastaniumBack;
+						despawnEffect = Fx.hitBulletColor;
+					}};
+
+					frontColor = Pal.plastaniumFront;
+					backColor = Pal.plastaniumBack;
+					hitEffect = Fx.hitBulletSmall;
 				}}
 			);
 
 			recoils = 2;
-			drawer = new DrawTurret("astranium-"){{
-				for (int i = 0; i < 2; i++){
-					int f = i; // Java throws an error if i isn't reassigned
-					parts.add(new RegionPart("-barrel-" + (i == 0 ? "l" : "r")){{
-						progress = PartProgress.recoil;
-						recoilIndex = f;
-						moveY = -2.0f;
-						under = true;
-					}});
-				}
-			}};
+			addBarrelParts(true, -2f);
+
+			scaledHealth = 125f;
+			armor = 3;
+			size = 3;
+			range = 22f * tilesize;
+			fogRadiusMultiplier = 0.45f;
+			reload = 8f;
+			maxAmmo = 40;
+			shoot = new ShootAlternate(10f);
+
+			inaccuracy = 5f;
+			rotateSpeed = 6f;
+
+			coolant = consumeCoolant(0.15f);
+
+			recoil = 0.5f;
+			shootY = 10f;
+			shootSound = Sounds.shootCyclone;
+
+			limitRange();
+			colorHitEffects();
 		}};
 
 		monsoon = new AstraLiquidTurret("monsoon") {{
@@ -4065,10 +4080,10 @@ public class AstraBlocks {
 				);
 			}});
 
-			scaledHealth = 240f;
+			scaledHealth = 150f;
 			armor = 3f;
 			size = 3;
-			range = 150f;
+			range = 18.5f * tilesize;
 			reload = 2f;
 			fogRadiusMultiplier = 0.4f;
 			shoot = new ShootAlternate(4f);
@@ -4112,7 +4127,7 @@ public class AstraBlocks {
 					width = 7f;
 					pierceCap = 10;
 					pierceDamageFactor = 1f / 10f;
-					rangeChange = 16f;
+					rangeChange = 2f * tilesize;
 					knockback = 12f;
 
 					trailLength = 8;
@@ -4136,7 +4151,7 @@ public class AstraBlocks {
 					width = 7.5f;
 					pierceCap = 15;
 					pierceDamageFactor = 1f / 15f;
-					rangeChange = 36f;
+					rangeChange = 4.5f * tilesize;
 					reloadMultiplier = 1.3f;
 					knockback = 14f;
 
@@ -4146,10 +4161,10 @@ public class AstraBlocks {
 				}}
 			);
 
-			scaledHealth = 200f;
-			armor = 6;
+			scaledHealth = 160f;
+			armor = 4;
 			size = 3;
-			range = 220f;
+			range = 27.5f * tilesize;
 			fogRadiusMultiplier = 0.4f;
 			reload = 120f;
 			maxAmmo = 12;
