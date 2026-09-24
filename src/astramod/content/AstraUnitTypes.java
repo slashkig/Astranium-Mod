@@ -36,8 +36,10 @@ public class AstraUnitTypes {
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
+	public static @EntityDef({ Unitc.class, Concealc.class, Tankc.class }) UnitType
+		hymeno;
 	public static UnitType
-		hymeno, vitex,
+		vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
@@ -731,7 +733,7 @@ public class AstraUnitTypes {
 			drag = 0.11f;
 			knockbackMultiplier = 0.5f;
 
-			immunities.add(StatusEffects.burning);
+			immunities.add(StatusEffects.slow);
 
 			lockLegBase = true;
 			legContinuousMove = true;
@@ -790,7 +792,7 @@ public class AstraUnitTypes {
 			speed = 0.8f;
 			rotateSpeed = 4f;
 
-			immunities.add(StatusEffects.burning);
+			immunities.addAll(StatusEffects.slow, StatusEffects.burning);
 
 			lockLegBase = true;
 			legContinuousMove = true;
@@ -808,6 +810,8 @@ public class AstraUnitTypes {
 			shadowElevation = 0.2f;
 			groundLayer = Layer.legUnit - 1f;
 			stepSound = Sounds.walkerStepSmall;
+
+			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon"));
 
 			weapons.add(
 				new Weapon("astramod-vorhies-flame-fang") {{
@@ -834,6 +838,7 @@ public class AstraUnitTypes {
 						status = StatusEffects.burning;
 						statusDuration = 5f * Time.toSeconds;
 
+						collidesAir = false;
 						keepVelocity = false;
 						hittable = false;
 
@@ -842,15 +847,14 @@ public class AstraUnitTypes {
 						despawnEffect = Fx.none;
 					}};
 				}},
-				new AstraWeapon("astramod-vorhies-smoke-cannon") {{
-					reload = 600f;
+				new AbilityWeapon("astramod-vorhies-smoke-cannon") {{
+					reload = 15f * Time.toSeconds;
 					recoil = 3f;
 					rotate = true;
 					rotateSpeed = 2f;
 					rotationLimit = 60f;
 
 					mirror = false;
-					useAttackRange = false;
 					x = -7.5f;
 					y = -1f;
 					shootY = 2.75f;
@@ -863,8 +867,8 @@ public class AstraUnitTypes {
 						lifetime = 40f;
 						width = height = 8f;
 
-						backColor = trailColor = AstraPal.magnetBack;
-						frontColor = hitColor = AstraPal.magnetFront;
+						backColor = Pal.metalGrayDark;
+						frontColor = hitColor = trailColor = AstraPal.smokescreen;
 						trailInterval = 6f;
 						trailInterp = Interp.slope;
 						shootEffect = Fx.shootSmallSmoke;
@@ -877,7 +881,7 @@ public class AstraUnitTypes {
 							};
 							splashDamageRadius = 5f * tilesize;
 							collidesTeam = true;
-							shootEffect = AstraFx.smokeScreen(5f, AstraPal.magnetFront);
+							shootEffect = AstraFx.smokeScreen(5f, AstraPal.smokescreen);
 						}};
 					}};
 				}}
@@ -1111,7 +1115,7 @@ public class AstraUnitTypes {
 
 		// region SUPPORT TANKS
 
-		hymeno = new AstraTankUnitType("hymeno") {{
+		hymeno = new AstraTankUnitType("hymeno", TankConcealUnit::create) {{
 			aiController = GroundCowardAI::new;
 			targetPriority = -5f;
 

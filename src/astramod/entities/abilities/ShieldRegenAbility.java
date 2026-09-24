@@ -8,6 +8,8 @@ import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
+import mindustry.ui.*;
 
 public class ShieldRegenAbility extends Ability {
 	public float amount = 1f, max = 100f, reload = 100f;
@@ -31,6 +33,10 @@ public class ShieldRegenAbility extends Ability {
 		t.add(abilityStat("pulseregen", Strings.autoFixed(amount, 2)) + "[lightgray] ~ []" + abilityStat("regen", Strings.autoFixed(amount * Time.toSeconds / reload, 2)));
 		t.row();
 		t.add(abilityStat("shield", Strings.autoFixed(max, 2)));
+	}
+
+	@Override public void displayBars(Unit unit, Table bars) {
+		bars.add(new Bar("stat.shieldhealth", Pal.accent, () -> Mathf.clamp(unit.shield / max))).row();
 	}
 
 	@Override public void update(Unit unit) {

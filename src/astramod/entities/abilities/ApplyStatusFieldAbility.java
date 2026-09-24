@@ -9,6 +9,7 @@ import mindustry.entities.*;
 import mindustry.entities.abilities.StatusFieldAbility;
 import mindustry.gen.*;
 import mindustry.type.*;
+import astramod.ui.Displays;
 
 public class ApplyStatusFieldAbility extends StatusFieldAbility {
 	protected boolean applied = false;
@@ -20,7 +21,7 @@ public class ApplyStatusFieldAbility extends StatusFieldAbility {
 	@Override public void addStats(Table t) {
 		super.addStats(t);
 
-		((Label)t.getCells().get(t.getCells().size - 1).get()).getText().append(Strings.format(
+		Displays.<Label>getElement(t, -1).getText().append(Strings.format(
 			"[lightgray] ~ [white]@[stat] @",
 			Strings.autoFixed(duration / Time.toSeconds, 1),
 			Core.bundle.get("unit.seconds"))

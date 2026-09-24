@@ -2,6 +2,7 @@ package astramod.world.meta;
 
 import arc.Core;
 import arc.graphics.*;
+import arc.scene.*;
 import arc.scene.ui.layout.*;
 import arc.struct.*;
 import arc.util.*;
@@ -128,7 +129,7 @@ public class AstraStatValues {
 
 			for (int i = 0; i < orderedKeys.size; i++) {
 				BulletType bullet = map.get(orderedKeys.get(i));
-				Table entry = (Table)table.getCells().get(i + offset).get();
+				Table entry = Displays.getElement(table, i + offset);
 
 				if (bullet instanceof BoltBulletType bt) {
 					if (bt.armorPenetration > 0f) addRow(entry, "bullet.armorpenetration", bt.armorPenetration);
@@ -140,6 +141,17 @@ public class AstraStatValues {
 				} else if (bullet instanceof MagneticBulletType bt) {
 					statusEffect(AstraStatusEffects.magnetized, bt.magnetizedDuration, true).display(entry);
 					addRow(entry, "bullet.magnetism", bt.magneticStrength);
+				} else if (bullet instanceof AOEBulletType bt) {
+					bt.addStats(entry);
+				}
+
+				if (bullet.fragBullet instanceof AOEBulletType bt) {
+					Group coll = entry.find(e -> e instanceof Collapser);
+					Displays.setLabel(
+						Displays.getElement(Displays.getElement(entry, entry.getCells().indexOf(c -> c.get() == coll) - 1), 0),
+						Core.bundle.format("bullet.areaeffect")
+					);
+					bt.addStats(coll.<Table>find(e -> e instanceof Table).find(e -> e instanceof Table));
 				}
 
 				if (bullet.pierceDamageFactor > 0f) {
@@ -200,6 +212,15 @@ public class AstraStatValues {
 				});
 			});
 		};
+	}
+
+	public static void tableInfo(Table table, String key) {
+		try {
+			// Why is this method private
+			var tableInfo = StatValues.class.getDeclaredMethod("tableInfo", Table.class, String.class);
+			tableInfo.setAccessible(true);
+			tableInfo.invoke(null, table, key);
+		} catch (ReflectiveOperationException e) { throw new RuntimeException(e); }
 	}
 
 	public static void addRow(Table table, String key, Object... args) {

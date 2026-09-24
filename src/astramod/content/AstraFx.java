@@ -5,15 +5,12 @@ import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.Seq;
-import mindustry.entities.effect.*;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
-import static arc.math.Angles.randLenVectors;
-import static arc.math.Mathf.rand;
 
 public class AstraFx {
 	public static final Vec2 tmp = new Vec2();
@@ -32,7 +29,7 @@ public class AstraFx {
 		Draw.alpha(e.fslope() * 0.8f);
 
 		Fx.rand.setSeed(e.id);
-		for(int i = 0; i < 6; i++){
+		for (int i = 0; i < 6; i++) {
 			Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(e.finpow() * 14f)).add(e.x, e.y);
 			Fill.circle(Fx.v.x, Fx.v.y, Fx.rand.random(1.4f, 3.4f));
 		}
@@ -41,7 +38,7 @@ public class AstraFx {
 	oilSmoke = new Effect(180f, e -> {
 		float length = 3f + e.finpow() * 20f;
 		Fx.rand.setSeed(e.id);
-		for(int i = 0; i < 13; i++){
+		for (int i = 0; i < 13; i++) {
 			Fx.v.trns(Fx.rand.random(360f), Fx.rand.random(length));
 			float sizer = Fx.rand.random(1.3f, 3.7f);
 
@@ -121,12 +118,12 @@ public class AstraFx {
 		Angles.randLenVectors(e.id, 1, 2f + e.foutpow() * 20f, (x, y) -> {
 			Fill.poly(e.x + x, e.y + y, 6, 1.5f);
 		});
-	}) {{ layer += 1f; }}.followParent(true).rotWithParent(true),
+	}).layer(Layer.effect + 1f).followParent(true).rotWithParent(true),
 
 	radiate = new Effect(30f, e -> {
 		Draw.color(e.color, Color.white, e.fin());
 		Lines.stroke(0.2f + 0.8f * e.fout());
-		rand.setSeed(e.id);
+		Mathf.rand.setSeed(e.id);
 
 		tmp.trns(e.data instanceof Position pos ? pos.angleTo(e.x, e.y) : Mathf.random(360f),
 			Mathf.random(2f + e.fin() * 16f));
@@ -153,14 +150,14 @@ public class AstraFx {
 
 			Lines.stroke(3f * e.fout());
 			Draw.color(AstraPal.crystalGlow, AstraPal.crystalFront, e.fin());
-			for(int i = 0; i < lines.size - 1; i++){
+			for (int i = 0; i < lines.size - 1; i++) {
 				Vec2 cur = lines.get(i);
 				Vec2 next = lines.get(i + 1);
 
 				Lines.line(cur.x, cur.y, next.x, next.y, false);
 			}
 
-			for(Vec2 p : lines){
+			for (Vec2 p : lines) {
 				Fill.circle(p.x, p.y, Lines.getStroke() / 2f);
 			}
 		});
@@ -179,14 +176,14 @@ public class AstraFx {
 
 			Lines.stroke(3f * e.fout());
 			Draw.color(Color.white, AstraPal.crystalGlow, e.fin());
-			for(int i = 0; i < lines.size - 1; i++){
+			for (int i = 0; i < lines.size - 1; i++) {
 				Vec2 cur = lines.get(i);
 				Vec2 next = lines.get(i + 1);
 
 				Lines.line(cur.x, cur.y, next.x, next.y, false);
 			}
 
-			for(Vec2 p : lines){
+			for (Vec2 p : lines) {
 				Fill.circle(p.x, p.y, Lines.getStroke() / 2f);
 			}
 		});
@@ -308,15 +305,15 @@ public class AstraFx {
 			});
 
 			Draw.color(Color.gray, e.fin());
-			randLenVectors(e.id, smokeDensity, b.splashDamageRadius * 1.2f * e.finpow(), (x, y) -> {
+			Angles.randLenVectors(e.id, smokeDensity, b.splashDamageRadius * 1.2f * e.finpow(), (x, y) -> {
 				Fill.circle(e.x + x, e.y + y, e.fout() * 6f + 0.5f);
 			});
 
 			if (squareBits) {
-				rand.setSeed(e.id);
+				Mathf.rand.setSeed(e.id);
 				Draw.color(b.frontColor, b.backColor, e.fin());
 				Angles.randLenVectors(e.id, bitDensity, b.splashDamageRadius * 0.8f * e.finpow(), (x, y) -> {
-					Fill.square(e.x + x, e.y + y, e.fout() * 3f, rand.random(0f, 180f));
+					Fill.square(e.x + x, e.y + y, e.fout() * 3f, Mathf.rand.random(0f, 180f));
 					Drawf.light(e.x, e.y, 16f, b.frontColor, 0.6f * e.fout());
 				});
 			} else {
@@ -377,13 +374,13 @@ public class AstraFx {
 						float rad = fout * ((2f + intensity) * 2.35f);
 
 						Fill.circle(e.x + x, e.y + y, rad);
-						Drawf.light(e.x + x, e.y + y, rad * 2.5f, AstraPal.magnetFront, 0.5f);
+						Drawf.light(e.x + x, e.y + y, rad * 2.5f, smokeColor, 0.5f);
 					});
 				});
 			}
 
 			b.scaled(baseLifetime, e -> {
-				Draw.color(AstraPal.magnetBack, AstraPal.magnetFront, e.fin());
+				Draw.color(smokeColor, Color.white, e.fin());
 				e.scaled(5 + intensity * 2f, i -> {
 					Lines.stroke((3.1f + intensity / 5f) * i.fout());
 					Lines.circle(e.x, e.y, (3f + i.fin() * 14f) * intensity);
@@ -459,10 +456,10 @@ public class AstraFx {
 				Fill.circle(e.x + x, e.y + y, e.fout() * 4f + 0.1f);
 			});
 
-			rand.setSeed(e.id);
+			Mathf.rand.setSeed(e.id);
 			Draw.color(b.frontColor, b.backColor, e.fin());
 			Angles.randLenVectors(e.id, squareDensity, 35f * e.finpow(), e.rotation, smokeRange * 1.5f, (x, y) -> {
-				Fill.square(e.x + x, e.y + y, e.fout() * 3.2f, rand.random(0f, 180f));
+				Fill.square(e.x + x, e.y + y, e.fout() * 3.2f, Mathf.rand.random(0f, 180f));
 				Drawf.light(e.x, e.y, 16f, b.frontColor, 0.6f * e.fout());
 			});
 
