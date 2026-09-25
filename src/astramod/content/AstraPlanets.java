@@ -21,6 +21,16 @@ public class AstraPlanets {
 		aziris = new Planet("aziris", sun, 1f, 1) {{
 			generator = new AzirisPlanetGenerator();
 			meshLoader = () -> new HexMesh(this, 6);
+			cloudMeshLoader = () -> new MultiMesh(
+				new HexSkyMesh(
+					this, 13, 3.6f, 0.11f, 8,
+					Color.white.a(75), 5, 0.65f, 1f, 0.39f
+				),
+				new HexSkyMesh(
+					this, 11, 2.4f, 0.08f, 8,
+					Color.gray.a(85), 4, 0.55f, 0.89f, 0.29f
+				)
+			);
 
 			alwaysUnlocked = true;
 			allowLaunchToNumbered = false;
