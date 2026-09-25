@@ -31,6 +31,7 @@ public class AstraPlanets {
 					Color.gray.a(85), 4, 0.55f, 0.89f, 0.29f
 				)
 			);
+			bloom = true;
 
 			alwaysUnlocked = true;
 			allowLaunchToNumbered = false;
