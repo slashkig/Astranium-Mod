@@ -17,7 +17,6 @@ import mindustry.ui.*;
 import mindustry.world.Block;
 import mindustry.world.meta.*;
 import astramod.content.*;
-import astramod.type.effect.*;
 
 import static mindustry.Vars.content;
 
@@ -47,7 +46,7 @@ public final class Icons {
 			}
 		}
 		for (StatusEffect status : content.statusEffects()) {
-			if (status.name.startsWith("astramod-") && !(status instanceof StatusEffectStack)) {
+			if (status.name.startsWith("astramod-")) {
 				addIcon(status.name, status.name + "|status");
 				status.outline = false;
 			}

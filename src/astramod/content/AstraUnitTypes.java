@@ -28,25 +28,27 @@ import astramod.type.weapons.*;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
-	public static UnitType
-		manager, director, overseer;
-	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType
+	@EntityPoint(UnitEntity.class) public static UnitType
+		manager, director;
+	@EntityPoint(PayloadUnit.class) public static UnitType
+		overseer;
+	@EntityDef({ Unitc.class, BuildingTetherc.class }) public static UnitType
 		gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Concealc.class, Mechc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
-	public static @EntityDef({ Unitc.class, Concealc.class, Tankc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
 		hymeno;
-	public static UnitType
+	@EntityPoint(TankUnit.class) public static UnitType
 		vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
-	public static @EntityDef({ Unitc.class, Concealc.class, Legsc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
 		baeri, vorhies;
-	public static @EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) public static UnitType
 		fledge;
 
 	public static void load() {
