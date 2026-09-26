@@ -76,14 +76,14 @@ public class AstraStatusEffects {
 		}};
 
 		overcharged = new StackableStatusEffect("overcharged") {{
-			color = AstraPal.crystalFront;
+			applyColor = color = AstraPal.crystalFront;
 			parentizeApplyEffect = true;
 			tiers = new StatusEffectStack[] {
 				new StatusEffectStack("overcharged-1", 100f) {{
 					effect = AstraFx.charged1;
 					effectChance = 0.05f;
-					parentizeApplyEffect = true;
 					applyEffect = AstraFx.overcharged1;
+					parentizeApplyEffect = true;
 				}},
 				new StatusEffectStack("overcharged-2", 250f) {{
 					effect = AstraFx.charged2;
@@ -98,6 +98,7 @@ public class AstraStatusEffects {
 					parentizeApplyEffect = true;
 				}}
 			};
+			stackDefaults();
 		}};
 	}
 }

@@ -3966,7 +3966,8 @@ public class AstraBlocks {
 				}}
 			);
 
-			recoils = 2;
+			heats = recoils = 2;
+			drawer = new DrawBarrelTurret("astranium-");
 			addBarrelParts(true, -2f);
 
 			scaledHealth = 125f;

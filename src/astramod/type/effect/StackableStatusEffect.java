@@ -1,6 +1,7 @@
 package astramod.type.effect;
 
 import arc.graphics.*;
+import mindustry.content.*;
 import mindustry.gen.*;
 import mindustry.type.*;
 import astramod.world.meta.*;
@@ -11,20 +12,19 @@ public class StackableStatusEffect extends StatusEffect {
 
 	public StackableStatusEffect(String name) {
 		super(name);
+	}
 
-		init(() -> {
-			int i = 1;
-			for (StatusEffectStack stack : tiers) {
-				if (stack.useParentVisuals) {
-					stack.color = color;
-					stack.effect = effect;
-					stack.effectChance = effectChance * i++;
-					if (stack.applyColor.equals(Color.white)) {
-						stack.applyColor = color;
-					}
-				}
+	public void stackDefaults() {
+		for (StatusEffectStack stack : tiers) {
+			if (stack.replaceDefaults) {
+				if (stack.color.equals(Color.white)) stack.color = color;
+				if (stack.applyColor.equals(Color.white)) stack.applyColor = applyColor;
+				if (stack.effect == Fx.none) stack.effect = effect;
+				if (stack.applyEffect == Fx.none) stack.applyEffect = applyEffect;
+				if (stack.affinities.isEmpty()) stack.affinities = affinities;
+				if (stack.opposites.isEmpty()) stack.opposites = opposites;
 			}
-		});
+		}
 	}
 
 	@Override public void setStats() {

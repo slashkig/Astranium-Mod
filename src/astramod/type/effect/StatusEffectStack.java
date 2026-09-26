@@ -11,7 +11,7 @@ public class StatusEffectStack extends StatusEffect {
 	public float stackDamage;
 	public Cons<Unit> stackEffect = u -> u.damage(stackDamage);
 	public float maxStackTime = 10f * Time.toSeconds;
-	public boolean useParentVisuals = false;
+	public boolean replaceDefaults = true;
 
 	public StatusEffectStack(String name) {
 		super(name);

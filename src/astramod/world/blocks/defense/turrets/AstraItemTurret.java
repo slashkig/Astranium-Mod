@@ -1,6 +1,9 @@
 package astramod.world.blocks.defense.turrets;
 
+import arc.math.Mathf;
+import arc.util.*;
 import mindustry.content.*;
+import mindustry.entities.Mover;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
 import mindustry.world.blocks.defense.turrets.*;
@@ -10,6 +13,7 @@ import astramod.world.meta.*;
 
 public class AstraItemTurret extends ItemTurret {
 	public boolean extraStats = true;
+	public int heats = -1;
 
 	public AstraItemTurret(String name) {
 		super(name);
@@ -33,7 +37,7 @@ public class AstraItemTurret extends ItemTurret {
 			final int f = i;
 			addParts(new RegionPart("-barrel-" + (recoils == 2 ? (i == 0 ? "l" : "r") : i)) {{
 				progress = PartProgress.recoil;
-				recoilIndex = f;
+				weaponIndex = recoilIndex = f;
 				under = drawUnder;
 				moveY = recoil;
 			}});
@@ -61,5 +65,27 @@ public class AstraItemTurret extends ItemTurret {
 				b.hitEffect = b.despawnEffect = Fx.hitBulletColor;
 			}
 		});
+	}
+
+	public class AstraItemTurretBuild extends ItemTurretBuild {
+		public @Nullable float[] curHeats;
+
+		@Override public void updateTile() {
+			if (heats > 0) {
+				if (curHeats == null) curHeats = new float[heats];
+				for (int i = 0; i < heats; i++) {
+					curHeats[i] = Mathf.approachDelta(curHeats[i], 0, 1 / cooldownTime);
+				}
+			}
+			super.updateTile();
+		}
+
+		@Override protected void bullet(BulletType type, float xOffset, float yOffset, float angleOffset, Mover mover) {
+			super.bullet(type, xOffset, yOffset, angleOffset, mover);
+
+			if (heats > 0) {
+                curHeats[barrelCounter % heats] = 1f;
+            }
+		}
 	}
 }
