@@ -2,10 +2,9 @@ import arc.files.Fi
 import arc.util.OS
 import arc.util.serialization.Jval
 import ent.EntityAnnoExtension
+import groovy.json.JsonSlurper
 import java.io.FileOutputStream
-import java.util.jar.JarEntry
-import java.util.jar.JarFile
-import java.util.jar.JarOutputStream
+import java.util.jar.*
 
 buildscript {
 	val mindustryVersion = providers.gradleProperty("mindustryVersion").get()
@@ -50,7 +49,7 @@ plugins {
 val mindustryVersion = providers.gradleProperty("mindustryVersion").get()
 val entVersion = providers.gradleProperty("entVersion").get()
 
-val mindustry = if(mindustryVersion == "be") "MindustryBuilds" else "Mindustry"
+val mindustry = if (mindustryVersion == "be") "MindustryBuilds" else "Mindustry"
 val modName = providers.gradleProperty("modName").get()
 val modArtifact = providers.gradleProperty("modArtifact").get()
 val modFetch = providers.gradleProperty("modFetch").get()
@@ -68,17 +67,23 @@ fun entity(module: String): String {
 	return "com.github.GglLfr.EntityAnno$module:$entVersion"
 }
 
-fun mindustryDir(from: File): File {
-	var current = from
-	while (current.name != "Mindustry") {
-		current = current.parentFile ?: throw GradleException("Could not find Mindustry directory.")
-	}
-	return current
+fun getClientVersion(): String {
+	val connection = uri(when (mindustryVersion) {
+		"latest" -> "https://api.github.com/repos/Anuken/Mindustry/releases/latest"
+		"be" -> "https://api.github.com/repos/Anuken/MindustryBuilds/releases/tags/master"
+		else -> return mindustryVersion
+	}).toURL().openConnection()
+	val json = connection.getInputStream().bufferedReader().use{ it.readText() }
+	return (JsonSlurper().parseText(json) as Map<*, *>)["tag_name"] as? String 
+		?: throw GradleException("Could not determine Mindustry version.")
 }
 
 allprojects {
 	apply(plugin = "java")
-	sourceSets["main"].java.setSrcDirs(listOf(layout.projectDirectory.dir("src"), layout.projectDirectory.dir("build/generated/sources/annotationProcessor/java/main")))
+	sourceSets["main"].java.setSrcDirs(listOf(
+		layout.projectDirectory.dir("src"),
+		layout.projectDirectory.dir("build/generated/sources/annotationProcessor/java/main")
+	))
 
 	dependencies {
 		abstract class TrimSources : TransformAction<TransformParameters.None> {
@@ -89,9 +94,9 @@ allprojects {
 				val input = file.get().asFile
 				val classes = outputs.file(input.name)
 
-				JarFile(input).use{ jar ->
+				JarFile(input).use { jar ->
 					val entries = jar.entries()
-					JarOutputStream(FileOutputStream(classes)).use{ classes ->
+					JarOutputStream(FileOutputStream(classes)).use { classes ->
 						for (entry in entries) {
 							if (entry.name.endsWith(".java")) continue
 
@@ -175,6 +180,11 @@ project(":") {
 
 	val localModName = modName
 	val localMindustryVersion = mindustryVersion
+
+	val mindustryDir = providers.gradleProperty("mindustryDir").getOrNull()?.let(::File)
+	val nativeClient = mindustryDir != null && mindustryDir.resolve("Mindustry.exe").exists()
+	val gradleHomeProperties = gradle.gradleUserHomeDir.resolve("gradle.properties").path
+
 	configure<EntityAnnoExtension> {
 		modName = localModName
 		mindustryVersion = localMindustryVersion
@@ -192,28 +202,8 @@ project(":") {
 		compileOnly(mindustry())
 	}
 
-	val copyJar = tasks.register("copyJar") {
-		val source = tasks.jar.flatMap{ it.archiveFile }
-		val destination = layout.projectDirectory.dir("..").asFile
-
-		doLast {
-			val sourceFile = source.get().asFile
-			sourceFile.copyTo(destination.resolve(sourceFile.name), overwrite = true)
-		}
-	}
-
-	val runGame = tasks.register<Exec>("runGame") {
-		dependsOn(copyJar)
-
-		commandLine(mindustryDir(layout.projectDirectory.asFile).resolve("Mindustry.exe").absolutePath)
-	}
-
 	val jar = tasks.named<Jar>("jar") {
 		dependsOn(":tools:generate")
-
-		if (providers.gradleProperty("runGame").isPresent) {
-			finalizedBy(runGame)
-		}
 
 		archiveFileName = "${modArtifact}Desktop-${modVersion + (if (alpha.toBoolean()) "-alpha" else "")}.jar"
 
@@ -247,7 +237,7 @@ project(":") {
 		val localModName = modName
 		doFirst {
 			if (usedMeta.asFile.reader(Charsets.UTF_8).use{ Jval.read(it) }.getString("name") != localModName) {
-				throw GradleException("Mod name mismatch in `${usedMeta.asFile.name}`; please synchronize with `gradle.properties`")
+				throw GradleException("Mod name mismatch in `${usedMeta.asFile.name}`; please synchronize with `gradle.properties`.")
 			}
 		}
 	}
@@ -271,12 +261,12 @@ project(":") {
 			// Find Android SDK root.
 			val sdkRoot = File(
 				OS.env("ANDROID_SDK_ROOT") ?: OS.env("ANDROID_HOME")
-				?: throw IllegalStateException("Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` is set.")
+				?: throw IllegalStateException("Neither `ANDROID_SDK_ROOT` nor `ANDROID_HOME` are set.")
 			)
 
 			// Find `d8`.
-			val d8 = File(sdkRoot, "build-tools/$androidBuildVersion/${if(OS.isWindows) "d8.bat" else "d8"}")
-			if (!d8.exists()) throw IllegalStateException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted")
+			val d8 = File(sdkRoot, "build-tools/$androidBuildVersion/${if (OS.isWindows) "d8.bat" else "d8"}")
+			if (!d8.exists()) throw IllegalStateException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted.")
 
 			// Initialize a release build.
 			val input = desktopJar.get().asFile
@@ -289,7 +279,7 @@ project(":") {
 
 			// Include Android platform as library.
 			val androidJar = File(sdkRoot, "platforms/android-$androidSdkVersion/android.jar")
-			if (!androidJar.exists()) throw IllegalStateException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted")
+			if (!androidJar.exists()) throw IllegalStateException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted.")
 
 			command.addAll(arrayOf("--lib", "$androidJar"))
 			if (OS.isWindows) command.addAll(0, arrayOf("cmd", "/c").toList())
@@ -299,21 +289,77 @@ project(":") {
 		}
 	}
 
-	tasks.register<DefaultTask>("install") {
-		inputs.files(jar)
+	val copyJar = tasks.register<DefaultTask>("copyJar") {
+		mustRunAfter(jar)
 
-		val desktopJar = jar.flatMap{ it.archiveFile }
-		val dexJar = dex.flatMap{ it.archiveFileName }
+		val sourceFile = jar.get().archiveFile.get().asFile
+
 		doLast {
-			val folder = Fi.get(OS.getAppDataDirectoryString("Mindustry")).child("mods")
-			folder.mkdirs()
+			if (!sourceFile.exists()) {
+				logger.lifecycle("Mod jar not found. Skipping task.")
+				return@doLast
+			}
+			if (mindustryDir != null) {
+				val destination =
+					if (nativeClient && mindustryDir.path.contains("steamapps\\common\\Mindustry", ignoreCase = true))
+					mindustryDir.resolve("saves/mods") else mindustryDir.resolve("mods")
+				destination.mkdirs()
 
-			val input = desktopJar.get().asFile
-			folder.child(input.name).delete()
-			folder.child(dexJar.get()).delete()
-			Fi(input).copyTo(folder)
+				sourceFile.copyTo(destination.resolve(sourceFile.name), overwrite = true)
 
-			logger.lifecycle("Copied :jar output to $folder.")
+				logger.lifecycle("Copied ${sourceFile.name} to '${destination.path}'.")
+			} else {
+				throw GradleException("Mindustry directory not found. Set the 'mindustryDir' property in $gradleHomeProperties.")
+			}
+		}
+	}
+
+	val downloadClient = tasks.register<InstallJar>("downloadClient") {
+		if (nativeClient) {
+			enabled = false
+		} else if (mindustryDir != null) {
+			val clientVersion = getClientVersion()
+
+			from(when(mindustryVersion) {
+				"latest" -> "https://github.com/Anuken/Mindustry/releases/latest/download/Mindustry.jar"
+				"be" -> "https://github.com/Anuken/MindustryBuilds/releases/latest/download/Mindustry-BE-Desktop-$clientVersion.jar"
+				else -> "https://github.com/Anuken/Mindustry/releases/download/$clientVersion/Mindustry.jar"
+			})
+			destination(mindustryDir.resolve("Mindustry-$clientVersion.jar"))
+
+			val launcher = mindustryDir.resolve("Mindustry.bat")
+			outputs.file(launcher)
+
+			doLast {
+				launcher.apply {
+					writeText(
+						"""
+						@echo off
+						java -jar "%~dp0Mindustry-$clientVersion.jar" %*
+						""".trimIndent()
+					)
+				}
+			}
+		} else {
+			doFirst {
+				throw GradleException("Mindustry directory not found. Set the 'mindustryDir' property in $gradleHomeProperties.")
+			}
+		}
+	}
+
+	tasks.register<Exec>("runClient") {
+		dependsOn(copyJar, downloadClient)
+
+		doFirst {
+			if (mindustryDir == null) {
+				throw GradleException("Mindustry directory not found. Set the 'mindustryDir' property in $gradleHomeProperties.")
+			} else if (nativeClient) {
+				logger.lifecycle("Native Mindustry executable detected; skipping download.")
+				commandLine(mindustryDir.resolve("Mindustry.exe").absolutePath)
+			} else {
+				commandLine(mindustryDir.resolve("Mindustry.bat").absolutePath)
+			}
+			logger.lifecycle("Starting Mindustry.")
 		}
 	}
 }
