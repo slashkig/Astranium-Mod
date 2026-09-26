@@ -9,6 +9,7 @@ import mindustry.game.Objectives.*;
 import static mindustry.content.TechTree.*;
 import static astramod.content.AstraBlocks.*;
 import static astramod.content.AstraUnitTypes.*;
+import static astramod.content.AstraSectorPresets.*;
 
 public class AzirisTechTree {
 	public static final Runnable none = () -> { };
@@ -329,6 +330,11 @@ public class AzirisTechTree {
 					node(fledge);
 				});
 			});
+
+			// TODO fix this code crashing the mod for some reason
+//			node(pointOne, () -> {
+//
+//			});
 
 			nodeProduce(AstraItems.hematite, () -> {
 				nodeProduce(Items.copper, () -> {
