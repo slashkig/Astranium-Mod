@@ -331,10 +331,9 @@ public class AzirisTechTree {
 				});
 			});
 
-			// TODO fix this code crashing the mod for some reason
-//			node(pointOne, () -> {
-//
-//			});
+			node(pointOne, () -> {
+
+			});
 
 			nodeProduce(AstraItems.hematite, () -> {
 				nodeProduce(Items.copper, () -> {

@@ -27,9 +27,9 @@ public class AstraniumMod extends Mod {
 		AstraBlocks.load();
 		AstraWeathers.load();
 		AstraPlanets.load();
+		AstraSectorPresets.load();
 		AzirisTechTree.load();
 		AstraEvents.load();
-		AstraSectorPresets.load();
 		Icons.load();
 
 		Log.info("Astranium Mod loaded");
