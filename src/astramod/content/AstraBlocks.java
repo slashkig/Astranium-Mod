@@ -114,11 +114,11 @@ public class AstraBlocks {
 		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
 
 		// Turrets
-		dart, viper, ember, mortar, bolt, monsoon, ballista,
+		dart, viper, ember, mortar, bolt, monsoon, ballista, vengeance,
 
 		// Unit assemblers
-		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard,
-		secondaryMechAssembler, secondaryAirAssembler, secondaryTankAssembler, secondaryShipyard,
+		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard, primaryAirshipAssembler,
+		secondaryMechAssembler, secondaryAirAssembler, secondaryTankAssembler, secondaryShipyard, secondaryAirshipAssembler,
 
 		// Sandbox
 		omegafactory, uberwall, superRouter, testblaster, ohno;
@@ -3768,7 +3768,7 @@ public class AstraBlocks {
 					hitEffect = AstraFx.dynamicExplosion(this);
 					shootEffect = AstraFx.mortarShoot(this);
 				}},
-				Items.metaglass, new ArtilleryBulletType(3f, 10) {{
+				Items.metaglass, new ArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -4280,6 +4280,25 @@ public class AstraBlocks {
 			);
 		}};
 
+		primaryAirshipAssembler = new UnitFactory("primary-airship-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 10,
+				AstraItems.magnetite, 60,
+				Items.silicon, 100
+			));
+			regionSuffix = "-airship";
+			size = 5;
+			consumePower(3.5f);
+
+			plans = Seq.with(
+				new UnitPlan(AstraUnitTypes.milvus, 21f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 25,
+					AstraItems.magnetite, 20,
+					Items.silicon, 20
+				))
+			);
+		}};
+
 		// TODO rapid assembly module
 
 		secondaryMechAssembler = new DynamicReconstructor("secondary-mech-assembler") {{
@@ -4373,6 +4392,26 @@ public class AstraBlocks {
 				AstraUnitTypes.fledge, new UnitPlan(UnitTypes.horizon, 20f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 40,
 					Items.silicon, 40
+				))
+			);
+		}};
+
+		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.iron, 180,
+				AstraItems.magnetite, 90,
+				Items.titanium, 120,
+				Items.silicon, 110
+			));
+			regionSuffix = "-airship";
+			size = 5;
+			consumePower(7f);
+
+			recipes.putAll(
+				AstraUnitTypes.milvus, new UnitPlan(UnitTypes.zenith, 20f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 40,
+					Items.silicon, 35,
+					Items.titanium, 45
 				))
 			);
 		}};
