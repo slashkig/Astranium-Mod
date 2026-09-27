@@ -1,8 +1,8 @@
 package astramod.io;
 
 import arc.util.*;
-import astramod.entities.abilities.ActivatedAbility;
 import mindustry.gen.*;
+import astramod.entities.abilities.ActivatedAbility;
 
 import static astramod.AstraVars.*;
 
@@ -20,13 +20,24 @@ public class AstraNetHandlers {
 		NetUtil.clientStringHandler("wind-fade", data -> {
 			WeatherState instance = Groups.weather.find(w -> w.weather.name.equals(data));
 			if (instance != null) instance.life(windManager.fadeDelay);
-			else Log.warn("Failed to fade weather: " + data);
+			else Log.warn("Failed to find weather: " + data);
 		});
 		NetUtil.serverIntsHandler("ability-activate", (player, data) -> {
-			Unit unit = Groups.unit.getByID(data.get());
+			int unitId = data.get();
+			Unit unit = Groups.unit.getByID(unitId);
 			int abilityId = data.get();
+			if (unit == null) {
+				Log.warn("Failed to find unit id: " + unitId);
+				return;
+			}
 			ActivatedAbility ability = (ActivatedAbility)Structs.find(unit.abilities, a -> a instanceof ActivatedAbility aa && aa.id == abilityId);
-			if (ability.canActivate(unit)) ability.activate(unit);
+			if (ability != null && ability.canActivate(unit)) ability.activate(unit);
+		});
+		NetUtil.clientIntsHandler("weapon-shoot", data -> {
+			int unitId = data.get();
+			Unit unit = Groups.unit.getByID(unitId);
+			if (unit == null) Log.warn("Failed to find unit id: " + unitId);
+			else unit.mounts[data.get()].shoot = data.get() != 0;
 		});
 	}
 }

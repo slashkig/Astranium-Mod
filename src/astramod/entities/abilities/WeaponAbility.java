@@ -4,9 +4,11 @@ import arc.Core;
 import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
+import mindustry.Vars;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.type.*;
+import astramod.io.*;
 import astramod.type.weapons.*;
 import astramod.world.meta.*;
 
@@ -62,6 +64,7 @@ public class WeaponAbility extends ActivatedAbility {
 	}
 
 	@Override public void activate(Unit unit) {
+		if (Vars.net.server()) NetUtil.clientIntsReliable("weapon-shoot", unit.id, Structs.indexOf(unit.mounts, mount), 1);
 		mount.shoot = true;
 	}
 

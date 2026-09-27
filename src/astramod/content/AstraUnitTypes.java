@@ -883,7 +883,7 @@ public class AstraUnitTypes {
 						fragBullets = 1;
 						fragBullet = new AOEBulletType(5f * Time.toSeconds) {{
 							effect = u -> {
-								if (u instanceof Concealc c) c.concealment(12f);
+								if (u instanceof Concealc c) c.concealment(20f);
 							};
 							splashDamageRadius = 5f * tilesize;
 							collidesTeam = true;

@@ -2,7 +2,7 @@ package astramod.entities.abilities;
 
 import arc.Core;
 import arc.input.*;
-import arc.scene.ui.layout.Table;
+import arc.scene.ui.layout.*;
 import mindustry.Vars;
 import mindustry.entities.abilities.*;
 import mindustry.gen.*;
@@ -27,9 +27,9 @@ public abstract class ActivatedAbility extends Ability {
     }
 
 	@Override public void update(Unit unit) {
-		if (Vars.player.unit() == unit) {
+		if (unit.controller() instanceof Player) {
 			updatePlayer(unit);
-			if (Core.input.keyDown(keybind) && canActivate(unit)) {
+			if (Vars.player.unit() == unit && Core.input.keyDown(keybind) && Core.scene.getKeyboardFocus() == null && canActivate(unit)) {
 				activateNet(unit);
 			}
 		}
@@ -46,6 +46,10 @@ public abstract class ActivatedAbility extends Ability {
 	public abstract void activate(Unit unit);
 
 	public final void activateNet(Unit unit) {
-		NetUtil.serverIntsReliable("ability-activate", unit.id, id);
+		if (Vars.net.client()) {
+			NetUtil.serverIntsReliable("ability-activate", unit.id, id);
+		} else {
+			activate(unit);
+		}
 	}
 }
