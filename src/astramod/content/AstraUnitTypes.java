@@ -17,38 +17,40 @@ import mindustry.type.*;
 import mindustry.type.weapons.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
-import astramod.gen.*;
+import mindustry.world.meta.*;
 import astramod.ai.types.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
+import astramod.gen.*;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
-import mindustry.world.meta.BlockFlag;
 
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
-	public static @EntityDef({ Unitc.class }) UnitType
-		manager, director, overseer,
+	@EntityPoint(UnitEntity.class) public static UnitType
+		manager, director,
 		milvus;
-	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType
+	@EntityPoint(PayloadUnit.class) public static UnitType
+		overseer;
+	@EntityDef({ Unitc.class, BuildingTetherc.class }) public static UnitType
 		gatherer, initiate, seeker, ward;
-	public static @EntityDef({ Unitc.class, Concealc.class, Mechc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
-	public static @EntityDef({ Unitc.class, Concealc.class, Tankc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
 		hymeno;
-	public static UnitType
+	@EntityPoint(TankUnit.class) public static UnitType
 		vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
-	public static @EntityDef({ Unitc.class, Concealc.class, Legsc.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
 		baeri, vorhies;
-	public static @EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) UnitType
+	@EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) public static UnitType
 		fledge;
 
 	public static void load() {
@@ -1401,7 +1403,7 @@ public class AstraUnitTypes {
 
 		// region GUNSHIP
 
-		milvus = new AstraUnitType("milvus"){{
+		milvus = new AstraUnitType("milvus") {{
 			health = 230;
 			armor = 3f;
 			speed = 1.4f;
@@ -1414,11 +1416,11 @@ public class AstraUnitTypes {
 			hitSize = 11f;
 			forceMultiTarget = true;
 
-			targetFlags = new BlockFlag[]{BlockFlag.generator, BlockFlag.storage, BlockFlag.battery, null};
+			targetFlags = new BlockFlag[] { BlockFlag.generator, BlockFlag.storage, BlockFlag.battery, null };
 			engineOffset = 5.25f;
 			engineSize = 3f;
 
-			weapons.add(new Weapon("astramod-gunship-mount"){{
+			weapons.add(new Weapon("astramod-gunship-mount") {{
 				reload = 22f;
 				rotate = true;
 				rotationLimit = 130f;

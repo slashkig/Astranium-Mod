@@ -4,8 +4,7 @@ import arc.math.*;
 import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
-import arc.struct.Seq;
-import mindustry.Vars;
+import arc.struct.*;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -184,7 +183,7 @@ public class AstraFx {
 	}),
 
 	overcharged1 = new Effect(20f, e -> {
-		if(!(e.data instanceof Unit unit)) return;
+		if (!(e.data instanceof Unit unit)) return;
 
 		float radius = unit.hitSize() * 1.3f;
 		float length = (radius/2f + e.finpow() * radius * 1.25f) * e.fin();
@@ -204,7 +203,7 @@ public class AstraFx {
 	}),
 
 	overcharged2 = new Effect(20f, e -> {
-		if(!(e.data instanceof Unit unit)) return;
+		if (!(e.data instanceof Unit unit)) return;
 
 		float radius = unit.hitSize() * 1.4f;
 		float length = (radius/2f + e.finpow() * radius * 1.25f) * e.fin();
@@ -224,7 +223,7 @@ public class AstraFx {
 	}),
 
 	overcharged3 = new Effect(20f, e -> {
-		if(!(e.data instanceof Unit unit)) return;
+		if (!(e.data instanceof Unit unit)) return;
 
 		float radius = unit.hitSize() * 1.6f;
 		float length = (radius/2f + e.finpow() * radius * 1.25f) * e.fin();
