@@ -6,8 +6,8 @@ import astramod.ai.*;
 import astramod.content.*;
 import astramod.gen.*;
 import astramod.graphics.*;
-import astramod.ui.Displays;
-import astramod.ui.Icons;
+import astramod.io.AstraNetHandlers;
+import astramod.ui.*;
 
 public class AstraniumMod extends Mod {
 	public AstraniumMod() {
@@ -36,6 +36,8 @@ public class AstraniumMod extends Mod {
 	}
 
 	@Override public void init() {
+		AstraVars.init();
+		AstraNetHandlers.init();
 		AstraShaders.init();
 		Displays.init();
 	}

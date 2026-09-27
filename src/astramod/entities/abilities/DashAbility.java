@@ -1,6 +1,5 @@
 package astramod.entities.abilities;
 
-import arc.Core;
 import arc.math.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
@@ -33,10 +32,14 @@ public class DashAbility extends ActivatedAbility {
 	@Override public void update(Unit unit) {
 		if (data < 0f) {
 			unit.vel.add(Tmp.v1.trns(unit.rotation(), speedBoost * unit.type.accel * Time.delta));
-		} else if (data >= cooldown && Vars.player.unit() == unit && Core.input.keyDown(keybind)) {
-			activate(unit);
+		} else {
+			super.update(unit);
 		}
 		data += Time.delta;
+	}
+
+	@Override public boolean canActivate(Unit unit) {
+		return data >= cooldown;
 	}
 
 	@Override public float getProgress(Unit unit) {

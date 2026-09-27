@@ -20,6 +20,7 @@ public class WeaponAbility extends ActivatedAbility {
 	}
 
 	@Override public void init(UnitType type) {
+		super.init(type);
 		unit = type;
 	}
 

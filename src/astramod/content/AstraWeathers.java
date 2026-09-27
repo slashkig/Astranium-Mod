@@ -1,6 +1,5 @@
 package astramod.content;
 
-import java.io.*;
 import arc.graphics.*;
 import arc.math.*;
 import arc.util.*;
@@ -11,15 +10,15 @@ import mindustry.io.*;
 import mindustry.type.*;
 import mindustry.type.weather.*;
 import mindustry.world.meta.*;
+import astramod.io.*;
 import astramod.math.MathUtil;
 
 import static mindustry.Vars.*;
+import static astramod.AstraVars.windManager;
 
 public class AstraWeathers {
 	public static final Attribute wind = Attribute.add("wind");
 	public static Weather windy, heavyWind;
-
-	public static WindLogic windManager;
 
 	public static void load() {
 		Log.info("Loading weathers");
@@ -54,12 +53,6 @@ public class AstraWeathers {
 			sound = Sounds.windHowl;
 			soundVol = 0.8f;
 		}};
-
-		windManager = new WindLogic();
-	}
-
-	public static float globalWind() {
-		return windManager.globalWind;
 	}
 
 	public static void setupWind() {
@@ -105,42 +98,21 @@ public class AstraWeathers {
 		public final float highWindBase;
 
 		public WindLogic() {
-			SaveVersion.addCustomChunk("astramod-wind", new SaveFileReader.CustomChunk() {
-				@Override public void write(DataOutput stream) throws IOException {
-					stream.writeFloat(globalWind);
-					stream.writeFloat(randWind);
-					stream.writeFloat(tempWind);
-					stream.writeFloat(windCounter);
-				}
-				@Override public void read(DataInput stream) throws IOException {
-					globalWind = stream.readFloat();
-					randWind = stream.readFloat();
-					tempWind = stream.readFloat();
-					windCounter = stream.readFloat();
-				}
-				@Override public boolean shouldWrite() {
-					return windEnabled();
-				}
-			});
-
-			netClient.addPacketHandler("astramod-updateWind", data -> {
-				if (!net.server()) globalWind = Float.parseFloat(data);
-			});
-			netClient.addPacketHandler("astramod-changeWind", data -> { if (!net.server()) {
-				int sep = data.indexOf('|');
-				randWind = Float.parseFloat(data.substring(0, sep));
-				windCounter = Float.parseFloat(data.substring(sep + 1));
-			}});
-			netClient.addPacketHandler("astramod-deltaWind", data -> { if (!net.server()) {
-				float deltaWind = Float.parseFloat(data);
-				randWind -= deltaWind;
-				tempWind += deltaWind;
-			}});
-			netClient.addPacketHandler("astramod-fadeWind", data -> { if (!net.server()) {
-				WeatherState instance = Groups.weather.find(w -> w.weather.name.equals(data));
-				if (instance != null) instance.life(fadeDelay);
-				else Log.warn("Failed to fade weather: " + data);
-			}});
+			SaveVersion.addCustomChunk("astramod-wind", new CustomChunk(
+				in -> {
+					globalWind = in.readFloat();
+					randWind = in.readFloat();
+					tempWind = in.readFloat();
+					windCounter = in.readFloat();
+				},
+				out -> {
+					out.writeFloat(globalWind);
+					out.writeFloat(randWind);
+					out.writeFloat(tempWind);
+					out.writeFloat(windCounter);
+				},
+				this::windEnabled
+			));
 
 			windBase = windy.attrs.get(wind);
 			highWindBase = heavyWind.attrs.get(wind);
@@ -204,7 +176,7 @@ public class AstraWeathers {
 
 			if (net.server() && Time.timeSinceMillis(lastNetUpdate) > windUpdateInterval) {
 				lastNetUpdate = Time.millis();
-				Call.clientPacketUnreliable("astramod-updateWind", String.valueOf(globalWind));
+				NetUtil.clientFloatUnreliable("wind-update", globalWind);
 			}
 		}
 
@@ -215,7 +187,7 @@ public class AstraWeathers {
 		public void changeWind(float rMin, float rMax, float cMin, float cMax) {
 			randWind = Mathf.random(rMin, rMax);
 			windCounter = Time.toMinutes * Mathf.random(cMin, cMax);
-			Call.clientPacketReliable("astramod-changeWind", String.format("%f|%f", randWind, windCounter));
+			NetUtil.clientFloatsReliable("wind-change", randWind, windCounter);
 		}
 
 		public void resetWind() {
@@ -231,13 +203,13 @@ public class AstraWeathers {
 
 		public void fadeWindWeather(Weather wind) {
 			wind.instance().life(fadeDelay);
-			Call.clientPacketReliable("astramod-fadeWind", wind.name);
+			Call.clientPacketReliable("astramod-wind-fade", wind.name);
 		}
 
 		public void deltaWind(float value) {
 			randWind -= value;
 			tempWind += value;
-			Call.clientPacketReliable("astramod-deltaWind", String.valueOf(value));
+			NetUtil.clientFloatReliable("wind-delta", value);
 		}
 	}
 }

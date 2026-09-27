@@ -2,6 +2,7 @@ package astramod.world.blocks.power;
 
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
+import astramod.AstraVars;
 import astramod.content.*;
 import astramod.math.MathUtil;
 import astramod.world.meta.AstraStatValues;
@@ -19,14 +20,14 @@ public class WindGenerator extends PowerGenerator {
 	}
 
 	public AstraWeathers.WindLogic windManager() {
-		return AstraWeathers.windManager;
+		return AstraVars.windManager;
 	}
 
 	public class WindGeneratorBuild extends GeneratorBuild {
 		public float totalProgress = 0f;
 
 		@Override public void updateTile() {
-			productionEfficiency = MathUtil.elerpDelta(productionEfficiency, enabled ? AstraWeathers.globalWind() : 0f, 0.01f * timeScale);
+			productionEfficiency = MathUtil.elerpDelta(productionEfficiency, enabled ? windManager().globalWind : 0f, 0.01f * timeScale);
 			if (productionEfficiency > 1.5f) {
 				damageContinuous(overloadDamage * (productionEfficiency * 2f - 1f) * timeScale / 60f);
 			}
