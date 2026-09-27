@@ -5,6 +5,7 @@ import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.Seq;
+import mindustry.Vars;
 import mindustry.graphics.*;
 import mindustry.content.*;
 import mindustry.entities.*;
@@ -79,7 +80,7 @@ public class AstraFx {
 		Lines.circle(e.x, e.y, e.fin() * 8f);
 	}),
 
-	emberCoalFlame = new Effect(35f, 80f, e -> {
+	emberPyraFlame = new Effect(35f, 80f, e -> {
 		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkFlame, e.fin());
 		Draw.alpha(0.8f + 0.2f * e.fout());
 
@@ -89,7 +90,7 @@ public class AstraFx {
 		});
 	}),
 
-	emberPyraFlame = new Effect(34f, 80f, e -> {
+	emberCoalFlame = new Effect(34f, 80f, e -> {
 		Draw.color(Pal.lightFlame, Pal.darkFlame, Pal.darkerGray, e.fin());
 		Draw.alpha(0.7f + 0.3f * e.fout());
 
@@ -105,16 +106,9 @@ public class AstraFx {
 		Icon.defense.draw(e.x - 4f, e.y - 4f, 8f, 8f);
 	}),
 
-	attractMetalParticles = new Effect(60f, e -> {
+	magnetized = new Effect(60f, e -> {
 		Draw.color(AstraFluids.ferrofluid.color);
 		Draw.alpha(e.fout());
-
-		e.scaled(60f, b -> {
-			Draw.color(AstraFluids.ferrofluid.color, e.fin());
-			Lines.stroke(3.5f * b.fslope());
-			Lines.circle(b.x, b.y, 32f * b.fout());
-		});
-
 		Angles.randLenVectors(e.id, 1, 2f + e.foutpow() * 20f, (x, y) -> {
 			Fill.poly(e.x + x, e.y + y, 6, 1.5f);
 		});
@@ -136,7 +130,7 @@ public class AstraFx {
 			Fill.circle(e.x + x, e.y + y, e.fslope() * 4f);
 		});
 	}),
-	charged2 = new Effect(30f, e -> {
+	charged2 = new Effect(40f, e -> {
 		Draw.color(AstraPal.crystalFront, AstraPal.crystalBack, e.fout());
 		Angles.randLenVectors(e.id, 2, 1f + e.fin() * 8f, (x, y) -> {
 			Fill.circle(e.x + x, e.y + y, e.fslope() * 4f);
@@ -162,7 +156,7 @@ public class AstraFx {
 			}
 		});
 	}),
-	charged3 = new Effect(30f, e -> {
+	charged3 = new Effect(40f, e -> {
 		Draw.color(AstraPal.crystalGlow, AstraPal.crystalFront, AstraPal.crystalBack, e.fout());
 		Angles.randLenVectors(e.id, 4, 1f + e.fin() * 8f, (x, y) -> {
 			Fill.circle(e.x + x, e.y + y, e.fslope() * 4f);

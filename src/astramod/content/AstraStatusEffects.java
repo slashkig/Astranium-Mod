@@ -43,8 +43,9 @@ public class AstraStatusEffects {
 
 		magnetized = new ConsStatusEffect("magnetized") {{
 			color = AstraItems.magnetite.color.cpy();
-			effect = AstraFx.attractMetalParticles;
+			effect = AstraFx.magnetized;
 			effectChance = 0.1f;
+			parentizeEffect = true;
 
 			speedMultiplier = 0.8f;
 			effectStrength = 30f;
