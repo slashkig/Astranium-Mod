@@ -3875,14 +3875,30 @@ public class AstraBlocks {
 			));
 
 			ammo(
-				Items.scrap, new BasicBulletType(4f, 20) {{
-					width = 6f;
-					height = 10f;
-					ammoMultiplier = 3;
-					armorMultiplier = 1.8f;
+				AstraItems.iron, new BasicBulletType(6f, 22f){{
+					width = 7f;
+					height = 16f;
 
-					frontColor = Pal.scrapAmmoFront;
-					backColor = Pal.scrapAmmoBack;
+					ammoMultiplier = 4;
+					reloadMultiplier = 0.8f;
+					status = StatusEffects.slow;
+					statusDuration = Time.toSeconds;
+					statusChance = 0.3f;
+
+					backColor = AstraPal.ironBack;
+					frontColor = AstraPal.ironFront;
+				}},
+				AstraItems.steel, new BasicBulletType(7f, 105f){{
+					width = 7f;
+					height = 16f;
+
+					ammoMultiplier = 3;
+					pierce = true;
+					pierceCap = 5;
+					rangeChange = 20f;
+
+					backColor = AstraPal.steelBack;
+					frontColor = AstraPal.steelFront;
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
 					width = 7f;
