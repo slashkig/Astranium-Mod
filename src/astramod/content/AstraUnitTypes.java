@@ -17,38 +17,38 @@ import mindustry.type.*;
 import mindustry.type.weapons.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
+import astramod.gen.*;
 import astramod.ai.types.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
-import astramod.gen.*;
 import astramod.graphics.*;
 import astramod.type.unit.*;
 import astramod.type.weapons.*;
+import mindustry.world.meta.BlockFlag;
 
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
-	@EntityPoint(UnitEntity.class) public static UnitType
-		manager, director;
-	@EntityPoint(PayloadUnit.class) public static UnitType
-		overseer;
-	@EntityDef({ Unitc.class, BuildingTetherc.class }) public static UnitType
+	public static @EntityDef({ Unitc.class }) UnitType
+		manager, director, overseer,
+		milvus;
+	public static @EntityDef({ Unitc.class, BuildingTetherc.class }) UnitType
 		gatherer, initiate, seeker, ward;
-	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, Mechc.class }) UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
-	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, Tankc.class }) UnitType
 		hymeno;
-	@EntityPoint(TankUnit.class) public static UnitType
+	public static UnitType
 		vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
-	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, Legsc.class }) UnitType
 		baeri, vorhies;
-	@EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) public static UnitType
+	public static @EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) UnitType
 		fledge;
 
 	public static void load() {
@@ -825,8 +825,10 @@ public class AstraUnitTypes {
 					shootX = -0.75f;
 					shootY = 3f;
 					layerOffset = -0.002f;
+
 					heatColor = AstraPal.heat;
 					cooldownTime = 60f;
+					rotate = false;
 
 					shootSound = Sounds.shootFlame;
 
@@ -1074,7 +1076,7 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootArtillery;
 
-				bullet = new ArtilleryBulletType(4f, 25, "shell") {{
+				bullet = new ArtilleryBulletType(4f, 25, "astramod-fragger") {{
 					width = height = 15f;
 					lifetime = 55f;
 					shoot.firstShotDelay = 10f;
@@ -1393,6 +1395,48 @@ public class AstraUnitTypes {
 					hitColor = color = Pal.sapBullet;
 					shootEffect = Fx.shootSmall;
 					despawnEffect = Fx.none;
+				}};
+			}});
+		}};
+
+		// region GUNSHIP
+
+		milvus = new AstraUnitType("milvus"){{
+			health = 230;
+			armor = 3f;
+			speed = 1.4f;
+			accel = 0.04f;
+			drag = 0.016f;
+
+			flying = true;
+			lowAltitude = true;
+			range = 120f;
+			hitSize = 11f;
+			forceMultiTarget = true;
+
+			targetFlags = new BlockFlag[]{BlockFlag.generator, BlockFlag.storage, BlockFlag.battery, null};
+			engineOffset = 5.25f;
+			engineSize = 3f;
+
+			weapons.add(new Weapon("astramod-gunship-mount"){{
+				reload = 22f;
+				rotate = true;
+				rotationLimit = 130f;
+				shoot.shots = 2;
+				shoot.shotDelay = 5f;
+
+				x = 5.25f;
+				y = 0.25f;
+				shootX = -1.75f;
+				shootY = 3f;
+
+				bullet = new BasicBulletType(4f, 17) {{
+					width = 7f;
+					height = 12f;
+					lifetime = 40f;
+
+					hitColor = backColor = AstraPal.ironBack;
+					frontColor = AstraPal.ironFront;
 				}};
 			}});
 		}};
