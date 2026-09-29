@@ -1453,6 +1453,7 @@ public class AstraUnitTypes {
 			fogRadius = 100f;
 			itemCapacity = 1000;
 			useUnitCap = false;
+			hideDetails = false;
 
 			speed = 5f;
 			accel = 1f;

@@ -1033,6 +1033,7 @@ public class AstraBlocks {
 				AstraItems.steel, 500,
 				AstraItems.crystals, 300
 			));
+			hideDetails = false;
 			buildCostMultiplier = 1.6f;
 			scaledHealth = 100f;
 			armor = 12f;
@@ -3294,6 +3295,7 @@ public class AstraBlocks {
 				Items.silicon, 50,
 				Items.titanium, 35
 			));
+			hideDetails = false;
 			size = 2;
 			fogRadius = 5;
 			scaledHealth = 75f;
