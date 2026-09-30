@@ -29,27 +29,43 @@ import astramod.type.weapons.*;
 import static mindustry.Vars.*;
 
 public class AstraUnitTypes {
+	// air
 	@EntityPoint(UnitEntity.class) public static UnitType
 		manager, director,
-		milvus;
+		milvus,
+		newt;
+
+	// air + payload
 	@EntityPoint(PayloadUnit.class) public static UnitType
 		overseer;
+
+	// core module units
 	@EntityDef({ Unitc.class, BuildingTetherc.class }) public static UnitType
 		gatherer, initiate, seeker, ward;
+
+	// mechs
 	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
+
+	// tank + scout
 	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
 		hymeno;
+
+	// tank
 	@EntityPoint(TankUnit.class) public static UnitType
 		vitex,
 		aculei, echidna,
 		arbalest, bartizan,
 		meissa, saiph,
 		superBartizan;
+
+	// mech + stealth
 	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
 		baeri, vorhies;
+
+	// hover
 	@EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) public static UnitType
 		fledge;
 
@@ -1354,6 +1370,7 @@ public class AstraUnitTypes {
 			accel = 0.4f;
 			rotateSpeed = 6.5f;
 			knockbackMultiplier = 2f;
+			omniMovement = false;
 
 			engineSize = 0f;
 			useEngineElevation = false;
@@ -1374,7 +1391,7 @@ public class AstraUnitTypes {
 
 			abilities.add(new MoveEffectAbility(0f, -7f, null, Fx.missileTrailShort, 6f) {{ teamColor = true; }});
 
-			weapons.add(new Weapon("fledge-weapon") {{
+			weapons.add(new Weapon() {{
 				reload = 15f;
 				rotate = true;
 
@@ -1399,6 +1416,55 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}});
+		}};
+
+		newt = new AstraUnitType("newt") {{
+			health = 600;
+			armor = 2;
+			speed = 2.2f;
+			accel = 0.4f;
+			drag = 0.22f;
+			omniMovement = false;
+
+			flying = true;
+			lowAltitude = true;
+			hitSize = 12f;
+
+			engineOffset = 6.75f;
+			engineSize = 2.5f;
+
+			weapons.add(new Weapon("astramod-newt-sapper") {{
+				reload = 12f;
+				rotate = true;
+
+				x = 4f;
+				y = 0.5f;
+				shootY = 2.25f;
+				shootX = -0.5f;
+
+				shootSound = Sounds.shootSap;
+
+				bullet = new SapBulletType() {{
+					lifetime = 45f;
+					length = 60f;
+					width = 0.62f;
+					damage = 35f;
+					knockback = -0.6f;
+					sapStrength = 0.7f;
+					status = StatusEffects.none;
+
+					hitColor = color = Pal.sapBullet;
+					shootEffect = Fx.shootSmall;
+					despawnEffect = Fx.none;
+				}};
+			}});
+
+			// TODO arc mouth
+			//weapons.add(new Weapon() {{
+			//	top = false;
+//
+			//	bullet = new LightningBulletType()
+			//}});
 		}};
 
 		// region GUNSHIP
