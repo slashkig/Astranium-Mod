@@ -4403,7 +4403,7 @@ public class AstraBlocks {
 			consumePower(5f);
 
 			recipes.putAll(
-				AstraUnitTypes.fledge, new UnitPlan(UnitTypes.horizon, 20f * Time.toSeconds, ItemStack.with(
+				AstraUnitTypes.fledge, new UnitPlan(AstraUnitTypes.newt, 20f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 40,
 					Items.silicon, 40
 				))

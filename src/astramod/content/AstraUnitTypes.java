@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.graphics.Color;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -1420,22 +1421,54 @@ public class AstraUnitTypes {
 		}};
 
 		newt = new AstraUnitType("newt") {{
-			health = 600;
+			health = 450;
 			armor = 2;
-			speed = 2.2f;
-			accel = 0.4f;
-			drag = 0.22f;
+			speed = 2.3f;
+			accel = 0.8f;
+			drag = 0.12f;
 			omniMovement = false;
 
 			flying = true;
 			lowAltitude = true;
 			hitSize = 12f;
 
+			targetFlags = new BlockFlag[] {
+				BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null
+			};
 			engineOffset = 6.75f;
 			engineSize = 2.5f;
 
+			weapons.add(new Weapon() {{
+				top = false;
+				mirror = false;
+				x = 0;
+				y = 0;
+
+				minShootVelocity = 2f;
+				reload = 15.5f;
+				shoot.shots = 3;
+				shootSound = Sounds.shootArc;
+
+				bullet = new LightningBulletType(){{
+					lightningColor = hitColor = Pal.sapBullet;
+					damage = 8f;
+					lightningLength = 10;
+					lightningLengthRand = 7;
+					pierceCap = 5;
+
+					lightningType = new BulletType(0.0001f, 0f){{
+						lifetime = Fx.lightning.lifetime;
+						hitEffect = Fx.hitLancer;
+						despawnEffect = Fx.none;
+						status = StatusEffects.shocked;
+						statusDuration = 10f;
+						hittable = false;
+					}};
+				}};
+			}});
+
 			weapons.add(new Weapon("astramod-newt-sapper") {{
-				reload = 12f;
+				reload = 12.4f;
 				rotate = true;
 
 				x = 4f;
@@ -1451,7 +1484,7 @@ public class AstraUnitTypes {
 					width = 0.62f;
 					damage = 35f;
 					knockback = -0.6f;
-					sapStrength = 0.7f;
+					sapStrength = 0.48f;
 					status = StatusEffects.none;
 
 					hitColor = color = Pal.sapBullet;
@@ -1459,13 +1492,6 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}});
-
-			// TODO arc mouth
-			//weapons.add(new Weapon() {{
-			//	top = false;
-//
-			//	bullet = new LightningBulletType()
-			//}});
 		}};
 
 		// region GUNSHIP
