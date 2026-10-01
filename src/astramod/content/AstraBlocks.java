@@ -3496,6 +3496,7 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.lead, new BasicBulletType(3f, 14) {{
 					width = 8f;
@@ -3736,7 +3737,7 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.2f;
 
 			ammo(
-				AstraItems.iron, new ArtilleryBulletType(3f, 10) {{
+				AstraItems.iron, new AstraArtilleryBulletType(3f, 10) {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3750,12 +3751,10 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
-					hitEffect = AstraFx.dynamicExplosion(this);
-					shootEffect = AstraFx.mortarShoot(this);
 				}},
-				Items.graphite, new ArtilleryBulletType(3f, 10) {{
-					width = 12f;
-					height = 14f;
+				Items.graphite, new AstraArtilleryBulletType(3f, 10) {{
+					width = 14f;
+					height = 16f;
 					ammoMultiplier = 2;
 
 					splashDamageRadius = 2.8f * tilesize;
@@ -3767,10 +3766,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
-					hitEffect = AstraFx.dynamicExplosion(this);
-					shootEffect = AstraFx.mortarShoot(this);
 				}},
-				Items.metaglass, new ArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
+				Items.metaglass, new AstraArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3796,9 +3793,8 @@ public class AstraBlocks {
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
 					hitEffect = AstraFx.dynamicExplosion(this, true);
-					shootEffect = AstraFx.mortarShoot(this);
 				}},
-				Items.titanium, new ArtilleryBulletType(3f, 10) {{
+				Items.titanium, new AstraArtilleryBulletType(3f, 10) {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3813,12 +3809,10 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
-					hitEffect = AstraFx.dynamicExplosion(this);
-					shootEffect = AstraFx.mortarShoot(this);
 				}},
-				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
-					width = 12f;
-					height = 14f;
+				Items.blastCompound, new AstraArtilleryBulletType(3f, 10) {{
+					width = 14f;
+					height = 16f;
 					ammoMultiplier = 2;
 
 					splashDamageRadius = 5f * tilesize;
@@ -3828,8 +3822,6 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
-					hitEffect = AstraFx.dynamicExplosion(this);
-					shootEffect = AstraFx.mortarShoot(this);
 				}}
 			);
 
@@ -3889,18 +3881,7 @@ public class AstraBlocks {
 
 					backColor = AstraPal.ironBack;
 					frontColor = AstraPal.ironFront;
-				}},
-				AstraItems.steel, new BasicBulletType(7f, 105f){{
-					width = 7f;
-					height = 16f;
-
-					ammoMultiplier = 3;
-					pierce = true;
-					pierceCap = 5;
-					rangeChange = 20f;
-
-					backColor = AstraPal.steelBack;
-					frontColor = AstraPal.steelFront;
+					shootEffect = AstraFx.boltTurretShoot(this);
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
 					width = 7f;
@@ -3913,6 +3894,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = Pal.graphiteAmmoBack;
+					shootEffect = AstraFx.boltTurretShoot(this);
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.silicon, new BasicBulletType(4.5f, 28) {{
 					width = 6f;
@@ -3924,10 +3907,11 @@ public class AstraBlocks {
 
 					frontColor = Pal.siliconAmmoFront;
 					backColor = Pal.siliconAmmoBack;
+					shootEffect = AstraFx.boltTurretShoot(this);
 				}},
 				Items.pyratite, new BasicBulletType(4.5f, 36) {{
-					width = 6f;
-					height = 11f;
+					width = 7f;
+					height = 12f;
 					ammoMultiplier = 4;
 
 					status = StatusEffects.burning;
@@ -3939,10 +3923,12 @@ public class AstraBlocks {
 					trailColor = AstraPal.fireBulletTrail;
 					trailWidth = 1.5f;
 					trailLength = 3;
+					shootEffect = AstraFx.boltTurretShoot(this, true, false, false);
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 2);
 				}},
 				Items.blastCompound, new FlakBulletType(4.5f, 6) {{
-					width = 4.5f;
-					height = 10f;
+					width = 7f;
+					height = 12f;
 					ammoMultiplier = 4;
 					collidesGround = true;
 
@@ -3954,7 +3940,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = Pal.blastAmmoBack;
-					hitEffect = despawnEffect = AstraFx.dynamicExplosion(this, 2f, 4, 0, false);
+					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
+					hitEffect = AstraFx.dynamicExplosion(this, 8, 6, false);
 				}},
 				Items.plastanium, new FlakBulletType(4.5f, 18) {{
 					width = 5f;
@@ -3980,7 +3967,9 @@ public class AstraBlocks {
 
 					frontColor = Pal.plastaniumFront;
 					backColor = Pal.plastaniumBack;
-					hitEffect = Fx.hitBulletSmall;
+					despawnHit = false;
+					shootEffect = AstraFx.boltTurretShoot(this, false, true, true);
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}}
 			);
 
@@ -4031,6 +4020,7 @@ public class AstraBlocks {
 					orbSize = 4f;
 					puddleSize = 45f;
 					layer = Layer.bullet - 2f;
+					shootEffect = Fx.shootLiquid;
 				}},
 				Liquids.slag, new LiquidBulletType(Liquids.slag) {{
 					damage = 6.7f;
@@ -4044,6 +4034,7 @@ public class AstraBlocks {
 					drag = 0.003f;
 					orbSize = 3.3f;
 					puddleSize = 10f;
+					shootEffect = Fx.shootLiquid;
 				}},
 				Liquids.oil, new LiquidBulletType(Liquids.oil) {{
 					speed = 5f;
@@ -4055,6 +4046,8 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					orbSize = 3.3f;
 					layer = Layer.bullet - 2f;
+					hitEffect = AstraFx.hitLiquid;
+					shootEffect = AstraFx.shootLiquid;
 				}},
 				Liquids.cryofluid, new LiquidBulletType(Liquids.cryofluid) {{
 					damage = 1f;
@@ -4066,6 +4059,7 @@ public class AstraBlocks {
 					drag = 0.002f;
 					orbSize = 3.3f;
 					puddleSize = 10f;
+					shootEffect = Fx.shootLiquid;
 				}},
 				AstraFluids.steam, new LiquidBulletType(AstraFluids.steam) {{
 					damage = 4f;
@@ -4076,6 +4070,7 @@ public class AstraBlocks {
 					drag = 0.002f;
 					orbSize = 2.3f;
 					layer = Layer.bullet - 2f;
+					shootEffect = AstraFx.shootGas;
 				}},
 				AstraFluids.ferrofluid, new LiquidBulletType(AstraFluids.ferrofluid) {{
 					speed = 6f;
@@ -4087,6 +4082,7 @@ public class AstraBlocks {
 					orbSize = 3.3f;
 					puddleSize = 10f;
 					layer = Layer.bullet - 2f;
+					hitEffect = AstraFx.hitLiquid;
 				}}
 			);
 

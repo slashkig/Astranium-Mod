@@ -644,7 +644,7 @@ public class AstraUnitTypes {
 
 				bullet = new MissileBulletType(3f, 10) {{
 					lifetime = 50f;
-					height = 10f;
+					width = height = 10f;
 					splashDamageRadius = 2.4f * tilesize;
 					splashDamage = 40;
 					scaledSplashDamage = true;
@@ -659,7 +659,7 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = despawnEffect =  AstraFx.dynamicExplosion(this);
+					hitEffect = AstraFx.dynamicExplosion(this, 7, 6, false);
 					trailChance = 0f;
 					trailInterval = 3f;
 				}};
@@ -708,9 +708,9 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootMissileShort;
 				shootSoundVolume = 1.5f;
 
-				bullet = new MissileBulletType(4f, 8) {{
+				bullet = new MissileBulletType(4f, 8, "astramod-torpedo") {{
 					lifetime = 32f;
-					width = 6f;
+					width = height = 7f;
 					splashDamageRadius = 1.6f * tilesize;
 					splashDamage = 24;
 					scaledSplashDamage = true;
@@ -723,7 +723,7 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = despawnEffect =  AstraFx.dynamicExplosion(this);
+					hitEffect = AstraFx.dynamicExplosion(this, 6, 4, false);
 					trailChance = 0f;
 					trailInterval = 4f;
 					trailParam = 1.6f;
@@ -1094,7 +1094,7 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootArtillery;
 
-				bullet = new ArtilleryBulletType(4f, 25, "astramod-fragger") {{
+				bullet = new AstraArtilleryBulletType(4f, 25, "astramod-fragger") {{
 					width = height = 15f;
 					lifetime = 55f;
 					shoot.firstShotDelay = 10f;
@@ -1110,7 +1110,8 @@ public class AstraUnitTypes {
 					trailLength = 15;
 					trailScl = 3f;
 					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 18f, true);
-					hitEffect = despawnEffect = AstraFx.dynamicExplosion(this, true);
+					hitEffect = AstraFx.dynamicExplosion(this, true);
+					despawnEffect = AstraFx.scaledDespawn(this, 1);
 					shootSoundVolume = 1.5f;
 
 					fragBullets = 10;
@@ -1498,7 +1499,7 @@ public class AstraUnitTypes {
 				shootX = -1.75f;
 				shootY = 3f;
 
-				bullet = new BasicBulletType(4f, 17) {{
+				bullet = new BasicBulletType(4f, 11) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 40f;
