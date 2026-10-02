@@ -12,4 +12,6 @@ public class SensorArray extends Radar {
 		super.setStats();
 		stats.add(Stat.range, fogRadius, StatUnit.blocks);
 	}
+
+	// TODO warn player when enemy is detected
 }

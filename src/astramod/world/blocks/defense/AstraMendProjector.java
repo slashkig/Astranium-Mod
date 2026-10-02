@@ -47,6 +47,7 @@ public class AstraMendProjector extends MendProjector {
 			drawer.draw(this);
 		}
 
+		// TODO steal from regen projector?
 		@Override public void updateTile() {
 			boolean canHeal = !checkSuppression();
 

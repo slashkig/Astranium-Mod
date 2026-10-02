@@ -3189,7 +3189,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootArtillery;
 
 			limitRange();
-			colorHitEffects();
+			colorHitFx();
 		}};
 
 		rtgModule = new PowerCoreModule("module-rtg") {{
@@ -3565,7 +3565,7 @@ public class AstraBlocks {
 			ammoUseEffect = Fx.casing2;
 
 			limitRange();
-			colorHitEffects();
+			colorHitFx();
 		}};
 
 		viper = new AstraItemTurret("aa-rocket") {{
@@ -3643,7 +3643,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootMissile;
 
 			limitRange();
-			colorHitEffects();
+			colorHitFx();
 		}};
 
 		ember = new ItemTurret("ember") {{
@@ -3737,7 +3737,7 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.2f;
 
 			ammo(
-				AstraItems.iron, new AstraArtilleryBulletType(3f, 10) {{
+				AstraItems.iron, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3752,7 +3752,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
 				}},
-				Items.graphite, new AstraArtilleryBulletType(3f, 10) {{
+				Items.graphite, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
 					height = 16f;
 					ammoMultiplier = 2;
@@ -3767,7 +3767,7 @@ public class AstraBlocks {
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
 				}},
-				Items.metaglass, new AstraArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
+				Items.metaglass, new ArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3794,7 +3794,7 @@ public class AstraBlocks {
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
 					hitEffect = AstraFx.dynamicExplosion(this, true);
 				}},
-				Items.titanium, new AstraArtilleryBulletType(3f, 10) {{
+				Items.titanium, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
 					height = 14f;
 					ammoMultiplier = 2;
@@ -3810,7 +3810,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
 				}},
-				Items.blastCompound, new AstraArtilleryBulletType(3f, 10) {{
+				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
 					height = 16f;
 					ammoMultiplier = 2;
@@ -3858,6 +3858,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootRipple;
 
 			limitRange();
+			artilleryBulletFx();
 		}};
 
 		bolt = new AstraItemTurret("bolt") {{
@@ -3996,7 +3997,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootCyclone;
 
 			limitRange();
-			colorHitEffects();
+			colorHitFx();
 		}};
 
 		monsoon = new AstraLiquidTurret("monsoon") {{

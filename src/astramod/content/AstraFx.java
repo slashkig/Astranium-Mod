@@ -318,11 +318,11 @@ public class AstraFx {
 	public static Effect dynamicExplosion(BasicBulletType b, int bitDensity, int smokeDensity, boolean squareBits) {
 		return dynamicExplosion(b, 8f, bitDensity, smokeDensity, squareBits);
 	}
-	/** scales to bullet splash radius.
-	 * circleSize used for wave stroke and smoke size.
-	 * bitDensity is amount of sparks/squares.
-	 * smokeDensity is amount of smoke particles
-	 * squareBits = true then bits are squares, otherwise sparks.
+	/** Scales to bullet splash radius.
+	 * @param circleSize - used for wave stroke and smoke size.
+	 * @param bitDensity - amount of sparks/squares.
+	 * @param smokeDensity - amount of smoke particles.
+	 * @param squareBits - if true then bits are squares, otherwise sparks.
 	 * */
 	public static Effect dynamicExplosion(BasicBulletType b, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
 		return new Effect ( 35f, e -> {
@@ -421,9 +421,10 @@ public class AstraFx {
 		});
 	}
 	/** Railgun bolt pierce effect.
-	 * boltWaveWidth -> side triangle width.
-	 * boltWaveLen -> side triangle length.
-	 * waveSize -> shockwave size. */
+	 * @param boltWaveWidth - side triangle width.
+	 * @param boltWaveLen - side triangle length.
+	 * @param waveSize - shockwave size.
+	 * */
 	public static Effect boltPierce(BasicBulletType bolt, float boltWaveWidth, float boltWaveLen, float waveSize , int sparkCount) {
 		return new Effect(24f, e -> {
 			e.scaled(10f, b -> {
@@ -480,11 +481,11 @@ public class AstraFx {
 		});
 	}
 
-	public static Effect mortarShoot(ArtilleryBulletType b) {
+	public static Effect mortarShoot(BasicBulletType b) {
 		return mortarShoot(b, 18, 7, 22f, 20f, true);
 	}
 
-	public static Effect mortarShoot(ArtilleryBulletType b, int smokeDensity, int squareDensity, float smokeRange, float muzzleFlareLen, boolean withShockwave) {
+	public static Effect mortarShoot(BasicBulletType b, int smokeDensity, int squareDensity, float smokeRange, float muzzleFlareLen, boolean withShockwave) {
 		return new Effect(35f, e -> {
 			Draw.color(Pal.lightOrange, Color.gray, e.fin());
 			Angles.randLenVectors(e.id, smokeDensity, e.finpow() * 29f, e.rotation, smokeRange, (x, y) -> {
@@ -525,8 +526,7 @@ public class AstraFx {
 	public static Effect boltTurretShoot(BasicBulletType b) {
 		return boltTurretShoot(b, false, false, false);
 	}
-	/** default boltTurretShoot only needs bulletType
-	 * make each boolean true to add special shoot effects. */
+
 	public static Effect boltTurretShoot(BasicBulletType b, boolean withFire, boolean withShockwave, boolean squareBits) {
 		return new Effect(25f, e -> {
 			boolean specialEffects = withFire || squareBits;
@@ -581,8 +581,8 @@ public class AstraFx {
 		return scaledDespawn(b, particleType, 18f);
 	}
 	/** Wave scales with the average of bullet width and height. Default size if width < 5.
-	 * particleType 1 for squares, 2 for flames, 0 for default.
-	 * particleRad is bigger than normal with special particles. */
+	 * @param particleType - 0 for default, 1 for squares, 2 for flames.
+	 * @param particleRad - bigger than normal with special particles. */
 	public static Effect scaledDespawn(BasicBulletType b, int particleType, float particleRad) {
 		return new Effect(20f, e -> {
 			float radius = b.width < 10f ? 5f : b.width / 2;

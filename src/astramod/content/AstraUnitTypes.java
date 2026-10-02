@@ -1,6 +1,5 @@
 package astramod.content;
 
-import arc.graphics.Color;
 import arc.math.*;
 import arc.math.geom.*;
 import arc.struct.*;
@@ -40,17 +39,17 @@ public class AstraUnitTypes {
 	@EntityPoint(PayloadUnit.class) public static UnitType
 		overseer;
 
-	// core module units
+	// air + tether
 	@EntityDef({ Unitc.class, BuildingTetherc.class }) public static UnitType
 		gatherer, initiate, seeker, ward;
 
-	// mechs
+	// mech + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
 		dicentra, achillion,
 		zenaida, trexon, oriolus,
 		legion, decanus;
 
-	// tank + scout
+	// tank + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
 		hymeno;
 
@@ -62,11 +61,11 @@ public class AstraUnitTypes {
 		meissa, saiph,
 		superBartizan;
 
-	// mech + stealth
+	// mech + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
 		baeri, vorhies;
 
-	// hover
+	// hover + conceal
 	@EntityDef({ Unitc.class, Concealc.class, ElevationMovec.class }) public static UnitType
 		fledge;
 
@@ -1095,7 +1094,7 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootArtillery;
 
-				bullet = new AstraArtilleryBulletType(4f, 25, "astramod-fragger") {{
+				bullet = new ArtilleryBulletType(4f, 25, "astramod-fragger") {{
 					width = height = 15f;
 					lifetime = 55f;
 					shoot.firstShotDelay = 10f;

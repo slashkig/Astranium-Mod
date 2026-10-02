@@ -9,6 +9,7 @@ import mindustry.entities.part.*;
 import mindustry.world.blocks.defense.turrets.*;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
+import astramod.content.*;
 import astramod.world.meta.*;
 
 public class AstraItemTurret extends ItemTurret {
@@ -58,11 +59,21 @@ public class AstraItemTurret extends ItemTurret {
 		return addBarrelPart(false, -1f);
 	}
 
-	public void colorHitEffects() {
+	public void colorHitFx() {
 		ammoTypes.forEach(e -> {
 			if (e.value instanceof BasicBulletType b && (b.hitEffect == Fx.hitBulletSmall || b.hitEffect == Fx.flakExplosion)) {
 				b.hitColor = b.backColor;
 				b.hitEffect = b.despawnEffect = Fx.hitBulletColor;
+			}
+		});
+	}
+
+	public void artilleryBulletFx() {
+		ammoTypes.forEach(e -> {
+			if (e.value instanceof BasicBulletType b) {
+				b.shootEffect = AstraFx.mortarShoot(b);
+				b.hitEffect = AstraFx.dynamicExplosion(b);
+				b.despawnEffect = AstraFx.scaledDespawn(b);
 			}
 		});
 	}
