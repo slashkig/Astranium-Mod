@@ -5,7 +5,7 @@ import org.gradle.api.file.RegularFileProperty
 import org.gradle.api.provider.Property
 import org.gradle.api.tasks.*
 
-abstract class InstallJar : DefaultTask() {
+abstract class InstallJarTask : DefaultTask() {
 	@get:Input
 	abstract val source: Property<URI>
 
@@ -28,20 +28,16 @@ abstract class InstallJar : DefaultTask() {
 			return
 		}
 
-		jarFile.parentFile.mkdirs()
+		jarFile.parentFile?.mkdirs()
 
 		val connection = source.get().toURL().openConnection()
-		val contentLength = connection.contentLengthLong
+		val totalBytes = connection.contentLengthLong
 
-		val input = connection.getInputStream()
-		val output = FileOutputStream(jarFile)
+		connection.getInputStream().use { inputStream ->
+			FileOutputStream(jarFile).use { outputStream ->
+				val buffer = ByteArray(65536)
+				var totalRead = 0L
 
-		val buffer = ByteArray(8192)
-		var totalRead = 0L
-		var prevPercent = -1
-
-		input.use { inputStream ->
-			output.use { outputStream ->
 				while (true) {
 					val bytesRead = inputStream.read(buffer)
 					if (bytesRead == -1) break
@@ -49,15 +45,14 @@ abstract class InstallJar : DefaultTask() {
 					outputStream.write(buffer, 0, bytesRead)
 					totalRead += bytesRead
 
-					if (contentLength > 0) {
-						val percent = (totalRead * 100 / contentLength).toInt()
-						if (percent != prevPercent) {
-							print("\rDownloading ${jarFile.name}: $percent%")
-							System.out.flush()
-							prevPercent = percent
-						}
-					}
+					print("Downloading client file: " +
+						"${"%.2f".format(totalRead / (1024f * 1024f))} MiB / " +
+						"${"%.2f".format(totalBytes / (1024f * 1024f))} MiB " +
+						"(${"%.0f".format((totalRead * 100f) / totalBytes)}%)"
+					)
+					System.out.flush()
 				}
+				println()	
 			}
 		}
 
