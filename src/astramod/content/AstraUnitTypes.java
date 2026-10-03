@@ -1423,7 +1423,7 @@ public class AstraUnitTypes {
 		newt = new AstraUnitType("newt") {{
 			targetFlags = new BlockFlag[] {
 				BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null
-			}; // FOR THE LAST TIME DO NOT CHANGE THE DAMN UNIT AI BECAUSE THE FLAGS ARE ALL INTENTIONAL
+			}; // Oopsies do not change the unit AI's flags pwease, these are intentional :3
 			flying = true;
 
 			health = 450;
