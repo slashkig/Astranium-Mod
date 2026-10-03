@@ -1517,10 +1517,8 @@ public class AstraUnitTypes {
 
 				x = 5.25f;
 				y = 0.25f;
-				shootX = -1.75f;
-				shootY = 3f;
-
-				shootSound = Sounds.shootArtillerySmall;
+				shootX = -0.75f;
+				shootY = 2f;
 
 				bullet = new BasicBulletType(4f, 17) {{
 					width = 7f;

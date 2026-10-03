@@ -3263,15 +3263,15 @@ public class AstraBlocks {
 		// TODO resprite this to be 1x1!!
 		lamp = new LightBlock("lamp") {{
 				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
-					AstraItems.iron, 20,
-					Items.metaglass, 20,
-					Items.copper, 15
+					AstraItems.iron, 5,
+					Items.metaglass, 5,
+					Items.copper, 3
 				));
-				size = 2;
+				size = 1;
 				fogRadius = 6;
 				brightness = 1f;
-				radius = 300f;
-				consumePower(0.5f);
+				radius = 140f;
+				consumePower(0.4f);
 		}};
 
 		mendBeam = new MendTurret("mend-beam") {{
@@ -3793,6 +3793,7 @@ public class AstraBlocks {
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
 					hitEffect = AstraFx.dynamicExplosion(this, true);
+					despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}},
 				Items.titanium, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3893,6 +3894,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
 					shootEffect = AstraFx.boltTurretShoot(this);
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
 					width = 7f;

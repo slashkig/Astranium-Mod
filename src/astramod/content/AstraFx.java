@@ -581,7 +581,7 @@ public class AstraFx {
 		return scaledDespawn(b, particleType, 18f);
 	}
 	/** Wave scales with the average of bullet width and height. Default size if width < 5.
-	 * @param particleType - 0 for default, 1 for squares, 2 for flames.
+	 * @param particleType - 0 for default, 1 for squares (frag), 2 for flames (incendiary).
 	 * @param particleRad - bigger than normal with special particles. */
 	public static Effect scaledDespawn(BasicBulletType b, int particleType, float particleRad) {
 		return new Effect(20f, e -> {
