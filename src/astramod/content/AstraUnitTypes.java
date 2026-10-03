@@ -1421,7 +1421,9 @@ public class AstraUnitTypes {
 		}};
 
 		newt = new AstraUnitType("newt") {{
-			targetFlags = new BlockFlag[] { BlockFlag.drill, null };
+			targetFlags = new BlockFlag[] {
+				BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null
+			}; // FOR THE LAST TIME DO NOT CHANGE THE DAMN UNIT AI BECAUSE THE FLAGS ARE ALL INTENTIONAL
 			flying = true;
 
 			health = 450;
@@ -1473,7 +1475,7 @@ public class AstraUnitTypes {
 					lifetime = 45f;
 					length = 60f;
 					width = 0.62f;
-					damage = 30f;
+					damage = 35f;
 					knockback = -0.6f;
 					sapStrength = 0.35f;
 					status = StatusEffects.none;
