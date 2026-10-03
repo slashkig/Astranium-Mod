@@ -2560,10 +2560,8 @@ public class AstraBlocks {
 			requirements(Category.liquid, ItemStack.with(AstraItems.hematite, 25, Items.copper, 30, Items.lead, 20));
 			size = 2;
 			fogRadius = 2;
-			hasPower = true;
 			liquidCapacity = 40f;
 
-			consumePower(0.15f);
 			pumpAmount = 0.08f;
 
 			drawer = new DrawMultiIntegrated(2, new DrawPumpLiquid(), new DrawVerticalPump() {{ cycleTime = 75f; maxScale = 1.25f; }});
