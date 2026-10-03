@@ -2167,7 +2167,7 @@ public class AstraBlocks {
 
 			chanceDeflect = 12f;
 			flashHit = true;
-			triggerMargin = 8f;
+			triggerMargin = 14f;
 		}};
 
 		aerotechWall = new ProjectorWall("aerotech-wall", 1.6f) {{
@@ -3868,20 +3868,30 @@ public class AstraBlocks {
 				Items.titanium, 100,
 				Items.graphite, 175
 			));
+			buildCostMultiplier = 1.2f;
 
 			ammo(
-				AstraItems.iron, new BasicBulletType(6f, 22f){{
-					width = 7f;
-					height = 16f;
+				AstraItems.hematite, new BasicBulletType(4f, 16) {{
+					width = 8f;
+					height = 10f;
+					ammoMultiplier = 3;
+					reloadMultiplier = 0.9f;
+					armorMultiplier = 1.8f;
 
-					ammoMultiplier = 4;
-					reloadMultiplier = 0.8f;
-					status = StatusEffects.slow;
-					statusDuration = Time.toSeconds;
-					statusChance = 0.3f;
+					fragBullets = 3;
+					fragRandomSpread = 120f;
+					fragBullet = new BasicBulletType(3f, 6) {{
+						lifetime = 18f;
+						shrinkY = 1f;
+						armorMultiplier = 1.8f;
+						despawnEffect = Fx.none;
 
-					backColor = AstraPal.ironBack;
-					frontColor = AstraPal.ironFront;
+						frontColor = AstraPal.hemaFront;
+						backColor = AstraPal.hemaBack;
+					}};
+
+					frontColor = AstraPal.hemaFront;
+					backColor = AstraPal.hemaBack;
 					shootEffect = AstraFx.boltTurretShoot(this);
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
@@ -3927,15 +3937,16 @@ public class AstraBlocks {
 					shootEffect = AstraFx.boltTurretShoot(this, true, false, false);
 					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 2);
 				}},
-				Items.blastCompound, new FlakBulletType(4.5f, 6) {{
+				Items.blastCompound, new FlakBulletType(4.5f, 12) {{
 					width = 7f;
 					height = 12f;
 					ammoMultiplier = 4;
 					collidesGround = true;
 
-					splashDamage = 46f;
-					splashDamageRadius = 3.6f * tilesize;
-					explodeRange = 4f * tilesize;
+					splashDamage = 52f;
+					splashDamageRadius = 2.6f * tilesize;
+					scaledSplashDamage = true;
+					explodeRange = 3f * tilesize;
 					rangeChange = -2f * tilesize;
 					status = StatusEffects.blasted;
 
@@ -4002,11 +4013,11 @@ public class AstraBlocks {
 
 		monsoon = new AstraLiquidTurret("monsoon") {{
 			requirements(Category.turret, ItemStack.with(
-				AstraItems.iron, 300,
-				Items.titanium, 220,
-				Items.lead, 100,
-				Items.metaglass, 120,
-				AstraItems.magnetite, 50
+				AstraItems.steel, 250,
+				Items.titanium, 180,
+				Items.lead, 200,
+				Items.metaglass, 220,
+				AstraItems.magnetite, 160
 			));
 			buildCostMultiplier = 1.3f;
 
@@ -4017,6 +4028,7 @@ public class AstraBlocks {
 					knockback = 2f;
 					statusDuration = 5f * Time.toSeconds;
 
+					hittable = false;
 					drag = 0.001f;
 					orbSize = 4f;
 					puddleSize = 45f;
@@ -4032,6 +4044,7 @@ public class AstraBlocks {
 					knockback = 1.4f;
 					statusDuration = 5f * Time.toSeconds;
 
+					hittable = false;
 					drag = 0.003f;
 					orbSize = 3.3f;
 					puddleSize = 10f;
@@ -4043,6 +4056,7 @@ public class AstraBlocks {
 					knockback = 1.4f;
 					statusDuration = 5f * Time.toSeconds;
 
+					hittable = false;
 					drag = 0.003f;
 					puddleSize = 10f;
 					orbSize = 3.3f;
@@ -4057,6 +4071,7 @@ public class AstraBlocks {
 					knockback = 1.4f;
 					statusDuration = 5f * Time.toSeconds;
 
+					hittable = false;
 					drag = 0.002f;
 					orbSize = 3.3f;
 					puddleSize = 10f;
@@ -4068,6 +4083,7 @@ public class AstraBlocks {
 					lifetime = boilTime = 25f;
 					reloadMultiplier = 1.2f;
 
+					hittable = false;
 					drag = 0.002f;
 					orbSize = 2.3f;
 					layer = Layer.bullet - 2f;
@@ -4079,6 +4095,7 @@ public class AstraBlocks {
 					knockback = 1.5f;
 					statusDuration = 5f * Time.toSeconds;
 
+					hittable = false;
 					drag = 0.002f;
 					orbSize = 3.3f;
 					puddleSize = 10f;
@@ -4284,12 +4301,12 @@ public class AstraBlocks {
 			));
 			regionSuffix = "-air";
 			size = 3;
-			consumePower(1.2f);
+			consumePower(1.6f);
 
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.fledge, 18f * Time.toSeconds, ItemStack.with(
-					Items.copper, 25,
-					Items.silicon, 20,
+					Items.lead, 20,
+					Items.silicon, 10,
 					Items.titanium, 15
 				))
 			);
@@ -4297,7 +4314,7 @@ public class AstraBlocks {
 
 		primaryAirshipAssembler = new UnitFactory("primary-airship-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 10,
+				AstraItems.iron, 120,
 				AstraItems.magnetite, 60,
 				Items.silicon, 100
 			));
@@ -4308,7 +4325,7 @@ public class AstraBlocks {
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.milvus, 21f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 25,
-					AstraItems.magnetite, 20,
+					Items.copper, 25,
 					Items.silicon, 20
 				))
 			);
@@ -4405,14 +4422,15 @@ public class AstraBlocks {
 
 			recipes.putAll(
 				AstraUnitTypes.fledge, new UnitPlan(AstraUnitTypes.newt, 20f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 40,
-					Items.silicon, 40
+					Items.lead, 35,
+					Items.silicon, 30,
+					Items.titanium, 25
 				))
 			);
 		}};
 
 		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
-			requirements(Category.units, ItemStack.with(
+			requirements(Category.units, BuildVisibility.sandboxOnly, ItemStack.with(
 				AstraItems.iron, 180,
 				AstraItems.magnetite, 90,
 				Items.titanium, 120,
@@ -4423,10 +4441,10 @@ public class AstraBlocks {
 			consumePower(7f);
 
 			recipes.putAll(
-				AstraUnitTypes.milvus, new UnitPlan(UnitTypes.zenith, 20f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 40,
-					Items.silicon, 35,
-					Items.titanium, 45
+				AstraUnitTypes.milvus, new UnitPlan(UnitTypes.zenith, 40f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 60,
+					Items.silicon, 60,
+					Items.titanium, 60
 				))
 			);
 		}};

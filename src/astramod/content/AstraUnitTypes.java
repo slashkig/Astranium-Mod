@@ -799,6 +799,28 @@ public class AstraUnitTypes {
 			);
 		}};
 
+		var smokeShell = new ArtilleryBulletType(2f, 0) {{
+			lifetime = 40f;
+			width = height = 8f;
+
+			backColor = Pal.metalGrayDark;
+			frontColor = hitColor = trailColor = AstraPal.smokescreen;
+			trailInterval = 6f;
+			trailInterp = Interp.slope;
+			shootEffect = Fx.shootSmallSmoke;
+			hitEffect = despawnEffect = Fx.hitSquaresColor;
+
+			fragBullets = 1;
+			fragBullet = new AOEBulletType(5f * Time.toSeconds) {{
+				effect = u -> {
+					if (u instanceof Concealc c) c.concealment(20f);
+				};
+				splashDamageRadius = 5f * tilesize;
+				collidesTeam = true;
+				shootEffect = AstraFx.smokeScreen(5f, AstraPal.smokescreen);
+			}};
+		}};
+
 		vorhies = new AstraUnitType("vorhies", LegsConcealUnit::create) {{
 			targetAir = false;
 			hovering = true;
@@ -885,27 +907,7 @@ public class AstraUnitTypes {
 					shootSound = Sounds.shootMerui;
 					shootSoundVolume = 1.4f;
 
-					bullet = new ArtilleryBulletType(2f, 0) {{
-						lifetime = 40f;
-						width = height = 8f;
-
-						backColor = Pal.metalGrayDark;
-						frontColor = hitColor = trailColor = AstraPal.smokescreen;
-						trailInterval = 6f;
-						trailInterp = Interp.slope;
-						shootEffect = Fx.shootSmallSmoke;
-						hitEffect = despawnEffect = Fx.hitSquaresColor;
-
-						fragBullets = 1;
-						fragBullet = new AOEBulletType(5f * Time.toSeconds) {{
-							effect = u -> {
-								if (u instanceof Concealc c) c.concealment(20f);
-							};
-							splashDamageRadius = 5f * tilesize;
-							collidesTeam = true;
-							shootEffect = AstraFx.smokeScreen(5f, AstraPal.smokescreen);
-						}};
-					}};
+					bullet = smokeShell;
 				}}
 			);
 		}};
@@ -1172,7 +1174,7 @@ public class AstraUnitTypes {
 			aiController = GroundRangerAI::new;
 
 			health = 850;
-			armor = 6f;
+			armor = 4f;
 			hitSize = 20f;
 			range = 16f * tilesize;
 			fogRadius = 18f;
@@ -1366,12 +1368,12 @@ public class AstraUnitTypes {
 			fogRadius = 4f;
 			itemCapacity = 5;
 
+			omniMovement = false;
 			drag = 0.06f;
 			speed = 2.3f;
 			accel = 0.4f;
 			rotateSpeed = 6.5f;
 			knockbackMultiplier = 2f;
-			omniMovement = false;
 
 			engineSize = 0f;
 			useEngineElevation = false;
@@ -1397,7 +1399,6 @@ public class AstraUnitTypes {
 				rotate = true;
 
 				top = false;
-				mirror = true;
 				x = 1.2f;
 				y = 0f;
 
@@ -1420,20 +1421,21 @@ public class AstraUnitTypes {
 		}};
 
 		newt = new AstraUnitType("newt") {{
+			targetFlags = new BlockFlag[] { BlockFlag.drill, null };
+			flying = true;
+
 			health = 450;
-			armor = 2;
+			armor = 2f;
+			hitSize = 12f;
+			fogRadius = 6f;
+
+			omniMovement = false;
 			speed = 2.3f;
 			accel = 0.8f;
 			drag = 0.12f;
-			omniMovement = false;
+			knockbackMultiplier = 2f;
 
-			flying = true;
 			lowAltitude = true;
-			hitSize = 12f;
-
-			targetFlags = new BlockFlag[] {
-				BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null
-			};
 			engineOffset = 6.75f;
 			engineSize = 2.5f;
 
@@ -1448,21 +1450,11 @@ public class AstraUnitTypes {
 				shoot.shots = 3;
 				shootSound = Sounds.shootArc;
 
-				bullet = new LightningBulletType(){{
+				bullet = new LightningBulletType() {{
 					lightningColor = hitColor = Pal.sapBullet;
 					damage = 8f;
 					lightningLength = 10;
 					lightningLengthRand = 7;
-					pierceCap = 5;
-
-					lightningType = new BulletType(0.0001f, 0f){{
-						lifetime = Fx.lightning.lifetime;
-						hitEffect = Fx.hitLancer;
-						despawnEffect = Fx.none;
-						status = StatusEffects.shocked;
-						statusDuration = 10f;
-						hittable = false;
-					}};
 				}};
 			}});
 
@@ -1481,9 +1473,9 @@ public class AstraUnitTypes {
 					lifetime = 45f;
 					length = 60f;
 					width = 0.62f;
-					damage = 35f;
+					damage = 30f;
 					knockback = -0.6f;
-					sapStrength = 0.48f;
+					sapStrength = 0.35f;
 					status = StatusEffects.none;
 
 					hitColor = color = Pal.sapBullet;
@@ -1496,24 +1488,26 @@ public class AstraUnitTypes {
 		// region GUNSHIP
 
 		milvus = new AstraUnitType("milvus") {{
+			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.core, null };
+			forceMultiTarget = true;
+			flying = true;
+
 			health = 230;
-			armor = 3f;
-			speed = 1.4f;
+			armor = 2f;
+			hitSize = 11f;
+			fogRadius = 9f;
+
+			speed = 0.9f;
 			accel = 0.04f;
 			drag = 0.016f;
+			rotateSpeed = 3f;
 
-			flying = true;
 			lowAltitude = true;
-			range = 120f;
-			hitSize = 11f;
-			forceMultiTarget = true;
-
-			targetFlags = new BlockFlag[] { BlockFlag.generator, BlockFlag.storage, BlockFlag.battery, null };
 			engineOffset = 5.25f;
 			engineSize = 3f;
 
 			weapons.add(new Weapon("astramod-gunship-mount") {{
-				reload = 22f;
+				reload = 40f;
 				rotate = true;
 				rotationLimit = 130f;
 				shoot.shots = 2;
@@ -1524,13 +1518,12 @@ public class AstraUnitTypes {
 				shootX = -1.75f;
 				shootY = 3f;
 
-				bullet = new BasicBulletType(4f, 11) {{
+				shootSound = Sounds.shootArtillerySmall;
+
+				bullet = new BasicBulletType(4f, 17) {{
 					width = 7f;
 					height = 12f;
-					lifetime = 40f;
-
-					hitColor = backColor = AstraPal.ironBack;
-					frontColor = AstraPal.ironFront;
+					lifetime = 26f;
 				}};
 			}});
 		}};

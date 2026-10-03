@@ -238,10 +238,7 @@ public class AzirisTechTree {
 
 			node(dart, () -> {
 				node(viper, research(compactBore), () -> {
-					// AA
-					node(bolt, () -> { // this is temp
-						// flak guns
-					});
+					
 				});
 				node(ember, research(Items.coal, ironDrill), () -> {
 					node(incendiaryMine, research(castIronMixer), () -> {
@@ -256,8 +253,12 @@ public class AzirisTechTree {
 						});
 					});
 				});
-				// Ballista will be deeper in the tree when more turrets are added
-				node(ballista, research(largePowerRelay, repulsionGenerator, magnetiteSynthesizer), none);
+				node(mortar, () -> {
+					node(ballista, research(largePowerRelay, repulsionGenerator, magnetiteSynthesizer), none);
+				});
+				node(bolt, () -> {
+					node(monsoon);
+				});
 				node(mendBeam, research(castIronSmelter, wireRelay), () -> {
 					node(mendDome, research(crystalReactor, largeWireRelay), none);
 				});
@@ -328,10 +329,16 @@ public class AzirisTechTree {
 					node(meissa, () -> {
 						node(saiph);
 					});
+					node(secondaryTankAssembler);
 				});
 				node(primaryAirAssembler, research(), () -> {
 					node(fledge);
+					node(primaryAirshipAssembler, research(), () -> {
+						node(milvus);
+					});
+					node(secondaryAirAssembler);
 				});
+				node(secondaryMechAssembler);
 			});
 
 			node(pointOne, () -> {
