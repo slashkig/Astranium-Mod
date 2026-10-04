@@ -4036,7 +4036,7 @@ public class AstraBlocks {
 					shootEffect = Fx.shootLiquid;
 				}},
 				Liquids.slag, new LiquidBulletType(Liquids.slag) {{
-					damage = 6.7f;
+					damage = 6f;
 					speed = 5f;
 					lifetime = 30f;
 					reloadMultiplier = 0.6f;
@@ -4117,11 +4117,11 @@ public class AstraBlocks {
 			armor = 3f;
 			size = 3;
 			range = 18.5f * tilesize;
-			reload = 2f;
+			reload = 3f;
 			fogRadiusMultiplier = 0.4f;
 			shoot = new ShootAlternate(4f);
 			shoot.shots = 4;
-			liquidCapacity = 100f;
+			liquidCapacity = 340f;
 			consumeAmmoOnce = false;
 
 			inaccuracy = 20f;
