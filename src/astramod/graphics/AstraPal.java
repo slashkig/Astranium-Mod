@@ -16,14 +16,13 @@ public class AstraPal {
 		crystalGlow = Color.valueOf("f0c2ce"),
 		powerGlow = Color.valueOf("ffe08f"),
 		mend = Color.valueOf("84f491"),
-		smokescreen = Color.valueOf("efefef"),
 
 		hemaFront = Color.valueOf("d89a7d"),
 		hemaBack = Color.valueOf("bf7656"),
 		leadFront = Color.valueOf("c0b9cd"),
 		leadBack = Color.valueOf("a096b5"),
-		ironFront = Color.valueOf("faf2c3"),
-		ironBack = Color.valueOf("ffaa75"),
+		ironFront = Color.valueOf("fffea7"),
+		ironBack = Color.valueOf("ff6c52"),
 		graphiteFront = Color.valueOf("c3cce3"),
 		graphiteBack = Color.valueOf("a6b2ca"),
 		siliconFront = Color.valueOf("c2c0b9"),
@@ -40,6 +39,8 @@ public class AstraPal {
 		steelBack = Color.valueOf("ffe4b0"),
 		neoFront = Color.valueOf("fff3a3"),
 		neoBack = Color.valueOf("ffc400"),
+		astraFront = Color.valueOf("a052ff"),
+		astraBack = Color.valueOf("6100ff"),
 
 		darkerOutline = Color.valueOf("181818"),
 		siegeMachineOutline = Color.valueOf("1c032e"),
@@ -64,9 +65,15 @@ public class AstraPal {
 
 		heat = Color.valueOf("f9350f"),
 		sonicHeat = Color.valueOf("92f0fc"),
+		smokeScreen = Color.valueOf("b8b8b8"),
+
+		waterWaveLightest = Color.valueOf("8ea1ff"),
+		waterWaveLight = Color.valueOf("627cff"),
+		waterWave = Color.valueOf("4c60b8"),
 
 		testPink = Color.valueOf("ff22ff"),
 		testPinkDark = Color.valueOf("ee00ee");
+
 
 	public static Color[] teamFaded;
 

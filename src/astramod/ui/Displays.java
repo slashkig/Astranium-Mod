@@ -22,7 +22,7 @@ public final class Displays {
 		Prov<Color> healthColor = () ->
 			player.dead() ? Color.black :
 			player.unit().hasEffect(AstraStatusEffects.irradiated) ? AstraStatusEffects.irradiated.color :
-			player.unit() instanceof Concealc con && con.concealment() > 0f ? AstraPal.smokescreen :
+			player.unit() instanceof Concealc con && con.concealment() > 0f ? AstraPal.smokeScreen :
 			Pal.health;
 		Element healthBar = ((Stack)cells.get(0).get()).getChildren().get(0);
 		((Cell<?>)cells.get(0)).update(c -> healthBar.color.set(healthColor.get()));

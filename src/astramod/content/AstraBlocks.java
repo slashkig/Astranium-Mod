@@ -55,7 +55,7 @@ public class AstraBlocks {
 		hardstone, hardstoneWall, bedrock, bedrockWall,
 
 		// Ores
-		oreTestium, oreHematite, oreLithium, oreErythronite, oreNeodymium,
+		oreTestium, oreHematite, oreLithium, oreNeodymium,
 		wallOreCopper, wallOreLead, wallOreLithium, wallOreVanadium, erythronicHardstoneWall,
 
 		// Factories
@@ -101,7 +101,7 @@ public class AstraBlocks {
 		// Core
 		coreNode, coreHub, coreNexus,
 		controlModule, gathererModule, initiateModule, seekerModule, wardModule,
-		unloaderModule, storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule,
+		storageModule, storageModuleLarge, smelterModule, fabricatorModule, defenseModule, rtgModule,
 		shieldModule,
 
 		// Storage
@@ -111,10 +111,10 @@ public class AstraBlocks {
 		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
 
 		// Mines
-		incendiaryMine, blastMine, fragMine, largeFragMine, cloakedMine, surgeMine, magneticMine, navalMine,
+		incendiaryMine, blastMine, giantMine, fragMine, largeFragMine, surgeMine, magneticMine, navalMine,
 
 		// Turrets
-		dart, viper, ember, mortar, bolt, monsoon, ballista, vengeance,
+		dart, viper, ember, mortar, bolt, monsoon, ballista,
 
 		// Unit assemblers
 		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard, primaryAirshipAssembler,
@@ -3157,8 +3157,8 @@ public class AstraBlocks {
 					status = AstraStatusEffects.magnetized;
 					statusDuration = 10f * Time.toSeconds;
 
-					frontColor = AstraItems.astranium.color;
-					backColor = frontColor.cpy().lerp(AstraPal.siegeMachineOutline, 0.5f);
+					frontColor = AstraPal.astraFront;
+					backColor = AstraPal.astraBack;
 				}}
 			);
 
@@ -3369,22 +3369,6 @@ public class AstraBlocks {
 			consumePower(3.1f);
 		}};
 
-		navalMine = new Mine("naval-mine") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 15, Items.blastCompound, 15));
-			size = 2;
-			health = 140;
-			armor = 1;
-			placeableLiquid = requiresWater = true;
-
-			damageResistFactor = 0.75f;
-			destroyBullet = new ExplosionBulletType(800f, 2.5f * tilesize);
-			destroyBullet.armorMultiplier = 0.5f;
-
-			cloaked = true;
-			createRubble = false;
-			drawAlpha = 0.5f;
-		}};
-
 		incendiaryMine = new Mine("incendiary-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 8));
 
@@ -3395,15 +3379,31 @@ public class AstraBlocks {
 				status = StatusEffects.burning;
 				statusDuration = 4f * Time.toSeconds;
 			}};
+			destroyEffect = AstraFx.incendiaryMine;
 		}};
 
 		blastMine = new Mine("blast-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 8));
 
-			destroyBullet = new ExplosionBulletType(300f, 3.2f * tilesize) {{
+			destroyBullet = new ExplosionBulletType(300f, 3.5f * tilesize) {{
 				knockback = 3f;
 				status = StatusEffects.blasted;
 			}};
+			destroyEffect = AstraFx.blastMine;
+		}};
+
+		giantMine = new Mine("giant-mine") {{
+			requirements(Category.effect, BuildVisibility.sandboxOnly, ItemStack.with(Items.silicon, 20, Items.blastCompound, 50, AstraItems.vanadium, 20));
+			size = 2;
+			health = 200;
+
+			cloaked = true;
+			drawAlpha = 0.65f;
+			destroyBullet = new ExplosionBulletType(1200f, 8f * tilesize) {{
+				knockback = 6f;
+				status = StatusEffects.blasted;
+			}};
+			destroyEffect = AstraFx.giantMine;
 		}};
 
 		fragMine = new Mine("frag-mine") {{
@@ -3423,6 +3423,7 @@ public class AstraBlocks {
 					frontColor = Pal.plastaniumFront;
 				}};
 			}};
+			destroyEffect = AstraFx.fragMine;
 		}};
 
 		largeFragMine = new Mine("frag-mine-large") {{
@@ -3437,6 +3438,7 @@ public class AstraBlocks {
 				fragRandomSpread = 5f;
 				fragBullet = fragMine.destroyBullet.fragBullet;
 			}};
+			destroyEffect = AstraFx.largeFragMine;
 		}};
 
 		surgeMine = new Mine("surge-mine") {{
@@ -3448,10 +3450,28 @@ public class AstraBlocks {
 				lightningLength = 10;
 				status = StatusEffects.shocked;
 			}};
+			destroyEffect = AstraFx.surgeMine;
+		}};
+
+		navalMine = new Mine("naval-mine") {{
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 15, Items.blastCompound, 15));
+			size = 2;
+			health = 140;
+			armor = 1;
+			placeableLiquid = requiresWater = true;
+
+			damageResistFactor = 0.75f;
+			destroyBullet = new ExplosionBulletType(800f, 2.5f * tilesize);
+			destroyBullet.armorMultiplier = 0.5f;
+			destroyEffect = AstraFx.navalMine;
+
+			cloaked = true;
+			createRubble = false;
+			drawAlpha = 0.5f;
 		}};
 
 		magneticMine = new Mine("magnetic-mine") {{
-			requirements(Category.effect, ItemStack.with(Items.silicon, 15, AstraItems.astranium, 6, AstraItems.vanadium, 6));
+			requirements(Category.effect, ItemStack.with(Items.silicon, 15, AstraItems.astranium, 10, AstraItems.vanadium, 6));
 			buildCostMultiplier = 3f;
 			size = 2;
 			health = 300;
@@ -3459,11 +3479,11 @@ public class AstraBlocks {
 
 			cloaked = true;
 			drawAlpha = 0.65f;
-			destroyBullet = new MagneticBulletType(50f, 8f * tilesize) {{
-				magneticStrength = 30f;
-				status = StatusEffects.slow;
+			destroyBullet = new MagneticBulletType(50f, 10f * tilesize) {{
+				magneticStrength = 60f;
 				statusDuration = magnetizedDuration = 8f * Time.toSeconds;
 			}};
+			destroyEffect = AstraFx.magneticMine;
 		}};
 
 		// region TURRETS
@@ -3749,6 +3769,9 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
+					shootEffect = AstraFx.mortarShoot(this);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.graphite, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
@@ -3764,6 +3787,9 @@ public class AstraBlocks {
 
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
+					shootEffect = AstraFx.mortarShoot(this);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.metaglass, new ArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
 					width = 12f;
@@ -3790,6 +3816,7 @@ public class AstraBlocks {
 
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
+					shootEffect = AstraFx.mortarShoot(this);
 					hitEffect = AstraFx.dynamicExplosion(this, true);
 					despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}},
@@ -3808,6 +3835,9 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
+					shootEffect = AstraFx.mortarShoot(this);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
@@ -3821,6 +3851,9 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
+					shootEffect = AstraFx.mortarShoot(this);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.scaledDespawn(this);
 				}}
 			);
 
@@ -3857,7 +3890,6 @@ public class AstraBlocks {
 			shootSound = Sounds.shootRipple;
 
 			limitRange();
-			artilleryBulletFx();
 		}};
 
 		bolt = new AstraItemTurret("bolt") {{
@@ -4101,6 +4133,7 @@ public class AstraBlocks {
 					puddleSize = 10f;
 					layer = Layer.bullet - 2f;
 					hitEffect = AstraFx.hitLiquid;
+					shootEffect = AstraFx.shootLiquid;
 				}}
 			);
 
@@ -4123,6 +4156,7 @@ public class AstraBlocks {
 			shoot.shots = 4;
 			liquidCapacity = 340f;
 			consumeAmmoOnce = false;
+			shootEffect = null;
 
 			inaccuracy = 20f;
 			shootCone = 60f;

@@ -496,6 +496,7 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.sonicHeat;
 
 				shootSound = AstraSounds.shootSonic;
+				shootSoundVolume = 0.7f;
 
 				bullet = new SonicBulletType(6f, 40) {{
 					width = 9f;
@@ -528,6 +529,7 @@ public class AstraUnitTypes {
 
 				heatColor = AstraPal.sonicHeat;
 				shootSound = AstraSounds.shootSonic;
+				shootSoundVolume = 0.7f;
 
 				bullet = new SonicBulletType(6f, 50) {{
 					width = 9f;
@@ -591,6 +593,7 @@ public class AstraUnitTypes {
 
 					heatColor = AstraPal.sonicHeat;
 					shootSound = AstraSounds.shootSonic;
+					shootSoundVolume = 0.7f;
 
 					bullet = new SonicBulletType(6f, 20) {{
 						width = 9f;
@@ -804,7 +807,7 @@ public class AstraUnitTypes {
 			width = height = 8f;
 
 			backColor = Pal.metalGrayDark;
-			frontColor = hitColor = trailColor = AstraPal.smokescreen;
+			frontColor = hitColor = trailColor = AstraPal.smokeScreen;
 			trailInterval = 6f;
 			trailInterp = Interp.slope;
 			shootEffect = Fx.shootSmallSmoke;
@@ -817,7 +820,7 @@ public class AstraUnitTypes {
 				};
 				splashDamageRadius = 5f * tilesize;
 				collidesTeam = true;
-				shootEffect = AstraFx.smokeScreen(5f, AstraPal.smokescreen);
+				shootEffect = AstraFx.smokeScreen(5f);
 			}};
 		}};
 
