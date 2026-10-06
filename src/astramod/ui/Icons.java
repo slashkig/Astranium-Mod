@@ -78,7 +78,7 @@ public final class Icons {
 			// Generate icon if needed
 			if (split.length > 1) {
 				switch (split[1]) {
-					case "team" -> generateIcon(pixmapRegion, rect, teams.find(t -> t.name == entry.key).color, true);
+					case "team" -> generateIcon(pixmapRegion, rect, teams.find(t -> t.name == entry.key).color, true, true);
 					case "status" -> generateIcon(pixmapRegion, rect, content.statusEffect(name).color, true, true);
 				}
 				extraIcons.put(entry.key, name);
