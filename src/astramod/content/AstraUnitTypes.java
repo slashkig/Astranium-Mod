@@ -305,7 +305,7 @@ public class AstraUnitTypes {
 			aiController = AnchoredAttackerAI::new;
 			flying = true;
 
-			health = 500f;
+			health = 600f;
 			armor = 2f;
 			hitSize = 9f;
 			fogRadius = 6f;
@@ -401,7 +401,7 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 1.8f;
 
-				bullet = new BasicBulletType(5f, 18) {{
+				bullet = new BasicBulletType(5f, 18, "astramod-impact") {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
@@ -1107,7 +1107,7 @@ public class AstraUnitTypes {
 					collides = true;
 					collidesTiles = true;
 					splashDamageRadius = 3f * tilesize;
-					splashDamage = 40f;
+					splashDamage = 60f;
 					scaledSplashDamage = true;
 
 					frontColor = Pal.blastAmmoFront;
@@ -1424,9 +1424,7 @@ public class AstraUnitTypes {
 		}};
 
 		newt = new AstraUnitType("newt") {{
-			targetFlags = new BlockFlag[] {
-				BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null
-			}; // Oopsies do not change the unit AI's flags pwease, these are intentional :3
+			targetFlags = new BlockFlag[] { BlockFlag.drill, BlockFlag.factory, BlockFlag.repair, BlockFlag.battery, null };
 			flying = true;
 
 			health = 450;

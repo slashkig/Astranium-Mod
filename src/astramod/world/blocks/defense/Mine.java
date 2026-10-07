@@ -18,7 +18,9 @@ public class Mine extends Block {
 	public float damageResistFactor = 0.5f;
 
 	public float drawAlpha = 1f;
-	public boolean cloaked = false; // TODO units can still be commanded to attack this when cloaked
+	public boolean cloaked = false;
+
+	// TODO units can still be commanded to attack this when cloaked (may be impossible to fix)
 
 	public Mine(String name) {
 		super(name);
@@ -30,11 +32,13 @@ public class Mine extends Block {
 		squareSprite = false;
 		hasShadow = false;
 		destroyBulletSameTeam = true;
+		buildCostMultiplier = 6f;
 	}
 
 	@Override public void init() {
 		super.init();
 		if (cloaked) drawTeamOverlay = false;
+		destroyBullet.displayAmmoMultiplier = false;
 	}
 
 	@Override public void setStats() {

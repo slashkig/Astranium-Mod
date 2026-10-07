@@ -1980,7 +1980,7 @@ public class AstraBlocks {
 
 		ironWall = new Wall("iron-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
-			buildCostMultiplier = 1.2f;
+			buildCostMultiplier *= 1.2f;
 			health = 120 * 4;
 			armor = 2f;
 			fogRadius = 2;
@@ -1988,7 +1988,7 @@ public class AstraBlocks {
 
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
-			buildCostMultiplier = 1.2f;
+			buildCostMultiplier *= 1.2f;
 			health = 120 * 16;
 			armor = 2f;
 			size = 2;
@@ -1997,7 +1997,7 @@ public class AstraBlocks {
 
 		ironDoor = new AutoDoor("iron-door") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 20, Items.silicon, 10));
-			buildCostMultiplier = 1.2f;
+			buildCostMultiplier *= 1.2f;
 			health = 115 * 16;
 			armor = 2f;
 			size = 2;
@@ -2006,7 +2006,6 @@ public class AstraBlocks {
 
 		platedTitaniumWall = new Wall("plated-titanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.graphite, 2));
-			buildCostMultiplier = 1.4f;
 			health = 160 * 4;
 			armor = 4f;
 			fogRadius = 2;
@@ -2014,7 +2013,6 @@ public class AstraBlocks {
 
 		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedTitaniumWall.requirements, 4));
-			buildCostMultiplier = 1.4f;
 			health = 160 * 16;
 			armor = 4f;
 			size = 2;
@@ -2023,7 +2021,6 @@ public class AstraBlocks {
 
 		platedPlastaniumWall = new Wall("plated-plastanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.plastanium, 6, Items.metaglass, 4));
-			buildCostMultiplier = 1.6f;
 			health = 175 * 4;
 			armor = 2f;
 			fogRadius = 2;
@@ -2034,7 +2031,6 @@ public class AstraBlocks {
 
 		platedPlastaniumWallLarge = new Wall("plated-plastanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPlastaniumWall.requirements, 4));
-			buildCostMultiplier = 1.6f;
 			health = 175 * 16;
 			armor = 2f;
 			size = 2;
@@ -2046,7 +2042,6 @@ public class AstraBlocks {
 
 		steelWall = new Wall("steel-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.steel, 8));
-			buildCostMultiplier = 1.7f;
 			health = 220 * 4;
 			armor = 8f;
 			fogRadius = 2;
@@ -2054,7 +2049,6 @@ public class AstraBlocks {
 
 		steelWallLarge = new Wall("steel-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(steelWall.requirements, 4));
-			buildCostMultiplier = 1.7f;
 			health = 220 * 16;
 			armor = 8f;
 			size = 2;
@@ -2063,7 +2057,6 @@ public class AstraBlocks {
 
 		platedThoriumWall = new EffectWall("plated-thorium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.thorium, 6, AstraItems.crystals, 2));
-			buildCostMultiplier = 1.8f;
 			health = 205 * 4;
 			armor = 6f;
 			fogRadius = 2;
@@ -2088,7 +2081,6 @@ public class AstraBlocks {
 
 		platedThoriumWallLarge = new EffectWall("plated-thorium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedThoriumWall.requirements, 4));
-			buildCostMultiplier = 1.8f;
 			health = 205 * 16;
 			armor = 6f;
 			size = 2;
@@ -2114,7 +2106,6 @@ public class AstraBlocks {
 
 		platedSurgeWall = new Wall("plated-surge-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.surgeAlloy, 8, AstraItems.lithium, 6));
-			buildCostMultiplier = 1.9f;
 			health = 280 * 4;
 			armor = 16f;
 			fogRadius = 2;
@@ -2125,7 +2116,6 @@ public class AstraBlocks {
 
 		platedSurgeWallLarge = new Wall("plated-surge-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedSurgeWall.requirements, 4));
-			buildCostMultiplier = 1.9f;
 			health = 280 * 16;
 			armor = 16f;
 			size = 2;
@@ -2137,7 +2127,6 @@ public class AstraBlocks {
 
 		platedPhaseWall = new Wall("plated-phase-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.phaseFabric, 8, AstraItems.magnetite, 6));
-			buildCostMultiplier = 2f;
 			health = 190 * 4;
 			armor = 10f;
 			fogRadius = 2;
@@ -2148,7 +2137,6 @@ public class AstraBlocks {
 
 		platedPhaseWallLarge = new Wall("plated-phase-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedPhaseWall.requirements, 4));
-			buildCostMultiplier = 2f;
 			health = 190 * 16;
 			armor = 10f;
 			size = 2;
@@ -2172,7 +2160,6 @@ public class AstraBlocks {
 
 		aerotechWall = new ProjectorWall("aerotech-wall", 1.6f) {{
 			requirements(Category.defense, ItemStack.with(AstraItems.aerogel, 8, Items.silicon, 6, AstraItems.crystaglass, 5));
-			buildCostMultiplier = 2.2f;
 			health = 210 * 4;
 			armor = 12f;
 			fogRadius = 3;
@@ -2187,7 +2174,6 @@ public class AstraBlocks {
 
 		aerotechWallLarge = new ProjectorWall("aerotech-wall-large", 3.2f) {{
 			requirements(Category.defense, ItemStack.mult(aerotechWall.requirements, 4));
-			buildCostMultiplier = 2.2f;
 			health = 210 * 16;
 			armor = 12f;
 			size = 2;
@@ -2203,7 +2189,6 @@ public class AstraBlocks {
 
 		astraniumWall = new EffectWall("astranium-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.astranium, 8, AstraItems.crystals, 6, AstraItems.neodymium, 5));
-			buildCostMultiplier = 2.3f;
 			health = 360 * 4;
 			armor = 25f;
 			fogRadius = 2;
@@ -2227,7 +2212,6 @@ public class AstraBlocks {
 
 		astraniumWallLarge = new EffectWall("astranium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(astraniumWall.requirements, 4));
-			buildCostMultiplier = 2.3f;
 			health = 360 * 16;
 			armor = 25f;
 			size = 2;
@@ -3258,18 +3242,17 @@ public class AstraBlocks {
 			itemCapacity = 7500;
 		}};
 
-		// TODO resprite this to be 1x1!!
 		lamp = new LightBlock("lamp") {{
-				requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
-					AstraItems.iron, 5,
-					Items.metaglass, 5,
-					Items.copper, 3
-				));
-				size = 1;
-				fogRadius = 6;
-				brightness = 1f;
-				radius = 140f;
-				consumePower(0.4f);
+			requirements(Category.effect, BuildVisibility.lightingOnly, ItemStack.with(
+				AstraItems.iron, 5,
+				Items.metaglass, 5,
+				Items.copper, 3
+			));
+			size = 1;
+			fogRadius = 6;
+			brightness = 1f;
+			radius = 140f;
+			consumePower(0.4f);
 		}};
 
 		mendBeam = new MendTurret("mend-beam") {{
@@ -3369,10 +3352,12 @@ public class AstraBlocks {
 			consumePower(3.1f);
 		}};
 
+		// region MINES
+
 		incendiaryMine = new Mine("incendiary-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.pyratite, 8));
 
-			destroyBullet = new ExplosionBulletType(60f, 2f * tilesize) {{
+			destroyBullet = new ExplosionBulletType(60f, 3f * tilesize) {{
 				knockback = 1f;
 				makeFire = true;
 				incendAmount = 10;
@@ -3384,8 +3369,9 @@ public class AstraBlocks {
 
 		blastMine = new Mine("blast-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.blastCompound, 8));
+			buildCostMultiplier *= 1.2f;
 
-			destroyBullet = new ExplosionBulletType(300f, 3.5f * tilesize) {{
+			destroyBullet = new ExplosionBulletType(300f, 4f * tilesize) {{
 				knockback = 3f;
 				status = StatusEffects.blasted;
 			}};
@@ -3393,7 +3379,12 @@ public class AstraBlocks {
 		}};
 
 		giantMine = new Mine("giant-mine") {{
-			requirements(Category.effect, BuildVisibility.sandboxOnly, ItemStack.with(Items.silicon, 20, Items.blastCompound, 50, AstraItems.vanadium, 20));
+			requirements(Category.effect, BuildVisibility.sandboxOnly, ItemStack.with(
+				Items.silicon, 15,
+				Items.blastCompound, 24,
+				AstraItems.vanadium, 15
+			));
+			buildCostMultiplier *= 1.2f;
 			size = 2;
 			health = 200;
 
@@ -3428,6 +3419,7 @@ public class AstraBlocks {
 
 		largeFragMine = new Mine("frag-mine-large") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 15, Items.blastCompound, 15, Items.plastanium, 20));
+			buildCostMultiplier *= 1.2f;
 			size = 2;
 			health = 200;
 
@@ -3443,6 +3435,7 @@ public class AstraBlocks {
 
 		surgeMine = new Mine("surge-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 6, Items.surgeAlloy, 8));
+			buildCostMultiplier *= 1.5f;
 
 			destroyBullet = new ExplosionBulletType(20f, 1f * tilesize) {{
 				lightning = 10;
@@ -3455,6 +3448,7 @@ public class AstraBlocks {
 
 		navalMine = new Mine("naval-mine") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 15, Items.blastCompound, 15));
+			buildCostMultiplier *= 1.4f;
 			size = 2;
 			health = 140;
 			armor = 1;
@@ -3472,7 +3466,7 @@ public class AstraBlocks {
 
 		magneticMine = new Mine("magnetic-mine") {{
 			requirements(Category.effect, ItemStack.with(Items.silicon, 15, AstraItems.astranium, 10, AstraItems.vanadium, 6));
-			buildCostMultiplier = 3f;
+			buildCostMultiplier *= 2.5f;
 			size = 2;
 			health = 300;
 			armor = 2;
@@ -3480,7 +3474,8 @@ public class AstraBlocks {
 			cloaked = true;
 			drawAlpha = 0.65f;
 			destroyBullet = new MagneticBulletType(50f, 10f * tilesize) {{
-				magneticStrength = 60f;
+				magneticStrength = 40f;
+				status = StatusEffects.slow;
 				statusDuration = magnetizedDuration = 8f * Time.toSeconds;
 			}};
 			destroyEffect = AstraFx.magneticMine;
@@ -3769,9 +3764,6 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.ironFront;
 					backColor = hitColor = trailColor = AstraPal.ironBack;
-					shootEffect = AstraFx.mortarShoot(this);
-					hitEffect = AstraFx.dynamicExplosion(this);
-					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.graphite, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
@@ -3787,9 +3779,6 @@ public class AstraBlocks {
 
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = hitColor = trailColor = Pal.graphiteAmmoBack;
-					shootEffect = AstraFx.mortarShoot(this);
-					hitEffect = AstraFx.dynamicExplosion(this);
-					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.metaglass, new ArtilleryBulletType(3f, 10, "astramod-heavy-fragger") {{
 					width = 12f;
@@ -3816,7 +3805,6 @@ public class AstraBlocks {
 
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
-					shootEffect = AstraFx.mortarShoot(this);
 					hitEffect = AstraFx.dynamicExplosion(this, true);
 					despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}},
@@ -3835,9 +3823,6 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.titaniumFront;
 					backColor = hitColor = trailColor = AstraPal.titaniumBack;
-					shootEffect = AstraFx.mortarShoot(this);
-					hitEffect = AstraFx.dynamicExplosion(this);
-					despawnEffect = AstraFx.scaledDespawn(this);
 				}},
 				Items.blastCompound, new ArtilleryBulletType(3f, 10) {{
 					width = 14f;
@@ -3851,9 +3836,6 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
-					shootEffect = AstraFx.mortarShoot(this);
-					hitEffect = AstraFx.dynamicExplosion(this);
-					despawnEffect = AstraFx.scaledDespawn(this);
 				}}
 			);
 
@@ -3890,6 +3872,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootRipple;
 
 			limitRange();
+			artilleryBulletFx();
 		}};
 
 		bolt = new AstraItemTurret("bolt") {{
@@ -3969,14 +3952,14 @@ public class AstraBlocks {
 					shootEffect = AstraFx.boltTurretShoot(this, true, false, false);
 					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 2);
 				}},
-				Items.blastCompound, new FlakBulletType(4.5f, 12) {{
-					width = 7f;
-					height = 12f;
+				Items.blastCompound, new FlakBulletType(4.5f, 8) {{
+					width = 5f;
+					height = 11f;
 					ammoMultiplier = 4;
 					collidesGround = true;
 
-					splashDamage = 52f;
-					splashDamageRadius = 2.6f * tilesize;
+					splashDamage = 48f;
+					splashDamageRadius = 2.4f * tilesize;
 					scaledSplashDamage = true;
 					explodeRange = 3f * tilesize;
 					rangeChange = -2f * tilesize;
@@ -3985,7 +3968,7 @@ public class AstraBlocks {
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = Pal.blastAmmoBack;
 					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
-					hitEffect = AstraFx.dynamicExplosion(this, 8, 6, false);
+					hitEffect = AstraFx.dynamicExplosion(this, 8, 2, false);
 				}},
 				Items.plastanium, new FlakBulletType(4.5f, 18) {{
 					width = 5f;
@@ -4046,10 +4029,10 @@ public class AstraBlocks {
 		monsoon = new AstraLiquidTurret("monsoon") {{
 			requirements(Category.turret, ItemStack.with(
 				AstraItems.steel, 250,
-				Items.titanium, 180,
-				Items.lead, 200,
+				Items.plastanium, 160,
+				Items.titanium, 175,
 				Items.metaglass, 220,
-				AstraItems.magnetite, 160
+				AstraItems.magnetite, 100
 			));
 			buildCostMultiplier = 1.3f;
 
@@ -4058,7 +4041,7 @@ public class AstraBlocks {
 					speed = 6f;
 					lifetime = 25f;
 					knockback = 2f;
-					statusDuration = 5f * Time.toSeconds;
+					statusDuration = 1.5f * Time.toSeconds;
 
 					hittable = false;
 					drag = 0.001f;
@@ -4074,7 +4057,7 @@ public class AstraBlocks {
 					reloadMultiplier = 0.6f;
 					armorMultiplier = 0.5f;
 					knockback = 1.4f;
-					statusDuration = 5f * Time.toSeconds;
+					statusDuration = 1.5f * Time.toSeconds;
 
 					hittable = false;
 					drag = 0.003f;
@@ -4086,7 +4069,7 @@ public class AstraBlocks {
 					speed = 5f;
 					lifetime = 30f;
 					knockback = 1.4f;
-					statusDuration = 5f * Time.toSeconds;
+					statusDuration = 1.5f * Time.toSeconds;
 
 					hittable = false;
 					drag = 0.003f;
@@ -4101,7 +4084,7 @@ public class AstraBlocks {
 					speed = 5f;
 					lifetime = 30f;
 					knockback = 1.4f;
-					statusDuration = 5f * Time.toSeconds;
+					statusDuration = 1.5f * Time.toSeconds;
 
 					hittable = false;
 					drag = 0.002f;
@@ -4125,7 +4108,7 @@ public class AstraBlocks {
 					speed = 6f;
 					lifetime = 25f;
 					knockback = 1.5f;
-					statusDuration = 5f * Time.toSeconds;
+					statusDuration = 1.5f * Time.toSeconds;
 
 					hittable = false;
 					drag = 0.002f;
@@ -4154,15 +4137,15 @@ public class AstraBlocks {
 			fogRadiusMultiplier = 0.4f;
 			shoot = new ShootAlternate(4f);
 			shoot.shots = 4;
-			liquidCapacity = 340f;
+			liquidCapacity = 100f;
 			consumeAmmoOnce = false;
-			shootEffect = null;
 
 			inaccuracy = 20f;
 			shootCone = 60f;
 			velocityRnd = 0.05f;
 			recoil = 0f;
 
+			shootEffect = null;
 			loopSound = Sounds.shootSublimate;
 		}};
 

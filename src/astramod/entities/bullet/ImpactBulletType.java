@@ -7,7 +7,7 @@ public class ImpactBulletType extends ArtilleryBulletType {
 	public ImpactBulletType(float speed, float damage, String bulletSprite) {
 		super(speed, 0, bulletSprite);
 		ammoMultiplier = 1;
-		knockback = 3f;
+		knockback = 1f;
 		splashDamageRadius = 1f * Vars.tilesize;
 		splashDamage = damage;
 		scaledSplashDamage = true;
@@ -18,7 +18,7 @@ public class ImpactBulletType extends ArtilleryBulletType {
 
 	public ImpactBulletType(float speed, float damage) {
 		this(speed, damage, "astramod-impact");
-		width = 14f;
-		height = 18f;
+		width = 13f;
+		height = 16f;
 	}
 }
