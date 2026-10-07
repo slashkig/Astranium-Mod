@@ -342,7 +342,9 @@ public class AzirisTechTree {
 			});
 
 			node(pointOne, () -> {
-
+				node(stoneMesa);
+				node(hardstoneCanyon);
+				node(mines);
 			});
 
 			nodeProduce(AstraItems.hematite, () -> {

@@ -37,13 +37,17 @@ public class AstraPlanets {
 			allowLaunchToNumbered = false;
 
 			ruleSetter = r -> {
-				r.waveTeam = Team.blue;
 				r.hideSpawns = false;
 				r.fog = true;
 				r.staticFog = true;
 
-				r.loadout = ItemStack.list(AstraItems.hematite, 100);
+				if (!r.tags.getBool("aziris-custom-rules")) {
+					r.waveTeam = Team.blue;
+					r.loadout = ItemStack.list(AstraItems.hematite, 100);
+				}
 			};
+			campaignRuleDefaults.fog = true;
+			campaignRuleDefaults.hideSpawns = false;
 
 			iconColor = Color.valueOf("bf2851");
 
