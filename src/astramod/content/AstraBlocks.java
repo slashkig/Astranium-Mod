@@ -2972,7 +2972,7 @@ public class AstraBlocks {
 		}};
 
 		controlModule = new GenericCoreModule("module-control") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 50, Items.silicon, 40, Items.copper, 75));
+			requirements(Category.effect, ItemStack.with(AstraItems.iron, 50, AstraItems.magnetite, 60, Items.silicon, 40, Items.copper, 75));
 			scaledHealth = 40f;
 			size = 2;
 			unitCapModifier = 2;
@@ -4244,9 +4244,10 @@ public class AstraBlocks {
 
 		primaryMechAssembler = new UnitFactory("primary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 90,
-				Items.lead, 100,
-				Items.silicon, 75
+				AstraItems.iron, 100,
+				Items.lead, 80,
+				Items.silicon, 75,
+				Items.copper, 50
 			));
 			regionSuffix = "-mech";
 			size = 3;
@@ -4269,18 +4270,19 @@ public class AstraBlocks {
 					Items.silicon, 10
 				)),
 				new UnitPlan(AstraUnitTypes.baeri, 16f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 10,
+					AstraItems.iron, 20,
 					Items.silicon, 10,
-					Items.graphite, 5
+					Items.coal, 15
 				))
 			);
 		}};
 
 		primaryTankAssembler = new UnitFactory("primary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 100,
-				AstraItems.magnetite, 50,
-				Items.silicon, 80
+				AstraItems.iron, 140,
+				AstraItems.magnetite, 70,
+				Items.silicon, 100,
+				Items.copper, 80
 			));
 			regionSuffix = "-tank";
 			size = 5;
@@ -4298,7 +4300,7 @@ public class AstraBlocks {
 					Items.lead, 25
 				)),
 				new UnitPlan(AstraUnitTypes.meissa, 24f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 20,
+					AstraItems.magnetite, 20,
 					Items.silicon, 20,
 					Items.copper, 30
 				)),
@@ -4312,9 +4314,10 @@ public class AstraBlocks {
 
 		primaryAirAssembler = new UnitFactory("primary-air-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 90,
-				Items.lead, 110,
-				Items.silicon, 80
+				AstraItems.iron, 80,
+				Items.silicon, 70,
+				Items.lead, 70,
+				Items.copper, 50
 			));
 			regionSuffix = "-air";
 			size = 3;
@@ -4333,7 +4336,9 @@ public class AstraBlocks {
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 120,
 				AstraItems.magnetite, 60,
-				Items.silicon, 100
+				Items.silicon, 100,
+				Items.lead, 80,
+				Items.copper, 80
 			));
 			regionSuffix = "-airship";
 			size = 5;
@@ -4353,19 +4358,20 @@ public class AstraBlocks {
 		secondaryMechAssembler = new DynamicReconstructor("secondary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 140,
-				Items.graphite, 90,
-				Items.lead, 150,
-				Items.silicon, 100
+				AstraItems.magnetite, 80,
+				Items.silicon, 100,
+				Items.graphite, 100,
+				Items.copper, 80
 			));
 			regionSuffix = "-mech";
 			size = 3;
 			consumePower(5f);
 
 			recipes.putAll(
-				AstraUnitTypes.dicentra, new UnitPlan(AstraUnitTypes.achillion, 16f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 35,
+				AstraUnitTypes.dicentra, new UnitPlan(AstraUnitTypes.achillion, 18f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 30,
 					Items.silicon, 30,
-					Items.graphite, 20
+					Items.graphite, 25
 				)),
 				AstraUnitTypes.legion, new UnitPlan(AstraUnitTypes.decanus, 18f * Time.toSeconds, ItemStack.with(
 					Items.graphite, 30,
@@ -4377,7 +4383,7 @@ public class AstraBlocks {
 					Items.silicon, 30,
 					Items.titanium, 20
 				)),
-				AstraUnitTypes.vorhies, new UnitPlan(AstraUnitTypes.baeri, 19f * Time.toSeconds, ItemStack.with(
+				AstraUnitTypes.baeri, new UnitPlan(AstraUnitTypes.vorhies, 19f * Time.toSeconds, ItemStack.with(
 					Items.silicon, 30,
 					Items.pyratite, 20,
 					Items.graphite, 30
@@ -4387,10 +4393,11 @@ public class AstraBlocks {
 
 		secondaryTankAssembler = new DynamicReconstructor("secondary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 180,
-				AstraItems.magnetite, 90,
-				Items.graphite, 120,
-				Items.silicon, 110
+				AstraItems.iron, 200,
+				AstraItems.magnetite, 100,
+				Items.titanium, 80,
+				Items.silicon, 110,
+				Items.copper, 130
 			));
 			regionSuffix = "-tank";
 			size = 5;
@@ -4398,23 +4405,25 @@ public class AstraBlocks {
 
 			recipes.putAll(
 				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 40,
+					AstraItems.iron, 30,
+					Items.titanium, 20,
 					Items.silicon, 35,
-					Items.copper, 45
+					Items.copper, 60
 				)),
 				AstraUnitTypes.aculei, new UnitPlan(AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 50,
+					AstraItems.iron, 70,
 					Items.silicon, 30,
-					Items.graphite, 40
+					Items.graphite, 45
 				)),
 				AstraUnitTypes.meissa, new UnitPlan(AstraUnitTypes.saiph, 23f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 45,
+					AstraItems.iron, 40,
+					AstraItems.lithium, 20,
 					Items.silicon, 30,
 					Items.metaglass, 35
 				)),
 				AstraUnitTypes.arbalest, new UnitPlan(AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 45,
-					AstraItems.magnetite, 40,
+					AstraItems.iron, 30,
+					AstraItems.magnetite, 50,
 					Items.silicon, 30
 				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
@@ -4428,10 +4437,10 @@ public class AstraBlocks {
 
 		secondaryAirAssembler = new DynamicReconstructor("secondary-air-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 180,
-				AstraItems.lithium, 100,
-				Items.copper, 200,
-				Items.silicon, 150
+				AstraItems.iron, 130,
+				AstraItems.magnetite, 80,
+				Items.silicon, 100,
+				Items.copper, 80
 			));
 			regionSuffix = "-air";
 			size = 3;
@@ -4448,10 +4457,11 @@ public class AstraBlocks {
 
 		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
 			requirements(Category.units, BuildVisibility.sandboxOnly, ItemStack.with(
-				AstraItems.iron, 180,
-				AstraItems.magnetite, 90,
-				Items.titanium, 120,
-				Items.silicon, 110
+				AstraItems.iron, 200,
+				AstraItems.magnetite, 80,
+				Items.titanium, 80,
+				Items.silicon, 110,
+				Items.copper, 130
 			));
 			regionSuffix = "-airship";
 			size = 5;
