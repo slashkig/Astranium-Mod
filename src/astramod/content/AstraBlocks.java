@@ -172,6 +172,7 @@ public class AstraBlocks {
 
 		ironFurnace = new BoostableCrafter("iron-furnace") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.hematite, 40, Items.lead, 10));
+			researchCostMultiplier = 0.1f;
 			size = 2;
 			fogRadius = 2;
 			hasPower = hasItems = hasLiquids = true;
@@ -220,6 +221,7 @@ public class AstraBlocks {
 
 		castIronPress = new GenericCrafter("cast-iron-press") {{
 			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 40, Items.lead, 25, Items.copper, 10));
+			researchCostMultiplier = 0.5f;
 			scaledHealth = 45f;
 			size = 2;
 			fogRadius = 2;
@@ -964,6 +966,7 @@ public class AstraBlocks {
 
 		wireRelay = new WireRelay("cable-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 24, AstraItems.hematite, 16));
+			researchCostMultiplier = 0.1f;
 			size = 2;
 			fogRadius = 4;
 			wireRange = 9;
@@ -981,6 +984,7 @@ public class AstraBlocks {
 
 		powerRelay = new PowerRelay("power-relay") {{
 			requirements(Category.power, ItemStack.with(Items.copper, 20, AstraItems.iron, 10));
+			researchCostMultiplier = 0.5f;
 			size = 2;
 			fogRadius = 2;
 			maxNodes = 3;
@@ -1150,6 +1154,7 @@ public class AstraBlocks {
 
 		windTurbine = new WindGenerator("wind-turbine") {{
 			requirements(Category.power, ItemStack.with(AstraItems.hematite, 30, Items.copper, 40));
+			researchCostMultiplier = 0.1f;
 			size = 2;
 			fogRadius = 2;
 
@@ -1704,6 +1709,7 @@ public class AstraBlocks {
 
 		compactDrill = new MultiCoolantDrill("compact-drill") {{
 			requirements(Category.production, ItemStack.with(AstraItems.hematite, 14, Items.lead, 6));
+			researchCostMultiplier = 0.1f;
 			size = 2;
 			fogRadius = 2;
 
@@ -1836,6 +1842,7 @@ public class AstraBlocks {
 
 		compactBore = new WallDrill("compact-bore") {{
 			requirements(Category.production, ItemStack.with(AstraItems.hematite, 18, Items.lead, 8));
+			researchCostMultiplier = 0.1f;
 			size = 2;
 			fogRadius = 2;
 			liquidCapacity = 7.5f;
@@ -1967,12 +1974,14 @@ public class AstraBlocks {
 
 		hematiteWall = new Wall("hematite-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.hematite, 6));
+			researchCostMultiplier = 0.1f;
 			health = 90 * 4;
 			fogRadius = 2;
 		}};
 
 		hematiteWallLarge = new Wall("hematite-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(hematiteWall.requirements, 4));
+			researchCostMultiplier = 0.5f;
 			health = 90 * 16;
 			size = 2;
 			fogRadius = 2;
@@ -2238,6 +2247,7 @@ public class AstraBlocks {
 
 		hematiteConveyor = new Conveyor("hematite-conveyor") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 1));
+			researchCost = ItemStack.with(AstraItems.hematite, 8);
 			health = 40;
 			fogRadius = 1;
 			speed = 0.05f;
@@ -2299,6 +2309,7 @@ public class AstraBlocks {
 
 		hematiteJunction = new Junction("hematite-junction") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 2));
+			researchCostMultiplier = 0.1f;
 			health = 50;
 			fogRadius = 1;
 			buildCostMultiplier = 3f;
@@ -2310,8 +2321,9 @@ public class AstraBlocks {
 
 		hematiteRouter = new Router("hematite-router") {{
 			requirements(Category.distribution, ItemStack.with(AstraItems.hematite, 3));
-			health = 60;
-			fogRadius = 2;
+			researchCostMultiplier = 0.1f;
+			health = 50;
+			fogRadius = 1;
 			buildCostMultiplier = 3f;
 		}};
 
@@ -3485,6 +3497,7 @@ public class AstraBlocks {
 
 		dart = new AstraItemTurret("dart") {{
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
+			researchCostMultiplier = 0.1f;
 			ammo(
 				AstraItems.hematite, new BasicBulletType(3f, 8) {{
 					width = 8f;

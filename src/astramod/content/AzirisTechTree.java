@@ -100,7 +100,7 @@ public class AzirisTechTree {
 						node(frackingDrill, research(turbinePump), none);
 					});
 				});
-				node(compactBore, research(windTurbine), () -> {
+				node(compactBore, research(hematiteConveyor), () -> {
 					node(ironBore, research(ironFurnace), () -> {
 						node(laserBore, research(steelForge), () -> {
 							node(pulseBore, research(plasmaEnergizer), none);
@@ -109,7 +109,7 @@ public class AzirisTechTree {
 				});
 			});
 
-			node(compactPump, research(compactDrill), () -> {
+			node(compactPump, research(compactBore), () -> {
 				node(turbinePump, research(wavePipeline), () -> {
 					node(jetstreamPump, research(steelTank), () -> {
 						node(tidalPump, research(tidalPipeline), none);
@@ -150,7 +150,7 @@ public class AzirisTechTree {
 
 			node(ironFurnace, research(compactDrill), () -> {
 				node(castIronPress, research(windTurbine), () -> {
-					node(plastaniumCompressor, research(Items.titanium, castIronKiln), () -> {
+					node(plastaniumCompressor, research(magnetiteSynthesizer, castIronKiln), () -> {
 						node(phaseWeaver, research(magnetiteSynthesizer, purificationSmelter), () -> {
 							node(phaseLoom, research(plasmaDrill, crystalReactor, formulationMixer), none);
 						});
@@ -253,11 +253,11 @@ public class AzirisTechTree {
 						});
 					});
 				});
-				node(mortar, () -> {
+				node(mortar, research(castIronPress), () -> {
 					node(ballista, research(largePowerRelay, repulsionGenerator, magnetiteSynthesizer), none);
 				});
-				node(bolt, () -> {
-					node(monsoon);
+				node(bolt, research(ironConveyor, coreHub), () -> {
+					node(monsoon, research(turbinePump, steelTank), none);
 				});
 				node(mendBeam, research(castIronSmelter, wireRelay), () -> {
 					node(mendDome, research(crystalReactor, largeWireRelay), none);
