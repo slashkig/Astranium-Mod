@@ -244,20 +244,20 @@ project(":") {
 		val dexName = dex.flatMap{ it.archiveFileName }
 
 		doLast {
-			val destination = client.get().detected.modsDirectory
-			val source = destination.resolve(jarName.get())
+			val source = layout.projectDirectory.file("build/libs/${jarName.get()}").asFile
 
 			if (!source.exists()) {
-				logger.lifecycle("JAR not found. Skipping task.")
+				logger.lifecycle("JAR `${source.path}` not found. Skipping task.")
 				return@doLast
 			}
 
+			val destination = client.get().detected.modsDirectory
 			destination.mkdirs()
 			destination.resolve(dexName.get()).delete()
 
 			source.copyTo(destination.resolve(source.name), overwrite = true)
 
-			logger.lifecycle("Copied ${source.name} to '${destination.path}'.")
+			logger.lifecycle("Copied ${source.name} to `${destination.path}`.")
 		}
 	}
 
