@@ -1,7 +1,8 @@
 import arc.util.*
 import ent.*
-import java.io.*
-import java.util.*
+import mindustry.client.*
+import mindustry.client.service.*
+import mindustry.client.task.*
 import java.util.jar.*
 
 buildscript {
@@ -28,7 +29,11 @@ buildscript {
 		ivy {
 			url = uri("https://github.com")
 			patternLayout {
-				artifact(mindustrySource)
+				val path = mindustrySource.substringBeforeLast('/')
+				val name = mindustrySource.substringAfterLast('/').removeSuffix(".jar")
+
+				artifact("$path/[classifier].jar")
+				artifact("$path/$name(-[classifier]).jar")
 				metadataSources{ artifact() }
 			}
 			content {
@@ -41,12 +46,13 @@ buildscript {
 plugins {
 	java
 	id("com.github.GglLfr.EntityAnno") apply false
+	id("com.github.GglLfr.MindustryClient") apply false
 }
 
 val (mindustry, mindustryVersion, mindustrySource) = when(val version = providers.gradleProperty("mindustryVersion").get()) {
-    "latest" -> Triple("Mindustry", "latest", "Anuken/Mindustry/releases/latest/download/dependencies.jar")
-    "be" -> Triple("MindustryBuilds", "latest", "Anuken/MindustryBuilds/releases/download/master/latest.jar")
-    else -> Triple("Mindustry", version, "Anuken/Mindustry/releases/download/[revision]/dependencies.jar")
+	"latest" -> Triple("Mindustry", "latest", "Anuken/Mindustry/releases/latest/download/dependencies.jar")
+	"be" -> Triple("MindustryBuilds", "latest", "Anuken/MindustryBuilds/releases/download/master/latest.jar")
+	else -> Triple("Mindustry", version, "Anuken/Mindustry/releases/download/[revision]/dependencies.jar")
 }
 
 val entVersion = providers.gradleProperty("entVersion").get()
@@ -59,14 +65,6 @@ val modGen = providers.gradleProperty("modGen").get()
 val modVersion = providers.gradleProperty("modVersion").get()
 val alpha = providers.gradleProperty("alpha").get().toBoolean()
 
-fun mindustry(): String {
-	return "Anuken:$mindustry:$mindustryVersion"
-}
-
-fun entity(module: String): String {
-	return "com.github.GglLfr.EntityAnno$module:$entVersion"
-}
-
 fun jarName(type: String): String {
 	return "$modArtifact$type-${modVersion + (if (alpha) "-alpha" else "")}.jar"
 }
@@ -77,6 +75,11 @@ allprojects {
 		layout.projectDirectory.dir("src"),
 		layout.projectDirectory.dir("build/generated/sources/annotationProcessor/java/main")
 	))
+
+	java {
+		sourceCompatibility = JavaVersion.VERSION_17
+		targetCompatibility = JavaVersion.VERSION_17
+	}
 
 	dependencies {
 		registerTransform(TrimSources::class) {
@@ -92,10 +95,8 @@ allprojects {
 				useTarget("Anuken:$mindustry:$mindustryVersion")
 			}
 		}
-	}
 
-	configurations.matching{ it.isCanBeResolved }.configureEach {
-		attributes {
+		if (isCanBeResolved) attributes {
 			attribute(ArtifactTypeDefinition.ARTIFACT_TYPE_ATTRIBUTE, "jar-stripped")
 		}
 	}
@@ -105,7 +106,11 @@ allprojects {
 		ivy {
 			url = uri("https://github.com")
 			patternLayout {
-				artifact(mindustrySource)
+				val path = mindustrySource.substringBeforeLast('/')
+				val name = mindustrySource.substringAfterLast('/').removeSuffix(".jar")
+
+				artifact("$path/[classifier].jar")
+				artifact("$path/$name(-[classifier]).jar")
 				metadataSources{ artifact() }
 			}
 			content {
@@ -135,25 +140,15 @@ allprojects {
 			isFork = false
 			encoding = "UTF-8"
 		}
-
-		sourceCompatibility = "17"
-		targetCompatibility = "17"
 	}
 }
 
 project(":") {
 	apply(plugin = "com.github.GglLfr.EntityAnno")
-
-	val localMindustryVersion = mindustryVersion
-	val mindustryDir = providers.gradleProperty("mindustryDir").getOrNull()?.let(::File)?.takeIf{ it.isDirectory }
-		?: File("C:/Program Files (x86)/Steam/steamapps/common/Mindustry").takeIf{ it.isDirectory }
-		?: File(OS.getAppDataDirectoryString("Mindustry")).takeIf{ it.isDirectory }
-		?: layout.projectDirectory.dir("Mindustry").asFile
-	val nativeClient = mindustryDir.resolve("Mindustry.exe").exists()
+	apply(plugin = "com.github.GglLfr.MindustryClient")
 
 	configure<EntityAnnoExtension> {
-		mindustryVersion = localMindustryVersion
-		revisionDir = layout.projectDirectory.dir("revisions").asFile
+		revisionDir = layout.projectDirectory.dir("revisions")
 		fetchPackage = modFetch
 		genSrcPackage = modGenSrc
 		genPackage = modGen
@@ -161,31 +156,17 @@ project(":") {
 
 	dependencies {
 		// Use the entity generation annotation processor.
-		compileOnly(entity(":entity"))
-		annotationProcessor(entity(":entity"))
+		compileOnly("com.github.GglLfr.EntityAnno:entity:$entVersion")
+		annotationProcessor("com.github.GglLfr.EntityAnno:entity:$entVersion")
 
-		compileOnly(mindustry())
+		compileOnly("Anuken:$mindustry:$mindustryVersion")
 	}
 
+	val client = gradle.sharedServices.registerIfAbsent(MindustryClientPlugin.serviceName, MindustryClientService::class.java) { }
 	val jar = tasks.named<Jar>("jar") {
 		dependsOn(":tools:generate")
 
 		archiveFileName = jarName("Desktop")
-
-		// Deliberately check if the mod meta is actually written in HJSON, since, well, some people actually use
-		// it. But this is also not mentioned in the `README.md`, for the mischievous reason of driving beginners
-		// into using JSON instead.
-		val metaJson = layout.projectDirectory.file("mod.json")
-		val metaHjson = layout.projectDirectory.file("mod.hjson")
-
-		if (metaJson.asFile.exists() && metaHjson.asFile.exists()) {
-			throw IllegalStateException("Ambiguous mod meta: both `mod.json` and `mod.hjson` exist.")
-		} else if (!metaJson.asFile.exists() && !metaHjson.asFile.exists()) {
-			throw IllegalStateException("Missing mod meta: neither `mod.json` nor `mod.hjson` exist.")
-		}
-
-		val isJson = metaJson.asFile.exists()
-		val usedMeta = if(isJson) metaJson else metaHjson
 
 		from(
 			files(sourceSets["main"].output.classesDirs),
@@ -194,7 +175,10 @@ project(":") {
 
 			files(layout.projectDirectory.dir("assets")),
 			layout.projectDirectory.file("icon.png"),
-			usedMeta
+
+			// Check both JSON and HJSON.
+			layout.projectDirectory.file("mod.json"),
+			layout.projectDirectory.file("mod.hjson")
 		)
 
 		metaInf.from(layout.projectDirectory.file("LICENSE"))
@@ -202,18 +186,20 @@ project(":") {
 
 	val dex = tasks.register<Jar>("dex") {
 		description = "Builds an Android-compatible JAR from the desktop-only JAR. Use this file for GitHub release."
-		inputs.files(jar)
-
-		archiveFileName = jarName("")
-
-		val desktopJar = jar.flatMap{ it.archiveFile }
-		val dexJar = File(temporaryDir, "Dex.jar")
 
 		val androidSdkVersion = providers.gradleProperty("androidSdkVersion").get()
 		val androidBuildVersion = providers.gradleProperty("androidBuildVersion").get()
 		val androidMinVersion = providers.gradleProperty("androidMinVersion").get()
 
-		val classpaths = configurations.compileClasspath.get().toList() + configurations.runtimeClasspath.get().toList()
+		val classpaths = files(configurations.compileClasspath, configurations.runtimeClasspath)
+		inputs.files(jar)
+		inputs.files(classpaths)
+		inputs.property("androidSdk", "$androidSdkVersion+$androidBuildVersion+$androidMinVersion")
+
+		archiveFileName = jarName("")
+
+		val desktopJar = jar.flatMap{ it.archiveFile }
+		val dexJar = File(temporaryDir, "Dex.jar")
 		val providers = project.providers
 
 		from(zipTree(desktopJar), zipTree(dexJar))
@@ -221,12 +207,12 @@ project(":") {
 			// Find Android SDK root.
 			val sdkRoot = File(
 				OS.env("ANDROID_HOME") ?: OS.env("ANDROID_SDK_ROOT")
-				?: throw IllegalStateException("Neither `ANDROID_HOME` nor `ANDROID_SDK_ROOT` are set.")
+				?: throw GradleException("Neither `ANDROID_HOME` nor `ANDROID_SDK_ROOT` are set.")
 			)
 
 			// Find `d8`.
 			val d8 = File(sdkRoot, "build-tools/$androidBuildVersion/${if (OS.isWindows) "d8.bat" else "d8"}")
-			if (!d8.exists()) throw IllegalStateException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted.")
+			if (!d8.exists()) throw GradleException("Android SDK `build-tools;$androidBuildVersion` isn't installed or is corrupted.")
 
 			// Initialize a release build.
 			val input = desktopJar.get().asFile
@@ -239,7 +225,7 @@ project(":") {
 
 			// Include Android platform as library.
 			val androidJar = File(sdkRoot, "platforms/android-$androidSdkVersion/android.jar")
-			if (!androidJar.exists()) throw IllegalStateException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted.")
+			if (!androidJar.exists()) throw GradleException("Android SDK `platforms;android-$androidSdkVersion` isn't installed or is corrupted.")
 
 			command.addAll(arrayOf("--lib", "$androidJar"))
 			if (OS.isWindows) command.addAll(0, arrayOf("cmd", "/c").toList())
@@ -252,79 +238,36 @@ project(":") {
 	val copyJar = tasks.register<DefaultTask>("copyJar") {
 		description = "Copies the desktop JAR to the `mods/` folder."
 		mustRunAfter(jar)
+		usesService(client)
 
-		val sourceFile = layout.projectDirectory.file("build/libs/${jarName("Desktop")}").asFile
-		val destination =
-			if (nativeClient && mindustryDir.path.replace('\\', '/').contains("/steamapps/common/Mindustry", ignoreCase = true))
-			mindustryDir.resolve("saves/mods") else mindustryDir.resolve("mods")
-		val destFile = destination.resolve(sourceFile.name)
-
-		inputs.file(sourceFile).optional()
-		outputs.file(destFile)
+		val jarName = jar.flatMap{ it.archiveFileName }
+		val dexName = dex.flatMap{ it.archiveFileName }
 
 		doLast {
-			if (!sourceFile.exists()) {
+			val destination = client.get().detected.modsDirectory
+			val source = destination.resolve(jarName.get())
+
+			if (!source.exists()) {
 				logger.lifecycle("JAR not found. Skipping task.")
 				return@doLast
 			}
 
 			destination.mkdirs()
-			sourceFile.copyTo(destFile, overwrite = true)
+			destination.resolve(dexName.get()).delete()
 
-			logger.lifecycle("Copied ${sourceFile.name} to '${destination.path}'.")
+			source.copyTo(destination.resolve(source.name), overwrite = true)
+
+			logger.lifecycle("Copied ${source.name} to '${destination.path}'.")
 		}
 	}
 
-	val downloadClient = tasks.register<InstallJarTask>("downloadClient") {
-		description = "Checks for the Mindustry client matching `mindustryVersion` and downloads it if it does not exist."
-
-		if (nativeClient) {
-			enabled = false
-		} else {
-			val versionProperties = buildscript.classLoader.getResourceAsStream("version.properties").use {
-				val props = Properties()
-				props.load(it)
-				props
-			}
-			val build = versionProperties.getProperty("build")
-			val type = versionProperties.getProperty("type")
-
-			mindustryDir.mkdirs()
-
-			from(when(type) {
-				"official" -> "https://github.com/Anuken/Mindustry/releases/download/v$build/Mindustry.jar"
-				"bleeding-edge" -> "https://github.com/Anuken/MindustryBuilds/releases/download/v$build/Mindustry-BE-Desktop-$build.jar"
-				else -> throw GradleException("Invalid Mindustry version type '$type'; cannot download client.")
-			})
-			destination(mindustryDir.resolve("Mindustry-$build.jar"))
-
-			val launcher = mindustryDir.resolve("Mindustry.bat")
-			outputs.file(launcher)
-
-			doLast {
-				launcher.writeText(
-					"""
-					@echo off
-					java -cp "%~dp0Mindustry-$build.jar" mindustry.desktop.DesktopLauncher %*
-					""".trimIndent()
-				)
-			}
-		}
+	tasks.withType<RunClientTask>().configureEach {
+		dependsOn(copyJar)
 	}
 
-	tasks.register<Exec>("runClient") {
-		description = "Runs Mindustry with the current mod and client."
-		dependsOn(copyJar, downloadClient)
-
-		doFirst {
-			if (nativeClient) {
-				logger.lifecycle("Native Mindustry executable detected; skipping download.")
-				commandLine(mindustryDir.resolve("Mindustry.exe").absolutePath)
-			} else {
-				commandLine(mindustryDir.resolve("Mindustry.bat").absolutePath)
-			}
-			logger.lifecycle("Starting Mindustry.")
-		}
+	tasks.register("runClient") {
+		dependsOn(tasks.named("run"))
+		description = "Alias for `run` task."
 	}
 }
 
@@ -336,17 +279,17 @@ abstract class TrimSources : TransformAction<TransformParameters.None> {
 		val input = file.get().asFile
 		val classes = outputs.file(input.name)
 
-		JarFile(input).use { jar ->
+		JarFile(input).use{ jar ->
 			val entries = jar.entries()
-			JarOutputStream(FileOutputStream(classes)).use { classes ->
+			classes.outputStream().use{ JarOutputStream(it).use{ classes ->
 				for (entry in entries) {
 					if (entry.name.endsWith(".java")) continue
 
 					classes.putNextEntry(JarEntry(entry.name))
-					jar.getInputStream(entry).use{ it.copyTo(classes) }
+					jar.getInputStream(entry).use{ jar -> jar.copyTo(classes) }
 					classes.closeEntry()
 				}
-			}
+			}}
 		}
 	}
 }

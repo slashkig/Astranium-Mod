@@ -6,7 +6,7 @@ name: "astramod"
 
 author: "Slashkig, IAmRustee, VoidThreader"
 main: "astramod.AstraniumMod"
-version: "0.4.0"
+version: "0.4.1"
 description:
 '''
 [[]#ff0000]Aziris[[]] is a planet of breathtaking beauty and immense value, coveted by many factions for the rare and powerful [[]#bf2851]Erythronite Crystals[[]].
