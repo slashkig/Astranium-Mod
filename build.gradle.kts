@@ -29,11 +29,7 @@ buildscript {
 		ivy {
 			url = uri("https://github.com")
 			patternLayout {
-				val path = mindustrySource.substringBeforeLast('/')
-				val name = mindustrySource.substringAfterLast('/').removeSuffix(".jar")
-
-				artifact("$path/[classifier].jar")
-				artifact("$path/$name(-[classifier]).jar")
+				artifact(mindustrySource)
 				metadataSources{ artifact() }
 			}
 			content {
@@ -106,11 +102,7 @@ allprojects {
 		ivy {
 			url = uri("https://github.com")
 			patternLayout {
-				val path = mindustrySource.substringBeforeLast('/')
-				val name = mindustrySource.substringAfterLast('/').removeSuffix(".jar")
-
-				artifact("$path/[classifier].jar")
-				artifact("$path/$name(-[classifier]).jar")
+				artifact(mindustrySource)
 				metadataSources{ artifact() }
 			}
 			content {
