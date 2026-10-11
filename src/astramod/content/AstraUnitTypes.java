@@ -62,7 +62,7 @@ public class AstraUnitTypes {
 		meissa, saiph,
 		superBartizan;
 
-	// mech + conceal
+	// legs + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Legsc.class }) public static UnitType
 		baeri, vorhies;
 
@@ -409,8 +409,8 @@ public class AstraUnitTypes {
 					knockback = 2f;
 
 					status = StatusEffects.slow;
-					statusDuration = 0.5f * Time.toSeconds;
-					statusChance = 0.2f;
+					statusDuration = 1f * Time.toSeconds;
+					statusChance = 0.12f;
 
 					hitColor = backColor = AstraPal.ironBack;
 					frontColor = AstraPal.ironFront;
@@ -458,7 +458,7 @@ public class AstraUnitTypes {
 
 					status = StatusEffects.burning;
 					statusDuration = 8f * Time.toSeconds;
-					statusChance = 0.4f;
+					statusChance = 0.25f;
 					
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
@@ -474,62 +474,65 @@ public class AstraUnitTypes {
 		strelitz = new AstraUnitType("strelitz") {{
 			health = 1300;
 			armor = 8f;
-			hitSize = 16f;
-			fogRadius = 16f;
-			itemCapacity = 50;
-			rotateSpeed = 3f;
-			range = 60f;
+			hitSize = 17f;
+			fogRadius = 14f;
+			itemCapacity = 40;
 
 			speed = 0.5f;
 			accel = 0.25f;
+			rotateSpeed = 3f;
 			stepSoundVolume = 0.7f;
 
 			immunities.add(StatusEffects.freezing);
 
 			weapons.add(new Weapon("astramod-strelitz-ice-cannon") {{
-				reload = 70f;
+				reload = 45f;
 				recoil = 1.5f;
-				shoot.shots = 3;
-				shoot.shotDelay = 6f;
 
 				top = false;
 				x = 11.5f;
 				y = -0.5f;
 				shootY = 10f;
-				cooldownTime = 70f;
+
 				heatColor = AstraPal.freezeFront;
+				cooldownTime = 70f;
 				ejectEffect = Fx.casing3;
+				shootSound = Sounds.shootArtillerySmall;
 				// TODO: shootSounds -> shootIce and hitIce
 
-				bullet = new BasicBulletType(4f, 30, "astramod-fragger") {{
-					width = 12f;
-					height = 16f;
-					lifetime = 25f;
-					knockback = 0.4f;
+				bullet = new BasicBulletType(4.5f, 75, "astramod-fragger") {{
+					width = 10f;
+					height = 14f;
+					lifetime = 35f;
+					knockback = 1f;
 
 					status = StatusEffects.freezing;
 					statusDuration = 6f * Time.toSeconds;
+					statusChance = 0.4f;
 
 					frontColor = AstraPal.freezeFront;
 					backColor = trailColor = AstraPal.freezeBack;
-					trailWidth = 1.5f;
-					trailLength = 2;
+					trailWidth = 2f;
+					trailLength = 7;
 					smokeEffect = Fx.shootBigSmoke; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce
 					shootEffect = Fx.shootBigColor;
 
 					fragBullets = 3;
-					fragBullet = new BasicBulletType(3f, 8f) {{
-						lifetime = 20f;
-						width = 7f;
-						height = 11f;
+					fragBullet = new BasicBulletType(2.5f, 10f) {{
+						lifetime = 8f;
+						width = 5f;
+						height = 8f;
 						armorMultiplier = 2f;
+						shrinkY = 0.75f;
 						collidesAir = false;
 
 						status = StatusEffects.freezing;
 						statusDuration = 3f * Time.toSeconds;
+						statusChance = 0.2f;
 
 						frontColor = AstraPal.freezeFront;
 						backColor = AstraPal.freezeBack;
+						despawnEffect = Fx.none;
 					}};
 				}};
 			}},
@@ -537,27 +540,25 @@ public class AstraUnitTypes {
 				reload = 40f;
 				recoil = 1f;
 				inaccuracy = 15f;
-				shoot = new ShootAlternate(1.5f) {{ shots = 2; shotDelay = 10f; }};
 				rotate = true;
 
+				mirror = false;
 				x = -9f;
 				y = -1.5f;
 				shootY = 2f;
 				controllable = false;
 				autoTarget = true;
-				mirror = false;
+				useAttackRange = false;
 
 				shootSound = Sounds.shootMissile;
-				shootSoundVolume = 0.7f;
+				shootSoundVolume = 0.8f;
 
-				bullet = new MissileBulletType(4f, 18) {{
+				bullet = new MissileBulletType(4f, 25) {{
 					width = height = 8f;
 					lifetime = 50f;
-					knockback = 0.4f;
 					homingPower = 0.4f;
 					range = 60f;
 					collidesGround = false;
-					targetGround = false;
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = trailColor = Pal.blastAmmoBack;
@@ -1280,7 +1281,7 @@ public class AstraUnitTypes {
 			hitSize = 20f;
 			range = 16f * tilesize;
 			fogRadius = 18f;
-			itemCapacity = 20;
+			itemCapacity = 40;
 
 			speed = 1.8f;
 			accel = 0.2f;
@@ -1598,6 +1599,7 @@ public class AstraUnitTypes {
 			armor = 2f;
 			hitSize = 11f;
 			fogRadius = 9f;
+			itemCapacity = 12;
 
 			speed = 0.9f;
 			accel = 0.04f;
@@ -1632,10 +1634,11 @@ public class AstraUnitTypes {
 			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.storage, BlockFlag.repair, BlockFlag.core, null };
 			flying = true;
 
-			health = 700;
+			health = 720;
 			armor = 4f;
-			hitSize = 14f;
+			hitSize = 15f;
 			fogRadius = 10f;
+			itemCapacity = 30;
 
 			speed = 0.9f;
 			accel = 0.03f;
@@ -1645,6 +1648,12 @@ public class AstraUnitTypes {
 
 			lowAltitude = true;
 			engineSize = -1f;
+
+			// TODO Crux add a better loop sound
+			loopSound = Sounds.loopHover2;
+			loopSoundVolume = 1.6f;
+
+			parts.add(new RotorPart(60f) {{ y = 1.75f; }});
 
 			weapons.add(new Weapon("astramod-gunship-mount") {{
 				reload = 60f;
@@ -1660,13 +1669,12 @@ public class AstraUnitTypes {
 				top = false;
 				layerOffset = -0.1f;
 
-				bullet = new BasicBulletType(4f, 16) {{
+				bullet = new BasicBulletType(4f, 18) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
 				}};
 			}},
-
 			new Weapon("astramod-gunship-flak-mount") {{
 				reload = 50f;
 				rotate = false;
@@ -1683,22 +1691,18 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootScatter;
 
 				bullet = new FlakBulletType(4f, 5) {{
-					width = height = 10f;
+					width = 8f;
+					height = 9f;
 					lifetime = 20f;
-					splashDamage = 25f;
+					splashDamage = 30f;
+					splashDamageRadius = 2.2f * tilesize;
 					collidesGround = true;
-					splashDamageRadius = 1.5f * tilesize;
 
-					trailLength = 12;
+					trailLength = 10;
 					trailScl = 3f;
 					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
 					hitEffect = AstraFx.dynamicExplosion(this);
 				}};
-			}});
-
-			parts.add(new RotorPart(60f) {{
-				y = 1.75f;
-				mirror = false;
 			}});
 		}};
 

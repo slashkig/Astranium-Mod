@@ -2,8 +2,8 @@ package astramod.entities.part;
 
 import arc.graphics.g2d.*;
 import arc.math.Mathf;
-import arc.struct.Seq;
-import arc.util.Tmp;
+import arc.struct.*;
+import arc.util.*;
 import mindustry.entities.part.*;
 
 public class RotorPart extends RegionPart {
@@ -12,7 +12,6 @@ public class RotorPart extends RegionPart {
 	public RotorPart(float spinTime) {
 		super("-rotor-blur");
 		outline = false;
-		mirror = false;
 		layerOffset = 1f;
 		moveRot = 360f;
 		progress = PartProgress.time.loop(spinTime);

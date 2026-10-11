@@ -4360,7 +4360,7 @@ public class AstraBlocks {
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.milvus, 21f * Time.toSeconds, ItemStack.with(
 					AstraItems.iron, 25,
-					Items.copper, 25,
+					Items.lead, 25,
 					Items.silicon, 20
 				))
 			);
@@ -4441,9 +4441,15 @@ public class AstraBlocks {
 				)),
 				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
 					AstraItems.steel, 60,
-					AstraItems.magnetite, 45,
+					AstraItems.magnetite, 55,
 					Items.silicon, 90,
 					Items.titanium, 50
+				)),
+				AstraUnitTypes.achillion, new UnitPlan(AstraUnitTypes.strelitz, 38f * Time.toSeconds, ItemStack.with(
+					AstraItems.steel, 75,
+					Items.graphite, 50,
+					Items.silicon, 80,
+					Items.titanium, 60
 				))
 			);
 		}};
@@ -4469,7 +4475,7 @@ public class AstraBlocks {
 		}};
 
 		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
-			requirements(Category.units, BuildVisibility.sandboxOnly, ItemStack.with(
+			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 200,
 				AstraItems.magnetite, 80,
 				Items.titanium, 80,
@@ -4481,10 +4487,10 @@ public class AstraBlocks {
 			consumePower(7f);
 
 			recipes.putAll(
-				AstraUnitTypes.milvus, new UnitPlan(UnitTypes.zenith, 40f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 60,
-					Items.silicon, 60,
-					Items.titanium, 60
+				AstraUnitTypes.milvus, new UnitPlan(AstraUnitTypes.pandion, 23f * Time.toSeconds, ItemStack.with(
+					AstraItems.iron, 35,
+					Items.silicon, 30,
+					Items.graphite, 35
 				))
 			);
 		}};
