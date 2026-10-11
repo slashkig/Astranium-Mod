@@ -21,6 +21,7 @@ import mindustry.world.meta.*;
 import astramod.ai.types.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
+import astramod.entities.part.*;
 import astramod.gen.*;
 import astramod.graphics.*;
 import astramod.type.unit.*;
@@ -32,7 +33,7 @@ public class AstraUnitTypes {
 	// air
 	@EntityPoint(UnitEntity.class) public static UnitType
 		manager, director,
-		milvus,
+		milvus, pandion,
 		newt;
 
 	// air + payload
@@ -172,7 +173,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		overseer = new AstraUnitType("overseer", PayloadUnit::create) {{
+		overseer = new AstraUnitType("overseer") {{
 			controller = u -> u.team.isAI() ? new BuilderAI(true, 400f) : new CommandAI();
 			flying = true;
 
@@ -373,7 +374,7 @@ public class AstraUnitTypes {
 
 		// region OFFENSIVE MECHS
 
-		dicentra = new AstraUnitType("dicentra", MechConcealUnit::create) {{
+		dicentra = new AstraUnitType("dicentra") {{
 			aiController = GroundRangerAI::new;
 
 			health = 220;
@@ -417,7 +418,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		achillion = new AstraUnitType("achillion", MechConcealUnit::create) {{
+		achillion = new AstraUnitType("achillion") {{
 			health = 700;
 			armor = 4f;
 			hitSize = 13f;
@@ -472,7 +473,7 @@ public class AstraUnitTypes {
 
 		// region SONIC MECHS
 
-		zenaida = new AstraUnitType("zenaida", MechConcealUnit::create) {{
+		zenaida = new AstraUnitType("zenaida") {{
 			health = 250;
 			armor = 2f;
 			hitSize = 10f;
@@ -506,7 +507,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		trexon = new AstraUnitType("trexon", MechConcealUnit::create) {{
+		trexon = new AstraUnitType("trexon") {{
 			health = 640;
 			armor = 5f;
 			hitSize = 12f;
@@ -539,7 +540,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		oriolus = new AstraUnitType("oriolus", MechConcealUnit::create) {{
+		oriolus = new AstraUnitType("oriolus") {{
 			health = 1100;
 			armor = 6f;
 			hitSize = 18f;
@@ -607,7 +608,7 @@ public class AstraUnitTypes {
 
 		// region ROCKET MECHS
 
-		legion = new AstraUnitType("legion", MechConcealUnit::create) {{
+		legion = new AstraUnitType("legion") {{
 			// TODO rocketeer AI
 			aiController = GroundRangerAI::new;
 
@@ -669,7 +670,7 @@ public class AstraUnitTypes {
 			}});
 		}};
 
-		decanus = new AstraUnitType("decanus", MechConcealUnit::create) {{
+		decanus = new AstraUnitType("decanus") {{
 			health = 680;
 			armor = 3f;
 			hitSize = 12f;
@@ -736,8 +737,8 @@ public class AstraUnitTypes {
 
 		// region STEALTH MECHS
 		
-		baeri = new AstraUnitType("baeri", LegsConcealUnit::create) {{
-			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Radar, 80f * tilesize);
+		baeri = new AstraUnitType("baeri") {{
+			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Radar, 120f * tilesize);
 			targetAir = false;
 			hovering = true;
 
@@ -824,7 +825,7 @@ public class AstraUnitTypes {
 			}};
 		}};
 
-		vorhies = new AstraUnitType("vorhies", LegsConcealUnit::create) {{
+		vorhies = new AstraUnitType("vorhies") {{
 			targetAir = false;
 			hovering = true;
 
@@ -1143,7 +1144,7 @@ public class AstraUnitTypes {
 
 		// region SUPPORT TANKS
 
-		hymeno = new AstraTankUnitType("hymeno", TankConcealUnit::create) {{
+		hymeno = new AstraTankUnitType("hymeno") {{
 			aiController = GroundCowardAI::new;
 			targetPriority = -5f;
 
@@ -1157,6 +1158,7 @@ public class AstraUnitTypes {
 			accel = 0.2f;
 			rotateSpeed = 3f;
 			floorMultiplier = 0.85f;
+			knockbackMultiplier = 1.2f;
 
 			treadPullOffset = 3;
 			treadFrames = 8;
@@ -1361,7 +1363,7 @@ public class AstraUnitTypes {
 
 		// region DRAGON
 
-		fledge = new AstraUnitType("fledge", ElevationMoveConcealUnit::create) {{
+		fledge = new AstraUnitType("fledge") {{
 			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Conveyor, 100f * tilesize);
 			hovering = true;
 			canDrown = false;
@@ -1378,7 +1380,7 @@ public class AstraUnitTypes {
 			rotateSpeed = 6.5f;
 			knockbackMultiplier = 2f;
 
-			engineSize = 0f;
+			engineSize = -1f;
 			useEngineElevation = false;
 			shadowElevation = 0.1f;
 
@@ -1527,6 +1529,48 @@ public class AstraUnitTypes {
 					lifetime = 26f;
 				}};
 			}});
+		}};
+
+		pandion = new AstraUnitType("pandion") {{
+			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.core, null };
+			forceMultiTarget = true;
+			flying = true;
+
+			health = 700;
+			armor = 4f;
+			hitSize = 14f;
+			fogRadius = 10f;
+
+			speed = 0.9f;
+			accel = 0.03f;
+			drag = 0.020f;
+			rotateSpeed = 2.5f;
+			strafePenalty = 1f;
+
+			engineSize = -1f;
+
+			weapons.add(new Weapon("astramod-gunship-mount") {{
+				reload = 35f;
+				rotate = true;
+				rotationLimit = 20f;
+				shoot.shots = 2;
+				shoot.shotDelay = 5f;
+
+				top = false;
+				layerOffset = -0.1f;
+				x = 5.25f;
+				y = 0.25f;
+				shootX = -0.75f;
+				shootY = 2f;
+
+				bullet = new BasicBulletType(4f, 17) {{
+					width = 7f;
+					height = 12f;
+					lifetime = 30f;
+				}};
+			}});
+
+			parts.add(new RotorPart(60f));
 		}};
 
 		// region EXTRAS
