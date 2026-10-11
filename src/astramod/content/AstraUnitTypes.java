@@ -1532,8 +1532,7 @@ public class AstraUnitTypes {
 		}};
 
 		pandion = new AstraUnitType("pandion") {{
-			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.core, null };
-			forceMultiTarget = true;
+			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.storage, BlockFlag.repair, BlockFlag.core, null };
 			flying = true;
 
 			health = 700;
@@ -1547,30 +1546,62 @@ public class AstraUnitTypes {
 			rotateSpeed = 2.5f;
 			strafePenalty = 1f;
 
+			lowAltitude = true;
 			engineSize = -1f;
 
 			weapons.add(new Weapon("astramod-gunship-mount") {{
-				reload = 35f;
-				rotate = true;
+				reload = 60f;
 				rotationLimit = 20f;
-				shoot.shots = 2;
-				shoot.shotDelay = 5f;
+				shoot.shots = 3;
+				shoot.shotDelay = 6f;
+				alternate = false;
 
-				top = false;
-				layerOffset = -0.1f;
-				x = 5.25f;
-				y = 0.25f;
+				x = 7.75f;
+				y = 7.25f;
 				shootX = -0.75f;
 				shootY = 2f;
+				top = false;
+				layerOffset = -0.1f;
 
-				bullet = new BasicBulletType(4f, 17) {{
+				bullet = new BasicBulletType(4f, 16) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
 				}};
+			}},
+
+			new Weapon("astramod-gunship-flak-mount") {{
+				reload = 50f;
+				rotate = false;
+				rotationLimit = 20f;
+				alternate = false;
+				mirror = false;
+
+				x = 0f;
+				y = 8.5f;
+				shootY = 2.75f;
+				top = false;
+				layerOffset = -0.1f;
+
+				shootSound = Sounds.shootScatter;
+
+				bullet = new FlakBulletType(4f, 5) {{
+					width = height = 10f;
+					lifetime = 20f;
+					splashDamage = 25f;
+					splashDamageRadius = 1.5f * tilesize;
+
+					trailLength = 12;
+					trailScl = 3f;
+					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
+					hitEffect = AstraFx.dynamicExplosion(this);
+				}};
 			}});
 
-			parts.add(new RotorPart(60f));
+			parts.add(new RotorPart(60f) {{
+				y = 1.75f;
+				mirror = false;
+			}});
 		}};
 
 		// region EXTRAS
