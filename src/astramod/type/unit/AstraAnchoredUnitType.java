@@ -3,17 +3,16 @@ package astramod.type.unit;
 import mindustry.ai.*;
 import mindustry.ai.types.*;
 import mindustry.entities.abilities.*;
-import mindustry.gen.Unit;
-import mindustry.type.Item;
-import arc.struct.Seq;
+import mindustry.gen.*;
+import mindustry.type.*;
+import arc.struct.*;
 import astramod.ai.*;
-import astramod.gen.BuildingTetherUnit;
 
 import static mindustry.Vars.indexer;
 
 public class AstraAnchoredUnitType extends AstraUnitType {
 	public AstraAnchoredUnitType(String name) {
-		super(name, BuildingTetherUnit::create);
+		super(name);
 		controller = u -> u.team.isAI() && !u.team.rules().rtsAi ? aiController.get() : new CommandAI();
 		useUnitCap = false;
 		allowedInPayloads = false;

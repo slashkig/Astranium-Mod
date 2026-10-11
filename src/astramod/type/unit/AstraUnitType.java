@@ -1,22 +1,15 @@
 package astramod.type.unit;
 
-import arc.func.*;
 import arc.util.*;
 import mindustry.Vars;
-import mindustry.gen.*;
 import mindustry.type.*;
 import astramod.graphics.*;
 import astramod.world.blocks.units.DynamicReconstructor;
 
 public class AstraUnitType extends UnitType {
-	public AstraUnitType(String name, Prov<? extends Unit> cons) {
-		super(name);
-		constructor = cons;
-		outlineColor = AstraPal.darkerOutline;
-	}
-
 	public AstraUnitType(String name) {
-		this(name, UnitEntity::create);
+		super(name);
+		outlineColor = AstraPal.darkerOutline;
 	}
 
 	@Override @Nullable public ItemStack[] getRequirements(@Nullable UnitType[] prevReturn, @Nullable float[] timeReturn) {

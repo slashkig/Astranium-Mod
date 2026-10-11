@@ -8,8 +8,7 @@ import mindustry.Vars;
 import mindustry.game.Team;
 import mindustry.gen.*;
 
-@EntityComponent
-abstract class ConcealComp implements Teamc {
+@EntityComponent abstract class ConcealComp implements Teamc {
 	@Import float x, y, hitSize;
 	@Import Team team;
 
