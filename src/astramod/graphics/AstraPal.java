@@ -41,6 +41,8 @@ public class AstraPal {
 		neoBack = Color.valueOf("ffc400"),
 		astraFront = Color.valueOf("a052ff"),
 		astraBack = Color.valueOf("6100ff"),
+		freezeFront = Color.valueOf("4df0ff"),
+		freezeBack = Color.valueOf("006fff"),
 
 		darkerOutline = Color.valueOf("181818"),
 		siegeMachineOutline = Color.valueOf("1c032e"),

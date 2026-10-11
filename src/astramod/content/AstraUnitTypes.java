@@ -46,7 +46,7 @@ public class AstraUnitTypes {
 
 	// mech + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
-		dicentra, achillion,
+		dicentra, achillion, strelitz,
 		zenaida, trexon, oriolus,
 		legion, decanus;
 
@@ -467,6 +467,103 @@ public class AstraUnitTypes {
 					trailLength = 2;
 					smokeEffect = Fx.shootBigSmoke;
 					shootEffect = Fx.shootBigColor;
+				}};
+			}});
+		}};
+
+		strelitz = new AstraUnitType("strelitz") {{
+			health = 1300;
+			armor = 8f;
+			hitSize = 16f;
+			fogRadius = 16f;
+			itemCapacity = 50;
+			rotateSpeed = 3f;
+			range = 60f;
+
+			speed = 0.5f;
+			accel = 0.25f;
+			stepSoundVolume = 0.7f;
+
+			immunities.add(StatusEffects.freezing);
+
+			weapons.add(new Weapon("astramod-strelitz-ice-cannon") {{
+				reload = 70f;
+				recoil = 1.5f;
+				shoot.shots = 3;
+				shoot.shotDelay = 6f;
+
+				top = false;
+				x = 11.5f;
+				y = -0.5f;
+				shootY = 10f;
+				cooldownTime = 70f;
+				heatColor = AstraPal.freezeFront;
+				ejectEffect = Fx.casing3;
+				// TODO: shootSounds -> shootIce and hitIce
+
+				bullet = new BasicBulletType(4f, 30, "astramod-fragger") {{
+					width = 12f;
+					height = 16f;
+					lifetime = 25f;
+					knockback = 0.4f;
+
+					status = StatusEffects.freezing;
+					statusDuration = 6f * Time.toSeconds;
+
+					frontColor = AstraPal.freezeFront;
+					backColor = trailColor = AstraPal.freezeBack;
+					trailWidth = 1.5f;
+					trailLength = 2;
+					smokeEffect = Fx.shootBigSmoke; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce
+					shootEffect = Fx.shootBigColor;
+
+					fragBullets = 3;
+					fragBullet = new BasicBulletType(3f, 8f) {{
+						lifetime = 20f;
+						width = 7f;
+						height = 11f;
+						armorMultiplier = 2f;
+						collidesAir = false;
+
+						status = StatusEffects.freezing;
+						statusDuration = 3f * Time.toSeconds;
+
+						frontColor = AstraPal.freezeFront;
+						backColor = AstraPal.freezeBack;
+					}};
+				}};
+			}},
+			new Weapon("astramod-strelitz-viper") {{
+				reload = 40f;
+				recoil = 1f;
+				inaccuracy = 15f;
+				shoot = new ShootAlternate(1.5f) {{ shots = 2; shotDelay = 10f; }};
+				rotate = true;
+
+				x = -9f;
+				y = -1.5f;
+				shootY = 2f;
+				controllable = false;
+				autoTarget = true;
+				mirror = false;
+
+				shootSound = Sounds.shootMissile;
+				shootSoundVolume = 0.7f;
+
+				bullet = new MissileBulletType(4f, 18) {{
+					width = height = 8f;
+					lifetime = 50f;
+					knockback = 0.4f;
+					homingPower = 0.4f;
+					range = 60f;
+					collidesGround = false;
+					targetGround = false;
+
+					frontColor = Pal.blastAmmoFront;
+					backColor = trailColor = Pal.blastAmmoBack;
+					trailWidth = 1.5f;
+					trailLength = 2;
+					shootEffect = Fx.shootSmallColor; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce
 				}};
 			}});
 		}};
@@ -1589,6 +1686,7 @@ public class AstraUnitTypes {
 					width = height = 10f;
 					lifetime = 20f;
 					splashDamage = 25f;
+					collidesGround = true;
 					splashDamageRadius = 1.5f * tilesize;
 
 					trailLength = 12;
