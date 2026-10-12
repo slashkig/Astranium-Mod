@@ -4033,7 +4033,8 @@ public class AstraBlocks {
 
 			recoil = 0.5f;
 			shootY = 10f;
-			shootSound = Sounds.shootCyclone;
+			shootSound = AstraSounds.shootBolt;
+			shootSoundVolume = 0.5f;
 
 			limitRange();
 			colorHitFx();

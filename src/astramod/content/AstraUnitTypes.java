@@ -472,15 +472,16 @@ public class AstraUnitTypes {
 		}};
 
 		strelitz = new AstraUnitType("strelitz") {{
-			health = 1300;
-			armor = 8f;
+			health = 1200;
+			armor = 7f;
 			hitSize = 17f;
 			fogRadius = 14f;
 			itemCapacity = 40;
+			forceMultiTarget = true;
 
 			speed = 0.5f;
 			accel = 0.25f;
-			rotateSpeed = 3f;
+			rotateSpeed = 2.6f;
 			stepSoundVolume = 0.7f;
 
 			immunities.add(StatusEffects.freezing);
@@ -497,12 +498,12 @@ public class AstraUnitTypes {
 				heatColor = AstraPal.freezeFront;
 				cooldownTime = 70f;
 				ejectEffect = Fx.casing3;
-				shootSound = Sounds.shootArtillerySmall;
-				// TODO: shootSounds -> shootIce and hitIce
+				shootSound = AstraSounds.shootIce;
+				// TODO: shootSounds -> and hitIce
 
 				bullet = new BasicBulletType(4.5f, 75, "astramod-fragger") {{
-					width = 10f;
-					height = 14f;
+					width = 12f;
+					height = 18f;
 					lifetime = 35f;
 					knockback = 1f;
 
@@ -514,14 +515,15 @@ public class AstraUnitTypes {
 					backColor = trailColor = AstraPal.freezeBack;
 					trailWidth = 2f;
 					trailLength = 7;
-					smokeEffect = Fx.shootBigSmoke; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce
+					smokeEffect = Fx.shootBigSmoke; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce, trailEffect = AstraFx.iceTrail
 					shootEffect = Fx.shootBigColor;
+					hitSound = AstraSounds.hitIce;
 
 					fragBullets = 3;
 					fragBullet = new BasicBulletType(2.5f, 10f) {{
-						lifetime = 8f;
+						lifetime = 12f;
 						width = 5f;
-						height = 8f;
+						height = 12f;
 						armorMultiplier = 2f;
 						shrinkY = 0.75f;
 						collidesAir = false;
@@ -548,6 +550,7 @@ public class AstraUnitTypes {
 				shootY = 2f;
 				controllable = false;
 				autoTarget = true;
+				aiControllable = false;
 				useAttackRange = false;
 
 				shootSound = Sounds.shootMissile;
@@ -564,7 +567,7 @@ public class AstraUnitTypes {
 					backColor = trailColor = Pal.blastAmmoBack;
 					trailWidth = 1.5f;
 					trailLength = 2;
-					shootEffect = Fx.shootSmallColor; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce
+					shootEffect = Fx.shootSmallColor;
 				}};
 			}});
 		}};
@@ -1080,9 +1083,6 @@ public class AstraUnitTypes {
 			weapons.add(new Weapon("astramod-echidna-weapon") {{
 				reload = 7f;
 				inaccuracy = 12f;
-				rotate = true;
-				rotateSpeed = 2f;
-				shootCone = 2f;
 				recoil = 0.8f;
 				shoot = new ShootAlternate(5.2f);
 
@@ -1091,6 +1091,9 @@ public class AstraUnitTypes {
 				y = 0f;
 				shootY = 10f;
 				layerOffset = 0.0001f;
+				rotate = true;
+				rotateSpeed = 2f;
+				shootCone = 2f;
 
 				bullet = new RicochetBulletType(6f, 11) {{
 					width = 8f;
@@ -1145,7 +1148,8 @@ public class AstraUnitTypes {
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
-				shootSound = AstraSounds.shootSniperSmall; // sound needs some work
+				shootSound = AstraSounds.shootSniperSmall;
+				shootSoundVolume = 0.6f;
 
 				bullet = new BasicBulletType(9f, 60) {{
 					width = 4f;
@@ -1650,8 +1654,8 @@ public class AstraUnitTypes {
 			engineSize = -1f;
 
 			// TODO Crux add a better loop sound
-			loopSound = Sounds.loopHover2;
-			loopSoundVolume = 1.6f;
+			loopSound = AstraSounds.helicopterLoop;
+			loopSoundVolume = 1.4f;
 
 			parts.add(new RotorPart(60f) {{ y = 1.75f; }});
 
