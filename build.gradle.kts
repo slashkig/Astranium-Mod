@@ -234,10 +234,9 @@ project(":") {
 
 		val jarName = jar.flatMap{ it.archiveFileName }
 		val dexName = dex.flatMap{ it.archiveFileName }
+		val source = layout.projectDirectory.file("build/libs/${jarName.get()}").asFile
 
 		doLast {
-			val source = layout.projectDirectory.file("build/libs/${jarName.get()}").asFile
-
 			if (!source.exists()) {
 				logger.lifecycle("JAR `${source.path}` not found. Skipping task.")
 				return@doLast
