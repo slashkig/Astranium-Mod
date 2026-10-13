@@ -248,7 +248,7 @@ public class AzirisTechTree {
 							node(fragMine, research(plastaniumCompressor), () -> {
 								node(largeFragMine, research(plastaniumFabricator), none);
 							});
-							node(navalMine, research(primaryShipyard), none);
+							node(navalMine, /*research(primaryShipyard),*/ none);
 						});
 						node(surgeMine, research(surgeArcFurnace), () -> {
 							node(magneticMine, research(astraniumForge), none);
@@ -412,7 +412,10 @@ public class AzirisTechTree {
 
 	public static Seq<Objective> research(UnlockableContent... content) {
 		Seq<Objective> r = new Seq<>();
-		for (UnlockableContent c : content) { r.add(new Research(c)); }
+		for (UnlockableContent c : content) {
+			if (c != null) r.add(new Research(c));
+			else Log.warn("Null requisite detected in tech tree.");
+		}
 		return r;
 	}
 }
