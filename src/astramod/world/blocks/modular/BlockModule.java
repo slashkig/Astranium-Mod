@@ -1,11 +1,13 @@
 package astramod.world.blocks.modular;
 
-import arc.func.Boolf;
+import arc.func.*;
 import arc.math.geom.*;
 import arc.util.*;
 import mindustry.entities.units.BuildPlan;
-import mindustry.gen.Building;
+import mindustry.gen.*;
 import mindustry.world.*;
+import mindustry.world.blocks.distribution.Conveyor;
+import mindustry.world.meta.*;
 
 import static mindustry.Vars.*;
 
@@ -52,5 +54,18 @@ public interface BlockModule {
 
 	public default boolean validBlock(Block block) {
 		return block == targetBlock();
+	}
+
+	
+	public default boolean moduleReplaceable(Block other) {
+		if (other.alwaysReplace) return true;
+		if (other.privileged) return false;
+		Block self = (Block)this;
+		return other.replaceable && (other != self || (self.rotate && self.quickRotate)) &&
+			((self.group != BlockGroup.none && other.group == self.group) || validReplace(other));
+	}
+
+	public default boolean validReplace(Block other) {
+		return other instanceof Conveyor || other instanceof BlockModule m && targetBlock() == m.targetBlock();
 	}
 }

@@ -21,7 +21,7 @@ import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class TurretCoreModule extends AstraItemTurret {
+public class TurretCoreModule extends AstraItemTurret implements BlockModule {
 	private Item[] ammoPriority;
 
 	public TurretCoreModule(String name) {
@@ -43,7 +43,7 @@ public class TurretCoreModule extends AstraItemTurret {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), GenericCoreModule.coreKey));
 	}
 
 	@Override public void setBars() {
@@ -65,6 +65,10 @@ public class TurretCoreModule extends AstraItemTurret {
 		return false;
 	}
 
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
+	}
+
 	@Override public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
 		if (plan.worldContext && player != null && teamRegion != null && teamRegion.found() && drawer instanceof DrawTeamTurret drawTurret) {
 			Draw.rect(drawTurret.base, plan.drawx(), plan.drawy());
@@ -80,6 +84,10 @@ public class TurretCoreModule extends AstraItemTurret {
 		}
 
 		drawPlanConfig(plan, list);
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class TurretCoreModuleBuild extends ItemTurretBuild implements CoreModuleBuild {

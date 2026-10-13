@@ -15,7 +15,7 @@ import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class UnloaderCoreModule extends DirectionalUnloader {
+public class UnloaderCoreModule extends DirectionalUnloader implements BlockModule {
 	public UnloaderCoreModule(String name) {
 		super(name);
 		allowCoreUnload = true;
@@ -24,7 +24,7 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), GenericCoreModule.coreKey));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -36,6 +36,10 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
 		}
 		return false;
+	}
+
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
 	}
 
 	@Override public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
@@ -50,6 +54,10 @@ public class UnloaderCoreModule extends DirectionalUnloader {
 
 	@Override public void drawPlanConfig(BuildPlan plan, Eachable<BuildPlan> list) {
 		drawPlanConfigCenter(plan, plan.config, name + "-center");
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class UnloaderCoreModuleBuild extends DirectionalUnloaderBuild implements CoreModuleBuild {

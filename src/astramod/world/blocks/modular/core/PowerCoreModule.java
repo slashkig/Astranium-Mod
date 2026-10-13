@@ -18,7 +18,7 @@ import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class PowerCoreModule extends PowerGenerator {
+public class PowerCoreModule extends PowerGenerator implements BlockModule {
     public float warmupSpeed = 0.05f;
     public float effectChance = 0.01f;
     public Effect generateEffect = Fx.none;
@@ -30,7 +30,7 @@ public class PowerCoreModule extends PowerGenerator {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), GenericCoreModule.coreKey));
 	}
 
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -38,6 +38,14 @@ public class PowerCoreModule extends PowerGenerator {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
 		}
 		return false;
+	}
+
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class GeneratorCoreModuleBuild extends GeneratorBuild implements CoreModuleBuild {

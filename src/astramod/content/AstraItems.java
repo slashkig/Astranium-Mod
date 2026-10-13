@@ -95,9 +95,11 @@ public class AstraItems {
 			radioactivity = 0.05f;
 		}};
 
+		Items.copper.alwaysUnlocked = false;
 		Items.graphite.hardness = 2;
 		Items.pyratite.buildable = true;
 		Items.blastCompound.buildable = true;
+
 		azirisItems.addAll(testium, hematite, iron, lithium, magnetite, steel, vanadium, crystals, neodymium, crystaglass, nuclearRod, aerogel, astranium);
 		itemSortingOrder.addAll(
 			Items.sand, hematite, Items.copper, Items.lead, Items.scrap, Items.coal,

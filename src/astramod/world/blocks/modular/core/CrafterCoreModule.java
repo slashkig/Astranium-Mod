@@ -8,20 +8,20 @@ import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
-import astramod.content.AstraBlocks;
+import astramod.content.*;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class CrafterCoreModule extends GenericCrafter {
+public class CrafterCoreModule extends GenericCrafter implements BlockModule {
 	public CrafterCoreModule(String name) {
 		super(name);
 	}
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), GenericCoreModule.coreKey));
 	}
 
 	@Override public boolean canPlaceOn(Tile tile, Team team, int rotation) {
@@ -31,8 +31,16 @@ public class CrafterCoreModule extends GenericCrafter {
 		return false;
 	}
 
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
+	}
+
 	@Override public boolean outputsItems() {
 		return false;
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class CrafterCoreModuleBuild extends GenericCrafterBuild implements CoreModuleBuild {

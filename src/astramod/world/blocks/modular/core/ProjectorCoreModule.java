@@ -12,13 +12,13 @@ import mindustry.world.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
 import mindustry.world.consumers.*;
-import astramod.content.AstraBlocks;
+import astramod.content.*;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class ProjectorCoreModule extends ForceProjector {
+public class ProjectorCoreModule extends ForceProjector implements BlockModule {
 	TextureRegion blockTopRegion;
 
 	public ProjectorCoreModule(String name) {
@@ -42,7 +42,7 @@ public class ProjectorCoreModule extends ForceProjector {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, GenericCoreModule.coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), GenericCoreModule.coreKey));
 	}
 
 	@Override public TextureRegion[] icons() {
@@ -54,6 +54,10 @@ public class ProjectorCoreModule extends ForceProjector {
 			if (world.build(tile.x + edge.x, tile.y + edge.y) instanceof CoreBuild) return true;
 		}
 		return false;
+	}
+
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
 	}
 
 	@Override public void drawDefaultPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
@@ -68,6 +72,10 @@ public class ProjectorCoreModule extends ForceProjector {
 		}
 
 		drawPlanConfig(plan, list);
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class ShieldCoreModuleBuild extends ForceBuild implements CoreModuleBuild {

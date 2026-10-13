@@ -39,7 +39,7 @@ public class AzirisTechTree {
 						node(seekerModule, research(coreHub), none);
 					});
 				});
-				node(defenseModule, research(seekerModule), () -> {
+				node(defenseModule, research(seekerModule, mortar), () -> {
 					node(shieldModule, research(wardModule), none);
 				});
 			});
@@ -50,7 +50,9 @@ public class AzirisTechTree {
 				});
 				node(ironConveyor, () -> {
 					node(ironJunction, () -> {
-						node(ironBridge);
+						node(ironBridge, () -> {
+							node(ironUnloader, research(platedContainer), none);
+						});
 					});
 					node(ironRouter, () -> {
 						node(ironDistributor);
@@ -181,7 +183,7 @@ public class AzirisTechTree {
 					node(magnetiteSynthesizer, research(castIronPress), () -> {
 						node(plasmaEnergizer, research(crystalPipeline, hydrogenPlant, crystalReactor), none);
 					});
-					node(explosivesRefinery, research(exothermicReactor), none);
+					node(explosivesRefinery, research(exothermicReactor, incendiaryMine), none);
 					node(formulationMixer, research(ember, magnetiteSynthesizer), none);
 				});
 				node(hydrogenPlant, research(coalPlant, ironTank), none);

@@ -8,13 +8,13 @@ import mindustry.gen.*;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
-import astramod.content.AstraBlocks;
+import astramod.content.*;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
-public class GenericCoreModule extends Block {
+public class GenericCoreModule extends Block implements BlockModule {
 	public static String coreKey = "aziris-core";
 
 	public GenericCoreModule(String name) {
@@ -26,7 +26,7 @@ public class GenericCoreModule extends Block {
 
 	@Override public void setStats() {
 		super.setStats();
-		stats.add(AstraStat.parentBlock, AstraStatValues.block(AstraBlocks.coreNode, coreKey));
+		stats.add(AstraStat.parentBlock, AstraStatValues.block(targetBlock(), coreKey));
 	}
 
 	@Override protected TextureRegion[] icons() {
@@ -40,8 +40,16 @@ public class GenericCoreModule extends Block {
 		return false;
 	}
 
+	@Override public boolean canReplace(Block other) {
+		return moduleReplaceable(other);
+	}
+
 	@Override public boolean outputsItems() {
 		return false;
+	}
+
+	@Override public Block targetBlock() {
+		return AstraBlocks.coreNode;
 	}
 
 	public class GenericCoreModuleBuild extends Building implements CoreModuleBuild {
