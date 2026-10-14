@@ -48,5 +48,6 @@ public class DashAbility extends ActivatedAbility {
 
 	public void activate(Unit unit) {
 		data = -duration;
+		boostEffect.at(unit.x, unit.y, unit.rotation, unit);
 	}
 }
