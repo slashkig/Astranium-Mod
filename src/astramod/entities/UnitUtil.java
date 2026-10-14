@@ -18,4 +18,8 @@ public final class UnitUtil {
 		Tmp.v2.set(unit).sub(from).nor().scl(force);
 		unit.impulse(Tmp.v2);
 	}
+
+	public static float targetPriority(Teamc e) {
+		return e instanceof Building b ? b.block.priority : e instanceof Unit u ? u.type.targetPriority : 0f;
+	}
 }

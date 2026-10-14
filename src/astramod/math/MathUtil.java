@@ -11,7 +11,7 @@ import static arc.math.Mathf.*;
 public final class MathUtil {
 	private MathUtil() { }
 
-	/** 0 if odd, 1 if even. */
+	/** @return 0 if odd, 1 if even. */
 	public static int oddEven(int num) {
 		return (num + 1) % 2;
 	}
@@ -44,8 +44,20 @@ public final class MathUtil {
 		return equal(fromValue, toValue, tolerance) ? toValue : lerpDelta(fromValue, toValue, progress);
 	}
 
+	/** Manhattan distance between two points. */
 	public static float dstm(Point2 p1, Point2 p2) {
 		return Mathf.dstm(p1.x, p1.y, p2.x, p2.y);
+	}
+
+	/** @return The signed angular difference of {@code target} relative to {@code base}, between -180 and 180. */
+	public static float angleDiff(float base, float target) {
+		return Mathf.mod(target - base + 180f, 360f) - 180f;
+	}
+
+	/** @return The direction of {@code target} relative to {@code base}: 0 if equal, -1 if left, 1 if right. */
+	public static int angleBearing(float base, float target) {
+		float angle = angleDiff(base, target);
+		return Mathf.equal(angle, 0f) ? 0 : Mathf.sign(angle);
 	}
 
 	public static Tile findClosestTile(Building from, Position to) {
