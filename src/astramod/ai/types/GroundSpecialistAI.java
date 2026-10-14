@@ -9,6 +9,7 @@ import mindustry.core.*;
 import mindustry.entities.*;
 import mindustry.gen.*;
 import mindustry.world.meta.*;
+import astramod.ai.AstraPathfinding;
 
 public class GroundSpecialistAI extends GroundAI {
 	protected static final Vec2 moveToVec = new Vec2();
@@ -24,54 +25,19 @@ public class GroundSpecialistAI extends GroundAI {
 
 	@Override public void updateMovement() {
 		if (moveTarget != null) {
-			boolean move = true;
-			float engageRange = unit.range() * 0.9f;
-			boolean withinAttackRange = unit.within(moveTarget, engageRange);
-			Building targetBuild = Vars.world.buildWorld(moveTarget.x(), moveTarget.y());
+			float engageRange = unit.type.circleTarget ? unit.type.circleTargetRadius * 1.2f : unit.range() * 0.8f;
+			if (unit.within(moveTarget, engageRange)) {
+				target = moveTarget;
 
-			moveToVec.set(moveTarget);
-
-			if (targetBuild != null && !unit.type.circleTarget &&
-			unit.within(targetBuild, 0.9f * targetBuild.block.size * Vars.tilesize / 2f)) {
-				move = false;
-			}
-
-			if (!unit.isFlying()) {
-				boolean unreachable = false;
-
-				if (withinAttackRange) {
-					move = true;
-					target = moveTarget;
-				} else {
-					var result = Vars.controlPath.getPathPosition(unit, new Vec2(moveTarget.x(), moveTarget.y()));
-
-					unreachable = result.unreachable;
-					move &= result.move;
-					if (result.move) moveToVec.set(result.dest);
-				}
-
-				if (unit.team.isAI() && unreachable) {
-					targetInvalidated();
-					return;
-				}
-			}
-
-			if (move) {
 				if (unit.type.circleTarget) {
 					circleAttack(unit.type.circleTargetRadius);
-				} else {
-					moveTo(
-						moveToVec, withinAttackRange || unit.isFlying() ? engageRange : 0f,
-						unit.isFlying() ? 40f : 100f, false, null, true
-					);
 				}
+			} else {
+				AstraPathfinding.setPositionField(unit, moveTarget);
+				pathfind(AstraPathfinding.fieldPosition);
 			}
 
-			if (unit.isFlying() && move && !(unit.type.circleTarget && !unit.type.omniMovement) && !withinAttackRange) {
-				unit.lookAt(moveTarget);
-			} else {
-				faceTarget();
-			}
+			faceTarget();
 		} else {
 			targetInvalidated();
 			super.updateMovement();

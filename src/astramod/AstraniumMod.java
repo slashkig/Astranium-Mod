@@ -39,6 +39,7 @@ public class AstraniumMod extends Mod {
 	@Override public void init() {
 		AstraVars.init();
 		AstraNetHandlers.init();
+		AstraPathfinding.init();
 		AstraShaders.init();
 		Displays.init();
 	}
