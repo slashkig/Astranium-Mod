@@ -43,6 +43,7 @@ public class AstraPal {
 		astraBack = Color.valueOf("6100ff"),
 		freezeFront = Color.valueOf("4df0ff"),
 		freezeBack = Color.valueOf("00a7ff"),
+		freezeMist = Color.valueOf("b0f8ff"),
 
 		darkerOutline = Color.valueOf("181818"),
 		siegeMachineOutline = Color.valueOf("1c032e"),
@@ -50,6 +51,10 @@ public class AstraPal {
 		fireBulletFront = Color.valueOf("ffbf75"),
 		fireBulletBack = Color.valueOf("d17104"),
 		fireBulletTrail = Color.valueOf("994102"),
+
+		lightChemFire = Color.valueOf("ff8b8b"),
+		darkChemFire = Color.valueOf("ff0000"),
+		darkerChemFire = Color.valueOf("820000"),
 
 		missileOrange = Color.valueOf("de8067"),
 		missileOrangeBack = Color.valueOf("c82c01"),

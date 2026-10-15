@@ -108,7 +108,7 @@ public class AstraBlocks {
 		platedContainer, platedVault, platedCrypt,
 
 		// Utility
-		lamp, mendBeam, mendNode, mendDome, sensorArray, advancedSensorArray,
+		lamp, mendBeam, mendNode, mendDome, detector, sensorArray, advancedSensorArray,
 
 		// Mines
 		incendiaryMine, blastMine, giantMine, fragMine, largeFragMine, surgeMine, magneticMine, navalMine,
@@ -3332,12 +3332,27 @@ public class AstraBlocks {
 			);
 		}};
 
+		detector = new SensorArray("detector") {{
+			requirements(Category.effect, ItemStack.with(
+				AstraItems.iron, 25,
+				Items.copper, 15,
+				Items.silicon, 20
+			));
+			buildCostMultiplier = 1.4f;
+			size = 1;
+			fogRadius = 20;
+			rotateSpeed = 4f;
+
+			consumePower(0.8f);
+		}};
+
 		sensorArray = new SensorArray("sensor-array") {{
 			requirements(Category.effect, ItemStack.with(
 				AstraItems.iron, 40,
 				AstraItems.magnetite, 20,
+				Items.titanium, 30,
 				Items.copper, 50,
-				Items.silicon, 20
+				Items.silicon, 30
 			));
 			buildCostMultiplier = 1.4f;
 			size = 2;
@@ -3522,7 +3537,7 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this);
+					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
 				}},
 				Items.lead, new BasicBulletType(3f, 14) {{
 					width = 8f;
@@ -3567,7 +3582,8 @@ public class AstraBlocks {
 					collidesAir = false;
 
 					frontColor = Pal.siliconAmmoFront;
-					backColor = Pal.siliconAmmoBack;
+					backColor = trailColor = Pal.siliconAmmoBack;
+					trailLength = 6;
 				}}
 			);
 
@@ -3617,6 +3633,9 @@ public class AstraBlocks {
 
 					frontColor = Pal.siliconAmmoFront;
 					backColor = trailColor = Pal.siliconAmmoBack;
+					trailLength = 6;
+					trailWidth = 1.5f;
+					trailChance = 0f;
 				}},
 				Items.pyratite, new MissileBulletType(3.5f, 20) {{
 					width = 6f;
@@ -3630,7 +3649,11 @@ public class AstraBlocks {
 					collidesGround = false;
 
 					frontColor = AstraPal.fireBulletFront;
-					backColor = trailColor = AstraPal.fireBulletBack;
+					backColor = AstraPal.fireBulletBack;
+					trailEffect = AstraFx.fireBulletTrail;
+					trailChance = 0.6f;
+					shootEffect = AstraFx.fireShoot;
+					hitEffect = despawnEffect = AstraFx.fireBulletHitLarge;
 				}},
 				AstraItems.lithium, new MissileBulletType(4f, 30) {{
 					width = 7f;
@@ -3644,7 +3667,11 @@ public class AstraBlocks {
 					collidesGround = false;
 
 					frontColor = AstraPal.lithiumFront;
-					backColor = trailColor = AstraPal.lithiumBack;
+					backColor = AstraPal.lithiumBack;
+					trailEffect = AstraFx.chemicalBurnTrail;
+					trailChance = 0.6f;
+					shootEffect = AstraFx.chemicalBurnShoot;
+					hitEffect = despawnEffect = AstraFx.chemicalBurnHitLarge;
 				}}
 			);
 
@@ -3945,12 +3972,14 @@ public class AstraBlocks {
 					homingPower = 0.18f;
 
 					frontColor = Pal.siliconAmmoFront;
-					backColor = Pal.siliconAmmoBack;
+					backColor = trailColor = Pal.siliconAmmoBack;
+					trailLength = 6;
+					trailWidth = 1.5f;
 					shootEffect = AstraFx.boltTurretShoot(this);
 				}},
 				Items.pyratite, new BasicBulletType(4.5f, 36) {{
 					width = 7f;
-					height = 12f;
+					height = 14f;
 					ammoMultiplier = 4;
 
 					status = StatusEffects.burning;
@@ -3959,11 +3988,10 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.fireBulletFront;
 					backColor = AstraPal.fireBulletBack;
-					trailColor = AstraPal.fireBulletTrail;
-					trailWidth = 1.5f;
-					trailLength = 3;
+					trailEffect = AstraFx.fireBulletTrail;
+					trailChance = 0.7f;
 					shootEffect = AstraFx.boltTurretShoot(this, true, false, false);
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 2);
+					hitEffect = despawnEffect = AstraFx.fireBulletHitLarge;
 				}},
 				Items.blastCompound, new FlakBulletType(4.5f, 8) {{
 					width = 5f;

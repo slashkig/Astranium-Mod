@@ -14,6 +14,7 @@ import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
+import mindustry.type.unit.MissileUnitType;
 import mindustry.type.weapons.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
@@ -319,6 +320,7 @@ public class AstraUnitTypes {
 			lowAltitude = true;
 			engineOffset = 5.6f;
 			engineSize = 2.2f;
+			trailLength = 7;
 
 			weapons.add(new Weapon("astramod-seeker-weapon") {{
 				reload = 60f;
@@ -462,11 +464,10 @@ public class AstraUnitTypes {
 					
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
-					trailColor = AstraPal.fireBulletTrail;
-					trailWidth = 1.5f;
-					trailLength = 2;
-					smokeEffect = Fx.shootBigSmoke;
-					shootEffect = Fx.shootBigColor;
+					trailEffect = AstraFx.fireBulletTrailSmall;
+					trailChance = 0.3f;
+					shootEffect = AstraFx.fireShoot;
+					hitEffect = despawnEffect = AstraFx.fireBulletHit;
 				}};
 			}});
 		}};
@@ -499,7 +500,7 @@ public class AstraUnitTypes {
 				cooldownTime = 70f;
 				ejectEffect = Fx.casing3;
 				shootSound = AstraSounds.shootIce;
-				// TODO: shootSounds -> and hitIce
+				shootSoundVolume = 0.7f;
 
 				bullet = new BasicBulletType(4.5f, 75, "astramod-fragger") {{
 					width = 12f;
@@ -513,15 +514,18 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.freezeFront;
 					backColor = trailColor = AstraPal.freezeBack;
+					trailEffect = AstraFx.iceBulletTrail;
+					trailChance = 0.8f;
 					trailWidth = 2f;
 					trailLength = 7;
-					smokeEffect = Fx.shootBigSmoke; // TODO: AstraFx.shootIce, hitEffect = AstraFx.hitIce, trailEffect = AstraFx.iceTrail
-					shootEffect = Fx.shootBigColor;
+					shootEffect = AstraFx.iceShoot;
+					hitEffect = AstraFx.icyBurst;
 					hitSound = AstraSounds.hitIce;
+					hitSoundVolume = 0.5f;
 
 					fragBullets = 3;
 					fragBullet = new BasicBulletType(2.5f, 10f) {{
-						lifetime = 12f;
+						lifetime = 18f;
 						width = 5f;
 						height = 12f;
 						armorMultiplier = 2f;
@@ -654,7 +658,9 @@ public class AstraUnitTypes {
 			stepSoundVolume = 1f;
 
 			// TODO make AI able to use dash
-			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds));
+			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds) {{
+				boostEffect = AstraFx.dynamicBurst(AstraPal.sonicShotFront, AstraPal.sonicShotBack, 30f, 35f, 15);
+			}});
 
 			weapons.add(
 				new AstraWeapon("astramod-oriolus-weapon") {{
@@ -902,6 +908,7 @@ public class AstraUnitTypes {
 					shieldDamageMultiplier = 1.5f;
 				}})
 			);
+			deathExplosionEffect = AstraFx.dynamicExplosion(Pal.lightPyraFlame, Pal.darkPyraFlame, 32f, 5, 4, false);;
 		}};
 
 		var smokeShell = new ArtilleryBulletType(2f, 0) {{
@@ -1152,12 +1159,14 @@ public class AstraUnitTypes {
 				shootSoundVolume = 0.6f;
 
 				bullet = new BasicBulletType(9f, 60) {{
-					width = 4f;
+					width = 5f;
 					height = 10f;
 					lifetime = 22f;
 					shrinkY = 0f;
 					collidesAir = false;
 					ejectEffect = Fx.casing3;
+					trailLength = 15;
+					trailWidth = 1f;
 
 					smokeEffect = Fx.shootSmallSmoke;
 					shootEffect = Fx.shootSmallColor;
@@ -1653,7 +1662,6 @@ public class AstraUnitTypes {
 			lowAltitude = true;
 			engineSize = -1f;
 
-			// TODO Crux add a better loop sound
 			loopSound = AstraSounds.helicopterLoop;
 			loopSoundVolume = 1.4f;
 

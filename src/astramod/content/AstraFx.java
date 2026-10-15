@@ -5,6 +5,7 @@ import arc.math.geom.*;
 import arc.graphics.*;
 import arc.graphics.g2d.*;
 import arc.struct.*;
+import arc.util.Tmp;
 import mindustry.entities.effect.MultiEffect;
 import mindustry.graphics.*;
 import mindustry.content.*;
@@ -12,6 +13,10 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
+
+import static arc.graphics.g2d.Draw.alpha;
+import static arc.graphics.g2d.Draw.color;
+import static arc.math.Angles.randLenVectors;
 
 public class AstraFx {
 	public static final Vec2 tmp = new Vec2();
@@ -81,7 +86,7 @@ public class AstraFx {
 	}),
 
 	emberPyraFlame = new Effect(40f, 80f, e -> {
-		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.gray, e.fin());
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkerGray, e.fin());
 		Draw.alpha(e.fout() * 4);
 
 		Angles.randLenVectors(e.id, 12, e.finpow() * 90f, e.rotation, 20f, (x, y) -> {
@@ -447,9 +452,9 @@ public class AstraFx {
 
 		Mathf.rand.setSeed(e.id);
 		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkerGray, e.fin());
-		Angles.randLenVectors(e.id + 1, 15, 1f + rad * 1.5f * e.fin(), (x, y) -> {
+		Angles.randLenVectors(e.id + 1, 15, 1f + rad * 1.5f * e.fout(), (x, y) -> {
 			Fill.circle(e.x + x, e.y + y, e.fout() * 4f);
-			Drawf.light(e.x, e.y, 16f, Pal.plastaniumFront, 0.6f * e.fout());
+			Drawf.light(e.x, e.y, 16f, Pal.lightPyraFlame, 0.6f * e.fout());
 		});
 	}),
 
@@ -473,7 +478,265 @@ public class AstraFx {
 			Fill.circle(e.x + x, e.y + y, Mathf.rand.random(6f, 20f) * e.fout());
 		});
 	}),
-	navalMine = new MultiEffect(navalMineShockwave, navalExplosion);
+	navalMine = new MultiEffect(navalMineShockwave, navalExplosion),
+
+	fireShoot = new Effect(25f, e -> {
+		Draw.color(Pal.lightPyraFlame, Pal.lightPyraFlame, Pal.darkerGray, e.fin());
+		Angles.randLenVectors(e.id, 6, e.finpow() * 25f, e.rotation, 7f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
+		});
+
+		e.scaled(12f, c -> {
+			Draw.color(Pal.lighterOrange, Pal.lightOrange, c.fin());
+			float w = 1f + 5 * c.fout();
+			Drawf.tri(e.x, e.y, w, 15f * c.fout(), c.rotation);
+			Drawf.tri(e.x, e.y, w, 3f * c.fout(), c.rotation + 180f);
+		});
+	}),
+
+	fireShootLarge = new Effect(25f, e -> {
+		Draw.color(Color.lightGray, Color.gray, e.fin());
+		Angles.randLenVectors(e.id, 6, e.finpow() * 19f, e.rotation, 10f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+		});
+
+		Draw.color(Pal.lightPyraFlame, Pal.lightPyraFlame, Pal.darkerGray, e.fin());
+		Angles.randLenVectors(e.id, 10, e.finpow() * 25f, e.rotation, 18f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
+		});
+
+		e.scaled(12f, c -> {
+			Draw.color(Pal.lighterOrange, Pal.lightOrange, c.fin());
+			float w = 1f + 5 * c.fout();
+			Drawf.tri(e.x, e.y, w, 15f * c.fout(), c.rotation);
+			Drawf.tri(e.x, e.y, w, 3f * c.fout(), c.rotation + 180f);
+		});
+	}),
+
+	fireBulletTrailSmall = new Effect(25f, e -> {
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkerGray, e.fin());
+		Mathf.rand.setSeed(e.id);
+
+		float len = Mathf.random(0.3f, 0.8f);
+		float angle = Mathf.random(360f);
+		Tmp.v1.trns(angle, e.fin() * 10f * len);
+
+		Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 0.3f + e.fout() * Mathf.rand.random(0.5f, 1f));
+		Drawf.light(e.x, e.y, 20f, Pal.lightPyraFlame, 0.8f * e.foutpowdown());
+	}).layer(Layer.bullet - 0.01f),
+
+	fireBulletTrail = new Effect(25f, e -> {
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, Pal.darkerGray, e.fin());
+		Mathf.rand.setSeed(e.id);
+
+		float len = Mathf.random(0.3f, 0.8f);
+		float angle = Mathf.random(360f);
+		Tmp.v1.trns(angle, e.fin() * 10f * len);
+
+		Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 0.4f + e.fout() * Mathf.rand.random(1f, 2f));
+		Drawf.light(e.x, e.y, 20f, Pal.lightPyraFlame, 0.8f * e.foutpowdown());
+	}).layer(Layer.bullet - 0.01f),
+
+	fireBulletHit = new Effect(20, e -> {
+		Mathf.rand.setSeed(e.id);
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, e.fin());
+		Angles.randLenVectors(e.id, 6, e.fin() * 8f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.foutpowdown() * 2f);
+			Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
+		});
+	}),
+
+	fireBulletHitLarge = new Effect(25, e -> {
+		Mathf.rand.setSeed(e.id);
+		Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, e.fin());
+		Angles.randLenVectors(e.id, 6, e.fin() * 18f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.foutpowdown() * 4f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
+		});
+	}),
+
+	iceBulletTrail = new Effect(100f, e -> {
+		Draw.color(AstraPal.freezeMist, AstraPal.freezeFront, e.finpowdown());
+		Mathf.rand.setSeed(e.id);
+
+		float len = Mathf.random(0.3f, 0.8f);
+		float angle = Mathf.random(360f);
+		Tmp.v1.trns(angle, e.fin() * 10f * len);
+
+		Draw.alpha(Mathf.rand.random(0.3f, 0.8f) * e.fout());
+		Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 0.4f + e.foutpowdown() * Mathf.rand.random(2f, 4f));
+		Drawf.light(e.x, e.y, 20f, AstraPal.freezeBack, 0.8f * e.foutpowdown());
+	}),
+
+	iceShoot = new Effect(60f, e -> {
+		Mathf.rand.setSeed(e.id);
+		Draw.color(AstraPal.freezeMist, AstraPal.freezeFront, e.finpowdown());
+		Draw.alpha(Mathf.rand.random(0.3f, 0.8f) * e.fout());
+		Angles.randLenVectors(e.id, 7, e.finpow() * 30f, e.rotation, 30f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.foutpowdown() * Mathf.rand.random(3f, 5f));
+		});
+
+		e.scaled(40f, icicle -> {
+			Mathf.rand.setSeed(icicle.id);
+			Draw.color(AstraPal.freezeFront, AstraPal.freezeBack, icicle.foutpowdown());
+			Angles.randLenVectors(icicle.id, 7, 40f * e.finpow(), e.rotation, 30, (x, y) -> {
+				Fill.poly(e.x + x, e.y + y, 5,icicle.foutpowdown() * Mathf.rand.random(1f, 3f), Mathf.rand.random(0f, 180f));
+				Drawf.light(e.x, e.y, 20f, AstraPal.freezeMist, 0.6f * icicle.fout());
+			});
+		});
+
+		e.scaled(35, c -> {
+			Draw.color(AstraPal.freezeFront, AstraPal.freezeBack, e.fout());
+			float triW = 6f;
+			for (int i : Mathf.signs) {
+				Drawf.tri(e.x, e.y, 6f * c.fout(), 9f * c.fout(), e.rotation + 40f * i);
+			}
+			Drawf.tri(e.x, e.y, triW * c.fout(), 15f * c.fout(), e.rotation);
+			Drawf.tri(e.x, e.y, triW * c.fout(), 7f * c.fout(), e.rotation + 180f);
+
+			Draw.color(AstraPal.freezeMist, AstraPal.freezeFront, e.fout());
+			Drawf.tri(e.x, e.y, triW * c.fout(), 10f * c.fout(), e.rotation);
+			Drawf.tri(e.x, e.y, triW * c.fout(), 4f * c.fout(), e.rotation + 180f);
+		});
+	}),
+
+	icyBurst = new Effect(100f, e -> {
+		float rad = 16f;
+		Mathf.rand.setSeed(e.id);
+		e.scaled(60f, i -> {
+			Draw.color(AstraPal.freezeFront, AstraPal.freezeBack, e.fin());
+			Lines.stroke(6f * i.fout());
+			Lines.circle(e.x, e.y, 2f + i.fin() * 10);
+		});
+
+		Draw.color(AstraPal.freezeMist, AstraPal.freezeFront, e.finpowdown());
+		Draw.alpha(Mathf.rand.random(0.3f, 0.8f) * e.fout());
+		Angles.randLenVectors(e.id, 14, rad * 1.2f * e.finpow(), (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.foutpowdown() * Mathf.rand.random(3f, 6f));
+		});
+
+		int points = 6;
+		float triW = 6f;
+		float offset = Mathf.randomSeed(e.id, 360f);
+		for(int i = 0; i < points; i++){
+			float angle = i* 360f / points + offset;
+			Draw.color(AstraPal.freezeFront, AstraPal.freezeBack, e.fin());
+			Drawf.tri(e.x , e.y, triW * e.foutpowdown(), 10f * e.foutpowdown(), angle + 180f);
+			Draw.color(AstraPal.freezeMist, AstraPal.freezeFront, e.fin());
+			Drawf.tri(e.x , e.y, triW * e.foutpowdown(), 6f * e.foutpowdown(), angle + 180f);
+		}
+
+		Draw.color(AstraPal.freezeFront, AstraPal.freezeBack, e.fin());
+		Lines.stroke(3f * e.fout());
+		Angles.randLenVectors(e.id + 1,5, 1f + rad * 1.5f * e.fin(), (x, y) -> {
+			Fill.poly(e.x + x, e.y + y, 5,e.foutpowdown() * Mathf.rand.random(1f, 4f), Mathf.rand.random(0f, 180f));
+			Drawf.light(e.x, e.y, 20f, AstraPal.freezeMist, 0.6f * e.fout());
+		});
+	}),
+
+	// TODO: Chemical Burn Effects need more testing. This is all just theory for now.
+	// TODO: Feel free ot use this, Slash
+	chemicalBurn = new Effect(35f, e -> {
+		e.scaled(15f, c -> {
+			Mathf.rand.setSeed(c.id);
+			Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, c.fout());
+			Angles.randLenVectors(e.id, Mathf.rand.random(1, 3), 15f * c.fin(), (x, y) -> {
+				Fill.circle(e.x + x, e.y + y, 0.2f + c.foutpowdown() * Mathf.rand.random(1f, 2f));
+				Drawf.light(e.x, e.y, 3f, AstraPal.lightChemFire, c.fin() + 0.8f);
+			});
+		});
+		Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, AstraPal.darkerChemFire, e.fin());
+
+		Angles.randLenVectors(e.id, 3, 2f + e.fin() * 7f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, 0.1f + e.fout() * 1.4f);
+		});
+	}),
+
+	chemicalBurnShoot = new Effect(25f, e -> {
+		Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, AstraPal.darkerChemFire, e.fin());
+		Angles.randLenVectors(e.id, 6, e.finpow() * 25f, e.rotation, 7f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, AstraPal.lightChemFire, e.fout() + 0.8f);
+		});
+
+		e.scaled(12f, c -> {
+			Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, c.fin());
+			float w = 1f + 5 * c.fout();
+			Drawf.tri(e.x, e.y, w, 15f * c.fout(), c.rotation);
+			Drawf.tri(e.x, e.y, w, 3f * c.fout(), c.rotation + 180f);
+		});
+	}),
+
+	chemicalBurnShootLarge = new Effect(25f, e -> {
+		Draw.color(Color.lightGray, Color.gray, e.fin());
+		Draw.color(Color.lightGray, Color.gray, e.fin());
+		Angles.randLenVectors(e.id, 6, e.finpow() * 19f, e.rotation, 10f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+		});
+
+		Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, AstraPal.darkerChemFire, e.fin());
+		Angles.randLenVectors(e.id, 6, e.finpow() * 25f, e.rotation, 18f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, AstraPal.lightChemFire, e.fout() + 0.8f);
+		});
+
+		e.scaled(12f, c -> {
+			Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, c.fin());
+			float w = 1f + 5 * c.fout();
+			Drawf.tri(e.x, e.y, w, 15f * c.fout(), c.rotation);
+			Drawf.tri(e.x, e.y, w, 3f * c.fout(), c.rotation + 180f);
+		});
+	}),
+
+	chemicalBurnTrail = new Effect(25f, e -> {
+		e.scaled(15f, c -> {
+			Mathf.rand.setSeed(c.id);
+			Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, c.fout());
+			Angles.randLenVectors(e.id, Mathf.rand.random(1, 3), 15f * c.fin(), (x, y) -> {
+				Fill.circle(e.x + x, e.y + y, 0.2f + c.foutpowdown() * Mathf.rand.random(1f, 2f));
+				Drawf.light(e.x, e.y, 3f, AstraPal.lightChemFire, c.fin() + 0.8f);
+			});
+		});
+		Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, AstraPal.darkerChemFire, e.fin());
+		Mathf.rand.setSeed(e.id);
+
+		float len = Mathf.random(0.3f, 0.8f);
+		float angle = Mathf.random(360f);
+		Tmp.v1.trns(angle, e.fin() * 10f * len);
+
+		Fill.circle(e.x + Tmp.v1.x, e.y + Tmp.v1.y, 0.4f + e.fout() * Mathf.rand.random(1f, 2f));
+		Drawf.light(e.x, e.y, 20f, Pal.lightPyraFlame, 0.8f * e.foutpowdown());
+	}).layer(Layer.bullet - 0.01f),
+
+	chemicalBurnHitLarge = new Effect(25, e -> {
+		Mathf.rand.setSeed(e.id);
+		Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, e.fin());
+		Angles.randLenVectors(e.id, 6, e.fin() * 14f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, e.foutpowdown() * 4f + 0.2f);
+			Drawf.light(e.x, e.y, 3f, AstraPal.lightChemFire, e.fout() + 0.8f);
+		});
+
+		e.scaled(20f, c -> {
+			Mathf.rand.setSeed(c.id);
+			Draw.color(AstraPal.lightChemFire, AstraPal.darkChemFire, c.fout());
+			Angles.randLenVectors(e.id, Mathf.rand.random(5, 8), 30f * c.finpowdown(), (x, y) -> {
+				Fill.circle(e.x + x, e.y + y, 0.2f + c.foutpowdown() * Mathf.rand.random(1.5f, 3f));
+				Drawf.light(e.x, e.y, 4f, AstraPal.lightChemFire, c.fin() + 0.8f);
+			});
+		});
+	}),
+
+	magneticTrail = new Effect(15f, e -> { // TODO: Accidental creation, gotta save and refine it for later.
+		Mathf.rand.setSeed(e.id);
+		Draw.color(AstraPal.astraBack, AstraPal.astraFront, e.fin());
+		Angles.randLenVectors(e.id, Mathf.rand.random(3), e.foutpowdown() * 25f, 18f, (x, y) -> {
+			Fill.circle(e.x + x, e.y + y, 0.2f + e.fin() * Mathf.rand.random(1.5f, 3f));
+			Drawf.light(e.x, e.y, 3f, AstraPal.astraFront, e.fout() + 0.8f);
+		});
+	});
+	;
 
 	// TODO make dynamicExplosion default values scale to splashDamageRadius
 	public static Effect dynamicExplosion(BasicBulletType b) {
@@ -485,8 +748,22 @@ public class AstraFx {
 		return dynamicExplosion(b, 10, smokeDensity, squareBits);
 	}
 
+	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad) {
+		int smokeDensity = rad <= 20f ? 5 : 12;
+		return dynamicExplosion(lightColor, darkColor, rad, 40f, 8f, 10, smokeDensity, false);
+	}
+
+	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, boolean squareBits) {
+		int smokeDensity = rad <= 20f ? 5 : 12;
+		return dynamicExplosion(lightColor, darkColor, rad, 40f, 8f, 10, smokeDensity, squareBits);
+	}
+
+	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, int bitDensity, int smokeDensity, boolean squareBits) {
+		return dynamicExplosion(lightColor, darkColor, rad, 40f, 8f, bitDensity, smokeDensity, squareBits);
+	}
+
 	public static Effect dynamicExplosion(BasicBulletType b, int bitDensity, int smokeDensity, boolean squareBits) {
-		return dynamicExplosion(b, 8f, bitDensity, smokeDensity, squareBits);
+		return dynamicExplosion(b.frontColor, b.backColor, b.splashDamageRadius, 40f, 8f, bitDensity, smokeDensity, squareBits);
 	}
 	/** Scales to bullet splash radius.
 	 * @param circleSize - used for wave stroke and smoke size.
@@ -494,37 +771,39 @@ public class AstraFx {
 	 * @param smokeDensity - amount of smoke particles.
 	 * @param squareBits - if true then bits are squares, otherwise sparks.
 	 * */
-	public static Effect dynamicExplosion(BasicBulletType b, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
-		return new Effect ( 35f, e -> {
-			float waveLife = b.splashDamageRadius >= 40f ? 17f : 12f; // TODO make a better way to scale waveLife to splashDamageRadius
+	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, float lifetime, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
+		return new Effect ( lifetime, e -> {
+			boolean cond = rad >= 40f;
+			float waveLife = cond ? (15f + Mathf.floor(rad / 20f)) : 12f;
 			e.scaled(waveLife, i -> {
-				Draw.color(b.frontColor, b.backColor, i.fin());
+				Draw.color(lightColor, darkColor, i.fin());
 				Lines.stroke(circleSize * i.fout());
-				Lines.circle(e.x, e.y, 2f + i.fin() * b.splashDamageRadius);
+				Lines.circle(e.x, e.y, 2f + i.fin() * rad);
 			});
 
 			if (smokeDensity > 0) {
 				Mathf.rand.setSeed(e.id);
 				Draw.color(Color.gray);
-				Angles.randLenVectors(e.id, smokeDensity, b.splashDamageRadius * 1.2f * e.finpow(), (x, y) -> {
+				Angles.randLenVectors(e.id, smokeDensity, rad * 1.2f * e.finpow(), (x, y) -> {
 					Fill.circle(e.x + x, e.y + y, Mathf.rand.random(circleSize, circleSize * 1.5f) * e.fout());
 				});
 			}
 
-			e.scaled(20f, c -> {
+			float bitLife = cond ? (20f + Mathf.floor(rad / 20f)) : 20f;
+			e.scaled(bitLife, c -> {
 				if (squareBits) {
 					Mathf.rand.setSeed(c.id);
-					Draw.color(b.frontColor, b.backColor, c.fin());
-					Angles.randLenVectors(c.id + 1, bitDensity, 1f + b.splashDamageRadius * 1.5f * c.fin(), (x, y) -> {
+					Draw.color(lightColor, darkColor, c.fin());
+					Angles.randLenVectors(c.id + 1, bitDensity, 1f + rad * 1.5f * c.fin(), (x, y) -> {
 						Fill.square(c.x + x, c.y + y,c.fout() * 5f, Mathf.rand.random(0f, 180f));
-						Drawf.light(c.x, c.y, 20f, b.frontColor, 0.6f * c.fout());
+						Drawf.light(c.x, c.y, 20f, lightColor, 0.6f * c.fout());
 					});
 				} else {
-					Draw.color(b.frontColor, b.backColor, c.fin());
+					Draw.color(lightColor, darkColor, c.fin());
 					Lines.stroke(3f * c.fout());
-					Angles.randLenVectors(c.id + 1, bitDensity, 1f + b.splashDamageRadius * 1.5f * c.fin(), (x, y) -> {
+					Angles.randLenVectors(c.id + 1, bitDensity, 1f + rad * 1.5f * c.fin(), (x, y) -> {
 						Lines.lineAngle(c.x + x, c.y + y, Mathf.angle(x, y), 8f * c.fout());
-						Drawf.light(c.x, c.y, 20f, b.frontColor, 0.6f * c.fout());
+						Drawf.light(c.x, c.y, 20f, lightColor, 0.6f * c.fout());
 					});
 				}
 			});
@@ -538,12 +817,12 @@ public class AstraFx {
 	public static Effect dynamicBurst(Color lightClr, Color darkClr, boolean isLarge) {
 		float rad = isLarge ? 25f : 12;
 		int bitDensity = isLarge ? 12 : 6;
-		return dynamicBurst(lightClr, darkClr, rad, bitDensity);
+		return dynamicBurst(lightClr, darkClr, 20f, rad, bitDensity);
 	}
 	/** Non scaling explosion effect. Used for non-splash damage explosions. */
-	public static Effect dynamicBurst(Color lightClr, Color darkClr, float rad, int bitDensity) {
-		return new Effect ( 20f, e -> {
-			e.scaled(15f, i -> {
+	public static Effect dynamicBurst(Color lightClr, Color darkClr, float lifeTime, float rad, int bitDensity) {
+		return new Effect ( lifeTime, e -> {
+			e.scaled((lifeTime * 0.75f), i -> {
 				Draw.color(lightClr, darkClr, i.fin());
 				Lines.stroke(6f * i.fout());
 				Lines.circle(e.x, e.y, 2f + i.fin() * rad);
@@ -665,7 +944,7 @@ public class AstraFx {
 			Draw.color(b.frontColor, b.backColor, e.fin());
 			Angles.randLenVectors(e.id, squareDensity, 35f * e.finpow(), e.rotation, smokeRange * 1.5f, (x, y) -> {
 				Fill.square(e.x + x, e.y + y, e.fout() * 3.2f, Mathf.rand.random(0f, 180f));
-				Drawf.light(e.x, e.y, 20f, b.frontColor, 0.6f * e.fout());
+				Drawf.light(e.x, e.y, 12f, b.frontColor, 0.6f * e.fout());
 			});
 
 			Draw.color(Pal.lightOrange,Color.gray, e.fin());
@@ -699,8 +978,8 @@ public class AstraFx {
 	public static Effect boltTurretShoot(BasicBulletType b, boolean withFire, boolean withShockwave, boolean squareBits) {
 		return new Effect(25f, e -> {
 			boolean specialEffects = withFire || squareBits;
-			int smokeDensity = specialEffects ? 8 : 12;
-			float smokeRange = specialEffects ? 6f : 8f;
+			int smokeDensity = specialEffects ? 7 : 12;
+			float smokeRange = specialEffects ? 5f : 8f;
 
 			Draw.color(Color.lightGray, Color.gray, e.fin());
 			Angles.randLenVectors(e.id, smokeDensity, e.finpow() * 19f, e.rotation, smokeRange, (x, y) -> {
@@ -708,7 +987,7 @@ public class AstraFx {
 			});
 
 			if (withFire) {
-				Draw.color(Pal.lightPyraFlame, Pal.lightPyraFlame, Pal.darkPyraFlame, e.fin());
+				Draw.color(Pal.lightPyraFlame, Pal.lightPyraFlame, Pal.darkerGray, e.fin());
 				Angles.randLenVectors(e.id, 10, e.finpow() * 25f, e.rotation, 18f, (x, y) -> {
 					Fill.circle(e.x + x, e.y + y, e.fout() * 2f + 0.2f);
 					Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
@@ -716,11 +995,11 @@ public class AstraFx {
 			}
 
 			if (squareBits) {
-					e.scaled(35, c -> {
+					e.scaled(20, c -> {
 					Mathf.rand.setSeed(c.id);
 					Draw.color(b.frontColor, b.backColor, c.fin());
-					Angles.randLenVectors(c.id, 4, 22f * c.fin(), c.rotation, 14 * 1.5f, (x, y) -> {
-						Fill.square(c.x + x, c.y + y, c.fout(), Mathf.rand.random(0f, 180f));
+					Angles.randLenVectors(c.id, 4, 28f * c.fin(), c.rotation, 14 * 1.5f, (x, y) -> {
+						Fill.square(c.x + x, c.y + y, c.fout() * 2f, Mathf.rand.random(0f, 180f));
 						Drawf.light(c.x, c.y, 16f, b.frontColor, c.fout() * 0.8f + 0.1f);
 					});
 				});
@@ -767,15 +1046,15 @@ public class AstraFx {
 					Mathf.rand.setSeed(e.id);
 					Draw.color(b.frontColor, b.backColor, e.fin());
 					Angles.randLenVectors(e.id, 5, e.fin() * particleRad, (x, y) -> {
-						Fill.square(e.x + x, e.y + y, e.fout(), Mathf.rand.random(0f, 180f));
-						Drawf.light(e.x, e.y, 20f, b.frontColor, e.fout() * 0.8f + 0.1f);
+						Fill.square(e.x + x, e.y + y, e.foutpowdown(), Mathf.rand.random(0f, 180f));
+						Drawf.light(e.x, e.y, 12f, b.frontColor, e.fout() * 0.8f + 0.1f);
 					});
 					break;
 				case 2:
 					Mathf.rand.setSeed(e.id);
 					Draw.color(Pal.lightPyraFlame, Pal.darkPyraFlame, e.fin());
 					Angles.randLenVectors(e.id, 6, e.fin() * particleRad, (x, y) -> {
-						Fill.circle(e.x + x, e.y + y, e.fout() * 6f + 0.2f);
+						Fill.circle(e.x + x, e.y + y, e.foutpowdown() * 4f + 0.2f);
 						Drawf.light(e.x, e.y, 3f, Pal.lightFlame, e.fout() + 0.8f);
 					});
 					break;
