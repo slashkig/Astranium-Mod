@@ -73,7 +73,7 @@ public class AstraItemTurret extends ItemTurret {
 			if (e.value instanceof BasicBulletType b) {
 				if (b.shootEffect == Fx.shootBig) b.shootEffect = AstraFx.mortarShoot(b);
 				if (b.hitEffect == Fx.flakExplosion) b.hitEffect = AstraFx.dynamicExplosion(b);
-				if (b.despawnEffect == Fx.hitBulletSmall) b.despawnEffect = AstraFx.scaledDespawn(b);
+				if (b.despawnEffect == Fx.hitBulletSmall) b.despawnEffect = AstraFx.hitColor(b);
 			}
 		});
 	}

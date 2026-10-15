@@ -3538,7 +3538,8 @@ public class AstraBlocks {
 
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
+					hitEffect = AstraFx.hitColor(this);
+					despawnEffect = Fx.none;
 				}},
 				Items.lead, new BasicBulletType(3f, 14) {{
 					width = 8f;
@@ -3846,8 +3847,8 @@ public class AstraBlocks {
 
 					frontColor = Pal.glassAmmoFront;
 					backColor = hitColor = trailColor = Pal.glassAmmoBack;
-					hitEffect = AstraFx.dynamicExplosion(this, true);
-					despawnEffect = AstraFx.scaledDespawn(this, 1);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.hitColor(this);
 				}},
 				Items.titanium, new ArtilleryBulletType(3f, 10) {{
 					width = 12f;
@@ -3948,7 +3949,7 @@ public class AstraBlocks {
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
 					shootEffect = AstraFx.boltTurretShoot(this);
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
+					hitEffect = despawnEffect = AstraFx.hitColor(this);
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
 					width = 7f;
@@ -3962,7 +3963,7 @@ public class AstraBlocks {
 					frontColor = Pal.graphiteAmmoFront;
 					backColor = Pal.graphiteAmmoBack;
 					shootEffect = AstraFx.boltTurretShoot(this);
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this);
+					hitEffect = despawnEffect = AstraFx.hitColor(this);
 				}},
 				Items.silicon, new BasicBulletType(4.5f, 28) {{
 					width = 6f;
@@ -4010,7 +4011,7 @@ public class AstraBlocks {
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = Pal.blastAmmoBack;
 					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
-					hitEffect = AstraFx.dynamicExplosion(this, 8, 2, false);
+					hitEffect = AstraFx.dynamicExplosion(this, 8, 2);
 				}},
 				Items.plastanium, new FlakBulletType(4.5f, 18) {{
 					width = 5f;
@@ -4031,14 +4032,15 @@ public class AstraBlocks {
 						shrinkY = 0.8f;
 						frontColor = Pal.plastaniumFront;
 						backColor = hitColor = Pal.plastaniumBack;
-						despawnEffect = Fx.hitBulletColor;
+						despawnEffect = AstraFx.hitColor(this);
 					}};
 
 					frontColor = Pal.plastaniumFront;
 					backColor = Pal.plastaniumBack;
 					despawnHit = false;
 					shootEffect = AstraFx.boltTurretShoot(this, false, true, true);
-					hitEffect = despawnEffect = AstraFx.scaledDespawn(this, 1);
+					hitEffect = AstraFx.hitColor(this);
+					despawnEffect = Fx.none;
 				}}
 			);
 

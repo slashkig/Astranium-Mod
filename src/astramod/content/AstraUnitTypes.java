@@ -466,7 +466,7 @@ public class AstraUnitTypes {
 					frontColor = AstraPal.fireBulletFront;
 					trailEffect = AstraFx.fireBulletTrailSmall;
 					trailChance = 0.3f;
-					shootEffect = AstraFx.fireShoot;
+					shootEffect = AstraFx.fireShootShotgun;
 					hitEffect = despawnEffect = AstraFx.fireBulletHit;
 				}};
 			}});
@@ -770,7 +770,7 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = AstraFx.dynamicExplosion(this, 7, 6, false);
+					hitEffect = AstraFx.dynamicExplosion(this, 7, 6);
 					trailChance = 0f;
 					trailInterval = 3f;
 				}};
@@ -836,7 +836,7 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = AstraFx.dynamicExplosion(this, 6, 4, false);
+					hitEffect = AstraFx.dynamicExplosion(this);
 					trailChance = 0f;
 					trailInterval = 4f;
 					trailParam = 1.6f;
@@ -1228,15 +1228,6 @@ public class AstraUnitTypes {
 					splashDamage = 60f;
 					scaledSplashDamage = true;
 
-					frontColor = Pal.blastAmmoFront;
-					backColor = trailColor = Pal.blastAmmoBack;
-					trailLength = 15;
-					trailScl = 3f;
-					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 18f, true);
-					hitEffect = AstraFx.dynamicExplosion(this, true);
-					despawnEffect = AstraFx.scaledDespawn(this, 1);
-					shootSoundVolume = 1.5f;
-
 					fragBullets = 10;
 					fragRandomSpread = 100f;
 					fragBullet = new BasicBulletType(4f, 8) {{
@@ -1255,6 +1246,15 @@ public class AstraUnitTypes {
 						backColor = Pal.blastAmmoBack;
 						despawnEffect = Fx.hitBulletColor;
 					}};
+
+					frontColor = Pal.blastAmmoFront;
+					backColor = trailColor = Pal.blastAmmoBack;
+					trailLength = 15;
+					trailScl = 3f;
+					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 18f, true);
+					hitEffect = AstraFx.dynamicExplosion(this);
+					despawnEffect = AstraFx.hitColor(this);
+					shootSoundVolume = 1.5f;
 				}};
 			}});
 		}};
