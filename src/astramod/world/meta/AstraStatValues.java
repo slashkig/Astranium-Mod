@@ -99,25 +99,30 @@ public class AstraStatValues {
 		};
 	}
 
+	/** See {@link #astraAmmo(ObjectMap, boolean, boolean, String)}. */
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map) {
 		return astraAmmo(map, false, false, null);
 	}
 
-	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit){
+	/** See {@link #astraAmmo(ObjectMap, boolean, boolean, String)}. */
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit) {
 		return astraAmmo(map, false, showUnit, null);
 	}
 
-    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, String blockName){
-        return astraAmmo(map, false, false, blockName);
-    }
+	/** See {@link #astraAmmo(ObjectMap, boolean, boolean, String)}. */
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, String blockName) {
+		return astraAmmo(map, false, false, blockName);
+	}
 
-    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit, String blockName){
-        return astraAmmo(map, false, showUnit, blockName);
-    }
+	/** See {@link #astraAmmo(ObjectMap, boolean, boolean, String)}. */
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean showUnit, String blockName) {
+		return astraAmmo(map, false, showUnit, blockName);
+	}
 
-    public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit){
-        return astraAmmo(map, nested, showUnit, null);
-    }
+	/** See {@link #astraAmmo(ObjectMap, boolean, boolean, String)}. */
+	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit) {
+		return astraAmmo(map, nested, showUnit, null);
+	}
 
 	/** An extended ammo display for custom bullet classes. */
 	public static <T extends UnlockableContent> StatValue astraAmmo(ObjectMap<T, BulletType> map, boolean nested, boolean showUnit, @Nullable String blockName) {

@@ -14,7 +14,6 @@ import mindustry.entities.pattern.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.type.*;
-import mindustry.type.unit.MissileUnitType;
 import mindustry.type.weapons.*;
 import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
@@ -464,9 +463,9 @@ public class AstraUnitTypes {
 					
 					hitColor = backColor = AstraPal.fireBulletBack;
 					frontColor = AstraPal.fireBulletFront;
+					shootEffect = AstraFx.fireShootShotgun;
 					trailEffect = AstraFx.fireBulletTrailSmall;
 					trailChance = 0.3f;
-					shootEffect = AstraFx.fireShootShotgun;
 					hitEffect = despawnEffect = AstraFx.fireBulletHit;
 				}};
 			}});
@@ -662,55 +661,53 @@ public class AstraUnitTypes {
 				boostEffect = AstraFx.dynamicBurst(AstraPal.sonicShotFront, AstraPal.sonicShotBack, 30f, 35f, 15);
 			}});
 
-			weapons.add(
-				new AstraWeapon("astramod-oriolus-weapon") {{
-					reload = 100f;
-					recoil = 2f;
-					shoot.shots = 4;
-					shoot.shotDelay = 6f;
+			weapons.add(new AstraWeapon("astramod-oriolus-weapon") {{
+				reload = 100f;
+				recoil = 2f;
+				shoot.shots = 4;
+				shoot.shotDelay = 6f;
 
-					mirror = false;
-					x = 0f;
-					y = 1f;
-					shootY = 9f;
-					rotate = true;
-					rotateSpeed = 2f;
-					rotationLimit = 60f;
+				mirror = false;
+				x = 0f;
+				y = 1f;
+				shootY = 9f;
+				rotate = true;
+				rotateSpeed = 2f;
+				rotationLimit = 60f;
 
-					heatColor = AstraPal.sonicHeat;
-					shootSound = AstraSounds.shootSonic;
+				heatColor = AstraPal.sonicHeat;
+				shootSound = AstraSounds.shootSonic;
 
-					bullet = new SonicBulletType(6f, 60, "astramod-sonic-shot-large") {{
-						width = 11f;
-						height = 18f;
-						lifetime = 18f;
-						shootEffect = AstraFx.sonicHit;
-					}};
-				}},
-				new AstraWeapon("astramod-oriolus-mount") {{
-					reload = 20f;
-					recoil = 1.2f;
-					alternate = false;
-					rotate = true;
-					rotateSpeed = 2f;
-					rotationLimit = 90f;
+				bullet = new SonicBulletType(6f, 60, "astramod-sonic-shot-large") {{
+					width = 11f;
+					height = 18f;
+					lifetime = 18f;
+					shootEffect = AstraFx.sonicHit;
+				}};
+			}},
+			new AstraWeapon("astramod-oriolus-mount") {{
+				reload = 20f;
+				recoil = 1.2f;
+				alternate = false;
+				rotate = true;
+				rotateSpeed = 2f;
+				rotationLimit = 90f;
 
-					x = 10.25f;
-					y = 0.25f;
-					shootY = 5f;
+				x = 10.25f;
+				y = 0.25f;
+				shootY = 5f;
 
-					heatColor = AstraPal.sonicHeat;
-					shootSound = AstraSounds.shootSonic;
-					shootSoundVolume = 0.7f;
+				heatColor = AstraPal.sonicHeat;
+				shootSound = AstraSounds.shootSonic;
+				shootSoundVolume = 0.7f;
 
-					bullet = new SonicBulletType(6f, 20) {{
-						width = 9f;
-						height = 14f;
-						lifetime = 14f;
-						shoot.firstShotDelay = 22f;
-					}};
-				}}
-			);
+				bullet = new SonicBulletType(6f, 20) {{
+					width = 9f;
+					height = 14f;
+					lifetime = 14f;
+					shoot.firstShotDelay = 22f;
+				}};
+			}});
 		}};
 
 		// region ROCKET MECHS
@@ -1161,7 +1158,7 @@ public class AstraUnitTypes {
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
 
-				shootSound = AstraSounds.shootSniperSmall;
+				shootSound = AstraSounds.shootSniper;
 				shootSoundVolume = 0.6f;
 
 				bullet = new BasicBulletType(9f, 60) {{
@@ -1280,8 +1277,8 @@ public class AstraUnitTypes {
 			treadPullOffset = 3;
 			treadFrames = 8;
 			treadRects = new Rect[] {
-				new Rect(-21f, 5f, 14, 23),
-				new Rect(-18f, -25f, 14, 23)
+				new Rect(-21f, 5f, 14f, 23f),
+				new Rect(-18f, -25f, 14f, 23f)
 			};
 
 			tankMoveSound = Sounds.tankMoveSmall;
@@ -1323,23 +1320,22 @@ public class AstraUnitTypes {
 			abilities.add(new ShieldRegenFieldAbility(15f, 60f, 4f * Time.toSeconds, 6f * tilesize));
 
 			weapons.add(new RepairBeamWeapon("astramod-vitex-repair-turret") {{
-					x = 0;
-					y = 5.75f;
-					shootY = 3f;
-					beamWidth = 0.6f;
-					repairSpeed = 40f / Time.toSeconds;
-					targetBuildings = true;
+				x = 0;
+				y = 5.75f;
+				shootY = 3f;
+				beamWidth = 0.6f;
+				repairSpeed = 40f / Time.toSeconds;
+				targetBuildings = true;
 
-					bullet = new BulletType() {{
-						maxRange = 8f * tilesize;
-					}};
-				}
-				@Override public void flip() {
-					y *= -1f;
-					shoot = shoot.copy();
-					display = false;
-				}}
-			);
+				bullet = new BulletType() {{
+					maxRange = 8f * tilesize;
+				}};
+			}
+			@Override public void flip() {
+				y *= -1f;
+				shoot = shoot.copy();
+				display = false;
+			}});
 		}};
 
 		// region ENERGY TANKS
@@ -1580,9 +1576,8 @@ public class AstraUnitTypes {
 					lightningLength = 10;
 					lightningLengthRand = 7;
 				}};
-			}});
-
-			weapons.add(new Weapon("astramod-newt-sapper") {{
+			}},
+			new Weapon("astramod-newt-sapper") {{
 				reload = 12.4f;
 				rotate = true;
 
@@ -1670,7 +1665,7 @@ public class AstraUnitTypes {
 			lowAltitude = true;
 			engineSize = -1f;
 
-			loopSound = AstraSounds.helicopterLoop;
+			loopSound = AstraSounds.loopHelicopter;
 			loopSoundVolume = 1.4f;
 
 			parts.add(new RotorPart(60f) {{ y = 1.75f; }});

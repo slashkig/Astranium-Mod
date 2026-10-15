@@ -7,7 +7,7 @@ import static mindustry.Vars.pathfinder;
 import static mindustry.ai.Pathfinder.*;
 
 public class AstraPathfinding {
-	/** Use {@code setPositionField()} before using this field to path! */
+	/** Use {@link #setPositionField} before using this field to path! */
 	public static final int fieldPosition;
 
 	static {

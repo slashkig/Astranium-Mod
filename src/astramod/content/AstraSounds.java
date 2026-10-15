@@ -7,19 +7,20 @@ import static mindustry.Vars.tree;
 
 public class AstraSounds {
 	public static Sound
-		shootSonic, shootSniperSmall, shootPilos, shootBolt, shootIce,
+		shootSonic, shootSniper, shootPilos, shootBolt, shootIce,
 		hitIce, hitIceSmall,
-		helicopterLoop;
+		loopHelicopter;
 
 	public static void load() {
 		Log.info("Loading sounds");
+
 		shootSonic = tree.loadSound("shootSonic");
-		shootSniperSmall = tree.loadSound("shootSniper");
+		shootSniper = tree.loadSound("shootSniper");
 		shootPilos = tree.loadSound("shootPilos");
 		shootBolt = tree.loadSound("shootBolt");
 		shootIce = tree.loadSound("shootIce");
 		hitIce = tree.loadSound("hitIce");
 		hitIceSmall = tree.loadSound("hitIce");
-		helicopterLoop = tree.loadSound("helicopterLoop");
+		loopHelicopter = tree.loadSound("helicopterLoop");
 	}
 }
