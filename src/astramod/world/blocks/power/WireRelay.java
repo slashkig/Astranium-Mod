@@ -260,7 +260,7 @@ public class WireRelay extends PowerBlock {
 			Draw.rect(glowRegion, x, y);
 
 			if (control.input.config.getSelected() != this) {
-				Draw.z(Layer.blockUnder);
+				Draw.z(Layer.blockUnder - 1f);
 				Draw.alpha(1f);
 				drawWiring();
 			}

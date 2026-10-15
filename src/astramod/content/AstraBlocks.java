@@ -88,7 +88,7 @@ public class AstraBlocks {
 		surgeBulkJunction, surgeBulkRouter,
 		hematiteJunction, hematiteRouter,
 		ironJunction, ironBridge, ironRouter, ironDistributor, ironOverflowGate, ironUnderflowGate, ironSorter, invertedIronSorter,
-		platedJunction, platedBridge, platedRouter,platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
+		platedJunction, platedBridge, platedRouter, platedDistributor, platedOverflowGate, platedUnderflowGate, platedSorter, invertedPlatedSorter,
 		ironUnloader,
 
 		// Pipes
@@ -2733,6 +2733,7 @@ public class AstraBlocks {
 			hasPower = false;
 			noAcceptDisabled = true;
 
+			((Conduit)ripplePipeline).bridgeReplacement = this;
 			((Conduit)wavePipeline).bridgeReplacement = this;
 			((Pipeline)jetPipeline).fallbackBridge = this;
 		}};

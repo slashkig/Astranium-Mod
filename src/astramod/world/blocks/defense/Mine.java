@@ -33,6 +33,7 @@ public class Mine extends Block {
 		hasShadow = false;
 		destroyBulletSameTeam = true;
 		buildCostMultiplier = 6f;
+		priority = -5f;
 	}
 
 	@Override public void init() {

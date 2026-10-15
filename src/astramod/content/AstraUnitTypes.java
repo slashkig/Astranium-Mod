@@ -377,7 +377,7 @@ public class AstraUnitTypes {
 		// region OFFENSIVE MECHS
 
 		dicentra = new AstraUnitType("dicentra") {{
-			aiController = GroundRangerAI::new;
+			aiController = GroundBacklineAI::new;
 
 			health = 220;
 			armor = 1f;
@@ -778,6 +778,8 @@ public class AstraUnitTypes {
 		}};
 
 		decanus = new AstraUnitType("decanus") {{
+			aiController = GroundBacklineAI::new;
+
 			health = 680;
 			armor = 3f;
 			hitSize = 12f;
@@ -1027,6 +1029,8 @@ public class AstraUnitTypes {
 		// region GUNNER TANKS
 
 		aculei = new AstraTankUnitType("aculei") {{
+			aiController = GroundTankAI::new;
+
 			health = 800;
 			armor = 5f;
 			hitSize = 12f;
@@ -1066,6 +1070,8 @@ public class AstraUnitTypes {
 		}};
 
 		echidna = new AstraTankUnitType("echidna") {{
+			aiController = GroundTankAI::new;
+
 			health = 2000;
 			armor = 8f;
 			hitSize = 21f;
@@ -1287,7 +1293,7 @@ public class AstraUnitTypes {
 		}};
 
 		vitex = new AstraTankUnitType("vitex") {{
-			aiController = GroundRangerAI::new;
+			aiController = GroundBacklineAI::new;
 
 			health = 850;
 			armor = 4f;
@@ -1339,6 +1345,8 @@ public class AstraUnitTypes {
 		// region ENERGY TANKS
 
 		meissa = new AstraTankUnitType("meissa") {{
+			aiController = GroundBacklineAI::new;
+
 			health = 500;
 			armor = 4f;
 			hitSize = 12f;

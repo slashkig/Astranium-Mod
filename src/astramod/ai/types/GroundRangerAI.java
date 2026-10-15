@@ -1,10 +1,11 @@
 package astramod.ai.types;
 
-import mindustry.ai.types.*;
+import mindustry.entities.*;
+import astramod.entities.UnitUtil;
 
-public class GroundRangerAI extends GroundAI {
+public class GroundRangerAI extends GroundBacklineAI {
 	@Override public void updateMovement() {
-		if (target == null || !target.isAdded() || !unit.within(target, unit.range() * 0.9f)) {
+		if (Units.invalidateTarget(target, unit, unit.range() * 0.8f) || UnitUtil.targetPriority(target) < 0f) {
 			super.updateMovement();
 		} else {
 			faceTarget();
