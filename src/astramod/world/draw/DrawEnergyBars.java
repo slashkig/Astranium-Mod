@@ -58,6 +58,7 @@ public class DrawEnergyBars extends DrawBlock {
 				} else {
 					Draw.color(emptyColor);
 				}
+				Draw.alpha(1f);
 				Draw.rect(barRegion, drawX, drawY);
 				drawX += xOffset;
 			}
