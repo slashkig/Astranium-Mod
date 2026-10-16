@@ -37,9 +37,9 @@ public class FissionReactor extends ExplodableCrafter implements BaseModularBloc
 	@Override public void setBars() {
 		super.setBars();
 
-		addBar("coolant", entity -> new Bar(
+		addBar("coolant", (FissionReactorBuild entity) -> new Bar(
 			"bar.coolant", Pal.techBlue,
-			() -> ((FissionReactorBuild)entity).coolant / coolantCapacity
+			() -> entity.coolant / coolantCapacity
 		));
 	}
 

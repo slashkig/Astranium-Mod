@@ -128,10 +128,10 @@ public class WireRelay extends PowerBlock {
 	@Override public void setBars() {
 		super.setBars();
 
-		addBar("wires", entity -> new Bar(
-			() -> Core.bundle.format("bar.wires", ((WireRelayBuild)entity).wiring.size()),
+		addBar("wires", (WireRelayBuild entity) -> new Bar(
+			() -> Core.bundle.format("bar.wires", entity.wiring.size()),
 			() -> wireCost.item.color,
-			() -> ((WireRelayBuild)entity).wiring.size() > 0 ? 1 : 0
+			() -> entity.wiring.size() > 0 ? 1 : 0
 		));
 
 		addBar("power", entity -> new Bar(

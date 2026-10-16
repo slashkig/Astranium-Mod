@@ -12,7 +12,7 @@ public class SwitchRelay extends PowerRelay {
 		drawDisabled = true;
 		storesPower = false;
 
-		config(Boolean.class, (SwitchRelayBuild relay, Boolean state) -> relay.setActive(state));
+		config(Boolean.class, SwitchRelayBuild::setActive);
 	}
 
 	public static boolean isInactiveSwitch(Building build) {

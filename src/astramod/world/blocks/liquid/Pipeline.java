@@ -49,7 +49,7 @@ public class Pipeline extends Conduit {
 		if (fallbackBridge == null) {
 			super.handlePlacementLine(plans);
 		} else if (rotBridgeReplacement != null) {
-			Placement.calculateBridges(plans, (DirectionBridge)getReplacement(rotBridgeReplacement, fallbackBridge), true, b -> b instanceof Conduit);
+			Placement.calculateBridges(plans, (DirectionBridge)getReplacement(rotBridgeReplacement, fallbackBridge), true, Conduit.class::isInstance);
 		} else {
 			Placement.calculateBridges(plans, (ItemBridge)getReplacement(bridgeReplacement, fallbackBridge));
 		}

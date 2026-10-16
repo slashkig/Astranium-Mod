@@ -20,7 +20,7 @@ public class ScaledConsumeGenerator extends ConsumeGenerator {
 
 	@Override public void init() {
 		super.init();
-		if (targetItem == null) targetItem = ((ConsumeItems)findConsumer(f -> f instanceof ConsumeItems)).items[0].item;
+		if (targetItem == null) targetItem = this.<ConsumeItems>findConsumer(ConsumeItems.class::isInstance).items[0].item;
 	}
 
 	@Override public void setStats() {

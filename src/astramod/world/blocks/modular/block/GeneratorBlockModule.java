@@ -41,7 +41,7 @@ public class GeneratorBlockModule extends ConsumeGenerator implements BlockModul
 	}
 
 	@Override public void drawOverlay(float x, float y, int rotation) {
-		ConsumeLiquid consLiquid = findConsumer(cons -> cons instanceof ModuleConsumeLiquid);
+		ConsumeLiquid consLiquid = findConsumer(ModuleConsumeLiquid.class::isInstance);
 		if (consLiquid != null) {
 			Draw.rect(consLiquid.liquid.fullIcon, x + Geometry.d4x(rotation) * (size * tilesize / 2f + 4), y + Geometry.d4y(rotation) * (size * tilesize / 2f + 4), 8f, 8f);
 		}

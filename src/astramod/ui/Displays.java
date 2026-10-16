@@ -17,7 +17,7 @@ import static mindustry.Vars.*;
 
 public final class Displays {
 	public static void init() {
-		var cells = ui.hudGroup.<Group>find("status").<Group>find(e -> e instanceof Stack).<Table>find(e -> e instanceof Table).getCells();
+		var cells = ui.hudGroup.<Group>find("status").<Group>find(Stack.class::isInstance).<Table>find(Table.class::isInstance).getCells();
 
 		Prov<Color> healthColor = () ->
 			player.dead() ? Color.black :
@@ -31,7 +31,7 @@ public final class Displays {
 		infoCell.update(c -> c.color.set(
 			player.dead() ? Color.black :
 			player.displayAmmo() ? Pal.ammo :
-			Structs.contains(player.unit().abilities, a -> a instanceof ActivatedAbility) ? Pal.accent :
+			Structs.contains(player.unit().abilities, ActivatedAbility.class::isInstance) ? Pal.accent :
 			player.unit() instanceof Payloadc pay && !pay.payloads().isEmpty() ? Pal.items :
 			healthColor.get()
 		));
@@ -42,7 +42,7 @@ public final class Displays {
 			field.set(infoCell.get(), (Floatp) () ->
 				player.dead() ? 0f :
 				player.displayAmmo() ? player.unit().ammof() :
-				Structs.find(player.unit().abilities, a -> a instanceof ActivatedAbility) instanceof ActivatedAbility a ? a.getProgress(player.unit()) :
+				Structs.find(player.unit().abilities, ActivatedAbility.class::isInstance) instanceof ActivatedAbility a ? a.getProgress(player.unit()) :
 				player.unit() instanceof Payloadc pay && !pay.payloads().isEmpty() ? pay.payloadUsed() / player.unit().type().payloadCapacity :
 				player.unit().healthf()
 			);

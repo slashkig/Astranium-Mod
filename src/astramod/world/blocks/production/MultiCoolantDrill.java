@@ -26,7 +26,7 @@ public class MultiCoolantDrill extends Drill {
 	@Override public void setStats() {
 		super.setStats();
 
-		if (boostMultMap.size > 0 && findConsumer(f -> f instanceof ConsumeLiquidFilter) instanceof ConsumeLiquidFilter filter) {
+		if (boostMultMap.size > 0 && findConsumer(ConsumeLiquidFilter.class::isInstance) instanceof ConsumeLiquidFilter filter) {
 			stats.remove(Stat.booster);
 
 			Seq<LiquidStack> boosters = new Seq<>(boostMultMap.size);
@@ -49,7 +49,7 @@ public class MultiCoolantDrill extends Drill {
 	@Override public void setBars() {
 		super.setBars();
 
-		if (findConsumer(f -> (f instanceof ConsumeLiquid && !f.booster)) != null) {
+		if (findConsumer(f -> f instanceof ConsumeLiquid && !f.booster) != null) {
 			removeBar("drillspeed");
 
 			addLiquidBar(build -> build.liquids.current());
@@ -69,7 +69,7 @@ public class MultiCoolantDrill extends Drill {
 			boostMultMap.put((Liquid)liquidBoosts[i], mult);
 		}
 
-		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> boostMultMap.containsKey(liquid), boostCost)).boost());
+		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(boostMultMap::containsKey, boostCost)).boost());
 	}
 
 	public class MultiCoolantDrillBuild extends DrillBuild {

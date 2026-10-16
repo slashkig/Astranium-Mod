@@ -21,7 +21,7 @@ public class EffectWall extends Wall {
 	public float effectStrength = 10f;
 	public StatusEffect statusEffect = StatusEffects.none;
 	public float statusEffectTime = 0f;
-	public Cons<EffectWallBuild> effect = b -> { return; };
+	public Cons<EffectWallBuild> effect = b -> { };
 
 	public Color effectColor;
 	public float effectAlpha = 0f;

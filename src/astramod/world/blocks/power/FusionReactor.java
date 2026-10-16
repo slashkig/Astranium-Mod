@@ -50,9 +50,9 @@ public class FusionReactor extends ImpactReactor implements BaseModularBlock {
 			addLiquidBar(byproductLiquid.liquid);
 		}
 		if (coolantCapacity > 0f) {
-			addBar("coolant", entity -> new Bar(
+			addBar("coolant", (FusionReactorBuild entity) -> new Bar(
 				"bar.coolant", Pal.techBlue,
-				() -> ((FusionReactorBuild)entity).coolant / coolantCapacity
+				() -> entity.coolant / coolantCapacity
 			));
 		}
 	}

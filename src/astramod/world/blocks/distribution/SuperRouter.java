@@ -34,9 +34,7 @@ public class SuperRouter extends Router {
 	public class SuperRouterBuild extends RouterBuild {
 
 		@Override public void damage(float damage) {
-			Units.nearbyEnemies(team, x, y, range, unit -> {
-				bullet.create(this, x, y, angleTo(unit));
-			});
+			Units.nearbyEnemies(team, x, y, range, unit -> bullet.create(this, x, y, angleTo(unit)));
 			shootSound.at(x, y);
 		}
 

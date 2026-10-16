@@ -25,21 +25,21 @@ import astramod.world.meta.*;
 import static mindustry.Vars.*;
 
 public class CooledBattery extends Battery implements BaseModularBlock {
-    /** how quickly instability moves towards 1 per frame */
+	/** how quickly instability moves towards 1 per frame */
 	public float unstableSpeed = 0.006f;
-    /** how quickly instability moves towards 0 when cooled, per frame */
+	/** how quickly instability moves towards 0 when cooled, per frame */
 	public float stabilizeSpeed = 0.002f;
 	/** instability level where the block starts taking damage and displaying unstable visuals */
 	public float unstableThreshold = 0.5f;
 	public Liquid coolant;
 	public float coolantAmount;
 
-    public float explosionMinCharge = 0.25f;
-    public int explosionRadius = 6;
-    public int explosionDamage = 12000;
-    public float explosionShake = 0f, explosionShakeDuration = 6f;
-    public Effect explodeEffect = Fx.bigShockwave;
-    public Sound explodeSound = Sounds.explosionReactor;
+	public float explosionMinCharge = 0.25f;
+	public int explosionRadius = 6;
+	public int explosionDamage = 12000;
+	public float explosionShake = 0f, explosionShakeDuration = 6f;
+	public Effect explodeEffect = Fx.bigShockwave;
+	public Sound explodeSound = Sounds.explosionReactor;
 
 	public int maxLightning = 30;
 	public float lightningDamage = 500f;
@@ -151,8 +151,8 @@ public class CooledBattery extends Battery implements BaseModularBlock {
 			if (instability > unstableThreshold) {
 				flash += ((instability - unstableThreshold) / (1f - unstableThreshold)) * Time.delta;
 				Draw.color(Color.red, Color.yellow, Mathf.absin(flash, flashScl, 1f));
-                Draw.alpha(flashAlpha);
-                Draw.rect(lightsRegion, x, y);
+				Draw.alpha(flashAlpha);
+				Draw.rect(lightsRegion, x, y);
 			}
 			if (coreGlowRegion.found()) {
 				Draw.color(unstableGlowColor);
@@ -168,8 +168,8 @@ public class CooledBattery extends Battery implements BaseModularBlock {
 		}
 
 		@Override public void onDestroyed() {
-			float explosiveness = baseExplosiveness + liquids.sum((liquid, amount) -> (liquid.explosiveness * amount / 2f));
-			float flammability = liquids.sum((liquid, amount) -> (liquid.flammability * amount / 2f));
+			float explosiveness = baseExplosiveness + liquids.sum((liquid, amount) -> liquid.explosiveness * amount / 2f);
+			float flammability = liquids.sum((liquid, amount) -> liquid.flammability * amount / 2f);
 			float powerStatus = power.status;
 
 			if (block.hasLiquids && state.rules.damageExplosions) {

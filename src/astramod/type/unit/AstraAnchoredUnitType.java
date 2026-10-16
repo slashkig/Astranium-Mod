@@ -35,7 +35,7 @@ public class AstraAnchoredUnitType extends AstraUnitType {
 			if (attacks) {
 				commands.add(AstraUnitCommand.anchorProtect, AstraUnitCommand.followShoot);
 			}
-			if (abilities.contains(a -> a instanceof ShieldArcAbility)) {
+			if (abilities.contains(ShieldArcAbility.class::isInstance)) {
 				commands.add(AstraUnitCommand.anchorShield, AstraUnitCommand.followShield);
 			}
 			if (commands.size > 0) {

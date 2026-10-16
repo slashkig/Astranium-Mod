@@ -84,13 +84,13 @@ public class WallDrill extends Block {
 			stats.remove(Stat.booster);
 
 			Seq<LiquidStack> boosters = new Seq<LiquidStack>(boostMultMap.size);
-			for (ObjectFloatMap.Entry<Liquid> entry : boostMultMap) { boosters.add(new LiquidStack(entry.key, entry.value)); }
+			for (var entry : boostMultMap) { boosters.add(new LiquidStack(entry.key, entry.value)); }
 			boosters.sort(e -> e.amount);
 
 			for (LiquidStack booster : boosters) {
 				stats.add(Stat.booster, StatValues.speedBoosters(
 					"{0}" + StatUnit.timesSpeed.localized(),
-					((ConsumeLiquidFilter)findConsumer(f -> f instanceof ConsumeLiquidFilter)).amount,
+					this.<ConsumeLiquidFilter>findConsumer(ConsumeLiquidFilter.class::isInstance).amount,
 					booster.amount * liquidBoostIntensity, false,
 					l -> l == booster.liquid
 				));
@@ -99,7 +99,7 @@ public class WallDrill extends Block {
 			stats.replace(Stat.booster, StatValues.speedBoosters(
 				"{0}" + StatUnit.timesSpeed.localized(),
 				consBase.amount, liquidBoostIntensity, false,
-				l -> (consumesLiquid(l) && (findConsumer(f -> f instanceof ConsumeLiquid).booster || ((ConsumeLiquid)findConsumer(f -> f instanceof ConsumeLiquid)).liquid != l))
+				l -> consumesLiquid(l) && (findConsumer(ConsumeLiquid.class::isInstance).booster || this.<ConsumeLiquid>findConsumer(ConsumeLiquid.class::isInstance).liquid != l)
 			));
 		}
 	}
@@ -107,7 +107,7 @@ public class WallDrill extends Block {
 	@Override public void setBars() {
 		super.setBars();
 
-		if (findConsumer(f -> (f instanceof ConsumeLiquid && !f.booster)) != null) {
+		if (findConsumer(f -> f instanceof ConsumeLiquid && !f.booster) != null) {
 			addLiquidBar(build -> build.liquids.current());
 		}
 		addBar("drillspeed", (WallDrillBuild e) -> new Bar(() -> Core.bundle.format("bar.drillspeed", Strings.fixed(e.lastDrillSpeed * 60, 2)), () -> Pal.ammo, () -> e.warmup));
@@ -134,7 +134,7 @@ public class WallDrill extends Block {
 			boostMultMap.put((Liquid)liquidBoosts[i], (float)liquidBoosts[i + 1] / liquidBoostIntensity);
 		}
 
-		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> boostMultMap.containsKey(liquid), boostCost)).boost());
+		return ((ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(boostMultMap::containsKey, boostCost)).boost());
 	}
 
 	@Override public void drawPlanRegion(BuildPlan plan, Eachable<BuildPlan> list) {
@@ -226,7 +226,7 @@ public class WallDrill extends Block {
 
 		@Override public Building create(Block block, Team team) {
 			Building build = super.create(block, team);
-			if (boostMultMap.size > 0) { liquids = new LiquidBoostModule(boostMultMap); }
+			if (boostMultMap.size > 0) liquids = new LiquidBoostModule(boostMultMap);
 			return build;
 		}
 
@@ -239,7 +239,7 @@ public class WallDrill extends Block {
 
 			if (dominantItem == null) {
 				countOre(tile.x, tile.y, rotation);
-				if (dominantItem == null) { return; }
+				if (dominantItem == null) return;
 				dominantItem = returnItem;
 				itemsCount = returnCount;
 			}

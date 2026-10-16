@@ -45,7 +45,7 @@ public class AnchoredMinerAI extends AnchoredAI {
 				if (ai != null && !ai.hasStance(UnitStance.mineAuto)) {
 					mineItem = content.items().min(i -> ((unit.type.mineFloor && indexer.hasOre(i)) ||
 						(unit.type.mineWalls && indexer.hasWallOre(i))) && unit.canMine(i) &&
-						ai.hasStance(ItemUnitStance.getByItem(i)), i -> anchor.items.get(i));
+						ai.hasStance(ItemUnitStance.getByItem(i)), anchor.items::get);
 					refreshOre = true;
 				} else {
 					float minDst = boundRadius;

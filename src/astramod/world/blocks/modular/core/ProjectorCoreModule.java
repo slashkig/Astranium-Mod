@@ -29,7 +29,7 @@ public class ProjectorCoreModule extends ForceProjector implements BlockModule {
 
 	@Override public void init() {
 		if (!consumeCoolant) {
-			removeConsumer(findConsumer(c -> c instanceof ConsumeCoolant));
+			removeConsumer(findConsumer(ConsumeCoolant.class::isInstance));
 			coolantConsumer = null;
 			hasLiquids = false;
 		}

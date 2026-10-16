@@ -18,7 +18,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 	@Override public void setStats() {
 		super.setStats();
 
-		if (liquidStrengthMap.size > 0 && findConsumer(f -> f instanceof ConsumeLiquidFilter) instanceof ConsumeLiquidFilter filter) {
+		if (liquidStrengthMap.size > 0 && findConsumer(ConsumeLiquidFilter.class::isInstance) instanceof ConsumeLiquidFilter filter) {
 			stats.remove(Stat.input);
 
 			Seq<LiquidStack> liquidInputs = new Seq<LiquidStack>(liquidStrengthMap.size);
@@ -27,7 +27,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 
 			stats.add(Stat.input, AstraStatValues.itemsLiquidsVariable(
 				"{0}" + StatUnit.timesSpeed.localized(),
-				((ConsumeItems)findConsumer(f -> f instanceof ConsumeItems)).items,
+				this.<ConsumeItems>findConsumer(ConsumeItems.class::isInstance).items,
 				liquidInputs,
 				stats.timePeriod,
 				filter.amount
@@ -44,7 +44,7 @@ public class MultiLiquidCrafter extends GenericCrafter {
 			liquidStrengthMap.put((Liquid)liquidInputs[i], (float)liquidInputs[i + 1]);
 		}
 
-		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> liquidStrengthMap.containsKey(liquid), amount));
+		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquidStrengthMap::containsKey, amount));
 	}
 
 	public class BoostableCrafterBuild extends GenericCrafterBuild {

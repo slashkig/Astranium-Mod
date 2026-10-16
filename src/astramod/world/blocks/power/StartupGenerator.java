@@ -34,7 +34,7 @@ public class StartupGenerator extends PowerGenerator {
 
 	public ConsumeLiquidFilter consumeLiquidsMulti(float amount, Liquid... liquids) {
 		consumeLiquids = new Seq<Liquid>().add(liquids);
-		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(liquid -> consumeLiquids.contains(liquid), amount));
+		return (ConsumeLiquidFilter)consume(new ConsumeLiquidFilter(consumeLiquids::contains, amount));
 	}
 
 	public class StartupGeneratorBuild extends GeneratorBuild {

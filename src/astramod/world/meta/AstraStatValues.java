@@ -151,12 +151,12 @@ public class AstraStatValues {
 				}
 
 				if (bullet.fragBullet instanceof AOEBulletType bt) {
-					Group coll = entry.find(e -> e instanceof Collapser);
+					Group coll = entry.find(Collapser.class::isInstance);
 					Displays.setLabel(
 						Displays.getElement(Displays.getElement(entry, entry.getCells().indexOf(c -> c.get() == coll) - 1), 0),
 						Core.bundle.format("bullet.areaeffect")
 					);
-					bt.addStats(coll.<Table>find(e -> e instanceof Table).find(e -> e instanceof Table));
+					bt.addStats(coll.<Table>find(Table.class::isInstance).find(Table.class::isInstance));
 				}
 
 				if (bullet.pierceDamageFactor > 0f) {
