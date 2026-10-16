@@ -438,7 +438,8 @@ public class AstraUnitTypes {
 				inaccuracy = 15f;
 				shoot.shots = 12;
 				shoot.shotDelay = 0f;
-				velocityRnd = 0.2f;
+				velocityRnd = 0.1f;
+				lifeRnd = 0.1f;
 
 				top = false;
 				x = 7.96f;
@@ -472,7 +473,7 @@ public class AstraUnitTypes {
 		}};
 
 		strelitz = new AstraUnitType("strelitz") {{
-			health = 1200;
+			health = 1350;
 			armor = 7f;
 			hitSize = 17f;
 			fogRadius = 14f;
@@ -526,7 +527,7 @@ public class AstraUnitTypes {
 					fragBullet = new BasicBulletType(2.5f, 10f) {{
 						lifetime = 18f;
 						width = 5f;
-						height = 12f;
+						height = 10f;
 						armorMultiplier = 2f;
 						shrinkY = 0.75f;
 						collidesAir = false;
@@ -566,10 +567,6 @@ public class AstraUnitTypes {
 					range = 60f;
 					collidesGround = false;
 
-					frontColor = Pal.blastAmmoFront;
-					backColor = trailColor = Pal.blastAmmoBack;
-					trailWidth = 1.5f;
-					trailLength = 2;
 					shootEffect = Fx.shootSmallColor;
 				}};
 			}});
@@ -795,7 +792,7 @@ public class AstraUnitTypes {
 
 			weapons.add(new AstraWeapon("astramod-decanus-weapon") {{
 				reload = 150f;
-				recoil = 1.4f;
+				recoil = 0.4f;
 				inaccuracy = 6f;
 				velocityRnd = 0.2f;
 				alternate = false;
@@ -1028,8 +1025,8 @@ public class AstraUnitTypes {
 		aculei = new AstraTankUnitType("aculei") {{
 			aiController = GroundTankAI::new;
 
-			health = 800;
-			armor = 5f;
+			health = 700;
+			armor = 4f;
 			hitSize = 12f;
 			fogRadius = 10f;
 			itemCapacity = 12;
@@ -1069,7 +1066,7 @@ public class AstraUnitTypes {
 		echidna = new AstraTankUnitType("echidna") {{
 			aiController = GroundTankAI::new;
 
-			health = 2000;
+			health = 1600;
 			armor = 8f;
 			hitSize = 21f;
 			fogRadius = 12f;
@@ -1397,8 +1394,8 @@ public class AstraUnitTypes {
 		}};
 
 		saiph = new AstraTankUnitType("saiph") {{
-			health = 1200;
-			armor = 7f;
+			health = 1000;
+			armor = 6f;
 			hitSize = 21f;
 			fogRadius = 12f;
 			itemCapacity = 25;

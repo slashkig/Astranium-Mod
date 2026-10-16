@@ -24,7 +24,6 @@ import mindustry.world.blocks.liquid.*;
 import mindustry.world.blocks.power.*;
 import mindustry.world.blocks.production.*;
 import mindustry.world.blocks.units.*;
-import mindustry.world.blocks.units.UnitFactory.UnitPlan;
 import mindustry.world.draw.*;
 import mindustry.world.meta.*;
 import astramod.entities.bullet.*;
@@ -1359,7 +1358,7 @@ public class AstraBlocks {
 
 			drawer = new DrawMultiIntegrated(new DrawTopHeat() {{ alphaMag = 0.6f; alphaScl = 12f; maxAlpha = 0.5f; }});
 			updateEffect = Fx.redgeneratespark;
-            updateEffectChance = 0.015f;
+			updateEffectChance = 0.015f;
 		}};
 
 		oilPlant = new GenericCrafter("oil-plant") {{
@@ -1669,10 +1668,10 @@ public class AstraBlocks {
 			));
 			size = 2;
 			fogRadius = 2;
-			liquidCapacity = 30f;
+			liquidCapacity = 40f;
 			targetBlockType = fusionReactor;
 
-			extractLiquid = new LiquidStack(AstraFluids.helium, 0.25f);
+			extractLiquid = new LiquidStack(AstraFluids.helium, 0.3f);
 
 			drawer = new DrawMulti(
 				new DrawRegion("-bottom"),
@@ -1693,14 +1692,14 @@ public class AstraBlocks {
 			));
 			size = 2;
 			fogRadius = 2;
-			liquidCapacity = 20f;
+			liquidCapacity = 30f;
 			targetBlockType = fusionReactor;
 
 			consumeItem(AstraItems.lithium, 2);
 			consumePower(1.8f);
 			craftTime = 300f;
-			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.2f);
-			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.2f);
+			outputLiquid = new LiquidStack(Liquids.hydrogen, 0.3f);
+			byproductLiquid = new LiquidStack(AstraFluids.helium, 0.15f);
 
 			drawer = new DrawMultiIntegrated(new DrawSideRegion(), new DrawGlowRegion());
 		}};
@@ -1989,7 +1988,6 @@ public class AstraBlocks {
 
 		ironWall = new Wall("iron-wall") {{
 			requirements(Category.defense, ItemStack.with(AstraItems.iron, 6));
-			buildCostMultiplier *= 1.2f;
 			health = 120 * 4;
 			armor = 2f;
 			fogRadius = 2;
@@ -1997,7 +1995,6 @@ public class AstraBlocks {
 
 		ironWallLarge = new Wall("iron-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(ironWall.requirements, 4));
-			buildCostMultiplier *= 1.2f;
 			health = 120 * 16;
 			armor = 2f;
 			size = 2;
@@ -2015,6 +2012,7 @@ public class AstraBlocks {
 
 		platedTitaniumWall = new Wall("plated-titanium-wall") {{
 			requirements(Category.defense, ItemStack.with(Items.titanium, 6, Items.graphite, 2));
+			buildCostMultiplier *= 0.8f;
 			health = 160 * 4;
 			armor = 4f;
 			fogRadius = 2;
@@ -2022,6 +2020,7 @@ public class AstraBlocks {
 
 		platedTitaniumWallLarge = new Wall("plated-titanium-wall-large") {{
 			requirements(Category.defense, ItemStack.mult(platedTitaniumWall.requirements, 4));
+			buildCostMultiplier *= 0.8f;
 			health = 160 * 16;
 			armor = 4f;
 			size = 2;
@@ -3339,7 +3338,7 @@ public class AstraBlocks {
 				Items.copper, 15,
 				Items.silicon, 20
 			));
-			buildCostMultiplier = 1.4f;
+			buildCostMultiplier = 1.2f;
 			size = 1;
 			fogRadius = 20;
 			rotateSpeed = 4f;
@@ -3356,11 +3355,12 @@ public class AstraBlocks {
 				Items.silicon, 30
 			));
 			buildCostMultiplier = 1.4f;
+			scaledHealth = 45f;
 			size = 2;
 			fogRadius = 40;
 			rotateSpeed = 4f;
 
-			consumePower(1.1f);
+			consumePower(2.7f);
 		}};
 
 		advancedSensorArray = new SensorArray("advanced-sensor-array") {{
@@ -3372,12 +3372,12 @@ public class AstraBlocks {
 				AstraItems.vanadium, 30
 			));
 			buildCostMultiplier = 1.8f;
-			scaledHealth = 45f;
+			scaledHealth = 50f;
 			size = 3;
 			fogRadius = 75;
 			rotateSpeed = 3f;
 
-			consumePower(3.1f);
+			consumePower(6.1f);
 		}};
 
 		// region MINES
