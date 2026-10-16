@@ -15,6 +15,7 @@ import astramod.world.meta.*;
 
 import static mindustry.Vars.*;
 
+@Deprecated
 public class UnloaderCoreModule extends DirectionalUnloader implements BlockModule {
 	public UnloaderCoreModule(String name) {
 		super(name);

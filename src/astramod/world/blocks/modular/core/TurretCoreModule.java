@@ -9,10 +9,12 @@ import mindustry.entities.units.BuildPlan;
 import mindustry.game.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
+import mindustry.logic.LAccess;
 import mindustry.type.*;
 import mindustry.ui.*;
 import mindustry.world.*;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import mindustry.world.blocks.storage.StorageBlock;
 import astramod.content.*;
 import astramod.world.blocks.defense.turrets.AstraItemTurret;
 import astramod.world.blocks.modular.*;
@@ -106,20 +108,46 @@ public class TurretCoreModule extends AstraItemTurret implements BlockModule {
 			return linkedCore != null && linkedCore.acceptItem(source, item);
 		}
 
+		@Override public void handleItem(Building source, Item item) {
+			if (linkedCore instanceof CoreBuild core) {
+				if (core.items.get(item) >= core.storageCapacity) {
+					StorageBlock.incinerateEffect(this, source);
+				}
+				core.noEffect = true;
+				core.handleItem(source, item);
+			}
+		}
+
+		@Override public int getMaximumAccepted(Item item){
+			return linkedCore != null ? linkedCore.getMaximumAccepted(item) : 0;
+		}
+
 		@Override public int acceptStack(Item item, int amount, Teamc source) {
 			return linkedCore == null ? 0 : linkedCore.acceptStack(item, amount, source);
 		}
 
-		@Override public void handleItem(Building source, Item item) {
-			linkedCore.handleItem(source, item);
-		}
-
 		@Override public void handleStack(Item item, int amount, Teamc source) {
-			linkedCore.handleStack(item, amount, source);
+			if (linkedCore != null) linkedCore.handleStack(item, amount, source);
 		}
 
 		@Override public int removeStack(Item item, int amount) {
-			return linkedCore == null ? 0 : linkedCore.removeStack(item, amount);
+			return linkedCore != null ? linkedCore.removeStack(item, amount) : 0;
+		}
+
+		@Override public boolean canUnload() {
+			return linkedCore != null && linkedCore.canUnload();
+		}
+
+		@Override public boolean allowDeposit(){
+			return linkedCore != null && linkedCore.allowDeposit();
+		}
+
+		@Override public void itemTaken(Item item) {
+			if (linkedCore != null) linkedCore.itemTaken(item);
+		}
+
+		@Override public int explosionItemCap() {
+			return linkedCore != null ? Math.min(itemCapacity / 60, 6) : 0;
 		}
 
 		public void setLinkedCore(Building core) {
@@ -150,6 +178,11 @@ public class TurretCoreModule extends AstraItemTurret implements BlockModule {
 
 		public Item getCurrentAmmo() {
 			return currentAmmo;
+		}
+
+		@Override public double sense(LAccess sensor) {
+			if (sensor == LAccess.itemCapacity && linkedCore != null) return linkedCore.sense(sensor);
+			return super.sense(sensor);
 		}
 
 		@Override public void read(Reads read, byte revision) {

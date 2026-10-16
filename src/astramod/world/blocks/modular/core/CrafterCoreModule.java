@@ -4,10 +4,12 @@ import arc.math.geom.*;
 import arc.util.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.logic.LAccess;
 import mindustry.type.*;
 import mindustry.world.*;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.blocks.storage.CoreBlock.CoreBuild;
+import mindustry.world.blocks.storage.StorageBlock;
 import astramod.content.*;
 import astramod.world.blocks.modular.*;
 import astramod.world.meta.*;
@@ -86,13 +88,46 @@ public class CrafterCoreModule extends GenericCrafter implements BlockModule {
 			return linkedCore != null ? 1f : 0f;
 		}
 
-
 		@Override public boolean acceptItem(Building source, Item item) {
 			return linkedCore != null && linkedCore.acceptItem(source, item);
 		}
 
+		@Override public void handleItem(Building source, Item item) {
+			if (linkedCore instanceof CoreBuild core) {
+				if (core.items.get(item) >= core.storageCapacity) {
+					StorageBlock.incinerateEffect(this, source);
+				}
+				core.noEffect = true;
+				core.handleItem(source, item);
+			}
+		}
+
+		@Override public int getMaximumAccepted(Item item){
+			return linkedCore != null ? linkedCore.getMaximumAccepted(item) : 0;
+		}
+
 		@Override public void handleStack(Item item, int amount, Teamc source) {
-			linkedCore.handleStack(item, amount, source);
+			if (linkedCore != null) linkedCore.handleStack(item, amount, source);
+		}
+
+		@Override public int removeStack(Item item, int amount) {
+			return linkedCore != null ? linkedCore.removeStack(item, amount) : 0;
+		}
+
+		@Override public boolean canUnload() {
+			return linkedCore != null && linkedCore.canUnload();
+		}
+
+		@Override public boolean allowDeposit(){
+			return linkedCore != null && linkedCore.allowDeposit();
+		}
+
+		@Override public void itemTaken(Item item) {
+			if (linkedCore != null) linkedCore.itemTaken(item);
+		}
+
+		@Override public int explosionItemCap() {
+			return linkedCore != null ? Math.min(itemCapacity / 60, 6) : 0;
 		}
 
 		@Override public boolean canDump(Building to, Item item) {
@@ -113,6 +148,11 @@ public class CrafterCoreModule extends GenericCrafter implements BlockModule {
 
 		@Override public boolean canPickup() {
 			return false;
+		}
+
+		@Override public double sense(LAccess sensor) {
+			if (sensor == LAccess.itemCapacity && linkedCore != null) return linkedCore.sense(sensor);
+			return super.sense(sensor);
 		}
 	}
 }
