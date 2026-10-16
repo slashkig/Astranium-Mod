@@ -33,11 +33,6 @@ public class DynamicReconstructor extends Reconstructor {
 		}));
 	}
 
-	@Override public void init() {
-		recipes.forEach(e -> upgrades.add(new UnitType[] { e.key, e.value.unit }));
-		super.init();
-	}
-
 	@Override public void initCapacities() {
 		capacities = new int[Vars.content.items().size];
 		itemCapacity = 10;
@@ -109,6 +104,7 @@ public class DynamicReconstructor extends Reconstructor {
 
 	public void addUpgrade(UnitType from, UnitType to, float time, ItemStack[] requirements) {
 		recipes.put(from, new UnitPlan(to, time, requirements));
+		upgrades.add(new UnitType[] { from, to });
 	}
 
 	public class DynamicReconstructorBuild extends ReconstructorBuild {

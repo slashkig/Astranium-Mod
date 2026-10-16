@@ -4412,28 +4412,26 @@ public class AstraBlocks {
 			size = 3;
 			consumePower(5f);
 
-			recipes.putAll(
-				AstraUnitTypes.dicentra, new UnitPlan(AstraUnitTypes.achillion, 18f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 30,
-					Items.silicon, 30,
-					Items.graphite, 25
-				)),
-				AstraUnitTypes.legion, new UnitPlan(AstraUnitTypes.decanus, 18f * Time.toSeconds, ItemStack.with(
-					Items.graphite, 30,
-					Items.silicon, 30,
-					Items.pyratite, 25
-				)),
-				AstraUnitTypes.zenaida, new UnitPlan(AstraUnitTypes.trexon, 20f * Time.toSeconds, ItemStack.with(
-					Items.metaglass, 35,
-					Items.silicon, 30,
-					Items.titanium, 20
-				)),
-				AstraUnitTypes.baeri, new UnitPlan(AstraUnitTypes.vorhies, 19f * Time.toSeconds, ItemStack.with(
-					Items.silicon, 30,
-					Items.pyratite, 20,
-					Items.graphite, 30
-				))
-			);
+			addUpgrade(AstraUnitTypes.dicentra, AstraUnitTypes.achillion, 18f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 30,
+				Items.silicon, 30,
+				Items.graphite, 25
+			));
+			addUpgrade(AstraUnitTypes.legion, AstraUnitTypes.decanus, 18f * Time.toSeconds, ItemStack.with(
+				Items.graphite, 30,
+				Items.silicon, 30,
+				Items.pyratite, 25
+			));
+			addUpgrade(AstraUnitTypes.zenaida, AstraUnitTypes.trexon, 20f * Time.toSeconds, ItemStack.with(
+				Items.metaglass, 35,
+				Items.silicon, 30,
+				Items.titanium, 20
+			));
+			addUpgrade(AstraUnitTypes.baeri, AstraUnitTypes.vorhies, 19f * Time.toSeconds, ItemStack.with(
+				Items.silicon, 30,
+				Items.pyratite, 20,
+				Items.graphite, 30
+			));
 		}};
 
 		secondaryTankAssembler = new DynamicReconstructor("secondary-tank-assembler") {{
@@ -4448,42 +4446,40 @@ public class AstraBlocks {
 			size = 5;
 			consumePower(7f);
 
-			recipes.putAll(
-				AstraUnitTypes.hymeno, new UnitPlan(AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 30,
-					Items.titanium, 20,
-					Items.silicon, 35,
-					Items.copper, 60
-				)),
-				AstraUnitTypes.aculei, new UnitPlan(AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 70,
-					Items.silicon, 30,
-					Items.graphite, 45
-				)),
-				AstraUnitTypes.meissa, new UnitPlan(AstraUnitTypes.saiph, 23f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 40,
-					AstraItems.lithium, 20,
-					Items.silicon, 30,
-					Items.metaglass, 35
-				)),
-				AstraUnitTypes.arbalest, new UnitPlan(AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 30,
-					AstraItems.magnetite, 50,
-					Items.silicon, 30
-				)),
-				AstraUnitTypes.trexon, new UnitPlan(AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
-					AstraItems.steel, 60,
-					AstraItems.magnetite, 55,
-					Items.silicon, 90,
-					Items.titanium, 50
-				)),
-				AstraUnitTypes.achillion, new UnitPlan(AstraUnitTypes.strelitz, 38f * Time.toSeconds, ItemStack.with(
-					AstraItems.steel, 75,
-					Items.graphite, 50,
-					Items.silicon, 80,
-					Items.titanium, 60
-				))
-			);
+			addUpgrade(AstraUnitTypes.hymeno, AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 30,
+				Items.titanium, 20,
+				Items.silicon, 35,
+				Items.copper, 60
+			));
+			addUpgrade(AstraUnitTypes.aculei, AstraUnitTypes.echidna, 22f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 70,
+				Items.silicon, 30,
+				Items.graphite, 45
+			));
+			addUpgrade(AstraUnitTypes.meissa, AstraUnitTypes.saiph, 23f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 40,
+				AstraItems.lithium, 20,
+				Items.silicon, 30,
+				Items.metaglass, 35
+			));
+			addUpgrade(AstraUnitTypes.arbalest, AstraUnitTypes.bartizan, 25f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 30,
+				AstraItems.magnetite, 50,
+				Items.silicon, 30
+			));
+			addUpgrade(AstraUnitTypes.trexon, AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
+				AstraItems.steel, 60,
+				AstraItems.magnetite, 55,
+				Items.silicon, 90,
+				Items.titanium, 50
+			));
+			addUpgrade(AstraUnitTypes.achillion, AstraUnitTypes.strelitz, 38f * Time.toSeconds, ItemStack.with(
+				AstraItems.steel, 75,
+				Items.graphite, 50,
+				Items.silicon, 80,
+				Items.titanium, 60
+			));
 		}};
 
 		secondaryAirAssembler = new DynamicReconstructor("secondary-air-assembler") {{
@@ -4497,13 +4493,11 @@ public class AstraBlocks {
 			size = 3;
 			consumePower(5f);
 
-			recipes.putAll(
-				AstraUnitTypes.fledge, new UnitPlan(AstraUnitTypes.newt, 20f * Time.toSeconds, ItemStack.with(
-					Items.lead, 35,
-					Items.silicon, 30,
-					Items.titanium, 25
-				))
-			);
+			addUpgrade(AstraUnitTypes.fledge, AstraUnitTypes.newt, 20f * Time.toSeconds, ItemStack.with(
+				Items.lead, 35,
+				Items.silicon, 30,
+				Items.titanium, 25
+			));
 		}};
 
 		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
@@ -4518,13 +4512,11 @@ public class AstraBlocks {
 			size = 5;
 			consumePower(7f);
 
-			recipes.putAll(
-				AstraUnitTypes.milvus, new UnitPlan(AstraUnitTypes.pandion, 23f * Time.toSeconds, ItemStack.with(
-					AstraItems.iron, 35,
-					Items.silicon, 30,
-					Items.graphite, 35
-				))
-			);
+			addUpgrade(AstraUnitTypes.milvus, AstraUnitTypes.pandion, 23f * Time.toSeconds, ItemStack.with(
+				AstraItems.iron, 35,
+				Items.silicon, 30,
+				Items.graphite, 35
+			));
 		}};
 
 		// region EXTRAS
