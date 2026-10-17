@@ -1,6 +1,7 @@
 package astramod.entities.abilities;
 
 import arc.Core;
+import arc.func.*;
 import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
@@ -14,6 +15,7 @@ import astramod.world.meta.*;
 
 public class WeaponAbility extends ActivatedAbility {
 	public String name;
+	public Func2<AIController, WeaponMount, Teamc> targeter;
 	protected WeaponMount mount;
 	protected UnitType unit;
 
@@ -24,6 +26,10 @@ public class WeaponAbility extends ActivatedAbility {
 	@Override public void init(UnitType type) {
 		super.init(type);
 		unit = type;
+		if (targeter == null) targeter = (ai, mount) -> {
+			Unit unit = ai.unit();
+			return ai.findMainTarget(unit.x, unit.y, mount.weapon.range(), unit.type.targetAir, unit.type.targetGround);
+		};
 	}
 
 	@Override public void created(Unit unit) {
@@ -57,6 +63,18 @@ public class WeaponAbility extends ActivatedAbility {
 	@Override public void updatePlayer(Unit unit) {
 		mount.aimX = unit.aimX;
 		mount.aimY = unit.aimY;
+	}
+
+	@Override public boolean shouldActivate(Unit unit, Teamc target) {
+		if (target != null) {
+			mount.aimX = target.x();
+			mount.aimY = target.y();
+			return true;
+		} else return false;
+	}
+
+	@Override public Teamc selectTarget(AIController controller) {
+		return targeter.get(controller, mount);
 	}
 
 	@Override public float getProgress(Unit unit) {

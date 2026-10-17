@@ -7,6 +7,7 @@ import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
+import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
@@ -19,6 +20,7 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.*;
 import astramod.ai.types.*;
+import astramod.entities.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
 import astramod.entities.part.*;
@@ -642,6 +644,8 @@ public class AstraUnitTypes {
 		}};
 
 		oriolus = new AstraUnitType("oriolus") {{
+			aiController = AbilityAI::new;
+
 			health = 1100;
 			armor = 6f;
 			hitSize = 18f;
@@ -653,7 +657,6 @@ public class AstraUnitTypes {
 			rotateSpeed = 2.5f;
 			stepSoundVolume = 1f;
 
-			// TODO make AI able to use dash
 			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds) {{
 				boostEffect = AstraFx.dynamicBurst(AstraPal.sonicShotFront, AstraPal.sonicShotBack, 30f, 35f, 15);
 			}});
@@ -710,8 +713,7 @@ public class AstraUnitTypes {
 		// region ROCKET MECHS
 
 		legion = new AstraUnitType("legion") {{
-			// TODO rocketeer AI
-			aiController = GroundRangerAI::new;
+			aiController = RaiderAI::new;
 
 			health = 220;
 			armor = 1f;
@@ -772,7 +774,7 @@ public class AstraUnitTypes {
 		}};
 
 		decanus = new AstraUnitType("decanus") {{
-			aiController = GroundBacklineAI::new;
+			aiController = RaiderAI::new;
 
 			health = 680;
 			armor = 3f;
@@ -930,6 +932,7 @@ public class AstraUnitTypes {
 		}};
 
 		vorhies = new AstraUnitType("vorhies") {{
+			aiController = AbilityAI::new;
 			targetAir = false;
 			hovering = true;
 
@@ -961,7 +964,15 @@ public class AstraUnitTypes {
 			groundLayer = Layer.legUnit - 1f;
 			stepSound = Sounds.walkerStepSmall;
 
-			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon"));
+			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon") {{
+				targeter = (ai, mount) -> {
+					Unit unit = ai.unit();
+					return Units.closestTarget(unit.team, unit.x, unit.y, mount.weapon.range() * 1.3f,
+						u -> u.checkTarget(targetAir, targetGround) && UnitUtil.withinFiringArc(unit, u, mount.weapon),
+						t -> targetGround && (unit.type.targetUnderBlocks || !t.block.underBullets) && UnitUtil.withinFiringArc(unit, t, mount.weapon)
+					);
+				};
+			}});
 
 			weapons.add(
 				new Weapon("astramod-vorhies-flame-fang") {{
@@ -1681,7 +1692,7 @@ public class AstraUnitTypes {
 				top = false;
 				layerOffset = -0.1f;
 
-				bullet = new BasicBulletType(4f, 18) {{
+				bullet = new BasicBulletType(4f, 16) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;

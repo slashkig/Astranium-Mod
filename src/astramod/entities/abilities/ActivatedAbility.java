@@ -5,6 +5,7 @@ import arc.input.*;
 import arc.scene.ui.layout.*;
 import mindustry.Vars;
 import mindustry.entities.abilities.*;
+import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.graphics.*;
 import mindustry.input.*;
@@ -39,6 +40,13 @@ public abstract class ActivatedAbility extends Ability {
 
 	public boolean canActivate(Unit unit) {
 		return getProgress(unit) >= 1f;
+	}
+
+	public abstract boolean shouldActivate(Unit unit, Teamc target);
+
+	public Teamc selectTarget(AIController controller) {
+		Unit unit = controller.unit();
+		return controller.findMainTarget(unit.x, unit.y, unit.range(), unit.type.targetAir, unit.type.targetGround);
 	}
 
 	public abstract float getProgress(Unit unit);

@@ -6,7 +6,9 @@ import arc.util.*;
 import mindustry.Vars;
 import mindustry.content.*;
 import mindustry.entities.*;
+import mindustry.entities.units.AIController;
 import mindustry.gen.*;
+import mindustry.type.*;
 
 public class DashAbility extends ActivatedAbility {
 	public float speedBoost = 1f;
@@ -18,6 +20,11 @@ public class DashAbility extends ActivatedAbility {
 		this.speedBoost = speedBoost;
 		this.duration = duration;
 		this.cooldown = cooldown;
+	}
+
+	@Override public void init(UnitType type) {
+		super.init(type);
+		data = cooldown;
 	}
 
 	@Override public void addStats(Table t) {
@@ -40,6 +47,22 @@ public class DashAbility extends ActivatedAbility {
 
 	@Override public boolean canActivate(Unit unit) {
 		return data >= cooldown;
+	}
+
+	@Override public boolean shouldActivate(Unit unit, Teamc target) {
+		return target != null;
+	}
+
+	@Override public Teamc selectTarget(AIController controller) {
+		Unit unit = controller.unit();
+		return Units.closestTarget(unit.team, unit.x, unit.y, speedBoost * duration + unit.range() * 0.5f,
+			u -> u.checkTarget(unit.type.targetAir, unit.type.targetGround) && validTargetPos(unit, u),
+			t -> unit.type.targetGround && (unit.type.targetUnderBlocks || !t.block.underBullets) && validTargetPos(unit, t)
+		);
+	}
+
+	protected boolean validTargetPos(Unit unit, Teamc target) {
+		return !unit.within(target, speedBoost * duration - unit.range() * 0.5f) && Angles.within(unit.angleTo(target), unit.rotation(), 45f);
 	}
 
 	@Override public float getProgress(Unit unit) {
