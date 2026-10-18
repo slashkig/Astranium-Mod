@@ -3,9 +3,9 @@ package astramod.world.blocks.power;
 import mindustry.world.blocks.power.*;
 import mindustry.world.meta.*;
 import astramod.AstraVars;
-import astramod.content.*;
+import astramod.game.WindLogic;
 import astramod.math.MathUtil;
-import astramod.world.meta.AstraStatValues;
+import astramod.world.meta.*;
 
 public class WindGenerator extends PowerGenerator {
 	public float overloadDamage = 5f;
@@ -19,7 +19,7 @@ public class WindGenerator extends PowerGenerator {
 		stats.replace(generationType, AstraStatValues.numberRange(0f, powerProduction * 60f, StatUnit.powerSecond));
 	}
 
-	public AstraWeathers.WindLogic windManager() {
+	public WindLogic windManager() {
 		return AstraVars.windManager;
 	}
 

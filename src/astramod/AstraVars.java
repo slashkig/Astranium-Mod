@@ -1,6 +1,6 @@
 package astramod;
 
-import astramod.content.AstraWeathers.WindLogic;
+import astramod.game.*;
 
 public class AstraVars {
 	public static WindLogic windManager;

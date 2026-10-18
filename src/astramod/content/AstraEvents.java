@@ -27,9 +27,5 @@ public class AstraEvents {
 		});
 
 		Events.on(ResetEvent.class, e -> { WireRelay.relayBuilds.clear(); });
-
-		Events.run(Trigger.update, AstraWeathers::updateWind);
-
-		Events.run(Trigger.newGame, AstraWeathers::setupWind);
 	}
 }
