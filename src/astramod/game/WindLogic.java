@@ -16,19 +16,22 @@ import static mindustry.Vars.*;
 import static astramod.content.AstraWeathers.*;
 
 public class WindLogic {
+	/** How much total wind there is right now. */
 	public float globalWind;
+	/** Target random wind value. */
 	public float randWind;
+	/** Wind modifier to smooth weather changes; decays towards 0. */
 	public float tempWind;
+	/** How many frames there are left until wind is rerolled. */
 	public float windCounter;
+	/** The lifetime wind weathers are set to if they are ended early. */
+	public float fadeDelay = 300f;
 
 	public static final long windUpdateInterval = 1000;
 	protected long lastNetUpdate;
 
 	public float setupRandMin = 0.4f, setupRandMax = 0.6f, setupCounterMin = 5f, setupCounterMax = 8f;
-
-	public float counterMin = 1f, counterMax = 4f;
-	public float randMin = -0.5f, randMax = 1f;
-	public float fadeDelay = 300f;
+	public float randMin = -0.5f, randMax = 1f, counterMin = 1f, counterMax = 4f;
 
 	/** Magnitude of variation noise. */
 	public float windVarMag = 0.5f;
@@ -37,8 +40,7 @@ public class WindLogic {
 	/** Scale for wind conversion chance. */
 	public float weatherChanceScl = 5f * Time.toSeconds;
 
-	public final float windBase;
-	public final float highWindBase;
+	public final float windBase, highWindBase;
 
 	public WindLogic() {
 		SaveVersion.addCustomChunk("astramod-wind", new CustomChunk(
@@ -61,7 +63,6 @@ public class WindLogic {
 		highWindBase = heavyWind.attrs.get(wind);
 		lastNetUpdate = Time.millis();
 
-		
 		Events.run(Trigger.update, this::updateWind);
 		Events.run(Trigger.newGame, this::setupWind);
 	}
@@ -86,42 +87,32 @@ public class WindLogic {
 	}
 
 	public void updateWind() {
-		if (!state.isPlaying() || !windEnabled()) {
-			return;
-		}
+		if (!state.isPlaying() || !windEnabled()) return;
 
-		float targetWind = Mathf.maxZero(
-			envWind() + randWind + windVarMag * (float)Noise.rawNoise(Time.time / Time.toMinutes)
-		);
-		globalWind = Mathf.equal(globalWind, targetWind) ? targetWind : Mathf.lerpDelta(
-			globalWind, targetWind,
-			(1f + Noise.snoise(windCounter, Time.time, Time.toMinutes, windLerpMag)) / Time.toMinutes
-		);
+		float targetWind = Mathf.maxZero(envWind() + randWind + windVarMag * (float)Noise.rawNoise(Time.time / Time.toMinutes));
+		globalWind = Mathf.equal(globalWind, targetWind) ? targetWind : Mathf.lerpDelta(globalWind, targetWind,
+			(1f + Noise.snoise(windCounter, Time.time, Time.toMinutes, windLerpMag)) / Time.toMinutes);
 
 		// TODO possible weather desync
 		if (!net.client()) {
-			if (globalWind > windBase
-			&& !windy.isActive() && envWind() < windBase
+			if (globalWind > windBase && !windy.isActive() && envWind() < windBase
 			&& Mathf.chanceDelta((globalWind - windBase) / weatherChanceScl)) {
 				// Calm -> Wind
 				createWindWeather(windy, windCounter * 2f);
 				deltaWind(windBase);
-			} else if (globalWind < windBase
-			&& windy.isActive() && tempWind > -0.1f
+			} else if (globalWind < windBase && windy.isActive() && tempWind > -0.1f
 			&& Mathf.chanceDelta((windBase - globalWind) / weatherChanceScl)) {
 				// Wind -> Calm
 				fadeWindWeather(windy);
 				deltaWind(-windBase);
-			} else if (globalWind > highWindBase
-			&& windy.isActive() && !heavyWind.isActive()
+			} else if (globalWind > highWindBase && windy.isActive() && !heavyWind.isActive()
 			&& envWind() <= Mathf.clamp(targetWind / 2f, windBase, randMax)
 			&& Mathf.chanceDelta((globalWind - highWindBase) / weatherChanceScl)) {
 				// Wind -> High Wind
 				createWindWeather(heavyWind, Math.max(windy.instance().life(), windCounter));
 				fadeWindWeather(windy);
 				deltaWind(highWindBase - windBase);
-			} else if (globalWind < highWindBase
-			&& heavyWind.isActive() && !windy.isActive() && tempWind > -0.1f
+			} else if (globalWind < highWindBase && heavyWind.isActive() && !windy.isActive() && tempWind > -0.1f
 			&& Mathf.chanceDelta((highWindBase - globalWind) / weatherChanceScl)) {
 				// High Wind -> Wind
 				createWindWeather(windy, Math.max(heavyWind.instance().life(), windCounter) * 2f);
