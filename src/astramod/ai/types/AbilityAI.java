@@ -31,7 +31,7 @@ public class AbilityAI extends AIController {
 
 		noTargetTime += Time.delta;
 
-		if (invalid(target)) {
+		if (!ability.validTarget(unit, target)) {
 			if (target instanceof Healthc h && !h.isValid()) {
 				targetInvalidated();
 			}

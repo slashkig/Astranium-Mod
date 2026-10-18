@@ -7,7 +7,6 @@ import arc.util.*;
 import ent.anno.Annotations.*;
 import mindustry.ai.types.*;
 import mindustry.content.*;
-import mindustry.entities.*;
 import mindustry.entities.abilities.*;
 import mindustry.entities.bullet.*;
 import mindustry.entities.part.*;
@@ -20,7 +19,6 @@ import mindustry.world.blocks.defense.*;
 import mindustry.world.blocks.distribution.*;
 import mindustry.world.meta.*;
 import astramod.ai.types.*;
-import astramod.entities.*;
 import astramod.entities.abilities.*;
 import astramod.entities.bullet.*;
 import astramod.entities.part.*;
@@ -475,12 +473,13 @@ public class AstraUnitTypes {
 		}};
 
 		strelitz = new AstraUnitType("strelitz") {{
+			singleTarget = true;
+
 			health = 1350;
 			armor = 7f;
 			hitSize = 17f;
 			fogRadius = 14f;
 			itemCapacity = 40;
-			forceMultiTarget = true;
 
 			speed = 0.5f;
 			accel = 0.25f;
@@ -556,7 +555,6 @@ public class AstraUnitTypes {
 				shootY = 2f;
 				controllable = false;
 				autoTarget = true;
-				aiControllable = false;
 				useAttackRange = false;
 
 				shootSound = Sounds.shootMissile;
@@ -964,15 +962,7 @@ public class AstraUnitTypes {
 			groundLayer = Layer.legUnit - 1f;
 			stepSound = Sounds.walkerStepSmall;
 
-			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon") {{
-				targeter = (ai, mount) -> {
-					Unit unit = ai.unit();
-					return Units.closestTarget(unit.team, unit.x, unit.y, mount.weapon.range() * 1.3f,
-						u -> u.checkTarget(targetAir, targetGround) && UnitUtil.withinFiringArc(unit, u, mount.weapon),
-						t -> targetGround && (unit.type.targetUnderBlocks || !t.block.underBullets) && UnitUtil.withinFiringArc(unit, t, mount.weapon)
-					);
-				};
-			}});
+			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon") {{ rangeMultiplier = 1.3f; }});
 
 			weapons.add(
 				new Weapon("astramod-vorhies-flame-fang") {{

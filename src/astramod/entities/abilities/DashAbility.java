@@ -61,8 +61,12 @@ public class DashAbility extends ActivatedAbility {
 		);
 	}
 
+	@Override public boolean validTarget(Unit unit, Teamc target) {
+		return super.validTarget(unit, target) && validTargetPos(unit, target);
+	}
+
 	protected boolean validTargetPos(Unit unit, Teamc target) {
-		return !unit.within(target, speedBoost * duration - unit.range() * 0.5f) && Angles.within(unit.angleTo(target), unit.rotation(), 45f);
+		return !unit.within(target, speedBoost * duration - unit.range() * 0.5f) && Angles.within(unit.angleTo(target), unit.vel().angle(), 45f);
 	}
 
 	@Override public float getProgress(Unit unit) {

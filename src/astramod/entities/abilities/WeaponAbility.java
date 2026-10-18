@@ -6,9 +6,11 @@ import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.Vars;
+import mindustry.entities.*;
 import mindustry.entities.units.*;
 import mindustry.gen.*;
 import mindustry.type.*;
+import astramod.entities.UnitUtil;
 import astramod.io.*;
 import astramod.type.weapons.*;
 import astramod.world.meta.*;
@@ -16,6 +18,7 @@ import astramod.world.meta.*;
 public class WeaponAbility extends ActivatedAbility {
 	public String name;
 	public Func2<AIController, WeaponMount, Teamc> targeter;
+	public float rangeMultiplier = 1f;
 	protected WeaponMount mount;
 	protected UnitType unit;
 
@@ -28,7 +31,10 @@ public class WeaponAbility extends ActivatedAbility {
 		unit = type;
 		if (targeter == null) targeter = (ai, mount) -> {
 			Unit unit = ai.unit();
-			return ai.findMainTarget(unit.x, unit.y, mount.weapon.range(), unit.type.targetAir, unit.type.targetGround);
+			return Units.closestTarget(unit.team, unit.x, unit.y, mount.weapon.range() * rangeMultiplier,
+				u -> u.checkTarget(unit.type.targetAir, unit.type.targetGround) && UnitUtil.withinFiringArc(unit, u, mount.weapon),
+				t -> unit.type.targetGround && (unit.type.targetUnderBlocks || !t.block.underBullets) && UnitUtil.withinFiringArc(unit, t, mount.weapon)
+			);
 		};
 	}
 
@@ -75,6 +81,11 @@ public class WeaponAbility extends ActivatedAbility {
 
 	@Override public Teamc selectTarget(AIController controller) {
 		return targeter.get(controller, mount);
+	}
+
+	@Override public boolean validTarget(Unit unit, Teamc target) {
+		return !Units.invalidateTarget(target, mount.weapon.bullet.collidesTeam ? null : unit.team, unit.x, unit.y, mount.weapon.range() * rangeMultiplier)
+			&& UnitUtil.withinFiringArc(unit, target, mount.weapon);
 	}
 
 	@Override public float getProgress(Unit unit) {
