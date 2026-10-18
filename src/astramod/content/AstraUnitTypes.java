@@ -643,6 +643,7 @@ public class AstraUnitTypes {
 
 		oriolus = new AstraUnitType("oriolus") {{
 			aiController = AbilityAI::new;
+			singleTarget = true;
 
 			health = 1100;
 			armor = 6f;
@@ -842,8 +843,9 @@ public class AstraUnitTypes {
 		
 		baeri = new AstraUnitType("baeri") {{
 			aiController = () -> new GroundSpecialistAI(b -> b.block instanceof Radar, 120f * tilesize);
-			targetAir = false;
 			hovering = true;
+			singleTarget = true;
+			targetAir = false;
 
 			health = 220;
 			armor = 2f;
@@ -881,29 +883,27 @@ public class AstraUnitTypes {
 			stepSound = Sounds.walkerStepTiny;
 			stepSoundVolume = 0.4f;
 
-			weapons.add(
-				new Weapon("astramod-baeri-puncher") {{
-					reload = 15f;
-					shootCone = 45f;
-					recoil = -3f;
+			weapons.add(new Weapon("astramod-baeri-puncher") {{
+				reload = 15f;
+				shootCone = 45f;
+				recoil = -3f;
 
-					top = false;
-					x = 7f;
-					y = -0.25f;
-					shootY = 9f;
-					shootSound = Sounds.none;
+				top = false;
+				x = 7f;
+				y = -0.25f;
+				shootY = 9f;
+				shootSound = Sounds.none;
 
-					bullet = new MeleeBulletType(30) {{
-						hitSize = 8f;
-						rangeOverride = 15f;
-						armorMultiplier = 0.5f;
-					}};
-				}},
-				new DeathWeapon(new ExplosionBulletType(50f, 4f * tilesize) {{
-					buildingDamageMultiplier = 0.75f;
-					shieldDamageMultiplier = 1.5f;
-				}})
-			);
+				bullet = new MeleeBulletType(30) {{
+					hitSize = 8f;
+					rangeOverride = 15f;
+					armorMultiplier = 0.5f;
+				}};
+			}},
+			new DeathWeapon(new ExplosionBulletType(50f, 4f * tilesize) {{
+				buildingDamageMultiplier = 0.75f;
+				shieldDamageMultiplier = 1.5f;
+			}}));
 			deathExplosionEffect = AstraFx.dynamicExplosion(Pal.lightPyraFlame, Pal.darkPyraFlame, 32f, 5, 4, false);;
 		}};
 
@@ -931,8 +931,9 @@ public class AstraUnitTypes {
 
 		vorhies = new AstraUnitType("vorhies") {{
 			aiController = AbilityAI::new;
-			targetAir = false;
 			hovering = true;
+			singleTarget = true;
+			targetAir = false;
 
 			health = 600;
 			armor = 4f;
@@ -964,61 +965,59 @@ public class AstraUnitTypes {
 
 			abilities.add(new WeaponAbility("astramod-vorhies-smoke-cannon") {{ rangeMultiplier = 1.3f; }});
 
-			weapons.add(
-				new Weapon("astramod-vorhies-flame-fang") {{
-					reload = 16f;
-					recoil = 3f;
+			weapons.add(new Weapon("astramod-vorhies-flame-fang") {{
+				reload = 16f;
+				recoil = 3f;
 
-					x = 2.25f;
-					y = 5.5f;
-					shootX = -0.75f;
-					shootY = 3f;
-					layerOffset = -0.002f;
+				x = 2.25f;
+				y = 5.5f;
+				shootX = -0.75f;
+				shootY = 3f;
+				layerOffset = -0.002f;
 
-					heatColor = AstraPal.heat;
-					cooldownTime = 60f;
-					rotate = false;
+				heatColor = AstraPal.heat;
+				cooldownTime = 60f;
+				rotate = false;
 
-					shootSound = Sounds.shootFlame;
+				shootSound = Sounds.shootFlame;
 
-					bullet = new BulletType(4f, 45) {{
-						hitSize = 7f;
-						lifetime = 15f;
-						pierce = pierceBuilding = true;
-						pierceCap = 2;
-						armorMultiplier = 0.5f;
+				bullet = new BulletType(4f, 45) {{
+					hitSize = 7f;
+					lifetime = 15f;
+					pierce = pierceBuilding = true;
+					pierceCap = 2;
+					armorMultiplier = 0.5f;
 
-						status = StatusEffects.burning;
-						statusDuration = 5f * Time.toSeconds;
+					status = StatusEffects.burning;
+					statusDuration = 5f * Time.toSeconds;
 
-						collidesAir = false;
-						keepVelocity = false;
-						hittable = false;
+					collidesAir = false;
+					keepVelocity = false;
+					hittable = false;
 
-						shootEffect = Fx.shootPyraFlame;
-						hitEffect = Fx.hitFlameSmall;
-						despawnEffect = Fx.none;
-					}};
-				}},
-				new AbilityWeapon("astramod-vorhies-smoke-cannon") {{
-					reload = 15f * Time.toSeconds;
-					recoil = 3f;
-					rotate = true;
-					rotateSpeed = 2f;
-					rotationLimit = 60f;
+					shootEffect = Fx.shootPyraFlame;
+					hitEffect = Fx.hitFlameSmall;
+					despawnEffect = Fx.none;
+				}};
+			}},
+			new AbilityWeapon("astramod-vorhies-smoke-cannon") {{
+				reload = 15f * Time.toSeconds;
+				recoil = 3f;
+				rotate = true;
+				rotateSpeed = 2f;
+				rotationLimit = 60f;
 
-					mirror = false;
-					x = -7.5f;
-					y = -1f;
-					shootY = 2.75f;
-					cooldownTime = 60f;
+				mirror = false;
+				x = -7.5f;
+				y = -1f;
+				shootY = 2.75f;
+				cooldownTime = 60f;
 
-					shootSound = Sounds.shootMerui;
-					shootSoundVolume = 1.4f;
+				shootSound = Sounds.shootMerui;
+				shootSoundVolume = 1.4f;
 
-					bullet = smokeShell;
-				}}
-			);
+				bullet = smokeShell;
+			}});
 		}};
 
 		// region GUNNER TANKS
@@ -1557,25 +1556,7 @@ public class AstraUnitTypes {
 			engineOffset = 6.75f;
 			engineSize = 2.5f;
 
-			weapons.add(new Weapon() {{
-				top = false;
-				mirror = false;
-				x = 0;
-				y = 0;
-
-				minShootVelocity = 2f;
-				reload = 15.5f;
-				shoot.shots = 3;
-				shootSound = Sounds.shootArc;
-
-				bullet = new LightningBulletType() {{
-					lightningColor = hitColor = Pal.sapBullet;
-					damage = 8f;
-					lightningLength = 10;
-					lightningLengthRand = 7;
-				}};
-			}},
-			new Weapon("astramod-newt-sapper") {{
+			weapons.add(new Weapon("astramod-newt-sapper") {{
 				reload = 12.4f;
 				rotate = true;
 
@@ -1598,6 +1579,27 @@ public class AstraUnitTypes {
 					hitColor = color = Pal.sapBullet;
 					shootEffect = Fx.shootSmall;
 					despawnEffect = Fx.none;
+				}};
+			}},
+			new Weapon() {{
+				reload = 15.5f;
+				alwaysShooting = true;
+				shoot.shots = 3;
+				shootCone = 30f;
+				minShootVelocity = 2f;
+
+				top = false;
+				mirror = false;
+				x = 0;
+				y = 0;
+
+				shootSound = Sounds.shootArc;
+
+				bullet = new LightningBulletType() {{
+					lightningColor = hitColor = Pal.sapBullet;
+					damage = 8f;
+					lightningLength = 10;
+					lightningLengthRand = 7;
 				}};
 			}});
 		}};
@@ -1647,6 +1649,7 @@ public class AstraUnitTypes {
 		pandion = new AstraUnitType("pandion") {{
 			targetFlags = new BlockFlag[] { BlockFlag.turret, BlockFlag.storage, BlockFlag.repair, BlockFlag.core, null };
 			flying = true;
+			singleTarget = true;
 
 			health = 720;
 			armor = 4f;
