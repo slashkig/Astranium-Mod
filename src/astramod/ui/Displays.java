@@ -36,17 +36,13 @@ public final class Displays {
 			healthColor.get()
 		));
 		// Reflection trick for the annoying local class
-		try {
-			var field = infoCell.get().getClass().getDeclaredField("amount");
-			field.setAccessible(true);
-			field.set(infoCell.get(), (Floatp) () ->
-				player.dead() ? 0f :
-				player.displayAmmo() ? player.unit().ammof() :
-				Structs.find(player.unit().abilities, ActivatedAbility.class::isInstance) instanceof ActivatedAbility a ? a.getProgress(player.unit()) :
-				player.unit() instanceof Payloadc pay && !pay.payloads().isEmpty() ? pay.payloadUsed() / player.unit().type().payloadCapacity :
-				player.unit().healthf()
-			);
-		} catch (ReflectiveOperationException e) { throw new RuntimeException(e); }
+		Reflect.set(infoCell.get(), "amount", (Floatp) () ->
+			player.dead() ? 0f :
+			player.displayAmmo() ? player.unit().ammof() :
+			Structs.find(player.unit().abilities, ActivatedAbility.class::isInstance) instanceof ActivatedAbility a ? a.getProgress(player.unit()) :
+			player.unit() instanceof Payloadc pay && !pay.payloads().isEmpty() ? pay.payloadUsed() / player.unit().type().payloadCapacity :
+			player.unit().healthf()
+		);
 	}
 
 	/** Searches {@code table} for a Label containing {@code str}. If the string is found, it is replaced with {@code replacement}. */

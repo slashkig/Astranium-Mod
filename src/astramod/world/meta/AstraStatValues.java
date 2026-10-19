@@ -220,12 +220,8 @@ public class AstraStatValues {
 	}
 
 	public static void tableInfo(Table table, String key) {
-		try {
-			// Why is this method private
-			var tableInfo = StatValues.class.getDeclaredMethod("tableInfo", Table.class, String.class);
-			tableInfo.setAccessible(true);
-			tableInfo.invoke(null, table, key);
-		} catch (ReflectiveOperationException e) { throw new RuntimeException(e); }
+		// Why is this method private
+		Reflect.invoke(StatValues.class, "tableInfo", new Object[] { table, key }, Table.class, String.class);
 	}
 
 	public static void addRow(Table table, String key, Object... args) {
