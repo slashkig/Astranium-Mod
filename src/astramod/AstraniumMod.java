@@ -1,7 +1,7 @@
 package astramod;
 
-import mindustry.mod.*;
 import arc.util.Log;
+import mindustry.mod.*;
 import astramod.ai.*;
 import astramod.content.*;
 import astramod.gen.*;
@@ -41,6 +41,7 @@ public class AstraniumMod extends Mod {
 		AstraNetHandlers.init();
 		AstraPathfinding.init();
 		AstraShaders.init();
+		AstraCustomRules.init();
 		Displays.init();
 	}
 }

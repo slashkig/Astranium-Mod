@@ -1,7 +1,6 @@
 package astramod.content;
 
 import arc.graphics.*;
-import arc.struct.Seq;
 import arc.util.Log;
 import mindustry.game.*;
 import mindustry.graphics.g3d.*;
@@ -11,13 +10,12 @@ import astramod.maps.planet.*;
 import static mindustry.content.Planets.*;
 
 public class AstraPlanets {
-	public static final Seq<Planet> windPlanets = new Seq<>();
 	public static Planet aziris;
 
 	public static void load() {
 		Log.info("Loading planets");
 
-		// TODO make Aziris more than just a white sphere
+		// TODO Aziris planet mesh
 		aziris = new Planet("aziris", sun, 1f, 1) {{
 			generator = new AzirisPlanetGenerator();
 			meshLoader = () -> new HexMesh(this, 6);
@@ -40,6 +38,7 @@ public class AstraPlanets {
 				r.hideSpawns = false;
 				r.fog = true;
 				r.staticFog = true;
+				r.tags.put("astramod-wind-enabled", "true");
 
 				if (!r.tags.getBool("aziris-custom-rules")) {
 					r.waveTeam = Team.blue;
@@ -49,12 +48,10 @@ public class AstraPlanets {
 			campaignRuleDefaults.fog = true;
 			campaignRuleDefaults.hideSpawns = false;
 
-			iconColor = Color.valueOf("bf2851");
+			iconColor = AstraItems.crystals.color.cpy();
 
 			defaultCore = AstraBlocks.coreNode;
 			unlockedOnLand.add(AstraBlocks.coreNode);
 		}};
-
-		windPlanets.add(AstraPlanets.aziris, sun);
 	};
 }

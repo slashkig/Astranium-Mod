@@ -2,13 +2,14 @@ package astramod.game;
 
 import arc.Events;
 import arc.math.Mathf;
+import arc.struct.*;
 import arc.util.*;
 import arc.util.noise.*;
+import mindustry.Vars;
 import mindustry.game.EventType.*;
 import mindustry.gen.*;
 import mindustry.io.*;
 import mindustry.type.*;
-import astramod.content.*;
 import astramod.io.*;
 import astramod.math.MathUtil;
 
@@ -16,6 +17,13 @@ import static mindustry.Vars.*;
 import static astramod.content.AstraWeathers.*;
 
 public class WindLogic {
+	public static final float defaultSetupRandMin = 0.4f, defaultSetupRandMax = 0.6f, defaultSetupCounterMin = 5f, defaultSetupCounterMax = 8f;
+	public static final float defaultRandMin = -0.5f, defaultRandMax = 1f, defaultCounterMin = 1f, defaultCounterMax = 4f;
+	public static final float rulesRandMin = -2f, rulesRandMax = 10f;
+
+	public float setupRandMin, setupRandMax, setupCounterMin, setupCounterMax;
+	public float randMin, randMax, counterMin, counterMax;
+
 	/** How much total wind there is right now. */
 	public float globalWind;
 	/** Target random wind value. */
@@ -29,9 +37,6 @@ public class WindLogic {
 
 	public static final long windUpdateInterval = 1000;
 	protected long lastNetUpdate;
-
-	public float setupRandMin = 0.4f, setupRandMax = 0.6f, setupCounterMin = 5f, setupCounterMax = 8f;
-	public float randMin = -0.5f, randMax = 1f, counterMin = 1f, counterMax = 4f;
 
 	/** Magnitude of variation noise. */
 	public float windVarMag = 0.5f;
@@ -63,12 +68,31 @@ public class WindLogic {
 		highWindBase = heavyWind.attrs.get(wind);
 		lastNetUpdate = Time.millis();
 
-		Events.run(Trigger.update, this::updateWind);
+		setupRandMin = defaultSetupRandMin;
+		setupRandMax = defaultSetupRandMax;
+		setupCounterMin = defaultSetupCounterMin;
+		setupCounterMax = defaultSetupCounterMax;
+		randMin = defaultRandMin;
+		randMax = defaultRandMax;
+		counterMin = defaultCounterMin;
+		counterMax = defaultCounterMax;
+
 		Events.run(Trigger.newGame, this::setupWind);
+		Events.run(Trigger.update, this::updateWind);
 	}
 
 	public void setupWind() {
 		if (windEnabled()) {
+			StringMap tags = Vars.state.rules.tags;
+			setupRandMin = tags.getFloat("astramod-wind-setupRand-low", defaultSetupRandMin * 100f) / 100f;
+			setupRandMax = tags.getFloat("astramod-wind-setupRand-high", defaultSetupRandMax * 100f) / 100f;
+			setupCounterMin = tags.getFloat("astramod-wind-setupCounter-low", defaultSetupCounterMin);
+			setupCounterMax = tags.getFloat("astramod-wind-setupCounter-high", defaultSetupCounterMax);
+			randMin = tags.getFloat("astramod-wind-rand-low", defaultRandMin * 100f) / 100f;
+			randMax = tags.getFloat("astramod-wind-rand-high", defaultRandMax * 100f) / 100f;
+			counterMin = tags.getFloat("astramod-wind-counter-low", defaultCounterMin);
+			counterMax = tags.getFloat("astramod-wind-counter-high", defaultCounterMax);
+
 			Mathf.rand.setSeed(Time.millis());
 			resetWind();
 		}
@@ -79,7 +103,7 @@ public class WindLogic {
 	}
 
 	public boolean windEnabled() {
-		return AstraPlanets.windPlanets.contains(state.rules.planet);
+		return Vars.state.rules.tags.getBool("astramod-wind-enabled");
 	}
 
 	public float envWind() {
