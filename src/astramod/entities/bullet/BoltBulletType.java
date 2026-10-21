@@ -32,7 +32,7 @@ public class BoltBulletType extends BasicBulletType {
 		frontColor = light;
 		backColor = dark;
 		hitColor = trailColor = dark;
-		despawnEffect = AstraFx.dynamicBurst(light, dark, false);
+		despawnEffect = AstraFx.dynamicBurst(light, dark, 1);
 	}
 
 	@Override public void hitEntity(Bullet b, Hitboxc entity, float health) {

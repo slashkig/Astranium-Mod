@@ -118,6 +118,7 @@ public class AstraBlocks {
 		// Unit assemblers
 		primaryMechAssembler, primaryTankAssembler, primaryAirAssembler, primaryShipyard, primaryAirshipAssembler,
 		secondaryMechAssembler, secondaryAirAssembler, secondaryTankAssembler, secondaryShipyard, secondaryAirshipAssembler,
+		tertiaryGroundAssembler, tertiaryAirAssembler, tertiaryShipyard,
 
 		// Sandbox
 		omegafactory, uberwall, superRouter, testblaster, ohno;
@@ -3507,6 +3508,7 @@ public class AstraBlocks {
 				statusDuration = magnetizedDuration = 8f * Time.toSeconds;
 			}};
 			destroyEffect = AstraFx.magneticMine;
+			// TODO: Custom sound
 		}};
 
 		// region TURRETS
@@ -3949,7 +3951,8 @@ public class AstraBlocks {
 					frontColor = AstraPal.hemaFront;
 					backColor = AstraPal.hemaBack;
 					shootEffect = AstraFx.boltTurretShoot(this);
-					hitEffect = despawnEffect = AstraFx.hitColor(this);
+					hitEffect = AstraFx.hitColor(this);
+					despawnEffect = Fx.none;
 				}},
 				Items.graphite, new BasicBulletType(5f, 40) {{
 					width = 7f;
@@ -3992,7 +3995,7 @@ public class AstraBlocks {
 					backColor = AstraPal.fireBulletBack;
 					trailEffect = AstraFx.fireBulletTrail;
 					trailChance = 0.7f;
-					shootEffect = AstraFx.boltTurretShoot(this, true, false, false);
+					shootEffect = AstraFx.fireShootLarge;
 					hitEffect = despawnEffect = AstraFx.fireBulletHitLarge;
 				}},
 				Items.blastCompound, new FlakBulletType(4.5f, 8) {{
@@ -4010,7 +4013,7 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = Pal.blastAmmoBack;
-					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
+					shootEffect = AstraFx.boltTurretShoot(this, false, true);
 					hitEffect = AstraFx.dynamicExplosion(this, 8, 2);
 				}},
 				Items.plastanium, new FlakBulletType(4.5f, 18) {{
@@ -4038,7 +4041,7 @@ public class AstraBlocks {
 					frontColor = Pal.plastaniumFront;
 					backColor = Pal.plastaniumBack;
 					despawnHit = false;
-					shootEffect = AstraFx.boltTurretShoot(this, false, true, true);
+					shootEffect = AstraFx.boltTurretShoot(this, false, true);
 					hitEffect = AstraFx.hitColor(this);
 					despawnEffect = Fx.none;
 				}}
@@ -4468,18 +4471,6 @@ public class AstraBlocks {
 				AstraItems.magnetite, 50,
 				Items.silicon, 30
 			));
-			addUpgrade(AstraUnitTypes.trexon, AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
-				AstraItems.steel, 60,
-				AstraItems.magnetite, 55,
-				Items.silicon, 90,
-				Items.titanium, 50
-			));
-			addUpgrade(AstraUnitTypes.achillion, AstraUnitTypes.strelitz, 38f * Time.toSeconds, ItemStack.with(
-				AstraItems.steel, 75,
-				Items.graphite, 50,
-				Items.silicon, 80,
-				Items.titanium, 60
-			));
 		}};
 
 		secondaryAirAssembler = new DynamicReconstructor("secondary-air-assembler") {{
@@ -4516,6 +4507,54 @@ public class AstraBlocks {
 				AstraItems.iron, 35,
 				Items.silicon, 30,
 				Items.graphite, 35
+			));
+		}};
+
+		tertiaryGroundAssembler = new DynamicReconstructor("tertiary-ground-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.steel, 700,
+				AstraItems.magnetite, 300,
+				Items.thorium, 700,
+				Items.titanium, 300,
+				Items.silicon, 500,
+				Items.copper, 300
+			));
+			regionSuffix = "-tank";
+			size = 5;
+			consumePower(7f);
+
+			addUpgrade(AstraUnitTypes.trexon, AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
+				AstraItems.steel, 60,
+				AstraItems.magnetite, 55,
+				Items.silicon, 90,
+				Items.titanium, 50
+			));
+			addUpgrade(AstraUnitTypes.achillion, AstraUnitTypes.strelitz, 38f * Time.toSeconds, ItemStack.with(
+				AstraItems.steel, 75,
+				Items.graphite, 50,
+				Items.silicon, 80,
+				Items.titanium, 60
+			));
+		}};
+
+		tertiaryAirAssembler = new DynamicReconstructor("tertiary-airship-assembler") {{
+			requirements(Category.units, ItemStack.with(
+				AstraItems.steel, 600,
+				AstraItems.magnetite, 300,
+				AstraItems.lithium, 300,
+				Items.thorium, 600,
+				Items.silicon, 500,
+				Items.copper, 300
+			));
+			regionSuffix = "-airship";
+			size = 5;
+			consumePower(7f);
+
+			addUpgrade(AstraUnitTypes.pandion, UnitTypes.zenith, 40f * Time.toSeconds, ItemStack.with(
+				AstraItems.steel, 60,
+				AstraItems.lithium, 60,
+				Items.silicon, 80,
+				Items.titanium, 60
 			));
 		}};
 

@@ -20,6 +20,7 @@ public class EnergyBulletType extends BasicBulletType {
 		shrinkY = 0f;
 		lightOpacity = 0.6f;
 		hitSound = despawnSound = Sounds.explosion;
+		smokeEffect = Fx.none;
 	}
 
 	public EnergyBulletType(float speed, float damage) {

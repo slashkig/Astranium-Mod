@@ -56,8 +56,8 @@ public class AstraPal {
 		darkChemFire = Color.valueOf("ff0000"),
 		darkerChemFire = Color.valueOf("820000"),
 
-		missileOrange = Color.valueOf("de8067"),
-		missileOrangeBack = Color.valueOf("c82c01"),
+		missileOrange = Color.valueOf("ff997d"),
+		missileOrangeBack = Color.valueOf("ff3700"),
 
 		sonicShotFront = Color.valueOf("a8e9ff"),
 		sonicShotBack = Color.valueOf("a8e9ff"),

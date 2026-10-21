@@ -626,8 +626,7 @@ public class AstraUnitTypes {
 				top = false;
 				x = 9f;
 				y = -1.25f;
-				shootX = -0.5f;
-				shootY = 5f;
+				shootY = 7.25f;
 
 				heatColor = AstraPal.sonicHeat;
 				shootSound = AstraSounds.shootSonic;
@@ -657,7 +656,7 @@ public class AstraUnitTypes {
 			stepSoundVolume = 1f;
 
 			abilities.add(new DashAbility(4f, 0.5f * Time.toSeconds, 20f * Time.toSeconds) {{
-				boostEffect = AstraFx.dynamicBurst(AstraPal.sonicShotFront, AstraPal.sonicShotBack, 30f, 35f, 15);
+				boostEffect = AstraFx.dynamicBurst(AstraPal.sonicShotFront, AstraPal.sonicShotBack, 3);
 			}});
 
 			weapons.add(new AstraWeapon("astramod-oriolus-weapon") {{
@@ -765,6 +764,7 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
+					shootEffect = AstraFx.triFlare(this, 1.5f);
 					hitEffect = AstraFx.dynamicExplosion(this, 7, 6);
 					trailChance = 0f;
 					trailInterval = 3f;
@@ -831,7 +831,8 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.missileOrange;
 					backColor = trailColor = AstraPal.missileOrangeBack;
-					hitEffect = AstraFx.dynamicExplosion(this);
+					shootEffect = AstraFx.triFlare(this);
+					hitEffect = AstraFx.dynamicExplosion(this, 6, 2);
 					trailChance = 0f;
 					trailInterval = 4f;
 					trailParam = 1.6f;
@@ -1169,7 +1170,8 @@ public class AstraUnitTypes {
 					trailWidth = 1f;
 
 					smokeEffect = Fx.shootSmallSmoke;
-					shootEffect = Fx.shootSmallColor;
+					shootEffect = AstraFx.shootArbalest;
+					hitEffect = AstraFx.hitSniper;
 				}};
 			}});
 		}};
@@ -1246,7 +1248,7 @@ public class AstraUnitTypes {
 					trailLength = 15;
 					trailScl = 3f;
 					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 18f, true);
-					hitEffect = AstraFx.dynamicExplosion(this);
+					hitEffect = AstraFx.dynamicExplosion(this, 10, 7);
 					despawnEffect = AstraFx.hitColor(this);
 					shootSoundVolume = 1.5f;
 				}};
@@ -1384,9 +1386,8 @@ public class AstraUnitTypes {
 
 					frontColor = AstraPal.crystalFront;
 					backColor = trailColor = AstraPal.crystalBack;
-					shootEffect = AstraFx.shootCrystal;
-					smokeEffect = AstraFx.hitCrystal;
-					despawnEffect = hitEffect = AstraFx.dynamicBurst(this, false);
+					shootEffect = AstraFx.shootMeissa;
+					despawnEffect = hitEffect = AstraFx.dynamicBurst(this);
 					trailWidth = 1.5f;
 					trailLength = 8;
 				}};
@@ -1424,7 +1425,7 @@ public class AstraUnitTypes {
 				shoot.firstShotDelay = 30f;
 
 				mirror = false;
-				shootY = -1.75f;
+				shootY = -1f;
 				x = 0f;
 				y = 0f;
 				heatColor = AstraPal.crystalGlow;
@@ -1448,10 +1449,10 @@ public class AstraUnitTypes {
 
 					frontColor = lightningColor = AstraPal.crystalFront;
 					backColor = trailColor = AstraPal.crystalBack;
-					chargeEffect = AstraFx.crystalCharge;
-					shootEffect = AstraFx.crystalShockwave;
-					hitEffect = AstraFx.dynamicBurst(this, false);
-					despawnEffect = AstraFx.dynamicBurst(this, true);
+					chargeEffect = AstraFx.saiphCharge;
+					shootEffect = AstraFx.saiphShoot;
+					hitEffect = AstraFx.dynamicBurst(this);
+					despawnEffect = AstraFx.dynamicBurst(this, 2);
 					despawnOnRemove = true;
 					despawnSound = hitSound = Sounds.explosionDull;
 
@@ -1600,6 +1601,8 @@ public class AstraUnitTypes {
 					damage = 8f;
 					lightningLength = 10;
 					lightningLengthRand = 7;
+
+					smokeEffect = shootEffect = Fx.none;
 				}};
 			}});
 		}};
@@ -1716,7 +1719,7 @@ public class AstraUnitTypes {
 
 					trailLength = 10;
 					trailScl = 3f;
-					shootEffect = AstraFx.boltTurretShoot(this, false, true, false);
+					shootEffect = AstraFx.boltTurretShoot(this, false, true);
 					hitEffect = AstraFx.dynamicExplosion(this);
 				}};
 			}});
