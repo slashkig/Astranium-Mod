@@ -377,7 +377,12 @@ public class AstraBlocks {
 		}};
 
 		hydrogenPlant = new GenericCrafter("hydrogen-plant") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 75, Items.metaglass, 50, Items.silicon, 60));
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.iron, 75,
+				Items.metaglass, 50,
+				Items.silicon, 60,
+				Items.lead, 100
+			));
 			scaledHealth = 45f;
 			size = 2;
 			fogRadius = 2;
@@ -409,7 +414,12 @@ public class AstraBlocks {
 		}};
 
 		magnetiteSynthesizer = new GenericCrafter("magnetite-synthesizer") {{
-			requirements(Category.crafting, ItemStack.with(AstraItems.iron, 80, Items.copper, 160, Items.graphite, 50));
+			requirements(Category.crafting, ItemStack.with(
+				AstraItems.iron, 80,
+				Items.copper, 160,
+				Items.graphite, 65,
+				Items.silicon, 55
+			));
 			buildCostMultiplier = 1.2f;
 			scaledHealth = 50f;
 			size = 2;
@@ -3335,8 +3345,8 @@ public class AstraBlocks {
 
 		detector = new SensorArray("detector") {{
 			requirements(Category.effect, ItemStack.with(
-				AstraItems.iron, 25,
-				Items.copper, 15,
+				AstraItems.hematite, 35,
+				Items.copper, 25,
 				Items.silicon, 20
 			));
 			buildCostMultiplier = 1.2f;
@@ -3349,11 +3359,11 @@ public class AstraBlocks {
 
 		sensorArray = new SensorArray("sensor-array") {{
 			requirements(Category.effect, ItemStack.with(
-				AstraItems.iron, 40,
-				AstraItems.magnetite, 20,
-				Items.titanium, 30,
-				Items.copper, 50,
-				Items.silicon, 30
+				AstraItems.iron, 50,
+				AstraItems.magnetite, 35,
+				Items.titanium, 25,
+				Items.copper, 40,
+				Items.silicon, 40
 			));
 			buildCostMultiplier = 1.4f;
 			scaledHealth = 45f;
@@ -3366,10 +3376,10 @@ public class AstraBlocks {
 
 		advancedSensorArray = new SensorArray("advanced-sensor-array") {{
 			requirements(Category.effect, ItemStack.with(
-				AstraItems.steel, 75,
+				AstraItems.steel, 85,
 				Items.plastanium, 40,
-				Items.silicon, 60,
-				AstraItems.magnetite, 45,
+				Items.silicon, 130,
+				AstraItems.neodymium, 55,
 				AstraItems.vanadium, 30
 			));
 			buildCostMultiplier = 1.8f;
@@ -4295,7 +4305,7 @@ public class AstraBlocks {
 				AstraItems.iron, 100,
 				Items.lead, 80,
 				Items.silicon, 75,
-				Items.copper, 50
+				Items.copper, 60
 			));
 			regionSuffix = "-mech";
 			size = 3;
@@ -4328,13 +4338,14 @@ public class AstraBlocks {
 		primaryTankAssembler = new UnitFactory("primary-tank-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 140,
-				AstraItems.magnetite, 70,
+				AstraItems.magnetite, 50,
 				Items.silicon, 100,
-				Items.copper, 80
+				Items.lead, 110
 			));
 			regionSuffix = "-tank";
+			scaledHealth = 30f;
 			size = 5;
-			consumePower(3.5f);
+			consumePower(2.1f);
 
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.hymeno, 18f * Time.toSeconds, ItemStack.with(
@@ -4364,8 +4375,8 @@ public class AstraBlocks {
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 80,
 				Items.silicon, 70,
-				Items.lead, 70,
-				Items.copper, 50
+				Items.lead, 50,
+				Items.copper, 75
 			));
 			regionSuffix = "-air";
 			size = 3;
@@ -4382,15 +4393,15 @@ public class AstraBlocks {
 
 		primaryAirshipAssembler = new UnitFactory("primary-airship-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 120,
+				AstraItems.iron, 125,
 				AstraItems.magnetite, 60,
 				Items.silicon, 100,
-				Items.lead, 80,
-				Items.copper, 80
+				Items.copper, 120
 			));
 			regionSuffix = "-airship";
+			scaledHealth = 30f;
 			size = 5;
-			consumePower(3.5f);
+			consumePower(2.5f);
 
 			plans = Seq.with(
 				new UnitPlan(AstraUnitTypes.milvus, 21f * Time.toSeconds, ItemStack.with(
@@ -4405,15 +4416,17 @@ public class AstraBlocks {
 
 		secondaryMechAssembler = new DynamicReconstructor("secondary-mech-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 140,
+				AstraItems.iron, 150,
 				AstraItems.magnetite, 80,
 				Items.silicon, 100,
-				Items.graphite, 100,
-				Items.copper, 80
+				Items.graphite, 120,
+				Items.lead, 120
 			));
 			regionSuffix = "-mech";
+			scaledHealth = 45f;
+			armor = 1f;
 			size = 3;
-			consumePower(5f);
+			consumePower(4.5f);
 
 			addUpgrade(AstraUnitTypes.dicentra, AstraUnitTypes.achillion, 18f * Time.toSeconds, ItemStack.with(
 				AstraItems.iron, 30,
@@ -4441,13 +4454,15 @@ public class AstraBlocks {
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 200,
 				AstraItems.magnetite, 100,
-				Items.titanium, 80,
-				Items.silicon, 110,
-				Items.copper, 130
+				Items.titanium, 90,
+				Items.silicon, 125,
+				Items.graphite, 130
 			));
 			regionSuffix = "-tank";
+			scaledHealth = 35f;
+			armor = 1f;
 			size = 5;
-			consumePower(7f);
+			consumePower(6f);
 
 			addUpgrade(AstraUnitTypes.hymeno, AstraUnitTypes.vitex, 20f * Time.toSeconds, ItemStack.with(
 				AstraItems.iron, 30,
@@ -4476,13 +4491,16 @@ public class AstraBlocks {
 		secondaryAirAssembler = new DynamicReconstructor("secondary-air-assembler") {{
 			requirements(Category.units, ItemStack.with(
 				AstraItems.iron, 130,
-				AstraItems.magnetite, 80,
+				AstraItems.magnetite, 90,
 				Items.silicon, 100,
-				Items.copper, 80
+				Items.graphite, 100,
+				Items.copper, 125
 			));
 			regionSuffix = "-air";
+			scaledHealth = 45f;
+			armor = 1f;
 			size = 3;
-			consumePower(5f);
+			consumePower(4.8f);
 
 			addUpgrade(AstraUnitTypes.fledge, AstraUnitTypes.newt, 20f * Time.toSeconds, ItemStack.with(
 				Items.lead, 35,
@@ -4493,15 +4511,17 @@ public class AstraBlocks {
 
 		secondaryAirshipAssembler = new DynamicReconstructor("secondary-airship-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.iron, 200,
-				AstraItems.magnetite, 80,
-				Items.titanium, 80,
-				Items.silicon, 110,
-				Items.copper, 130
+				AstraItems.iron, 180,
+				AstraItems.magnetite, 110,
+				Items.titanium, 100,
+				Items.silicon, 120,
+				Items.copper, 140
 			));
 			regionSuffix = "-airship";
+			scaledHealth = 35f;
+			armor = 1f;
 			size = 5;
-			consumePower(7f);
+			consumePower(6.4f);
 
 			addUpgrade(AstraUnitTypes.milvus, AstraUnitTypes.pandion, 23f * Time.toSeconds, ItemStack.with(
 				AstraItems.iron, 35,
@@ -4512,16 +4532,18 @@ public class AstraBlocks {
 
 		tertiaryGroundAssembler = new DynamicReconstructor("tertiary-ground-assembler") {{
 			requirements(Category.units, ItemStack.with(
-				AstraItems.steel, 700,
-				AstraItems.magnetite, 300,
-				Items.thorium, 700,
-				Items.titanium, 300,
-				Items.silicon, 500,
-				Items.copper, 300
+				AstraItems.steel, 300,
+				AstraItems.magnetite, 225,
+				Items.graphite, 320,
+				Items.titanium, 240,
+				Items.silicon, 250,
+				Items.lead, 360
 			));
 			regionSuffix = "-tank";
+			scaledHealth = 42.5f;
+			armor = 3f;
 			size = 5;
-			consumePower(7f);
+			consumePower(10.2f);
 
 			addUpgrade(AstraUnitTypes.trexon, AstraUnitTypes.oriolus, 40f * Time.toSeconds, ItemStack.with(
 				AstraItems.steel, 60,
@@ -4538,17 +4560,19 @@ public class AstraBlocks {
 		}};
 
 		tertiaryAirAssembler = new DynamicReconstructor("tertiary-airship-assembler") {{
-			requirements(Category.units, ItemStack.with(
-				AstraItems.steel, 600,
-				AstraItems.magnetite, 300,
-				AstraItems.lithium, 300,
-				Items.thorium, 600,
-				Items.silicon, 500,
-				Items.copper, 300
+			requirements(Category.units, BuildVisibility.sandboxOnly, ItemStack.with(
+				AstraItems.steel, 280,
+				AstraItems.magnetite, 210,
+				AstraItems.lithium, 240,
+				Items.graphite, 300,
+				Items.silicon, 225,
+				Items.copper, 350
 			));
 			regionSuffix = "-airship";
+			scaledHealth = 42.5f;
+			armor = 3f;
 			size = 5;
-			consumePower(7f);
+			consumePower(11f);
 
 			addUpgrade(AstraUnitTypes.pandion, UnitTypes.zenith, 40f * Time.toSeconds, ItemStack.with(
 				AstraItems.steel, 60,
