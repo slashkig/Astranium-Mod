@@ -242,10 +242,9 @@ public class WireRelay extends PowerBlock {
 			}
 		}
 
-		@Override public void remove() {
+		@Override public void onRemoved() {
 			Seq<WireRelayBuild> chunk = relayBuilds.get(tile.x >> 5, tile.y >> 5);
 			if (chunk != null) chunk.remove(this);
-			super.remove();
 		}
 
 		@Override public void draw() {

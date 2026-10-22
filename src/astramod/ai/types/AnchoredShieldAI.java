@@ -12,7 +12,7 @@ public class AnchoredShieldAI extends AnchoredAI {
 	@Nullable public ShieldArcAbility shieldAbility;
 	public boolean useUnitShield = true;
 
-	protected static final Seq<Teamc> targets = new Seq<>();
+	public static final Seq<Teamc> targets = new Seq<>();
 	@Nullable public Building protectTarget;
 
 	@Override public void init() {
