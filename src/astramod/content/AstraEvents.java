@@ -5,7 +5,9 @@ import arc.util.*;
 import mindustry.game.*;
 import mindustry.game.EventType.*;
 import mindustry.ui.*;
+import astramod.ai.types.*;
 import astramod.ui.*;
+import astramod.world.blocks.defense.*;
 import astramod.world.blocks.power.*;
 
 public class AstraEvents {
@@ -26,6 +28,13 @@ public class AstraEvents {
 			if (e.tile.block().hasPower) WireRelay.updateWireConnectionAt(e.tile);
 		});
 
-		Events.on(ResetEvent.class, e -> { WireRelay.relayBuilds.clear(); });
+		Events.on(ResetEvent.class, e -> {
+			WireRelay.relayBuilds.clear();
+			SensorArray.warnings.clear(1);
+			AnchoredShieldAI.targets.clear();
+			FollowShieldAI.targetTracker.clear(1);
+		});
+
+		Events.run(Trigger.draw, SensorArray::drawWarnings);
 	}
 }
