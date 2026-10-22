@@ -248,7 +248,7 @@ public class AzirisTechTree {
 							node(fragMine, research(plastaniumCompressor), () -> {
 								node(largeFragMine, research(plastaniumFabricator), none);
 							});
-							node(navalMine, /*research(primaryShipyard),*/ none);
+							node(navalMine, /* research(primaryShipyard), */ none);
 						});
 						node(surgeMine, research(surgeArcFurnace), () -> {
 							node(magneticMine, research(astraniumForge), none);
@@ -264,8 +264,10 @@ public class AzirisTechTree {
 				node(mendBeam, research(castIronSmelter, wireRelay), () -> {
 					node(mendDome, research(crystalReactor, largeWireRelay), none);
 				});
-				node(sensorArray, research(powerRelay), () -> {
-					node(advancedSensorArray, research(repulsionGenerator), none);
+				node(detector, research(windTurbine), () -> {
+					node(sensorArray, research(magnetiteSynthesizer), () -> {
+						node(advancedSensorArray, research(repulsionGenerator), none);
+					});
 				});
 			});
 
@@ -273,7 +275,7 @@ public class AzirisTechTree {
 				node(hematiteWallLarge);
 				node(ironWall, () -> {
 					node(ironWallLarge, () -> {
-						node(ironDoor);
+						node(ironDoor, research(primaryMechAssembler), none);
 					});
 					node(platedTitaniumWall, () -> {
 						node(platedTitaniumWallLarge);
@@ -293,7 +295,7 @@ public class AzirisTechTree {
 							});
 							node(platedPhaseWall, () -> {
 								node(platedPhaseWallLarge);
-								node(phaseDoor);
+								node(phaseDoor, research(ironDoor), none);
 								node(aerotechWall, () -> {
 									node(aerotechWallLarge);
 								});
@@ -303,9 +305,11 @@ public class AzirisTechTree {
 				});
 			});
 
-			node(primaryMechAssembler, research(steamTurbine, castIronSmelter), () -> {
+			node(primaryMechAssembler, research(castIronSmelter), () -> {
 				node(dicentra, () -> {
-					node(achillion);
+					node(achillion, () -> {
+						node(strelitz);
+					});
 				});
 				node(legion, () -> {
 					node(decanus);
@@ -318,7 +322,7 @@ public class AzirisTechTree {
 				node(baeri, () -> {
 					node(vorhies);
 				});
-				node(primaryTankAssembler, research(sensorArray, castIronPress), () -> {
+				node(primaryTankAssembler, research(detector, castIronPress), () -> {
 					node(hymeno, () -> {
 						node(vitex);
 					});
@@ -333,14 +337,23 @@ public class AzirisTechTree {
 					});
 					node(secondaryTankAssembler);
 				});
-				node(primaryAirAssembler, research(), () -> {
-					node(fledge);
-					node(primaryAirshipAssembler, research(), () -> {
-						node(milvus);
+				node(primaryAirAssembler, research(coalPlant), () -> {
+					node(fledge, () -> {
+						node(newt);
 					});
-					node(secondaryAirAssembler);
+					node(primaryAirshipAssembler, research(Items.titanium), () -> {
+						node(milvus, () -> {
+							node(pandion);
+						});
+						node(secondaryAirshipAssembler);
+					});
+					node(secondaryAirAssembler, () -> {
+						node(tertiaryAirAssembler);
+					});
 				});
-				node(secondaryMechAssembler);
+				node(secondaryMechAssembler, () -> {
+					node(tertiaryGroundAssembler);
+				});
 			});
 
 			node(pointOne, () -> {
