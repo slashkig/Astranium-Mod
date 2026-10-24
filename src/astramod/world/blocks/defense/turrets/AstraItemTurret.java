@@ -59,9 +59,10 @@ public class AstraItemTurret extends ItemTurret {
 		return addBarrelPart(false, -1f);
 	}
 
-	public void colorHitFx() {
+	public void colorFx() {
 		ammoTypes.forEach(e -> {
 			if (e.value instanceof BasicBulletType b && (b.hitEffect == Fx.hitBulletSmall || b.hitEffect == Fx.flakExplosion)) {
+				b.shootEffect = AstraFx.colorFlare(b);
 				b.hitColor = b.backColor;
 				b.hitEffect = b.despawnEffect = Fx.hitBulletColor;
 			}

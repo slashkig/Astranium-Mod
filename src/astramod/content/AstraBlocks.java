@@ -3194,7 +3194,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootArtillery;
 
 			limitRange();
-			colorHitFx();
+			colorFx();
 		}};
 
 		rtgModule = new PowerCoreModule("module-rtg") {{
@@ -3621,7 +3621,7 @@ public class AstraBlocks {
 			ammoUseEffect = Fx.casing2;
 
 			limitRange();
-			colorHitFx();
+			colorFx();
 		}};
 
 		viper = new AstraItemTurret("aa-rocket") {{
@@ -3710,7 +3710,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootMissile;
 
 			limitRange();
-			colorHitFx();
+			colorFx();
 		}};
 
 		ember = new ItemTurret("ember") {{
@@ -3792,6 +3792,7 @@ public class AstraBlocks {
 
 			ammoUseEffect = Fx.none;
 			shootSound = Sounds.shootFlame;
+			smokeEffect = Fx.none;
 		}};
 
 		mortar = new BlindspotTurret("mortar") {{
@@ -3924,6 +3925,7 @@ public class AstraBlocks {
 			shootY = 7f;
 			ammoUseEffect = Fx.casing3;
 			shootSound = Sounds.shootRipple;
+			smokeEffect = Fx.none;
 
 			limitRange();
 			artilleryBulletFx();
@@ -4079,9 +4081,10 @@ public class AstraBlocks {
 			shootY = 10f;
 			shootSound = AstraSounds.shootBolt;
 			shootSoundVolume = 0.5f;
+			smokeEffect = Fx.none;
 
 			limitRange();
-			colorHitFx();
+			colorFx();
 		}};
 
 		monsoon = new AstraLiquidTurret("monsoon") {{

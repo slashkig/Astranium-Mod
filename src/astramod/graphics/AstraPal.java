@@ -25,14 +25,14 @@ public class AstraPal {
 		ironBack = Color.valueOf("ff6c52"),
 		graphiteFront = Color.valueOf("c3cce3"),
 		graphiteBack = Color.valueOf("a6b2ca"),
-		siliconFront = Color.valueOf("c2c0b9"),
-		siliconBack = Color.valueOf("96948d"),
 		titaniumFront = Color.valueOf("99c9ff"),
 		titaniumBack = Color.valueOf("7baadf"),
 		lithiumFront = Color.valueOf("ff5555"),
 		lithiumBack = Color.valueOf("d80000"),
+		crystalBright = Color.valueOf("ffabc1"),
 		crystalFront = Color.valueOf("fb8aa8"),
 		crystalBack = Color.valueOf("ef3a6a"),
+		crystalDark = Color.valueOf("b90031"),
 		magnetFront = Color.white,
 		magnetBack = Color.valueOf("ffadad"),
 		steelFront = Color.white,
@@ -45,12 +45,13 @@ public class AstraPal {
 		freezeBack = Color.valueOf("00a7ff"),
 		freezeMist = Color.valueOf("b0f8ff"),
 
+		sapBulletDarker = Color.valueOf("4237bff"),
+
 		darkerOutline = Color.valueOf("181818"),
 		siegeMachineOutline = Color.valueOf("1c032e"),
 
 		fireBulletFront = Color.valueOf("ffbf75"),
 		fireBulletBack = Color.valueOf("d17104"),
-		fireBulletTrail = Color.valueOf("994102"),
 
 		lightChemFire = Color.valueOf("ff8b8b"),
 		darkChemFire = Color.valueOf("ff0000"),
@@ -61,14 +62,6 @@ public class AstraPal {
 
 		sonicShotFront = Color.valueOf("a8e9ff"),
 		sonicShotBack = Color.valueOf("a8e9ff"),
-
-		deflectFront = Color.valueOf("ffe77d"),
-		deflectBack = Color.valueOf("e3be07"),
-		deflectTrail = Color.valueOf("ba4a00"),
-
-		crystalLazerBack = Color.valueOf("bf2851"),
-		crystalLazerLight = Color.valueOf("ffabc1"),
-		crystalShoot = Color.valueOf("fc235d"),
 
 		heat = Color.valueOf("f9350f"),
 		sonicHeat = Color.valueOf("92f0fc"),

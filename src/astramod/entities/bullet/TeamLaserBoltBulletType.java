@@ -15,6 +15,7 @@ public class TeamLaserBoltBulletType extends LaserBoltBulletType {
 	public TeamLaserBoltBulletType(float speed, float damage) {
 		super(speed, damage);
 		frontColor = Color.white;
+		shootEffect = AstraFx.teamFlare();
 		smokeEffect = laserHitEffect = despawnEffect = AstraFx.colorLaser;
 		hitEffect = Fx.none;
 	}

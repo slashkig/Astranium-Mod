@@ -1,5 +1,6 @@
 package astramod.content;
 
+import arc.graphics.Color;
 import arc.util.Log;
 import mindustry.content.*;
 import mindustry.game.*;
@@ -39,6 +40,13 @@ public class AstraSectorPresets {
 		mines = new SectorPreset("mines", AstraPlanets.aziris, 3) {{
 			difficulty = 3;
 			captureWave = 35;
+			rules = r -> {
+				r.lighting = true;
+				r.ambientLight = Color.valueOf("000000");
+				r.solarMultiplier = 0;
+				r.loadout = ItemStack.list(Items.copper, 100, Items.lead, 100);
+				r.tags.put("aziris-custom-rules", "true");
+			};
 		}};
 	}
 }

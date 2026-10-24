@@ -48,7 +48,7 @@ public class AstraUnitTypes {
 	@EntityDef({ Unitc.class, Concealc.class, Mechc.class }) public static UnitType
 		dicentra, achillion, strelitz,
 		zenaida, trexon, oriolus,
-		legion, decanus;
+		legion, decanus, centurion;
 
 	// tank + conceal
 	@EntityDef({ Unitc.class, Concealc.class, Tankc.class }) public static UnitType
@@ -793,7 +793,7 @@ public class AstraUnitTypes {
 
 			weapons.add(new AstraWeapon("astramod-decanus-weapon") {{
 				reload = 150f;
-				recoil = 0.4f;
+				recoil = 0.8f;
 				inaccuracy = 6f;
 				velocityRnd = 0.2f;
 				alternate = false;
@@ -905,7 +905,7 @@ public class AstraUnitTypes {
 				buildingDamageMultiplier = 0.75f;
 				shieldDamageMultiplier = 1.5f;
 			}}));
-			deathExplosionEffect = AstraFx.dynamicExplosion(Pal.lightPyraFlame, Pal.darkPyraFlame, 32f, 5, 4, false);;
+			deathExplosionEffect = AstraFx.dynamicExplosion(Pal.lightPyraFlame, Pal.darkPyraFlame, 32f, 5, 4, false);
 		}};
 
 		var smokeShell = new ArtilleryBulletType(2f, 0) {{
@@ -1112,12 +1112,12 @@ public class AstraUnitTypes {
 
 					shootSoundVolume = 1.5f;
 					smokeEffect = Fx.shootBigSmoke;
+					despawnEffect = AstraFx.starFlare(this, 0.7f);
 
 					fragOnHit = false;
 					fragBullet = new RicochetBulletType(this) {{
 						lifetime = 18f;
-						frontColor = AstraPal.deflectFront;
-						backColor = AstraPal.deflectBack;
+						trailLength = 8;
 					}};
 				}};
 			}});
@@ -1157,13 +1157,14 @@ public class AstraUnitTypes {
 				y = 0f;
 				shootY = 5.5f;
 				layerOffset = 0.0001f;
+				shootCone = 0f;
 
 				shootSound = AstraSounds.shootSniper;
 				shootSoundVolume = 0.6f;
 
 				bullet = new BasicBulletType(9f, 60) {{
 					width = 5f;
-					height = 10f;
+					height = 20f;
 					lifetime = 22f;
 					shrinkY = 0f;
 					collidesAir = false;
@@ -1172,7 +1173,7 @@ public class AstraUnitTypes {
 					trailWidth = 1f;
 
 					smokeEffect = Fx.shootSmallSmoke;
-					shootEffect = AstraFx.shootArbalest;
+					shootEffect = AstraFx.tFlare(this, Pal.missileYellowBack);
 					hitEffect = AstraFx.hitSniper;
 				}};
 			}});
@@ -1534,7 +1535,7 @@ public class AstraUnitTypes {
 					status = StatusEffects.none;
 
 					hitColor = color = Pal.sapBullet;
-					shootEffect = Fx.shootSmall;
+					shootEffect = AstraFx.energyFlare(Pal.sapBullet, Pal.sapBulletBack, AstraPal.sapBulletDarker);
 					despawnEffect = Fx.none;
 				}};
 			}});
@@ -1580,7 +1581,7 @@ public class AstraUnitTypes {
 					status = StatusEffects.none;
 
 					hitColor = color = Pal.sapBullet;
-					shootEffect = Fx.shootSmall;
+					shootEffect = AstraFx.energyFlare(Pal.sapBullet, Pal.sapBulletBack, AstraPal.sapBulletDarker);
 					despawnEffect = Fx.none;
 				}};
 			}},
