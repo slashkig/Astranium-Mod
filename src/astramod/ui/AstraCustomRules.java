@@ -31,7 +31,7 @@ public class AstraCustomRules {
 
 		setCategory("environment");
 		addRuleToggle("wind-enabled");
-		cellCustomUpdate((Button e) -> e.setChecked(Vars.state.rules.tags.getBool("astramod-wind-enabled")));
+		cellCustomUpdate("wind-enabled", (Button e) -> e.setChecked(Vars.state.rules.tags.getBool("astramod-wind-enabled")));
 		Boolf<Rules> windEnabled = r -> r.tags.getBool("astramod-wind-enabled") && !Vars.state.isGame();
 		addRuleRange("wind-setupRand", StatUnit.percent, windEnabled, Math.round(WindLogic.defaultSetupRandMin * 100f), Math.round(WindLogic.defaultSetupRandMax * 100f), Math.round(WindLogic.rulesRandMin * 100f), Math.round(WindLogic.rulesRandMax * 100f));
 		addRuleRange("wind-setupCounter", StatUnit.minutes, windEnabled, WindLogic.defaultSetupCounterMin, WindLogic.defaultSetupCounterMax, 0.1f, Float.MAX_VALUE);
