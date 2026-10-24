@@ -1050,12 +1050,17 @@ public class AstraFx {
 
 	/** See {@link #dynamicBurst(Color, Color, float, int)}. */
 	public static Effect dynamicBurst(BasicBulletType b) {
-		return dynamicBurst(b.frontColor, b.backColor, 1);
+		return dynamicBurst(b.frontColor, b.backColor, 1f);
 	}
 
 	/** See {@link #dynamicBurst(Color, Color, float, int)}. */
 	public static Effect dynamicBurst(BasicBulletType b, float scale) {
 		return dynamicBurst(b.frontColor, b.backColor, scale);
+	}
+
+	/** See {@link #dynamicBurst(Color, Color, float, int)}. */
+	public static Effect dynamicBurst(Color light, Color dark) {
+		return dynamicBurst(light, dark, 1f);
 	}
 
 	/** See {@link #dynamicBurst(Color, Color, float, int)}. */

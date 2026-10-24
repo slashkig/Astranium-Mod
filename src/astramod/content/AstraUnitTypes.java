@@ -501,7 +501,7 @@ public class AstraUnitTypes {
 				cooldownTime = 70f;
 				ejectEffect = Fx.casing3;
 				shootSound = AstraSounds.shootIce;
-				shootSoundVolume = 0.7f;
+				shootSoundVolume = 1.2f;
 
 				bullet = new BasicBulletType(4.5f, 75, "astramod-fragger") {{
 					width = 12f;
@@ -646,7 +646,7 @@ public class AstraUnitTypes {
 
 			health = 1100;
 			armor = 6f;
-			hitSize = 18f;
+			hitSize = 17f;
 			fogRadius = 9f;
 			itemCapacity = 30;
 
@@ -747,7 +747,7 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootMissile;
 				shootSoundVolume = 2f;
 
-				bullet = new MissileBulletType(3f, 10) {{
+				bullet = new MissileBulletType(3f, 10, "astramod-torpedo") {{
 					lifetime = 50f;
 					width = height = 10f;
 					splashDamageRadius = 2.4f * tilesize;
@@ -838,6 +838,116 @@ public class AstraUnitTypes {
 					trailParam = 1.6f;
 				}};
 			}});
+		}};
+
+		centurion = new AstraUnitType("centurion") {{
+			aiController = RaiderAI::new;
+
+			health = 1200;
+			armor = 8f;
+			hitSize = 18f;
+			fogRadius = 18f;
+			itemCapacity = 40;
+
+			speed = 0.4f;
+			accel = 0.3f;
+			stepSoundVolume = 1f;
+
+			canBoost = true;
+			engineColor = AstraPal.missileOrange;
+			boostMultiplier = 1.8f;
+			setEnginesMirror(new UnitEngine(7f, -9.5f, 4.8f, 300f));
+
+			weapons.add(
+				new AstraWeapon("astramod-heavy-rocket-launcher") {{
+					reload = 140f;
+					recoil = 0.8f;
+					alternate = false;
+					shoot.shots = 3;
+					shoot.shotDelay = 10f;
+					accel = 0.3f;
+
+					top = true;
+					x = 11.25f;
+					y = -0.25f;
+					shootY = 5f;
+					heatColor = AstraPal.heat;
+					cooldownTime = 160f;
+
+					shootSound = Sounds.shootMissileLarge;
+					shootSoundVolume = 1f;
+
+					bullet = new MissileBulletType(4f, 10, "astramod-torpedo") {{
+						lifetime = 50f;
+						width = height = 12f;
+						splashDamageRadius = 3f * tilesize;
+						splashDamage = 60;
+						scaledSplashDamage = true;
+
+						recoil = 0.8f;
+						keepVelocity = false;
+						scaleLife = true;
+						homingPower = 0.8f;
+						drag = -0.003f;
+
+						frontColor = AstraPal.missileOrange;
+						backColor = trailColor = AstraPal.missileOrangeBack;
+						shootEffect = AstraFx.triFlare(this, 1.5f);
+						hitEffect = AstraFx.dynamicExplosion(this, 12, 5);
+						trailLength = 6;
+						trailEffect = Fx.none;
+					}};
+				}},
+				new AstraWeapon("astramod-centurion-repeater") {{
+					reload = 160f;
+					recoil = 2f;
+					inaccuracy = 3f;
+
+					top = false;
+					mirror = false;
+					x = 10.5f;
+					y = 6.75f;
+					shootY = 5.5f;
+					layerOffset = -0.02f;
+					ejectEffect = Fx.casing2;
+					shoot = new ShootAlternate(1.5f) {{
+						shots = 8;
+						shotDelay = 8f;
+					}};
+
+					shootSound = Sounds.shootScatter;
+					shootSoundVolume = 0.8f;
+
+					bullet = new BasicBulletType(4f, 16) {{
+						width = 7f;
+						height = 12f;
+						lifetime = 20f;
+						trailLength = 4;
+					}};
+				}},
+				new Weapon("astramod-centurion-puncher") {{
+					reload = 100f;
+					shootCone = 45f;
+					recoil = -3f;
+
+					top = false;
+					mirror = false;
+					x = -10.75f;
+					y = 8f;
+					shootY = 9f;
+					layerOffset = -0.02f;
+					shootSound = Sounds.none;
+
+					bullet = new MeleeBulletType(50f) {{
+						hitSize = 13f;
+						rangeOverride = 15f;
+						armorMultiplier = 0.5f;
+						knockback = 20f;
+						hitSoundVolume = 1.8f;
+						hitEffect = AstraFx.dynamicBurst(AstraPal.missileOrange, AstraPal.missileOrangeBack, 1.4f);
+					}};
+				}}
+			);
 		}};
 
 		// region STEALTH MECHS
