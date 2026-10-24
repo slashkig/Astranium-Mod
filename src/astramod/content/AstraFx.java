@@ -14,11 +14,6 @@ import mindustry.entities.bullet.*;
 import mindustry.gen.*;
 import astramod.graphics.*;
 
-import static arc.graphics.g2d.Draw.color;
-import static arc.graphics.g2d.Lines.lineAngle;
-import static arc.graphics.g2d.Lines.stroke;
-import static arc.math.Angles.randLenVectors;
-
 public class AstraFx {
 	public static final Rand rand = new Rand();
 	public static final Vec2 tmp = new Vec2();
