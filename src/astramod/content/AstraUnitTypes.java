@@ -927,6 +927,8 @@ public class AstraUnitTypes {
 				splashDamageRadius = 5f * tilesize;
 				collidesTeam = true;
 				shootEffect = AstraFx.smokeScreen(5f);
+				trailColor = AstraPal.smokeScreen;
+				trailWidth = 2f;
 			}};
 		}};
 
@@ -1582,8 +1584,8 @@ public class AstraUnitTypes {
 					despawnEffect = Fx.none;
 				}};
 			}},
-			new Weapon() {{
-				reload = 15.5f;
+			new AstraWeapon() {{
+				reload = 15f;
 				alwaysShooting = true;
 				shoot.shots = 3;
 				shootCone = 30f;
@@ -1598,7 +1600,8 @@ public class AstraUnitTypes {
 
 				bullet = new LightningBulletType() {{
 					lightningColor = hitColor = Pal.sapBullet;
-					damage = 8f;
+					damage = 4f;
+					createChance = 0.8f;
 					lightningLength = 10;
 					lightningLengthRand = 7;
 

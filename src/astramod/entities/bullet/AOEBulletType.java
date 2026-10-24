@@ -1,6 +1,7 @@
 package astramod.entities.bullet;
 
 import arc.func.*;
+import arc.graphics.g2d.*;
 import arc.scene.ui.layout.*;
 import arc.util.*;
 import mindustry.Vars;
@@ -9,6 +10,7 @@ import mindustry.entities.*;
 import mindustry.entities.bullet.*;
 import mindustry.game.*;
 import mindustry.gen.*;
+import mindustry.graphics.*;
 import astramod.world.meta.*;
 
 public class AOEBulletType extends BulletType {
@@ -19,6 +21,7 @@ public class AOEBulletType extends BulletType {
 	public AOEBulletType(float duration) {
 		lifetime = duration;
 		speed = damage = 0f;
+		trailWidth = -1f;
 		hittable = reflectable = absorbable = false;
 		scaledSplashDamage = true;
 		collides = false;
@@ -60,5 +63,21 @@ public class AOEBulletType extends BulletType {
 		);
 		AstraStatValues.addRow(table, "ability.stat.duration", Strings.autoFixed(lifetime / Time.toSeconds, 2));
 		table.row();
+	}
+
+	@Override public void draw(Bullet b) {
+		super.draw(b);
+
+		if (trailWidth > 0f) {
+			float z = Draw.z();
+			Draw.z(Layer.block - 0.9f);
+			Lines.stroke(trailWidth, trailColor);
+			Draw.alpha(Math.min(0.5f, 5f * b.fout()));
+
+			Lines.circle(b.x, b.y, splashDamageRadius);
+
+			Draw.reset();
+			Draw.z(z);
+		}
 	}
 }
