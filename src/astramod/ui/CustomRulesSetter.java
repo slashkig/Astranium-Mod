@@ -35,7 +35,8 @@ public class CustomRulesSetter {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T extends Element> void cellCustomUpdate(Cons<T> update) {
+	public static <T extends Element> void cellCustomUpdate(String rule, Cons<T> update) {
+		if (!Core.bundle.get("rules." + (rule.startsWith(modName) ? rule : modName + rule)).toLowerCase().contains(dialog.ruleSearch)) return;
 		((Cell<T>)dialog.current.getCells().get(dialog.current.getCells().size - 1)).update(update);
 	}
 
