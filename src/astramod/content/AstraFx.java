@@ -890,6 +890,7 @@ public class AstraFx {
 			Drawf.light(e.x, e.y, defLightRad, darkColor, e.fout() * 0.7f);
 		});
 	}
+
 	// Default values for starFlare()
 	public static final float defaultStarLifetime = 15f;
 	public static final int defaultStarPoints = 4;
@@ -978,14 +979,18 @@ public class AstraFx {
 	// region EXPLOSION EFFECTS
 
 	// TODO make dynamicExplosion default values scale to splashDamageRadius
+	/** Default values for dynamicExplosion */
+	public static final int defBitDensity = 10;
+	public static final float explosionLifetime = 40f, defCircleSize = 8f;
+
 	/** See {@link #dynamicExplosion(Color, Color, float, float, float, int, int, boolean)}. */
 	public static Effect dynamicExplosion(BasicBulletType b) {
-		return dynamicExplosion(b, 10, b.splashDamageRadius <= 20f ? 5 : 10);
+		return dynamicExplosion(b, defBitDensity, b.splashDamageRadius <= 20f ? 5 : 10);
 	}
 
 	/** See {@link #dynamicExplosion(Color, Color, float, float, float, int, int, boolean)}. */
 	public static Effect dynamicExplosion(BasicBulletType b, int bitDensity, int smokeDensity) {
-		return dynamicExplosion(b.frontColor, b.backColor, b.splashDamageRadius, 40f, 8f, bitDensity, smokeDensity, b.fragBullet != null);
+		return dynamicExplosion(b.frontColor, b.backColor, b.splashDamageRadius, bitDensity, smokeDensity, b.fragBullet != null);
 	}
 
 	/** See {@link #dynamicExplosion(Color, Color, float, float, float, int, int, boolean)}. */
@@ -995,12 +1000,12 @@ public class AstraFx {
 
 	/** See {@link #dynamicExplosion(Color, Color, float, float, float, int, int, boolean)}. */
 	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, boolean squareBits) {
-		return dynamicExplosion(lightColor, darkColor, rad, 40f, 8f, 10, rad <= 20f ? 5 : 12, squareBits);
+		return dynamicExplosion(lightColor, darkColor, rad, defBitDensity, rad <= 20f ? 5 : 12, squareBits);
 	}
 
 	/** See {@link #dynamicExplosion(Color, Color, float, float, float, int, int, boolean)}. */
 	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, int bitDensity, int smokeDensity, boolean squareBits) {
-		return dynamicExplosion(lightColor, darkColor, rad, 40f, 8f, bitDensity, smokeDensity, squareBits);
+		return dynamicExplosion(lightColor, darkColor, rad, explosionLifetime, defCircleSize, bitDensity, smokeDensity, squareBits);
 	}
 
 	/** Scales to bullet splash radius.
@@ -1010,7 +1015,7 @@ public class AstraFx {
 	 * @param squareBits - if true then bits are squares, otherwise sparks.
 	 * */
 	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, float lifetime, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
-		return new Effect ( lifetime, e -> {
+		return new Effect (lifetime, e -> {
 			boolean cond = rad >= 40f;
 			float waveLife = cond ? (15f + Mathf.floor(rad / 20f)) : 12f;
 			e.scaled(waveLife, i -> {
@@ -1034,14 +1039,14 @@ public class AstraFx {
 					Draw.color(lightColor, darkColor, c.fin());
 					Angles.randLenVectors(c.id + 1, bitDensity, 1f + rad * 1.5f * c.fin(), (x, y) -> {
 						Fill.square(c.x + x, c.y + y, c.fout() * rand.random(4f, 7f), rand.random(0f, 180f));
-						Drawf.light(c.x, c.y, 20f, lightColor, 0.6f * c.fout());
+						Drawf.light(c.x, c.y, 15f, lightColor, 0.6f * c.fout());
 					});
 				} else {
 					Draw.color(lightColor, darkColor, c.fin());
 					Lines.stroke(3f * c.fout());
 					Angles.randLenVectors(c.id + 1, bitDensity, 1f + rad * 1.5f * c.fin(), (x, y) -> {
 						Lines.lineAngle(c.x + x, c.y + y, Mathf.angle(x, y), 8f * c.fout());
-						Drawf.light(c.x, c.y, 20f, lightColor, 0.6f * c.fout());
+						Drawf.light(c.x, c.y, 15f, lightColor, 0.6f * c.fout());
 					});
 				}
 			});
@@ -1059,30 +1064,30 @@ public class AstraFx {
 	}
 
 	/** See {@link #dynamicBurst(Color, Color, float, int)}. */
-	public static Effect dynamicBurst(Color light, Color dark) {
-		return dynamicBurst(light, dark, 1f);
+	public static Effect dynamicBurst(Color lightColor, Color darkColor) {
+		return dynamicBurst(lightColor, darkColor, 1f);
 	}
 
 	/** See {@link #dynamicBurst(Color, Color, float, int)}. */
-	public static Effect dynamicBurst(Color light, Color dark, float scale) {
+	public static Effect dynamicBurst(Color lightColor, Color darkColor, float scale) {
 		float rad = 12f * scale;
-		return dynamicBurst(light, dark, rad <= 24f ? 20f : 20f + (rad / 6f), rad, Math.round(6f * scale));
+		return dynamicBurst(lightColor, darkColor, rad <= 24f ? 20f : (20f + (rad / 6f)), rad, Math.round(6f * scale));
 	}
 
 	/** Non scaling explosion effect. Used for non-splash damage explosions. */
-	public static Effect dynamicBurst(Color light, Color dark, float lifetime, float rad, int bitDensity) {
+	public static Effect dynamicBurst(Color lightColor, Color darkColor, float lifetime, float rad, int bitDensity) {
 		return new Effect(lifetime, e -> {
 			e.scaled((lifetime * 0.75f), i -> {
-				Draw.color(light, dark, i.fin());
+				Draw.color(lightColor, darkColor, i.fin());
 				Lines.stroke(6f * i.fout());
 				Lines.circle(e.x, e.y, 2f + i.fin() * rad);
 			});
 
-			Draw.color(light);
+			Draw.color(lightColor);
 			Lines.stroke(3f * e.fout());
 			Angles.randLenVectors(e.id + 1, bitDensity, 1f + rad * 1.5f * e.fin(), (x, y) -> {
 				Lines.lineAngle(e.x + x, e.y + y, Mathf.angle(x, y), 8f * e.fin());
-				Drawf.light(e.x, e.y, 16f, light, 0.6f * e.fout());
+				Drawf.light(e.x, e.y, 20f, lightColor, 0.6f * e.fout());
 			});
 		});
 	}
@@ -1124,6 +1129,7 @@ public class AstraFx {
 	 * @param boltWaveLen - side triangle length.
 	 * @param waveSize - shockwave size.
 	 * */
+	// TODO: remake railgun bolt pierce
 	public static Effect boltPierce(BasicBulletType bolt, float boltWaveWidth, float boltWaveLen, float waveSize , int sparkCount) {
 		return new Effect(24f, e -> {
 			e.scaled(10f, b -> {
@@ -1146,6 +1152,7 @@ public class AstraFx {
 	}
 
 	/** See {@link #railgunShoot(BasicBulletType, float, float, float, float)}. */
+	// TODO: Remake railgunShoot
 	public static Effect railgunShoot(BasicBulletType bolt, float width, float len) {
 		return railgunShoot(bolt, width, len, width, len);
 	}
@@ -1176,8 +1183,7 @@ public class AstraFx {
 				Lines.stroke(b.fout() * 2f + 0.2f);
 				Lines.circle(b.x, b.y, b.fin() * 30f);
 			});
-
-			Drawf.light(e.x, e.y, 180f, bolt.backColor, 0.9f * e.fout());
+			Drawf.light(e.x, e.y, 20f, bolt.backColor, 0.9f * e.fout());
 		});
 	}
 
@@ -1262,6 +1268,7 @@ public class AstraFx {
 		);
 	}
 
+	/** Colored hitEffect for bullets. */
 	public static Effect hitColor(BasicBulletType b) {
 		return new Effect(15, e -> {
 			Draw.color(b.frontColor, b.backColor, e.fin());
