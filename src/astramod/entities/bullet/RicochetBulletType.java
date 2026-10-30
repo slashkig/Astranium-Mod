@@ -1,24 +1,31 @@
 package astramod.entities.bullet;
 
+import astramod.content.AstraFx;
 import mindustry.entities.bullet.*;
 import mindustry.gen.Bullet;
 
 public class RicochetBulletType extends BasicBulletType {
-	public RicochetBulletType(float speed, float damage) {
-		super(speed, damage);
+	public RicochetBulletType(float speed, float damage, String bulletSprite) {
+		super(speed, damage,  bulletSprite);
 		shrinkY = 0f;
 		fragBullets = 1;
 		fragVelocityMin = 0.6f;
 		delayFrags = true;
+		despawnEffect = AstraFx.starFlare(this, 0.7f);
+	}
+
+	public RicochetBulletType(float speed, float damage) {
+		this(speed, damage,  "astramod-ricochet");
 	}
 
 	public RicochetBulletType(RicochetBulletType parent) {
-		super(parent.speed, parent.damage);
+		super(parent.speed, parent.damage, parent.sprite);
 		width = parent.width;
 		height = parent.height;
 		shrinkY = 0f;
 		fragBullets = 0;
 		delayFrags = true;
+		despawnEffect = hitEffect = AstraFx.hitColor(this);
 	}
 
 	@Override public Bullet create(Bullet parent, float x, float y, float angle) {

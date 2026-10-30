@@ -35,7 +35,7 @@ public class ProjectorWall extends Wall {
 	public boolean absorbLightning = false;
 
 	public Effect absorbEffect = Fx.absorb;
-	public Effect shieldBreakEffect = AstraFx.octShieldBreak;
+	public Effect shieldBreakEffect = AstraFx.wallShieldBreak;
 	public TextureRegion glowRegion;
 
 	protected static ProjectorWallBuild paramEntity;

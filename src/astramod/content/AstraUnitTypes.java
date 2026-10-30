@@ -403,14 +403,14 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 1.8f;
 
-				bullet = new BasicBulletType(5f, 18, "astramod-impact") {{
+				bullet = new ImpactBulletType(5f, 18) {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
 					knockback = 2f;
 
 					status = StatusEffects.slow;
-					statusDuration = 1f * Time.toSeconds;
+					statusDuration = Time.toSeconds;
 					statusChance = 0.12f;
 
 					hitColor = backColor = AstraPal.ironBack;
@@ -501,7 +501,7 @@ public class AstraUnitTypes {
 				cooldownTime = 70f;
 				ejectEffect = Fx.casing3;
 				shootSound = AstraSounds.shootIce;
-				shootSoundVolume = 1.2f;
+				shootSoundVolume = 0.5f;
 
 				bullet = new BasicBulletType(4.5f, 75, "astramod-fragger") {{
 					width = 12f;
@@ -567,7 +567,7 @@ public class AstraUnitTypes {
 					range = 60f;
 					collidesGround = false;
 
-					shootEffect = Fx.shootSmallColor;
+					shootEffect = AstraFx.colorFlare(this);
 				}};
 			}});
 		}};
@@ -1222,7 +1222,6 @@ public class AstraUnitTypes {
 
 					shootSoundVolume = 1.5f;
 					smokeEffect = Fx.shootBigSmoke;
-					despawnEffect = AstraFx.starFlare(this, 0.7f);
 
 					fragOnHit = false;
 					fragBullet = new RicochetBulletType(this) {{
@@ -1272,7 +1271,7 @@ public class AstraUnitTypes {
 				shootSound = AstraSounds.shootSniper;
 				shootSoundVolume = 0.6f;
 
-				bullet = new BasicBulletType(9f, 60) {{
+				bullet = new BasicBulletType(9f, 60, "astramod-high-caliber") {{
 					width = 5f;
 					height = 20f;
 					lifetime = 22f;
@@ -1326,8 +1325,8 @@ public class AstraUnitTypes {
 				ejectEffect = Fx.casing4;
 				shootSound = Sounds.shootArtillery;
 
-				bullet = new ArtilleryBulletType(4f, 25, "astramod-fragger") {{
-					width = height = 15f;
+				bullet = new ArtilleryBulletType(4f, 25, "astramod-fragger-shell") {{
+					width = height = 16f;
 					lifetime = 55f;
 					shoot.firstShotDelay = 10f;
 
@@ -1353,7 +1352,8 @@ public class AstraUnitTypes {
 
 						frontColor = Pal.blastAmmoFront;
 						backColor = Pal.blastAmmoBack;
-						despawnEffect = Fx.hitBulletColor;
+						hitEffect = AstraFx.hitColor(this);
+						despawnEffect = Fx.none;
 					}};
 
 					frontColor = Pal.blastAmmoFront;

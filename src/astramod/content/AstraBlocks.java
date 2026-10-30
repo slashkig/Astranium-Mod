@@ -2974,11 +2974,6 @@ public class AstraBlocks {
 			thrusterLength = 15f;
 		}};
 
-		/*unloaderModule = new UnloaderCoreModule("module-unloader") {{
-			requirements(Category.effect, ItemStack.with(AstraItems.iron, 30, Items.metaglass, 20));
-			health = 120;
-		}};*/
-
 		storageModule = new GenericCoreModule("module-storage") {{
 			requirements(Category.effect, ItemStack.with(AstraItems.iron, 80, Items.graphite, 45));
 			size = 2;
@@ -3451,6 +3446,8 @@ public class AstraBlocks {
 					pierceCap = 3;
 					backColor = Pal.plastaniumBack;
 					frontColor = Pal.plastaniumFront;
+					despawnEffect = Fx.none;
+					hitEffect = AstraFx.hitColor(this);
 				}};
 			}};
 			destroyEffect = AstraFx.fragMine;
@@ -3527,7 +3524,7 @@ public class AstraBlocks {
 			requirements(Category.turret, ItemStack.with(AstraItems.hematite, 50, Items.lead, 20));
 			researchCostMultiplier = 0.1f;
 			ammo(
-				AstraItems.hematite, new BasicBulletType(3f, 8) {{
+				AstraItems.hematite, new BasicBulletType(3f, 8, "astramod-fragger") {{
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 2;
@@ -3855,7 +3852,8 @@ public class AstraBlocks {
 
 						frontColor = Pal.glassAmmoFront;
 						backColor = hitColor = Pal.glassAmmoBack;
-						despawnEffect = Fx.hitBulletColor;
+						hitEffect = AstraFx.hitColor(this);
+						despawnEffect = Fx.none;
 					}};
 
 					frontColor = Pal.glassAmmoFront;
@@ -3941,7 +3939,7 @@ public class AstraBlocks {
 			buildCostMultiplier = 1.2f;
 
 			ammo(
-				AstraItems.hematite, new BasicBulletType(4f, 16) {{
+				AstraItems.hematite, new BasicBulletType(4f, 16, "astramod-fragger") {{
 					width = 8f;
 					height = 10f;
 					ammoMultiplier = 3;
@@ -3955,6 +3953,7 @@ public class AstraBlocks {
 						shrinkY = 1f;
 						armorMultiplier = 1.8f;
 						despawnEffect = Fx.none;
+						hitEffect = AstraFx.hitColor(this);
 
 						frontColor = AstraPal.hemaFront;
 						backColor = AstraPal.hemaBack;
@@ -4028,16 +4027,11 @@ public class AstraBlocks {
 					shootEffect = AstraFx.boltTurretShoot(this, false, true);
 					hitEffect = AstraFx.dynamicExplosion(this, 8, 2);
 				}},
-				Items.plastanium, new FlakBulletType(4.5f, 18) {{
+				Items.plastanium, new BasicBulletType(4.5f, 18, "astramod-fragger") {{
 					width = 5f;
 					height = 11f;
 					ammoMultiplier = 4;
 					collidesGround = true;
-
-					splashDamageRadius = -1f;
-					splashDamage = 0f;
-					explodeRange = 5f * tilesize;
-					explodeDelay = 10f;
 					armorMultiplier = 0.75f;
 
 					fragBullets = 6;
@@ -4047,7 +4041,8 @@ public class AstraBlocks {
 						shrinkY = 0.8f;
 						frontColor = Pal.plastaniumFront;
 						backColor = hitColor = Pal.plastaniumBack;
-						despawnEffect = AstraFx.hitColor(this);
+						hitEffect = AstraFx.hitColor(this);
+						despawnEffect = Fx.none;
 					}};
 
 					frontColor = Pal.plastaniumFront;
