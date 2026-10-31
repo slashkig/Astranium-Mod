@@ -3189,7 +3189,7 @@ public class AstraBlocks {
 			shootSound = Sounds.shootArtillery;
 
 			limitRange();
-			colorFx();
+			colorFx(2f);
 		}};
 
 		rtgModule = new PowerCoreModule("module-rtg") {{
@@ -3889,6 +3889,7 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = trailColor = Pal.blastAmmoBack;
+					shootEffect = AstraFx.mortarShoot(this, 2.5f);
 				}}
 			);
 
@@ -4024,7 +4025,7 @@ public class AstraBlocks {
 
 					frontColor = Pal.blastAmmoFront;
 					backColor = hitColor = Pal.blastAmmoBack;
-					shootEffect = AstraFx.boltTurretShoot(this, false, true);
+					shootEffect = AstraFx.boltTurretShoot(this, false, true, 1.5f);
 					hitEffect = AstraFx.dynamicExplosion(this, 8, 2);
 				}},
 				Items.plastanium, new FlakBulletType(4.5f, 18) {{

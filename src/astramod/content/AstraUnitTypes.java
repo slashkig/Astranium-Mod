@@ -1360,8 +1360,8 @@ public class AstraUnitTypes {
 					backColor = trailColor = Pal.blastAmmoBack;
 					trailLength = 15;
 					trailScl = 3f;
-					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 18f, true);
-					hitEffect = AstraFx.dynamicExplosion(this, 10, 7);
+					shootEffect = AstraFx.mortarShoot(this, 12, 4, 12f, 1.5f);
+					hitEffect = AstraFx.dynamicExplosion(this, AstraFx.defBitDensity, 7);
 					despawnEffect = AstraFx.hitColor(this);
 					shootSoundVolume = 1.5f;
 				}};

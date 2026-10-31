@@ -59,20 +59,26 @@ public class AstraItemTurret extends ItemTurret {
 		return addBarrelPart(false, -1f);
 	}
 
-	public void colorFx() {
+	public void colorFx() { colorFx(1f); }
+
+	public void colorFx(float shootScale) {
 		ammoTypes.forEach(e -> {
 			if (e.value instanceof BasicBulletType b && (b.hitEffect == Fx.hitBulletSmall || b.hitEffect == Fx.flakExplosion)) {
-				b.shootEffect = AstraFx.colorFlare(b);
+				b.shootEffect = AstraFx.colorFlare(b, shootScale);
 				b.hitColor = b.backColor;
-				b.hitEffect = b.despawnEffect = Fx.hitBulletColor;
+				b.hitEffect = b.despawnEffect = AstraFx.hitColor(b);
 			}
 		});
 	}
 
 	public void artilleryBulletFx() {
+		artilleryBulletFx(2f);
+	}
+
+	public void artilleryBulletFx(float shootScale) {
 		ammoTypes.forEach(e -> {
 			if (e.value instanceof BasicBulletType b) {
-				if (b.shootEffect == Fx.shootBig) b.shootEffect = AstraFx.mortarShoot(b);
+				if (b.shootEffect == Fx.shootBig) b.shootEffect = AstraFx.mortarShoot(b, shootScale);
 				if (b.hitEffect == Fx.flakExplosion) b.hitEffect = AstraFx.dynamicExplosion(b);
 				if (b.despawnEffect == Fx.hitBulletSmall) b.despawnEffect = AstraFx.hitColor(b);
 			}
