@@ -3,7 +3,7 @@ package astramod.entities.bullet;
 import mindustry.Vars;
 import mindustry.entities.bullet.*;
 
-public class ImpactBulletType extends BasicBulletType {
+public class ImpactBulletType extends ArtilleryBulletType {
 	public ImpactBulletType(float speed, float damage, String bulletSprite) {
 		super(speed, 0, bulletSprite);
 		ammoMultiplier = 1;

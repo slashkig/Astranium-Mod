@@ -347,7 +347,7 @@ public class AstraFx {
 		});
 	}),
 
-	magneticMine = new Effect ( 40f, e -> {
+	magneticMine = new Effect(40f, e -> {
 		float rad = AstraBlocks.magneticMine.destroyBullet.splashDamageRadius;
 		e.scaled(30, i -> {
 			float fade = i.foutpowdown();
@@ -366,7 +366,7 @@ public class AstraFx {
 		});
 	}),
 
-	blastMine = new Effect (40f, e -> {
+	blastMine = new Effect(40f, e -> {
 		float rad = AstraBlocks.blastMine.destroyBullet.splashDamageRadius;
 		e.scaled(18f, i -> {
 			Draw.color(Pal.blastAmmoFront, Pal.blastAmmoBack, i.fin());
@@ -387,7 +387,7 @@ public class AstraFx {
 		});
 	}),
 
-	giantMine = new Effect (60f, e -> {
+	giantMine = new Effect(60f, e -> {
 		float rad = AstraBlocks.giantMine.destroyBullet.splashDamageRadius;
 		e.scaled(26f, i -> {
 			Draw.color(Pal.blastAmmoFront, Pal.blastAmmoBack, i.fin());
@@ -415,7 +415,7 @@ public class AstraFx {
 		});
 	}),
 
-	fragMine = new Effect (40f, e -> {
+	fragMine = new Effect(40f, e -> {
 		float rad = AstraBlocks.fragMine.destroyBullet.splashDamageRadius + 24f;
 		e.scaled(18f, i -> {
 			Draw.color(Pal.plastaniumFront, Pal.plastaniumBack, i.fin());
@@ -439,7 +439,7 @@ public class AstraFx {
 		});
 	}),
 
-	largeFragMine = new Effect (60f, e -> {
+	largeFragMine = new Effect(60f, e -> {
 		float rad = AstraBlocks.largeFragMine.destroyBullet.splashDamageRadius + 20f;
 		e.scaled(25f, i -> {
 			Draw.color(Pal.plastaniumFront, Pal.plastaniumBack, i.fin());
@@ -464,7 +464,7 @@ public class AstraFx {
 		});
 	}),
 
-	surgeMine = new Effect (40f, e -> {
+	surgeMine = new Effect(40f, e -> {
 		float rad = AstraBlocks.surgeMine.destroyBullet.splashDamageRadius;
 		e.scaled(15f, i -> {
 			Draw.color(Pal.surgeAmmoFront, Pal.surgeAmmoBack, i.fin());
@@ -480,7 +480,7 @@ public class AstraFx {
 		});
 	}),
 
-	incendiaryMine = new Effect (60, e -> {
+	incendiaryMine = new Effect(60, e -> {
 		float rad = AstraBlocks.incendiaryMine.destroyBullet.splashDamageRadius + 12f;
 		e.scaled(18f, i -> {
 			Draw.color(Pal.lightPyraFlame, Pal.lightPyraFlame, Pal.darkPyraFlame, i.fin());
@@ -496,7 +496,7 @@ public class AstraFx {
 		});
 	}),
 
-	navalExplosion = new Effect (25, e -> {
+	navalExplosion = new Effect(25, e -> {
 		float rad = AstraBlocks.navalMine.destroyBullet.splashDamageRadius;
 		Draw.color(AstraPal.fireBulletFront, Pal.gray, AstraPal.fireBulletFront, e.fslope());
 		Lines.stroke(8f * e.fslope());
@@ -1023,7 +1023,7 @@ public class AstraFx {
 	 * @param squareBits - if true then bits are squares, otherwise sparks.
 	 * */
 	public static Effect dynamicExplosion(Color lightColor, Color darkColor, float rad, float lifetime, float circleSize, int bitDensity, int smokeDensity, boolean squareBits) {
-		return new Effect (lifetime, e -> {
+		return new Effect(lifetime, e -> {
 			boolean cond = rad >= 40f;
 			float waveLife = cond ? (15f + Mathf.floor(rad / 20f)) : 12f;
 			e.scaled(waveLife, i -> {
@@ -1219,7 +1219,7 @@ public class AstraFx {
 					e.scaled( 10f, c -> {
 						Draw.color(b.frontColor, b.backColor, e.fin());
 						float circleSize = muzzleFlareLen * 2f;
-						Lines.stroke(0.2f * 2f * c.fout());
+						Lines.stroke(0.2f + 2f * c.fout());
 						Lines.circle(e.x, e.y, circleSize * c.fin());
 					});
 				}

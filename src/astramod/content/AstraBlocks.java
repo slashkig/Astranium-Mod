@@ -4027,11 +4027,17 @@ public class AstraBlocks {
 					shootEffect = AstraFx.boltTurretShoot(this, false, true);
 					hitEffect = AstraFx.dynamicExplosion(this, 8, 2);
 				}},
-				Items.plastanium, new BasicBulletType(4.5f, 18, "astramod-fragger") {{
+				Items.plastanium, new FlakBulletType(4.5f, 18) {{
+					sprite = "astramod-fragger-shell";
 					width = 5f;
 					height = 11f;
 					ammoMultiplier = 4;
 					collidesGround = true;
+
+					splashDamageRadius = -1f;
+					splashDamage = 0f;
+					explodeRange = 5f * tilesize;
+					explodeDelay = 10f;
 					armorMultiplier = 0.75f;
 
 					fragBullets = 6;

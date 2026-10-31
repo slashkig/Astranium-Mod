@@ -403,7 +403,7 @@ public class AstraUnitTypes {
 				shootSound = Sounds.shootStell;
 				shootSoundVolume = 1.8f;
 
-				bullet = new ImpactBulletType(5f, 18) {{
+				bullet = new BasicBulletType(5f, 18, "astramod-impact") {{
 					width = 7f;
 					height = 12f;
 					lifetime = 30f;
