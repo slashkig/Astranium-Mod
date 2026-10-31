@@ -17,7 +17,7 @@ public class ImpactBulletType extends ArtilleryBulletType {
 	}
 
 	public ImpactBulletType(float speed, float damage) {
-		this(speed, damage, "astramod-impact");
+		this(speed, damage, "astramod-impact-shell");
 		width = 13f;
 		height = 16f;
 	}
